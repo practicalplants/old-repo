@@ -1,0 +1,39 @@
+<?php echo $this->doctype(); ?>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
+		<?php 
+		echo $this->headTitle();
+		$this->headLink()->appendStylesheet($this->baseUrl('/design/css/default.css'));
+			
+        $this->headLink()->appendStylesheet($this->baseUrl('/css/layout.css'));
+        $this->headLink()->appendStylesheet($this->baseUrl('/css/openid.css'));
+
+        echo $this->headLink();
+
+        $this->headScript()->appendFile($this->baseUrl('/js/jquery-1.4.4.min.js'));
+        $this->headScript()->appendFile($this->baseUrl('/js/openid-jquery.js'));
+        $this->headScript()->appendFile($this->baseUrl('/js/openid-en.js'));
+
+        echo $this->headScript();
+			        
+		echo $this->headMeta();
+		?>
+		
+	</head>
+	<body class="">
+		<?php //echo $this->masthead(); 
+		
+		$masthead = new PracticalPlants_Masthead(array('active_tab'=>'account'));
+		$masthead->output();
+		
+		?>
+		<nav class="masthead-submenu" id="submenu">
+		<?php //echo $this->submenu() ?>
+		</nav>
+		<div id="main">
+		<?php echo $this->layout()->content; ?>
+		</div>
+	</body>
+</html>

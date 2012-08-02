@@ -1,0 +1,42 @@
+
+div.MyProfile{
+	margin-top:8px;
+}
+
+div.MyProfile table{
+	border-collapse:collapse;
+	margin:0;
+	padding:0;
+	width: 100%;
+}
+
+div.MyProfile table tr,div.MyProfile table td{
+	margin:0;
+	padding:0;
+}
+
+div.MyProfile table td.Name{
+	width:30%;
+	color: #555555;
+}
+
+div.MyProfile table td{
+	vertical-align:top;
+	color: #888888;
+}
+
+div.MyProfile .album{
+	clear:both;
+	text-align:center;
+}
+
+div.MyProfile .image{
+	float:left;
+	width:200px;
+	margin:2px;
+	overflow:hidden;
+}
+
+ div.MyProfile .image img{
+	width:200px;
+}

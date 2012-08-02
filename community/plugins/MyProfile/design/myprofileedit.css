@@ -1,0 +1,20 @@
+ul.MyProfile li label {
+    color: #000000;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0 0;
+}
+
+.Body{
+	width:500px;
+}
+
+ul.MyProfile .eg, ul.MyProfile .prefix, ul.MyProfile .hint{
+	font-size:0.8em;
+	color: #555;
+}
+
+ul.MyProfile .InputBox{
+	width:350px;
+}

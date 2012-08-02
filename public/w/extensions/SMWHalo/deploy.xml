@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploydescriptor>
+	<global>
+		<version>151</version>
+		<patchlevel>1</patchlevel>
+		<id>smwhalo</id>
+		<vendor>Ontoprise GmbH</vendor>
+		<maintainer>Ontoprise GmbH</maintainer>
+		<instdir>extensions/SMWHalo</instdir>
+		<description>
+			Eases the usage and enhances the benefits of Semantic
+			Mediawiki
+		</description>
+		<dependencies>
+			<dependency from="151">smw</dependency>
+			<dependency from="100" to="100">scriptmanager</dependency>
+		</dependencies>
+	</global>
+	<codefiles>
+	   <!-- external codefile -->
+
+		<file loc="skins/ontoskin3" />
+		<file loc="skins/OntoSkin3.deps.php" />
+        <file loc="skins/OntoSkin3.php" />
+		<file loc="skins/ontoskin3/includes/OntoSkin3Lib.php" />
+	</codefiles>
+	<wikidumps>
+		<!-- empty -->
+	</wikidumps>
+	<resources>
+		<!-- empty -->
+	</resources>
+	<configs>
+
+		<new>
+			<patch file="extensions/SMWHalo/patch.txt" />
+			<require name="smwhalo"
+				file="extensions/SMWHalo/includes/SMW_Initialize.php" />
+			<function name="enableSMWHalo">
+				<string name="sql_storage">SMWHaloStore2</string>
+				<string name="ts_storage" null="true" />
+				<string name="ts-url" null="true" />
+			</function>
+			<variable name="wgUseAjax">
+				<boolean name="wgUseAjax"
+					description="enables ajax calls">
+					true
+				</boolean>
+			</variable>
+			<variable name="wgDefaultSkin">
+				<string name="wgDefaultSkin"
+					description="Default skin used">
+					ontoskin3
+				</string>
+			</variable>
+			<script file="extensions/SMWHalo/maintenance/SMW_setup.php" />
+		</new>
+		<uninstall>
+			<patch file="extensions/SMWHalo/patch.txt" />
+			<script file="extensions/SMWHalo/maintenance/SMW_setup.php"
+				params="--delete" />
+		</uninstall>
+	</configs>
+</deploydescriptor>

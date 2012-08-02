@@ -1,0 +1,158 @@
+# !!Please rename this file mymeta.yml before editing!! 
+# 
+# This file defines the user meta that you want on you user profiles
+# The format is YAML (http: //en.wikipedia.org/wiki/YAML)
+# Please check validity here: http: //yamllint.com/ first
+# 
+# validparams: 
+#  name <text label> (required)
+#  type <text|textbox|date|standard> (required, with standard it is part of the standard user fields not extendend so other pram other than name are ignored, and they won't apear on the edit form)
+#  required <true|false>
+#  requiredwith <array AnotherField> (to be require with this field)
+#  params <array of AnotherField> (to use each saved value passed to the link/label)
+#  labeldefault <default string to use for locale on link/label> (e.g. %s)
+#  hide <false|true> (do not show this on profile default false)
+#  maxchar <number>
+#  validate <function name>
+#  validateregex <regular expression>
+#  urlformat <url containing [id] to be substituted>
+#  eg <text explanation>
+#  hint <text hint>
+#  syndicate <feed|twitter|facebook|flickr|googleplus|linkedin>
+#  social <twitter|facebook|flickr|googleplus|linkedin>
+---
+MyMeta:
+ UserPhoto:
+  name: User Photo
+  type: standard
+ UserName:
+  name: User Name
+  type: standard
+ Email:
+  name: Email
+  type: standard
+ DateFirstVisit:
+  name: Date First Visit
+  type: standard
+ CountVisits:
+  name: Count Visits
+  type: standard
+ DateLastActive:
+  name: Date Last Active
+  type: standard
+# Roles:
+#  name: Roles
+#  type: standard
+ RegisterIP:
+  name: Register IP
+  type: standard
+ LastIP:
+  name: Last IP
+  type: standard
+ RealName: 
+  name: Real Name
+  type: text
+  required: true 
+ Nick: 
+  name: Nick
+  type: text
+ Company:   
+  name: Company
+  type: text
+ Title: 
+  name: Title
+  type: text 
+ DoB: 
+  name: Date of Birth
+  type: date
+  validate: Date
+ Bioname: 
+  name: Biography
+  type: textbox
+ Quote: 
+  name: Quote
+  type: textbox
+ WebSite:
+  name: Other Website
+  type: text
+  validate: WebAddress
+  params:
+   - WebSite
+  labeldefault: "%3$s"
+ Feed: 
+  name: Feed
+  type: text
+  validate: WebAddress
+  syndicate: feed
+# Twitter: 
+#  name: Twitter
+#  type: text
+#  validateregex: "[a-zA-Z0-9_]{1,15}"
+#  urlformat: http://twitter.com/#!/[id]
+#  eg: myname
+#  social: twitter
+#  syndicate: twitter
+#  syndicateformat: https://twitter.com/statuses/user_timeline/[id].rss 
+# Facebook: 
+#  name: Facebook
+#  type: text
+#  validate: Decimal
+#  urlformat: http://www.facebook.com/[id]
+#  eg: 100000111111111
+#  hint: <a href="http://www.ehow.com/how_5753004_facebook-id.html">tutorial</a>
+#  social: facebook
+# FacebookNotifyFeed:
+#  name: Facebook Nofify Feed
+#  type: text
+#  hint: logon to facebook vist <a href="http://www.facebook.com/notifications">notifications</a> and click RSS copy the url
+#  social: facebook
+#  validate: WebAddress
+#  syndicate: feed
+# FacebookPageFeed:
+#  name: Facebook Page Feed
+#  type: text
+#  hint: <a href="http://ahrengot.com/tutorials/facebook-rss-feed/">tutorial</a>
+#  social: facebook
+#  validate: WebAddress
+#  syndicate: feed
+# LinkedIn: 
+#  name: LinkedIn
+#  type: text
+#  validate: "(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+"
+#  urlformat: http://www.linkedin.com/pub/[id]
+#  eg: joe-blogs/4/957/211
+#  hint: look at profile url
+#  social: linkedin
+# GooglePlus:   
+#  name: Google+
+#  type: text
+#  validate: Decimal
+#  urlformat: https://plus.google.com/[id]
+#  eg: 106292438145678009482
+#  hint: copy the id avatar url
+#  validate: UrlStringRelaxed
+#  social: googleplus
+#  syndicate: googleplus
+#  syndicateformat: http://plu.sr/feed.php?plusr=[id]
+# Flickr: 
+#  name: Flickr
+#  type: text
+#  validateregexp: "([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+"
+#  urlformat: http://www.flickr.com/photos/[id]
+#  eg: 23686862@N03
+#  hint: go to http://idgettr.com/ to get id
+#  social: flickr
+#  syndicate: flickr
+#  syndicateformat: http://api.flickr.com/services/feeds/photos_public.gne?id=[id]
+# Picasa: 
+#  name: Picasa
+#  type: text
+#  validate: Decimal
+#  urlformat: https://picasaweb.google.com/[id]
+#  eg: 106292438145678009482
+#  hint: copy the id from public gallery link
+#  social: picasa
+#  syndicate: picasa
+#  syndicateformat: https://picasaweb.google.com/data/feed/base/user/[id]?alt=rss&kind=album&imgmax=1600
+
+

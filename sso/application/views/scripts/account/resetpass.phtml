@@ -1,0 +1,24 @@
+<h2 class="centerText">Change your password</h2>
+
+<?php if (count($this->messages) ) : ?>
+<div class="centerText <?php echo $this->flashMessengerClass; ?>">
+<?php foreach ($this->messages as $message) : ?>
+    <p><?php echo $this->escape($message); ?></p>
+<?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<div style="width: 220px; margin-left: auto; margin-right: auto;">
+<form action="<?php echo $this->url(array('controller' => 'login', 'action' => 'resetpassprocess')); ?>" method="post">
+		<fieldset id="loginForm">
+			
+            <input id="guid" name="guid" type="hidden" value="<?php echo $this->guid; ?>" />
+            
+			<label for="password">Enter a new password<input id="password" name="password" type="password" size="25" value="" /></label>
+
+			<label for="passwordConfirm">Confirm your new password<input id="passwordConfirm" name="passwordConfirm" type="password" size="25" value="" /></label>
+			
+			<input name="submit" name="submit" type="submit" value="Submit"/>
+		</fieldset>
+</form>
+</div>

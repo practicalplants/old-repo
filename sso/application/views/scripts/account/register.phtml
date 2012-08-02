@@ -1,0 +1,10 @@
+<h2>Register a new account</h2>
+<?php if (count($this->messages) ) : ?>
+<div class="<?php echo $this->flashMessengerClass; ?>">
+<?php foreach ($this->messages as $message) : ?>
+    <p><?php echo $this->escape($message); ?></p>
+<?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<?php echo $this->form ?>

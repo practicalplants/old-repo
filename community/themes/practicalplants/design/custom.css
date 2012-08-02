@@ -1,0 +1,332 @@
+/* @override 
+	http://practicalplants.local/community/themes/practicalplants/design/custom.css?v=1.0 */
+
+@import url("/resources/fonts/crete-round/stylesheet.css");
+@import url("/resources/css/masthead.css");
+body,
+.SiteTitle,
+h1, h2, h3, h4, h5 {
+   font-family: CreteRoundRegular, 'lucida grande','Lucida Sans Unicode',tahoma,sans-serif;
+   font-weight: normal;
+}
+a {
+   color: #009900;
+}
+a:hover {
+   color: #009900;
+   text-decoration: underline;
+}
+.Active a,
+a.Selected{
+	font-weight: normal;
+	color: rgb(236,80,0);
+}
+a span.Sprite{
+	opacity: 0.5;
+}
+.MeButton .Alert,
+span.Alert{
+	font-family: Georgia, Times New Roman, serif;
+	font-weight: bold;
+	display: inline-block;
+	border-radius: 20px;
+	padding: 0 3px;
+	height: 12px;
+	width: 5px;
+	text-align: center;
+	line-height: 10px;
+}
+
+#Head {
+   background-color: #ea9800;
+   text-shadow: none;
+   background: -webkit-gradient(linear, left top, left bottom, from(rgb(236,158,0)), to(rgb(224,102,0)));
+   background: -webkit-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
+   background: -moz-linear-gradient(-90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
+   background: -ms-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
+   background: -o-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
+   background: linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
+
+   font-family: CreteRoundRegular;
+   
+   height: 30px;  
+}
+#Head #Menu{
+	text-align: center;
+	margin-left: 230px;
+}
+
+#Head #Menu li{
+	display: inline-block;
+	height: auto;
+	padding: 0;
+	vertical-align: top;
+}
+#Head #Menu li ul{
+	display: none;
+}
+#Head #Menu li:hover ul{
+	display: block;
+	background: rgb(224,102,0);
+	position: relative;
+	z-index: 999;
+}
+#Head #Menu li.Highlight{
+	font-family: CreteRoundItalic;
+}
+#Head #Menu a {
+   font-size: 13px;
+   font-weight: 400;
+   color: #fff;
+   padding: 0 10px;
+   margin: 0 30px;
+   display: inline-block;
+   line-height: 30px;
+}
+#Head #Menu a:first-child {
+   margin-left: 0;
+}
+#Head #Menu a:hover {
+   color: #fff;
+}
+#Head .SiteSearch {
+   top: 2px;
+   right: -25px;
+}
+#Head .SiteSearch .InputBox {
+	font-size: 13px;
+	width: 220px;
+	
+	width: 250px;
+	padding: 3px;
+	outline: none;
+	
+	font-size: 14px;
+	
+	font-family: CreteRoundRegular;
+	
+	border: 1px solid rgba(255,255,255,0.5);
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	-ie-border-radius: 5px;
+	border-radius: 5px;
+}
+#Head .SiteSearch .Button {
+   top: 6px;
+}
+#Head > .Row{
+	width: auto;
+	padding: 0 40px;
+}
+
+#Body{
+}
+#Body > .Row{
+	width: auto;
+	padding: 20px 40px 0 40px;
+}
+
+.BreadcrumbsWrapper {
+   font-size: 11px;
+   border-bottom: 1px dotted #eee;
+   padding: 6px 0;
+   margin-bottom: 20px;
+   color: #aaa;
+}
+.Breadcrumbs a {
+   color: #777;
+}
+
+/** Vanilla Contents **/
+.PageDescription {
+   color: #888;
+   margin: 8px;
+}
+.CategoryBox h2 {
+   margin: 20px 8px 8px;
+}
+.CategoryBox h2 a {
+   color: #aaa;
+}
+.CategoryHeading .ItemContent{
+	font-weight: normal;
+	font-size: 130%;
+}
+.CategoryListWithHeadings{
+	margin-top: 20px;
+}
+.HomepageTitle {
+   font-size: 160%;
+}
+.HomepageTitle .AdminCheck {
+   padding: 0;
+}
+.Pager {
+   font-size: 18px;
+}
+.ProfileOptions {
+   font-weight: normal;
+}
+.DataTable td {
+   border-style: dotted;
+}
+.DataList > .Item {
+   border-style: dotted !important;
+   padding: 12px 8px;
+}
+.DataList .Item .Item {
+   border: none !important;
+}
+.DataList .Item.Read{
+	opacity: 1;
+	background: transparent;
+}
+.DataList .Item.Read .Title a{
+	color: #868686;
+}
+.DataList .Title,
+.DataList .Title a {
+   font-size: 18px;
+   color: #009900;
+   font-family: CreteRoundRegular;
+   font-weight: normal;
+}
+.DataList .Title {
+
+}
+.Meta,
+.MItem,
+.MItem a {
+   color: #aaa;
+}
+.DataList .Title a:hover {
+   text-decoration: underline;
+}
+.MItem {
+   margin: 0 8px;
+   padding: 0;
+}
+.MItem:last-child {
+   border: none;
+}
+/* Big Button */
+.ButtonGroup a.Button,
+#Content input.Button,
+a.Button,
+a.Button.Primary,
+a.Button.Primary:hover,
+a.Button.Primary:active,
+a.Button.Primary:visited {
+	
+	
+	font-family: CreteRoundRegular;
+	font-size: 15px;
+	font-weight: normal;
+	
+	color: white;
+	text-decoration: none;
+	vertical-align: middle;
+	
+	
+	background: #28872d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#5dbd4e), to(#28872d));
+	background: -webkit-linear-gradient(top, #5dbd4e, #28872d);
+	background: -moz-linear-gradient(top, #5dbd4e, #28872d);
+	background: -ms-linear-gradient(top, #5dbd4e, #28872d);
+	background: -o-linear-gradient(top, #5dbd4e, #28872d);
+     text-shadow: 0 -1px 0 #880000;
+   box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 2px rgba(0,0,0,0.3);
+   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 2px rgba(0,0,0,0.3);
+   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 2px rgba(0,0,0,0.3);
+   border-color: #763407;
+   
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   border: 1px solid transparent;
+   border-top: 1px solid #97f79a;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -webkit-border-radius: 3px;
+   box-shadow: 0px 0px 2px #999;
+   -moz-box-shadow: 0px 0px 2px #999;
+   -webkit-box-shadow: 0px 0px 2px #999;
+   white-space: nowrap;
+}
+a.Button.Primary:hover{
+	background: #5dbd4e;
+}
+a.Button.Primary:active{
+	border: 1px solid #28872d;
+	border-bottom: 1px solid #97f79a;
+	background-color: #4ea940;
+	box-shadow: none;
+}
+
+#Panel .BigButton {
+   margin: 20px 0;
+}
+input.Button {
+   padding: 6px 12px;
+}
+.BoxFilter {
+   margin: 20px 0;
+}
+.Box {
+   color: #888;
+   margin: 0 0 30px;
+}
+.Box h4 {
+   color: #333;
+   font-size: 18px;
+   margin: 6px 0;
+}
+.PanelInfo li {
+   background: #f7f7f7;
+   padding: 2px 4px;
+   border-style: dotted !important;
+   font-weight: normal;
+}
+.PanelInfo li.Heading{
+	font-weight: normal;
+	font-size: 120%;
+	margin-top: 20px;
+	padding-left: 0;
+}
+.PanelInfo a {
+   color: #555;
+}
+.PanelInfo a:hover {
+   text-decoration: underline;
+}
+body.Profile .PanelInfo .Active,
+.PanelInfo .Active {
+   background: #fff;
+}
+.PanelInfo .Active a {
+   color: #333;
+}
+.PanelCategories .Depth2{
+	padding-left: 0;
+}
+.Bullet {
+   color: #aaa;
+}
+
+.WhoIs a.Username{
+	font-weight: normal;
+	font-size: 120%;
+	margin-left: 5px;
+}
+span.Author a{
+	font-weight: normal;
+	font-size: 120%;
+}
+
+.DiscussionForm .label{
+	font-weight: normal;
+}
+
+.Message{
+	font-family: Georgia;
+}

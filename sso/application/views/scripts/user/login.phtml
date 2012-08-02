@@ -1,0 +1,53 @@
+<div id="login-options">
+	<div id="login-internal" class="login-box">
+		<h1>Login</h1>
+		<?php echo $this->form; ?>
+		<div id="login-create-account">
+		<div class="or">or</div>
+		<a href="<?php echo $this->url(array(),'register'); ?>">Create a new Account</a>
+		</div>
+		<a id="login-forgot" href="<?php echo $this->url(array(),'forgot-password') ?>">
+		Psst! Forgot your login info? Click here for help.
+		</a>
+	</div>
+	<div id="login-or">or</div>
+	<div id="login-external" class="login-box">
+		<h1>Connect with</h1>
+		<form action="<?php echo $this->url(array(),'authenticate-external');?>" method="get" id="openid_form">
+		    <input type="hidden" name="action" value="verify" />
+		        <div id="openid_choice">
+		            <div id="openid_btns"></div>
+		        </div>
+		        <div id="openid_input_area">
+		            <input id="openid_identifier" name="openid_identifier" type="text" value="http://" />
+		            <input id="openid_submit" type="submit" value="Sign-In"/>
+		        </div>
+		        <noscript>
+		            <p>OpenID is service that allows you to log-on to many different websites using a single indentity.
+					Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
+		        </noscript>
+		</form>
+		<p>Some users have reported problems when using an external site to authenticate. If you experience problems please try to <a href="<?php echo $this->url(array(),'register'); ?>">create a new account</a>.</p>
+	</div>
+</div>
+<div id="login-info">
+	<h2>About these login options</h2>
+	<p>You can choose a number of ways to connect to Practical Plants. If you have an OpenID, or an account at Facebook, Google, Twitter, or any of the other websites listed above, you can use that login to access this website.</p>
+	<p>If you prefer, however, you can register here with your email address, a chosen username, and a password, and you can use that information to log in the next time you visit.</p>
+	<p>Either way, you'll have exactly the same abilities on the wiki and community forum.</p>
+</div>
+
+<script type="text/javascript">
+
+    var imgPath = '<?php echo $this->baseUrl('images/');?>';
+
+    // console.log(imgPath);
+
+    $(document).ready(function() {
+        openid.img_path = imgPath;
+        openid.all_small = true;
+        openid.init('openid_identifier');
+        openid.setDemoMode(false); //Stops form submission for client javascript-only test purposes
+
+    });
+</script>

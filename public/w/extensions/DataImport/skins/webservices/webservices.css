@@ -1,0 +1,230 @@
+@CHARSET "ISO-8859-1";
+
+.OuterLeftIndent{
+	padding-left: 40px;
+}
+
+.BreadCrumpContainer{
+	white-space: nowrap; 
+	display: table; 
+	background-color: #8d8d8d; 
+	width: 98%; 
+	border-width: 1px; 
+	border-style: solid; 
+	border-color: #5d5d5d
+}
+
+.OKButton{
+	margin-top: 15px;
+	cursor: pointer;
+}
+
+.WSHLPMSG{
+	color: #666666;
+}
+
+.Marker{
+	padding-right: 15px;
+	cursor: pointer;
+}
+
+.HeadlineDelimiter{
+	padding-left: 5px;
+	padding-right: 5px;	
+}
+
+.StepDiv{
+	padding-bottom: 25px;
+}
+
+.HelpDiv{
+	padding-top: 75px;
+}
+
+
+.step-headline{
+	font-weight: bold;
+}
+
+.help-image{
+	cursor: pointer;
+}
+
+#step1-head + div, #step1-head + div + div{
+	margin-bottom: 3px; /*the first two divs need some space here*/
+}
+
+#step3-use {
+	text-align: right;
+}
+
+span.alias-generate {
+	text-align: right;
+	padding-left: 20px;
+}
+
+#step-3-alias-generate-button {
+	text-align: right;
+}
+#step4-use {
+	text-align: right;
+}
+
+#step4-nss-header {
+	margin-top: 10px; 
+}
+
+#step4-display-nss {
+	cursor: pointer; 
+}
+
+#step4-enable-triplification {
+	margin-top: 10px; 
+}
+
+#step4-nss th:first-child {
+	width: 100px;
+}
+
+#step4-results th:firstchild {
+	min-width: 400px;
+}
+#errors {
+	border-width: 1px;
+	border-color: red;
+	border-style: solid;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+#errors h2 {
+	color: red;
+}
+
+/* Webservice repository special page */
+
+.TabContainer {
+	line-height: 3em;
+	display: table; 
+	width: 100%; 
+	border-width: 1px; 
+	border-bottom-style: solid; 
+	border-color: #5d5d5d;
+	white-space: nowrap;
+	padding-bottom: 0px;
+	border-spacing: 0px;
+	cell-spacing: 0px;
+}
+
+.ActiveTab {
+	color: white;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-color: #5d5d5d;
+	font-weight: bold;
+	text-decoration: underline;
+	line-height: 3em;
+	background-color: #8d8d8d;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-right: 30px;
+	cursor: pointer;
+}
+
+.InactiveTab {
+	line-height: 3em;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-color: #5d5d5d;
+	color: #5d5d5d;
+	margin-right: 30px;
+	cursor: pointer;
+}
+
+.InactiveHighlightedTab {
+	line-height: 3em;
+	font-style: italic;
+	background-color: #E4E4E4;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-color: #5d5d5d;
+	color: #5d5d5d;
+	margin-right: 30px;
+	cursor: pointer;
+}
+
+#web-service-tab + td {
+	padding-left:10px;
+}
+
+#term-import-tab + td {
+	width: 100%;
+}
+
+#webservicetable {
+	width:100%;
+}
+
+.ActualMenueStep{
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
+	line-height: 3em;
+}
+
+.TodoMenueStep{
+	color: white;
+	font-weight: normal;
+	line-height: 3em;
+}
+
+.DoneMenueStep{
+	color: white;
+	line-height: 3em;
+}
+
+#step4-enable-triplification-input input {
+	margin-left: 5px;
+	width: 300;
+}
+
+#step6-subject-alias-container {
+	margin-left: 5px;
+}
+
+#step4-enable-triplification-scp-label {
+	font-weight: bold;
+	vertical-align: top;
+}
+
+#step4-add-alias-to-input-note {
+	font-style: italic;
+}
+
+#step4-display-nss {
+	padding-right: 5px;
+}
+
+#step4-enable-triplification-checkbox {
+	position: relative; 
+	left: -7px;
+}
+
+.step4-format-labels {
+	padding-left: 15px;	
+}

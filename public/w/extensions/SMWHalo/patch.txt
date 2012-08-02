@@ -1,0 +1,187 @@
+Index: extensions/SemanticMediaWiki/includes/SMW_DV_WikiPage.php
+===================================================================
+--- extensions/SemanticMediaWiki/includes/SMW_DV_WikiPage.php	2010-06-07 09:48:39.000000000 +0200
++++ extensions/SemanticMediaWiki/includes/SMW_DV_WikiPage.php	2010-07-08 11:10:37.000000000 +0200
+@@ -118,6 +118,7 @@
+ 		$this->m_namespace = array_key_exists( 1, $args ) ? $args[1]:$this->m_fixNamespace;
+ 		$this->m_interwiki = array_key_exists( 2, $args ) ? $args[2]:'';
+ 		$this->m_sortkey   = array_key_exists( 3, $args ) ? $args[3]:'';
++		$this->m_fragment  = array_key_exists( 4, $args ) ? $args[4]:'';
+ 		$this->m_textform = str_replace( '_', ' ', $this->m_dbkeyform );
+ 		$this->m_id = false;
+ 		$this->m_title = null;
+@@ -166,6 +167,21 @@
+ 		} elseif ( $this->m_namespace == NS_IMAGE ) { // embed images instead of linking to their page
+ 			 return '[[' . str_replace( "'", '&#x0027;', $this->getPrefixedText() ) . '|' . $this->m_textform . '|frameless|border|text-top]]';
+ 		} else { // this takes care of all other cases, esp. it is right for Media:
++			if ( $this->m_fragment != NULL) {
++				if (strpos($this->m_fragment, "##") === false) {
++					// only fragment set
++					$fragment = $this->m_fragment;
++					$label = $this->m_textform;
++				} else {
++					// fragment set with alternative label encoded
++					list($label, $fragment) = explode("##",$this->m_fragment);
++				}
++			} else {
++				// no fragment at all set
++				$label = $this->m_textform;
++				$fragment = "";
++			}
++			$fragment = str_replace("'", '&#x0027;', $fragment);
+ 			return '[[:' . str_replace( "'", '&#x0027;', $this->getPrefixedText() ) . '|' . $this->m_textform . ']]';
+ 		}
+ 	}
+@@ -369,8 +385,8 @@
+ 	/**
+ 	 * @deprecated Use setDBkeys()
+ 	 */
+-	public function setValues( $dbkey, $namespace, $id = false, $interwiki = '', $sortkey = '' ) {
+-		$this->setDBkeys( array( $dbkey, $namespace, $interwiki, $sortkey ) );
++	public function setValues( $dbkey, $namespace, $id = false, $interwiki = '', $sortkey = '', $fragment = '' ) {
++		$this->setDBkeys( array( $dbkey, $namespace, $interwiki, $sortkey, $fragment ) );
+ 	}
+
+ }
+Index: extensions/SemanticMediaWiki/includes/SMW_DataValue.php
+===================================================================
+--- extensions/SemanticMediaWiki/includes/SMW_DataValue.php	2010-06-07 09:49:10.000000000 +0200
++++ extensions/SemanticMediaWiki/includes/SMW_DataValue.php	2010-07-08 11:13:22.000000000 +0200
+@@ -118,6 +118,22 @@
+ 	 */
+ 	private $mHasErrors = false;
+
++	/// Patch:KK|Metadata data|Start
++	private $m_metadata = array();
++
++	public function setMetadata($mdProperty, $mdValue) {
++		$this->m_metadata[$mdProperty] = $mdValue;
++	}
++
++	public function getMetadata($mdProperty) {
++		return $this->m_metadata[$mdProperty];
++	}
++
++	public function getMetadataMap() {
++		return $this->m_metadata;
++	}
++	/// Patch:KK|Metadata data|End
++
+ 	/**
+ 	 * Constructor.
+ 	 *
+Index: extensions/SemanticMediaWiki/skins/SMW_sorttable.js
+===================================================================
+--- extensions/SemanticMediaWiki/skins/SMW_sorttable.js	2010-06-07 09:48:41.000000000 +0200
++++ extensions/SemanticMediaWiki/skins/SMW_sorttable.js	2010-07-08 11:15:42.000000000 +0200
+@@ -85,9 +85,8 @@
+ 	for (var i=0;i<spans.length;i++) {
+ 	    if(spans[i].className=="smwsortkey") return spans[i].innerHTML;
+ 	}
+-    }else{
+-	return el.innerHTML;
+     }
++    return el.innerHTML;
+
+ }
+
+Index: includes/Article.php
+===================================================================
+--- includes/Article.php	(revision 7264)
++++ includes/Article.php	(working copy)
+@@ -3552,9 +3552,15 @@
+ 
+ 		$popts = $wgOut->parserOptions();
+ 		$popts->setTidy(true);
++		/*op-patch|TS|2009-06-19|SMWHalo|Parsing context|start*/
++        $popts->setParsingContext("Main article");
++		/*op-patch|TS|2009-06-19|end*/
+ 		$popts->enableLimitReport();
+-		$parserOutput = $wgParser->parse( $text, $this->mTitle,
+-			$popts, true, true, $this->getRevIdFetched() );
++		$parserOutput = $wgParser->parse($text, $this->mTitle,
++                                        $popts, true, true, $this->getRevIdFetched() );
++		/*op-patch|TS|2009-06-19|SMWHalo|Parsing context|start*/
++       $popts->setParsingContext("");
++		/*op-patch|TS|2009-06-19|end*/
+ 		$popts->setTidy(false);
+ 		$popts->enableLimitReport( false );
+ 		if( $wgEnableParserCache && $cache && $this && $parserOutput->getCacheTime() != -1 ) {
+Index: includes/Linker.php
+===================================================================
+--- includes/Linker.php	(revision 7264)
++++ includes/Linker.php	(working copy)
+@@ -243,6 +243,10 @@
+ 		and $target->getNamespace() != NS_SPECIAL ) {
+ 			$query['action'] = 'edit';
+ 			$query['redlink'] = '1';
++            global $IP;
++            if ((defined('SMWHALO_WYSIWYG_EDITOR_WRAPPER') || defined('WYSIWYG_EDITOR_VERSION')) &&
++                empty( $query['mode']))
++                $query['mode']= 'wysiwyg';
+ 		}
+ 		$ret = $target->getLinkUrl( $query );
+ 		wfProfileOut( __METHOD__ );
+Index: includes/Namespace.php
+===================================================================
+--- includes/Namespace.php	(revision 7264)
++++ includes/Namespace.php	(working copy)
+@@ -53,7 +53,17 @@
+ 	 */
+ 	public static function isMovable( $index ) {
+ 		global $wgAllowImageMoving;
+-		return !( $index < NS_MAIN || ($index == NS_FILE && !$wgAllowImageMoving)  || $index == NS_CATEGORY );
++		/*op-patch|BL|2009-10-07|RichMedia|AdditionalNamespaceCheck|start*/
++		// NS_FILE is not the only Namespace now, so check them all
++		// original content is located in else statement.
++		global $smwgEnableRichMedia;
++		if( $smwgEnableRichMedia ) {
++			RMNamespace::isImage( $index, &$rMresult );
++			return !( $index < NS_MAIN || ($rMresult && !$wgAllowImageMoving) );
++		} else {
++			return !( $index < NS_MAIN || ($index == NS_FILE && !$wgAllowImageMoving) );
++		}
++		/*op-patch|BL|2009-10-07|end*/
+ 	}
+ 
+ 	/**
+Index: includes/parser/ParserOptions.php
+===================================================================
+--- includes/parser/ParserOptions.php	(revision 7264)
++++ includes/parser/ParserOptions.php	(working copy)
+@@ -30,6 +30,9 @@
+ 	var $mTemplateCallback;          # Callback for template fetching
+ 	var $mEnableLimitReport;         # Enable limit report in an HTML comment on output
+ 	var $mTimestamp;                 # Timestamp used for {{CURRENTDAY}} etc.
++	/*op-patch|TS|2009-06-19|SMWHalo|Parsing context|start*/
++    var $mParsingContext;           # Reason/context why the parser has been invoked
++	/*op-patch|TS|2009-06-19|end*/
+ 	var $mExternalLinkTarget;        # Target attribute for external links
+ 
+ 	var $mUser;                      # Stored user object, just used to initialise the skin
+@@ -60,7 +63,11 @@
+ 	function getIsPreview()                     { return $this->mIsPreview; }
+ 	function getIsSectionPreview()              { return $this->mIsSectionPreview; }
+   function getIsPrintable()            { return $this->mIsPrintable; }
+-  
++  	
++  /*op-patch|TS|2009-06-19|SMWHalo|Parsing context|start*/
++   function getParsingContext()                { return $this->mParsingContext; }
++  /*op-patch|TS|2009-06-19|end*/
++   
+ 	function getSkin() {
+ 		if ( !isset( $this->mSkin ) ) {
+ 			$this->mSkin = $this->mUser->getSkin();
+@@ -108,7 +115,11 @@
+ 	function setIsPreview( $x )                 { return wfSetVar( $this->mIsPreview, $x ); }
+ 	function setIsSectionPreview( $x )          { return wfSetVar( $this->mIsSectionPreview, $x ); }
+   function setIsPrintable( $x )        { return wfSetVar( $this->mIsPrintable, $x ); }
+-  
++  	
++    /*op-patch|TS|2009-06-19|SMWHalo|Parsing context|start*/
++    function setParsingContext($pc)             { return wfSetVar( $this->mParsingContext, $pc); }
++	/*op-patch|TS|2009-06-19|end*/
++   
+ 	function __construct( $user = null ) {
+ 		$this->initialiseFromUser( $user );
+ 	}

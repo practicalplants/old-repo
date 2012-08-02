@@ -1,0 +1,11 @@
+<div class="result-message">
+
+    <?php if ($this->identity): ?>
+        <h2>You are logged in as <?php echo $this->identity ?></h2
+        
+        <h4><a href="<?php echo $this->url(array(),'logout'); ?>">Logout</a></h4>
+        
+    <?php endif; ?>
+
+
+</div>

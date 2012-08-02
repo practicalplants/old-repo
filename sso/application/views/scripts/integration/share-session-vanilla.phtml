@@ -1,0 +1,18 @@
+<?php 
+/*
+UniqueID=1279
+Name=Tim
+Email=tim@emailaddress.com
+TransientKey=02742kjd2820
+DateOfBirth=1970-01-01
+Gender=Male 
+*/
+if($this->data){
+	$lines = array();
+	foreach($this->data as $k => $v){
+		$lines[] = $k.'='.$v;	
+	}
+	echo implode("
+",$lines);
+}
+?>

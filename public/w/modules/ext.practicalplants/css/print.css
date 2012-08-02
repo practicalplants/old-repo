@@ -1,0 +1,83 @@
+@import url("fonts/crete-round/stylesheet.css");
+
+
+* { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
+-ms-filter: none !important; } 
+a, a:visited { color: #444 !important; text-decoration: underline; }
+a[href]:after { content: " (" attr(href) ")"; }
+abbr[title]:after { content: " (" attr(title) ")"; }
+.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  
+pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+thead { display: table-header-group; } 
+tr, img { page-break-inside: avoid; }
+@page { margin: 0.5cm; }
+p, h2, h3 { orphans: 3; widows: 3; }
+h2, h3{ page-break-after: avoid; }
+
+body{
+	font-family: Georgia, serif;
+}
+
+article.wiki-entry .article-content .printfooter{
+	display: block;
+	margin-top: 10px;
+}	
+
+nav#menubar{
+	display: none;
+}
+
+nav#article-actions{
+	display: none;
+}
+
+article.wiki-entry{
+}
+.wiki-entry a{
+	font-weight: bold;
+}
+.wiki-entry h1, 
+.wiki-entry h2, 
+.wiki-entry h3,
+.wiki-entry h4, 
+.wiki-entry h5,
+.wiki-entry h6{
+	font-family: CreteRoundRegular;
+	font-weight: normal;
+}
+.wiki-entry h1 a, 
+.wiki-entry h2 a, 
+.wiki-entry h3 a,
+.wiki-entry h4 a, 
+.wiki-entry h5 a,
+.wiki-entry h6 a{
+	font-weight: normal;
+}
+.wiki-entry .mw-content-ltr > p:first-child{
+	font-size: 120%;
+}
+.wiki-entry h1{
+	font-size: 32px;
+	font-weight: normal;
+	margin-bottom: 8px;
+}
+
+.wiki-entry h2{
+	font-size: 24px;
+	font-weight: normal;
+	margin-top: 20px;
+	margin-bottom: 8px;
+}
+
+.wiki-entry h3{
+	font-size: 18px;
+	font-weight: normal;
+	margin-top: 10px;
+	margin-bottom: 2px;
+}
+
+.wiki-entry h4{
+	font-size: 16px;
+	margin-top: 8px;
+	margin-bottom: 2px;
+}

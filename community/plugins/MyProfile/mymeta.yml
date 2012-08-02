@@ -1,0 +1,11 @@
+MyMeta:
+ RealName: 
+  name: Real Name
+  type: text
+  required: true 
+ Bioname: 
+  name: About
+  type: textbox
+ Quote: 
+  name: Quote
+  type: textbox
