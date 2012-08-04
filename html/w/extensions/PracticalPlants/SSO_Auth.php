@@ -47,7 +47,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 		$wgHooks['UserLogout'][] = array($this,'userLogout');
 		
 		
-		$this->sso_url = 'http://practicalplants.local/sso/';
+		$this->sso_url = $ssoUrl;
 		
 	}
 	
