@@ -1,4 +1,6 @@
 <?php
+include_once(dirname(__FILE__).'integration/MediaWiki.php');
+include_once(dirname(__FILE__).'integration/Vanilla.php');
 
 class Application_Model_Integrations {
 	
