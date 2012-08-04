@@ -458,7 +458,16 @@ class PracticalPlantsTemplate extends BaseTemplate {
 	<div id="account" class="dropdown<?php if ( count( $this->data['personal_urls'] ) == 0 ) echo ' empty'; ?>">
 		<h5><?php $this->msg( 'personaltools' ) ?></h5>
 		<ul class="dropdown-content" <?php $this->html( 'userlangattributes' ) ?>>
-	<?php			foreach( $this->getPersonalTools() as $key => $item ) { ?>
+		<?php 
+$usertools = $this->getPersonalTools();
+//print_r($usertools);exit;
+//remove signup and login links
+if(isset($usertools['anonlogin']))
+	unset($usertools['anonlogin']);
+if(isset($usertools['logout']))
+	unset($usertools['logout']);
+	
+				foreach($usertools  as $key => $item ) { ?>
 			<?php echo $this->makeListItem( $key, $item ); ?>
 	
 	<?php			} ?>
