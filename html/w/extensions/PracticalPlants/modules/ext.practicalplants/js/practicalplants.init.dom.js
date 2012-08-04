@@ -41,7 +41,7 @@ var domOps = {
 		call: setArticleSummary,
 		done: false
 	}
-}
+};
 function checkDom(){
 	//console.log("checking");
 	var allDone=true;

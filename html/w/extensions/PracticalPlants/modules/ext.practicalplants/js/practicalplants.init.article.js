@@ -32,7 +32,7 @@ function tabify(){
 		tabs.each(function(j){
 			if(!$(this).attr('id'))
 				$(this).attr('id','tabify-'+i+'-'+j); 
-		})
+		});
 		var headers = tabs.find('.tabify-header').remove();
 		var tabcontainer = $('<ul></ul>').append(headers);
 		headers.wrap(function(j){
@@ -83,7 +83,7 @@ function initTips(){
 		show:{
 			delay:0
 		}
-	})
+	});
 }
 
 function moveDataTable(){

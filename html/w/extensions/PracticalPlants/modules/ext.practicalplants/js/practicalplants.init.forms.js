@@ -47,7 +47,7 @@
 			tabs.each(function(j){
 				if(!$(this).attr('id'))
 					$(this).attr('id','tabify-'+i+'-'+j); 
-			})
+			});
 			var headers = tabs.find('.tabify-header').remove();
 			var tabcontainer = $('<ul></ul>').append(headers);
 			headers.wrap(function(j){
@@ -115,7 +115,7 @@
 					r = api_result.query.results[k];
 					$listitem = $('<li class="interactions-list-item"></li>');
 					this_side = (r.printouts['Has left member'][0]===mw.config.get( 'wgTitle' )) ? 'left' : 'right';
-					other_side = (this_side==='right') ? 'left' : 'right'
+					other_side = (this_side==='right') ? 'left' : 'right';
 					/*switch(r.printouts['Has direction']){
 						case '>':
 							item_text = r.printouts['Has '+other_side+' member']+' ('+r.printouts['Has impact'].toLowerCase()+' impact)';

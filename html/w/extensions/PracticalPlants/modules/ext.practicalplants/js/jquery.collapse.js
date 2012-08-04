@@ -43,12 +43,12 @@
                 cookieCounter++;
                 var obj = $(this),
                     // Find all headers and wrap them in <a> for accessibility.
-                    sections = obj.find(op.head);//.wrapInner('<a></a>'),
+                    sections = obj.find(op.head),//.wrapInner('<a></a>'),
                     l = sections.length,
                     cookie = op.cookieName + "_" + cookieCounter;
                     // Locate all panels directly following a header
                     var panel = obj.find(op.head).map(function() {
-                        var head = $(this)
+                        var head = $(this);
                         if(!head.hasClass(active)) {
                             return head.next(op.group).hide()[0];
                         }

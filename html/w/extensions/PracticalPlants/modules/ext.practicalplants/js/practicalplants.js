@@ -6,7 +6,8 @@ window.PracticalPlants = (function($){
 			opts = {};
 		var binom, binom_match, binom_parts,
 			full_match;
-		if( binom_match = name.match(/^([\w]+ (?:x )?[\w]+)/) ){
+			binom_match = name.match(/^([\w]+ (?:x )?[\w]+)/);
+		if( binom_match ){
 			if(opts.abbreviate!==undefined && opts.abbreviate===true){
 				binom_parts = binom_match[1].split(' ');
 				if(binom_parts.length>1){
@@ -54,7 +55,7 @@ window.PracticalPlants = (function($){
 				cultivar = $(' <span class="cultivar"></span>').text(full_match[2]);
 			}
 			
-			name.append(cultivar_group).append(cultivar);;
+			name.append(cultivar_group).append(cultivar);
 			
 		/* Match binomial name and variety. Eg.
 		* Malus domestica var. varietyname
@@ -80,7 +81,7 @@ window.PracticalPlants = (function($){
 		}
 		
 		return $('<span class="species-name"></span>').append(name);
-	};
+	}
 	
 	var methods = {
 		formatPlantName: formatPlantName

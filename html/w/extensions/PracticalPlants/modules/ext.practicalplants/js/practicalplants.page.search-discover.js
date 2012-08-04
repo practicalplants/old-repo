@@ -7,7 +7,7 @@ var image_requests = [],
 function detect(){
 	//if element exists, init 
 	if($('#search-discover').length > 0)
-		init()
+		init();
 }
 
 function log(){

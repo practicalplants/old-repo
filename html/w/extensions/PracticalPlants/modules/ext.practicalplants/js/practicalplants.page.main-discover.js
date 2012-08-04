@@ -8,7 +8,7 @@ function detect(){
 	//if element exists, init 
 	if($('#main-page-discover').length > 0){
 		mw.loader.using('ext.practicalplants.init.dom', function(){
-			init()
+			init();
 		});
 	}
 }

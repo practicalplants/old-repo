@@ -1,4 +1,4 @@
-var $buoop = {} 
+var $buoop = {}; 
 $buoop.ol = window.onload; 
 window.onload=function(){ 
  try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
