@@ -30,7 +30,7 @@ function performImageRequests(){
 	log('performImageRequest',image_requests);
 	var values = image_requests.map(function(val){ return 'Image:'+val; });
 	
-	$.get(mw.config.get( 'wgServer' )+mw.config.get( 'wgScriptPath' )+'/w/api.php?action=query&titles='+values.join('|')+'&prop=imageinfo&iiurlwidth=200&iiprop=url&format=json')
+	$.get(mw.config.get( 'wgServer' )+mw.config.get( 'wgScriptPath' )+'/api.php?action=query&titles='+values.join('|')+'&prop=imageinfo&iiurlwidth=200&iiprop=url&format=json')
 		.then(imageRequestSuccess,imageRequestError);
 }
 
