@@ -51,7 +51,7 @@ class PracticalPlants_Auth extends AuthPlugin {
 		
 		$this->hasher = new PasswordHash(8, true);
 		
-		$this->db = new PDO($wgDBtype.':host='.$wgDBserver.';dbname=pp-users', $wgDBuser, $wgDBpassword);
+		$this->db = new PDO($wgDBtype.':host='.$wgDBserver.';dbname='.$ssoDbName, $wgDBuser, $wgDBpassword);
 	}
 	
 	/**
