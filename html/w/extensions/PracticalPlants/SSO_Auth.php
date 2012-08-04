@@ -41,8 +41,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	
 	public function __construct(){
 		global $wgHooks;
-		
-		
+		global $ssoUrl;
 		$wgHooks['UserLoadFromSession'][] = array($this,'userLoadFromSession');
 		$wgHooks['UserLogout'][] = array($this,'userLogout');
 		
