@@ -1,4 +1,4 @@
-var PracticalPlants = (function($){
+window.PracticalPlants = (function($){
 
 	function formatPlantName(name,opts){
 		/* Check to see if there's a standard binomial to begin with, and if so apply formatting */

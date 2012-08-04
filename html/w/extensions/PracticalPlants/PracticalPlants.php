@@ -13,7 +13,12 @@ $ppResourceTemplate = array(
 	'group' => 'ext.practicalplants'
 );
 $wgResourceModules['ext.practicalplants.css'] = $ppResourceTemplate + array(
-        'styles' => array('modules/ext.practicalplants/css/main.css'=>array('media'=>'screen'),'modules/ext.practicalplants/css/print.css'=>array('media'=>'print')),
+        'styles' => array(
+        	'modules/ext.practicalplants/css/main.css'=>array('media'=>'screen'),
+        	'modules/ext.practicalplants/css/print.css'=>array('media'=>'print'),
+        	'../../../resources/fonts/crete-round/stylesheet.css'=>array('media'=>'screen'),
+        	'../../../resources/css/masthead.css'=>array('media'=>'screen')
+        ),
         'position'=>'top'
  );
 /*$wgResourceModules['ext.practicalplants.top'] = $ppResourceTemplate+=array(
@@ -98,8 +103,5 @@ $wgHooks['sfEditFormPreloadText'][] = 'PracticalPlants::sfAddSpeciesChild';
 //$wgHooks['LinkBegin'][] = 'PracticalPlants::linkBegin';
 $wgHooks['LinkEnd'][] = 'PracticalPlants::linkEnd';
 
-
 /* Enable API */
 $wgAPIModules['taxonomies'] = 'PracticalPlants_API';
-
-
