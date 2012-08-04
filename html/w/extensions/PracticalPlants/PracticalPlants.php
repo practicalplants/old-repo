@@ -36,6 +36,9 @@ $wgResourceModules += array(
         'scripts' => array( 'modules/ext.practicalplants/js/modernizr-1.7.min.js' ),
         'dependencies' => array( 'jquery.ui.autocomplete' )
 	),
+	'augment' => $ppResourceTemplate + array(
+	    'scripts' => array( 'modules/ext.practicalplants/js/augment.js' )
+	),
 	'jquery.ui.autocomplete.html' => $ppResourceTemplate + array(
 		'scripts' => array('modules/ext.practicalplants/js/jquery.ui.autocomplete-html.js'),
 		'dependencies' => array( 'jquery.ui.autocomplete' )
@@ -44,7 +47,7 @@ $wgResourceModules += array(
 		'scripts' => array(
 			'modules/ext.practicalplants/js/practicalplants.init.dom.js',
 			'modules/ext.practicalplants/js/practicalplants.js'),
-		'dependencies' => array( 'modernizr' ),
+		'dependencies' => array( 'modernizr','augment' ),
 		'position' => 'top'
 	),
 	'browserupdate' => $ppResourceTemplate + array(
