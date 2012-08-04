@@ -20,6 +20,7 @@ $(function(){
 	setArticleSummary();
 	setArticleImage();
 	setArticleState();	
+	setArticleActions();
 	glueFooter();
 	$(window).resize(glueFooter);
 });//if things haven't been dom by dom load, the element ain't there...
@@ -89,6 +90,11 @@ function setArticleState(){
 	if(state.length>0){
 		$('#page-header').before(state);
 	}
+}
+function setArticleActions(){
+	var actions = $('#article-actions');
+	$('#after-header').prepend(actions);
+	actions.addClass('moved');
 }
 
 function glueFooter(){

@@ -194,15 +194,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 			<?php if($this->article_summary) echo $this->article_summary; ?>
 			<div id="article-image-container"><?php if($this->article_image) echo $this->article_image; ?></div>
 		</header>	
-		<nav id="article-actions">
-			<h2>Article Administration</h2>
-			<div class="left">
-			<?php $this->renderNavigation( array( 'VIEWS', 'ACTIONS' ) ); ?>
-			</div>
-			<div class="right">
-			<?php $this->renderNavigation( array( 'NAMESPACES', 'VARIANTS') ); ?>
-			</div>
-		</nav>
+		<div id="after-header">
 		<div class="article-content">
 		<?php if($this->data['undelete']) { ?>
 				<div id="contentSub2"><?php $this->html('undelete') ?></div>
@@ -218,6 +210,16 @@ class PracticalPlantsTemplate extends BaseTemplate {
 		<!-- end content -->
 		<?php if($this->data['dataAfterContent']) { $this->html ('dataAfterContent'); } ?>
 		<div class="visualClear"></div>
+		</div>
+		<nav id="article-actions">
+			<h2>Article Administration</h2>
+			<div class="left">
+			<?php $this->renderNavigation( array( 'VIEWS', 'ACTIONS' ) ); ?>
+			</div>
+			<div class="right">
+			<?php $this->renderNavigation( array( 'NAMESPACES', 'VARIANTS') ); ?>
+			</div>
+		</nav>
 		</div>
 	</article>
 

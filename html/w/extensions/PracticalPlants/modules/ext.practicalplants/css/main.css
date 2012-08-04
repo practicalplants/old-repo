@@ -417,13 +417,24 @@ article#main-entry{
 }
 
 
+/* This div basically only exists to position the article actions tabs */
+div#after-header{
+	position: relative;
+}
 
 /* =============== Article actions tabs ================ */
 nav#article-actions{
+	position: absolute;
+	top: 0;
+	width:100%;
 	display: block;
 	height: 26px;
 	margin-top: -26px;
 	padding-left: 40px;
+}
+nav#article-actions.moved{
+	position: inherit;
+	width: auto;
 }
 nav#article-actions h2{
 	display: none;
