@@ -2,6 +2,10 @@
 
 class Application_Model_Integration_Vanilla {
 	
+	public function __construct($domain){
+		 $this->_cookieDomain = $domain;
+	}
+	
 	public function onAuthenticate(){
 		$this->deleteCookies();
 	}
@@ -15,7 +19,7 @@ class Application_Model_Integration_Vanilla {
 	}
 	
 	public function deleteCookies(){
-		setcookie('Vanilla', false, 315554400, '/');
-		setcookie('Vanilla-Volatile', false, 315554400, '/');
+		setcookie('Vanilla', false, 315554400, '/',$this->_cookieDomain);
+		setcookie('Vanilla-Volatile', false, 315554400, '/',$this->_cookieDomain);
 	}	
 }

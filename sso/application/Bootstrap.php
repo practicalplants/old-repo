@@ -111,7 +111,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
      protected function _initAppKeysToRegistry() {
-
          $appkeys = new Zend_Config_Ini(APPLICATION_PATH . '/configs/appkeys.ini');
          Zend_Registry::set('keys', $appkeys);
         
@@ -126,7 +125,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      
      
      public function _initSession(){
-     	Zend_Session::start(array('name'=>'Practical-Plants-SSO'));	
+     		$options = $this->getOptions();
+     	Zend_Session::start(array('name'=>'Practical-Plants-SSO','cookie_domain'=>$options['app']['cookiedomain'],'cookie_path'=>'/'));	
      }
      
      public function _initDatabase(){
