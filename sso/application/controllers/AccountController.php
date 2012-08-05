@@ -149,12 +149,13 @@ class AccountController extends Zend_Controller_Action
             	$hash = substr(md5($user->register_time.$user->register_ip),10,5);
             	
             	//echo $hash;exit;
-            	
+            	$url = $this->_baseURL.'/activate/'.$user->user_id.'/'.$hash;
             	$html = '<h1>Your account at Practical Plants</h1>' 
-            	      . '<p><a href="'.$this->_baseURL.'/activate/'.$hash.'">Click here</a> or enter this url into your browser to activate your account: '.APP_URL.'/activate/'.$hash.'.</p>'
+            	      . '<p><a href="'.$url.'">Click here</a> or enter this url into your browser to activate your account: '
+            	      . $url.'</p>'
             	      . '<p>Your password is: ' . $password . '</p>';
-            	$text = "Activate your account on Practical Plants at this "
-            	      . "url ".$this->_baseURL."/activate/'.$hash.' \n"
+            	$text = "Activate your account on Practical Plants here: "
+            	      . $url." \n"
             	      . "Your password is: $password\n";
             	$this->sendMail($email_to, $email, $html, $text, 'Account Activation');
             	
