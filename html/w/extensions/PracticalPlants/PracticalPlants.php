@@ -58,7 +58,7 @@ $wgResourceModules += array(
 			'modules/ext.practicalplants/js/practicalplants.init.mast-search.js',
 			'modules/ext.practicalplants/js/practicalplants.init.forms.js',
 			'modules/ext.practicalplants/js/practicalplants.init.article.js'),
-		'dependencies' => array( 'jquery.ui.autocomplete.html', 'jquery.collapse','jquery.ui.tabs','jquery.qtip','ext.discover.js','jquery.ui.accordion','jquery.scrollto')
+		'dependencies' => array( 'jquery.ui.autocomplete.html', 'jquery.collapse','jquery.ui.tabs','jquery.qtip','ext.discover.js','jquery.ui.accordion','jquery.scrollto', 'mediawiki.api')
 	),
 	/*'jquery.cookie' => $ppResourceTemplate + array(
 		'scripts' => array('modules/ext.practicalplants/js/jquery.cookie.js')
