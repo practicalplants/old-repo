@@ -39,6 +39,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$router->addRoute('registration',  			
 			new Zend_Controller_Router_Route('/registration', array( 'controller' => 'account', 'action' => 'registration'))
 		);
+		$router->addRoute('registered',  			
+			new Zend_Controller_Router_Route('/registered', array( 'controller' => 'account', 'action' => 'registered'))
+		);
 		$router->addRoute('activate',  			
 			new Zend_Controller_Router_Route('/activate/:id/:code', array( 'controller' => 'account', 'action' => 'activate'))
 		);
@@ -114,6 +117,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         
 
      }
+     
+	/*protected function _initConfig(){
+		$config = new Zend_Config($this->getOptions());
+		Zend_Registry::set('config', $config);
+		return $config;
+	}*/
+     
      
      public function _initSession(){
      	Zend_Session::start(array('name'=>'Practical-Plants-SSO'));	

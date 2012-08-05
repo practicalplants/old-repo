@@ -35,7 +35,7 @@ class AccountController extends Zend_Controller_Action
     /**
      * Email address in which administation emails are sent to user
      */
-    private $_email = 'accounts@practicalplants.org';
+    private $_email = 'noreply@practicalplants.org';
     
     /**
      * Name of email address in which administation emails are sent to user
@@ -45,7 +45,13 @@ class AccountController extends Zend_Controller_Action
     /**
      * Base URL
      */
-    private $_baseURL = APP_URL;
+    private $_baseURL = '';
+
+	public function init(){
+		$bootstrap = $this->getInvokeArg('bootstrap'); 
+		 $options = $bootstrap->getOptions();
+		 $this->_baseURL = $options['app']['url'];
+	}	
 
     /**
      * Controller's entry point
@@ -136,6 +142,7 @@ class AccountController extends Zend_Controller_Action
             
             if($user){
             	//$username = $form->getProperty('username');
+            	$email = $form->getValue('email');
             	$email_to = $form->getValue('username');
             	$password = $form->getValue('password');
             	
@@ -143,15 +150,16 @@ class AccountController extends Zend_Controller_Action
             	
             	//echo $hash;exit;
             	
-            	$html = '<p>Activate your account on Practical Plants by' 
-            	      . 'clicking <a href="'.$this->getRequest()->getBaseUrl().'/activate/'.$hash.'">here</a>.</p>'
-            	      . '<p>Password: ' . $password . '</p>';
+            	$html = '<h1>Your account at Practical Plants</h1>' 
+            	      . '<p><a href="'.$this->_baseURL.'/activate/'.$hash.'">Click here</a> or enter this url into your browser to activate your account: '.APP_URL.'/activate/'.$hash.'.</p>'
+            	      . '<p>Your password is: ' . $password . '</p>';
             	$text = "Activate your account on Practical Plants at this "
-            	      . "link ".$this->getRequest()->getBaseUrl()."/activate/'.$hash.' \n"
-            	      . "Password: $password\n";
+            	      . "url ".$this->_baseURL."/activate/'.$hash.' \n"
+            	      . "Your password is: $password\n";
             	$this->sendMail($email_to, $email, $html, $text, 'Account Activation');
             	
-            	return $this->_redirect()->gotoRoute(array(),'registered');
+            	//return $this->_redirect()->gotoRoute(array(),'registered');
+            	return $this->_forward('registered');
             }
             
         }
@@ -181,8 +189,8 @@ class AccountController extends Zend_Controller_Action
         
         $users = new Application_Model_Users();
         if($user = $users->getUserBy('id',$id)){
-        	//echo substr(md5($user->register_time.$user->register_ip),10,5); exit;
-        	$result = $users->activateUser($id,$url_code);
+        	if(substr(md5($user->register_time.$user->register_ip),10,5) === $url_code)
+        		$result = $users->activateUser($id,$url_code);
         }else{
         	$result = false;
         }
@@ -243,8 +251,8 @@ class AccountController extends Zend_Controller_Action
                 $reset = new Model_DbTable_PasswordReset();
                 $result = $reset->insert( array( 'guid' => $guid, 'id' => $result, 'expiry_date' => $date ) );
                 if( !is_array($result) ) {
-                    $html = "<p>To reset your password, click <a href=\"http://localhost:8080/login/resetpass/id/$guid\">here</a>.</p>";
-                    $text = "Go to the following link to reset your password http://localhost:8080/login/resetpass/id/$guid\n";
+                    $html = "<p>To reset your password, click <a href=\"".$this->_baseURL."/resetpass/id/$guid\">here</a>.</p>";
+                    $text = "Go to the following link to reset your password ".$this->_baseURL."/resetpass/id/$guid\n";
                     sendMail($username, $email, $html, $text, 'Password Reset');
                     $session = new Zend_Session_Namespace();
                     $session->flashMessengerClass = 'flashMessagesGreen';
@@ -359,13 +367,22 @@ class AccountController extends Zend_Controller_Action
      */
     protected function sendMail($name, $email, $html, $text, $title)
     {
+    	//$tr = new Zend_Mail_Transport_Smtp('mail.practicalplants.org');
+    	//Zend_Mail::setDefaultTransport($tr);
+    	
+    	/*$config = array('auth' => 'login',
+    	                'username' => 'hello@practicalplants.org',
+    	                'password' => 'FeY8LfJf7dYwgN');
+    	 
+    	$transport = new Zend_Mail_Transport_Smtp('mail.practicalplants.org', $config);*/
+    	
         $mail = new Zend_Mail();
         $mail->setBodyText($text);
         $mail->setBodyHtml($html);
         $mail->setFrom($this->_email, $this->_emailName);
-        $mail->addTo($email, $name);
+        $mail->addTo($email);//, $name);
         $mail->setSubject($title);
-        $mail->send();
+        $mail->send();//$transport);
     }
     
     protected function getRegisterForm() {
