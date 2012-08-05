@@ -848,18 +848,25 @@ class EntryController extends Gdn_Controller {
                'Roles'  => GetValue('Roles', $UserInfo)
             ));
             
+            
+            /* For some reason $UserID is usually 0 despite the fact the user is made, so if it's 0 let's query to be sure */
+            if($UserID===0){
+            	$Auth = $this->UserModel->GetAuthentication($UserInfo['UserKey'], $UserInfo['ConsumerKey']);
+            	if($Auth && isset($Auth['UserID']))
+            		$UserID = $Auth['UserID'];
+            }
+            
+            
+            
             if ($UserID > 0) {
                // Account created successfully.
-               
                // Finalize the link between the forum user and the foreign userkey
                $Authenticator->Finalize($UserInfo['UserKey'], $UserID, $UserInfo['ConsumerKey'], $UserInfo['TokenKey'], $Payload);
-               
                $UserEventData = array_merge(array(
                   'UserID'       => $UserID,
                   'Payload'      => $Payload
                ),$UserInfo);
                Gdn::Authenticator()->Trigger(Gdn_Authenticator::AUTH_CREATED, $UserEventData);
-               
                /// ... and redirect them appropriately
                $Route = $this->RedirectTo();
                if ($Route !== FALSE)
