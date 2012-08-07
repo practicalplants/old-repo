@@ -173,8 +173,6 @@ class PracticalPlantsTemplate extends BaseTemplate {
 
 		$this->html( 'headelement' );
 ?>
-<script type="text/javascript">
-</script>
 <div id="page-wrapper">
 	<?php require(realpath(__DIR__.'/../../../library').'/Masthead.php');
 	$masthead = new PracticalPlants_Masthead(array(

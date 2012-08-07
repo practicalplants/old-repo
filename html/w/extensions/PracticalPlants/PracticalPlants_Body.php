@@ -16,6 +16,7 @@ class PracticalPlants{
 			$out->addModules( 'ext.practicalplants.init.dom' );
 			$out->addModules( 'browserupdate' );
 			$out->addModules( 'ext.practicalplants.init' );
+			$out->addStyle( '../../../resources/fonts/crete-round/stylesheet.css', 'screen' );
 			
 			global $mediaWiki;
 			$title = $mediaWiki->getTitle()->getText();
@@ -197,12 +198,15 @@ class PracticalPlants{
 	function striptags($parser,$html){
 		//echo preg_replace('~\[\[[^|]+(?:|(.+))\]\]~uis','$2', strip_tags($html));
 		//return $html;
-		$replace = array();
+		//echo $html; 
+		$replace = array('\[\[SWM::on\]\]'=>'','\[\[SMW::off\]\]'=>'');
 		if(preg_match_all('~\[\[([^|\]]+(?:\|([^\]]+))?)\]\]~uis',$html,$matches)){
 			//print_r($matches); //return true;
 			foreach($matches[0] as $i => $m){
 				$pattern = '\[\['.str_replace('|','\|',$matches[1][$i]).'\]\]';
-				$replace[$pattern] = !empty($matches[2][$i]) ? $matches[2][$i] : $matches[1][$i];
+				if(!strpos($matches[1][$i],'SWM')){
+					$replace[$pattern] = !empty($matches[2][$i]) ? $matches[2][$i] : $matches[1][$i];
+				}
 			}
 			foreach($replace as $pattern => $replacement){
 				//echo 'Replacing '.$pattern.' with '.$replacement."\n";

@@ -16,7 +16,7 @@ $wgResourceModules['ext.practicalplants.css'] = $ppResourceTemplate + array(
         'styles' => array(
         	'modules/ext.practicalplants/css/main.css'=>array('media'=>'screen'),
         	'modules/ext.practicalplants/css/print.css'=>array('media'=>'print'),
-        	'../../../resources/fonts/crete-round/stylesheet.css'=>array('media'=>'screen'),
+        	//'../../../resources/fonts/crete-round/stylesheet.css'=>array('media'=>'screen'), //THIS BREAKS IE. NO FREAKING IDEA WHY.
         	'../../../resources/css/masthead.css'=>array('media'=>'screen')
         ),
         'position'=>'top'
