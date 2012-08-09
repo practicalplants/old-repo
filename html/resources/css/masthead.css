@@ -6,6 +6,7 @@
 nav#masthead{
 
 	display: block;
+	position: relative;
 	
 	text-align: left;
 	
@@ -146,5 +147,8 @@ nav#masthead em,
 	font-family: CreteRoundRegular;
 	
 	height: 30px;
+}
+.masthead-submenu a{
+	color: #fff;
 }
 

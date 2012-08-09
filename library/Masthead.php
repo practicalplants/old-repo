@@ -9,6 +9,10 @@ class PracticalPlants_Masthead{
 			'title'=>'Community',
 			'url'=>'/community'
 		),
+		'blog'=>array(
+			'title'=>'Blog',
+			'url'=>'/blog'
+		),
 		'account'=>array(
 			'title'=> 'Login',
 			'url'=>'/sso'
@@ -48,6 +52,10 @@ class PracticalPlants_Masthead{
 		$html = ob_get_contents();
 		ob_end_clean();
 		return $html;
+	}
+	
+	function headTags(){
+		return '<link rel="stylesheet" href="/resources/css/masthead.css" />';
 	}
 	
 	function output(){
