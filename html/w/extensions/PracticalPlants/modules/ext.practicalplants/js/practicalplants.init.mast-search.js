@@ -27,7 +27,7 @@
 		//console.log(taxos);
 		$(search_input).autocomplete({
 			html: true,
-			delay: 0,
+			delay: 20,
 			minLength: 3,
 			position: { my : "center top", at: "center bottom"},//, offset:'2 0' },
 		    source: function(request, response){
