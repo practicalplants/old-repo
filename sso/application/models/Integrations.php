@@ -16,7 +16,7 @@ class Application_Model_Integrations {
 	
 	public function onAuthenticate(){
 		//set an auth cookie for masthead to use to choose whether to display 'login' or 'account' on wiki/community
-		setcookie('SSO-Authed', true, time()+2512345, '/', $this->_cookieDomain);
+		//setcookie('SSO-Authed', true, time()+2512345, '/', $this->_cookieDomain);
 		foreach($this->integrations as $i){
 			$i->onAuthenticate();
 		}
@@ -30,6 +30,6 @@ class Application_Model_Integrations {
 	}
 	
 	public function deleteCookies(){
-		setcookie('SSO-Authed', false, 315554400, '/', $this->_cookieDomain);
+		//setcookie('SSO-Authed', false, 315554400, '/', $this->_cookieDomain);
 	}
 }

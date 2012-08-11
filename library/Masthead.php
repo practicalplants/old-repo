@@ -24,7 +24,7 @@ class PracticalPlants_Masthead{
 		if(isset($opts['search'])){
 			$this->search = $opts['search'];
 		}
-		$this->tabs['account']['title'] = (isset($_COOKIE['SSO-Authed']) ? 'Account' : 'Login / Register');
+		$this->tabs['account']['title'] = (isset($_COOKIE['Practical-Plants-SSO']) ? 'Account' : 'Login / Register');
 	}
 	
 	function setActiveTab($id){
