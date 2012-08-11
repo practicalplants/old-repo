@@ -521,7 +521,9 @@ nav#article-actions .dropdown div.menu{
 nav#article-actions .empty{
 	display: none;
 }
-
+nav#article-actions .tabs #ca-talk.new{
+	opacity: 0.5;
+}
 
 
 #footer{
