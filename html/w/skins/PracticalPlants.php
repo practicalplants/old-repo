@@ -186,7 +186,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 	
 	<?php if($this->data['sitenotice']) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
 	<article id="main-entry" class="wiki-entry">
-		<a id="beta-banner" href="/wiki/PracticalPlants:Beta">Practical Plants is in Beta!</a>
+		
 		<header id="page-header">
 			<h1 id="article-title"><?php $this->html('title') ?></h1>
 			<?php if($this->article_summary) echo $this->article_summary; ?>
@@ -219,6 +219,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 			</div>
 		</nav>
 		</div>
+		<a id="beta-banner" href="/wiki/PracticalPlants:Beta">Practical Plants is in Beta!</a>
 	</article>
 
 
