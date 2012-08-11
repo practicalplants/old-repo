@@ -4,19 +4,23 @@ include_once(dirname(__FILE__).'/integration/Vanilla.php');
 
 class Application_Model_Integrations {
 	
-	public function __construct(){
+	public function __construct($opts=array()){
 		$bootstrap = Zend_Controller_Front::getInstance()->getParam('bootstrap');
-		$options = $bootstrap->getOptions();
-		$this->_cookieDomain = $options['app']['cookiedomain'];
+		$settings = $bootstrap->getOptions();
+		$this->_cookieDomain = $settings['app']['cookiedomain'];
+		$this->persist = (isset($opts['persist']) && $opts['persist']===true) ? true : false;
 		$this->integrations = array(
 			new Application_Model_Integration_Mediawiki($this->_cookieDomain),
 			new Application_Model_Integration_Vanilla($this->_cookieDomain)
 		);
+		
 	}
 	
 	public function onAuthenticate(){
-		//set an auth cookie for masthead to use to choose whether to display 'login' or 'account' on wiki/community
-		//setcookie('SSO-Authed', true, time()+2512345, '/', $this->_cookieDomain);
+		if($this->persist){
+			setcookie('SSO-Persist', true, time()+31536000, '/', $this->_cookieDomain);
+		}
+		setcookie('SSO-Authed', true, time()+31536000, '/', $this->_cookieDomain);
 		foreach($this->integrations as $i){
 			$i->onAuthenticate();
 		}
@@ -30,6 +34,10 @@ class Application_Model_Integrations {
 	}
 	
 	public function deleteCookies(){
-		//setcookie('SSO-Authed', false, 315554400, '/', $this->_cookieDomain);
+		/*if($this->persist){
+			setcookie('SSO-Persist', false, time()-60, '/', $this->_cookieDomain);
+		}*/
+		setcookie('SSO-Persist', false, time()-60, '/', $this->_cookieDomain);
+		setcookie('SSO-Authed', false, time()-60, '/', $this->_cookieDomain);
 	}
 }

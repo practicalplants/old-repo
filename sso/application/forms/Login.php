@@ -21,6 +21,10 @@ class Application_Form_Login extends Zend_Form {
             'required' => true,
             'label' => 'Password',
         ));
+        
+        $login = $this->addElement('checkbox', 'persist', array(
+            'label' => 'Remember me until I logout.',
+        ));
  
         $login = $this->addElement('submit', 'login', array(
             'required' => false,

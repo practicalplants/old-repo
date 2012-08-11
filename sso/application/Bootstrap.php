@@ -126,7 +126,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      
      public function _initSession(){
      		$options = $this->getOptions();
-     	Zend_Session::start(array('name'=>'Practical-Plants-SSO','cookie_domain'=>$options['app']['cookiedomain'],'cookie_path'=>'/'));	
+     	Zend_Session::start(array('name'=>'SSO-Session','cookie_domain'=>$options['app']['cookiedomain'],'cookie_path'=>'/'));	
      }
      
      public function _initDatabase(){

@@ -19,7 +19,8 @@ class Application_Model_Integration_Vanilla {
 	}
 	
 	public function deleteCookies(){
-		setcookie('Vanilla', false, 315554400, '/',$this->_cookieDomain);
-		setcookie('Vanilla-Volatile', false, 315554400, '/',$this->_cookieDomain);
+		setcookie('Vanilla', false, time()-60, '/',$this->_cookieDomain);
+		setcookie('Vanilla-Volatile', false, time()-60, '/',$this->_cookieDomain);
+		setcookie('Vanilla-Vv', false, time()-60, '/',$this->_cookieDomain);
 	}	
 }
