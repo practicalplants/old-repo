@@ -79,8 +79,12 @@ class UserController extends Zend_Controller_Action {
  		$authSess->identity = $auth->getIdentity();
  		$authSess->user = $user->toArray();
  		
+ 		$persist = ((int) $form->getValue('persist')==1) ? true : false;
+ 		
+ 		//echo (int) $form->getValue('persist'); exit;
+ 		
  		//prepare integrated services 
-		$integrations = new Application_Model_Integrations();
+		$integrations = new Application_Model_Integrations(array('persist'=>$persist));
 		$integrations->onAuthenticate();
 
         $post = $request->getPost();

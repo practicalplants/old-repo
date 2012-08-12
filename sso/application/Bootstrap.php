@@ -125,8 +125,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      
      
      public function _initSession(){
-     		$options = $this->getOptions();
-     	Zend_Session::start(array('name'=>'Practical-Plants-SSO','cookie_domain'=>$options['app']['cookiedomain'],'cookie_path'=>'/'));	
+     	$options = $this->getOptions();
+     	ini_set('session.gc_maxlifetime', $options['resources']['session']['remember_me_seconds']); //set server session timeout to same as cookie
+     	$opts = array_merge(array(
+     		'name'=>'SSO-Session',
+     		'cookie_domain'=>$options['app']['cookiedomain'],
+     		'cookie_path'=>'/',
+     	),$options['resources']['session']);
+     	Zend_Session::start($opts);	
      }
      
      public function _initDatabase(){

@@ -114,8 +114,26 @@ dl.zend_form ul.errors{
 #login-internal #login-element{
 	height: auto
 }
+#login-internal #login-element{
+	margin-left: 0;
+}
 #login-internal input#login{
 	width: 250px;
+}
+#login-internal #persist-label{
+	width: auto;
+	margin-right: 0;
+	margin-left: 140px;
+	
+}
+#login-internal #persist-label label{
+	font-size: 12px;
+	font-weight: normal;
+}
+#login-internal #persist-element{
+	position: absolute;
+	margin-right: 0;
+	margin-left: 120px;
 }
 #login-external{
 	display: inline-block;
@@ -151,6 +169,7 @@ dl.zend_form ul.errors{
 #login-create-account{
 	font-size: 18px;
 	margin-bottom: 20px;
+	font-family: CreteRoundRegular;
 }
 #login-create-account .or{
 	font-family: CreteRoundItalic;
@@ -180,7 +199,10 @@ dl.zend_form ul.errors{
 	border-width: 0px 1px;
 }
 
-
+#login-info{
+	width: 960px;
+	margin: 20px auto;
+}
 
 
 #user-index{

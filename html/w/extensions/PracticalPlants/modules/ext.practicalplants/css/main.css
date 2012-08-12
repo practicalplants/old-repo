@@ -270,7 +270,7 @@ body .buorg div {
 #masthead #masthead-search input.search-field{
 	width: 250px;
 	margin-right: 5px;
-	padding: 3px;
+	padding: 3px 18px 3px 3px;
 	outline: none;
 	
 	font-size: 14px;
@@ -290,6 +290,12 @@ body .buorg div {
 	-o-transition: width 0.2s ease-in-out 0s;
 	-ms-transition: width 0.2s ease-in-out 0s;
 	transition: width 0.2s ease-in-out 0s;
+}
+#masthead #masthead-search input.search-field.loading{
+	background-image: url(/resources/images/loader-small-arrows.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+	
 }
 #mw-searchButton,
 #searchGoButton{
@@ -515,7 +521,9 @@ nav#article-actions .dropdown div.menu{
 nav#article-actions .empty{
 	display: none;
 }
-
+nav#article-actions .tabs #ca-talk.new{
+	opacity: 0.5;
+}
 
 
 #footer{
