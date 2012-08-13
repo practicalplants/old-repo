@@ -20,14 +20,18 @@
 	}
 	
 	function doQuery(request, response){
-		var term = request.term.replace(' ','*');
-		termVariants = [];
+		var term = request.term.replace(' ','*').toLowerCase();
+		/*termVariants = [];
 		termVariants.push(term);
-		//termVariants.push(term.toLowerCase());
-		//termVariants.push(term.slice(0,1).toUpperCase()+term.slice(1));
-		var query = '';
-		query+='[[Concept:Plant%20taxonomies]][[Has%20taxonomy%20name::~*'+term+'*]]';
-		query+=' OR [[Concept:Plant%20taxonomies]][[Has%20common%20name::~*'+term+'*]]';
+		termVariants.push(term.toLowerCase());
+		termVariants.push(term.slice(0,1).toUpperCase()+term.slice(1));
+		var query = [];
+		for(var i=0, l=termVariants.length;i<l;i++){
+			query.push( '[[Concept:Plant%20taxonomies]][[Has%20taxonomy%20name::~*'+termVariants[i]+'*]]' );
+			query.push( '[[Concept:Plant%20taxonomies]][[Has%20common%20name::~*'+termVariants[i]+'*]]' );
+		}*/
+		//terms are now stored in lower case for easier searching
+		query+='[[Concept:Plant%20taxonomies]][[Has%20search%20name::~*'+term+'*]]';
 		query+='|%3FIs%20taxonomy%20type|%3FHas%20common%20name|limit=50&format=json';
 		mw.log(query);
 		//mw.log('Term variants:', '[[Has%20taxonomy%20name::~*'+termVariants.join('*]] OR [[Has%20taxonomy%20name::~*')+'*]]');
