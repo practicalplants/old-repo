@@ -20,7 +20,8 @@
 	}
 	
 	function doQuery(request, response){
-		var term = request.term.replace(' ','*').toLowerCase();
+		var term = request.term.replace(' ','*').toLowerCase(),
+			query = '';
 		/*termVariants = [];
 		termVariants.push(term);
 		termVariants.push(term.toLowerCase());
