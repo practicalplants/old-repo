@@ -50,6 +50,7 @@ $masthead = new PracticalPlants_Masthead(array('active_tab'=>'blog'));
 	?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="/resources/css/global.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/resources/fonts/crete-round/stylesheet.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 <?php echo $masthead->headTags(); ?>
 <?php if ( is_singular() && get_option( 'thread_comments' ) ) wp_enqueue_script( 'comment-reply' ); ?>

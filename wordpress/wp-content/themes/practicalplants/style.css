@@ -16,10 +16,6 @@ This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
 
-/* =Fonts
--------------------------------------------------------------- */
-@import "/resources/fonts/crete-round/stylesheet.css";
-
 
 /* =Structure
 -------------------------------------------------------------- */
@@ -29,7 +25,9 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	
 }
 #main{
-	padding: 20px;
+	padding: 40px 0px;
+	width: 960px;
+	margin: 0 auto;
 }
 #primary {
 	float: left;
@@ -37,17 +35,29 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	width: 100%;
 }
 #content {
-	margin: 0 280px 0 0;
+	margin: 0 240px 0 0;
 }
 #main .widget-area {
 	float: right;
 	overflow: hidden;
-	width: 220px;
+	width: 210px;
+	
+	/*background: #e5f4e5;
+	border: 1px solid #a9d3a4;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-o-border-radius:5px;
+	-ms-border-radius:5px;
+	border-radius:5px;
+*/
+	border-left: 1px solid #ccc;
+	padding: 10px;
 }
 #colophon {
 	clear: both;
 	display: block;
-	width: 100%;
+	width: 960px;
+	margin: 20px auto 0 auto;
 }
 
 /* Increase the size of the content area for templates without sidebars */
@@ -198,6 +208,26 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .page .edit-link {
 	clear: both;
 	display: block;
+}
+.entry-header{
+	margin-bottom: 10px;
+}
+.entry-title{
+	font-size: 2em;
+	margin: 0;
+}
+.entry-title a{
+	
+}
+.entry-meta{
+	color: #aaa;
+	font-family: CreteRoundRegular;
+}
+.entry-content p{
+	margin-bottom: 10px;
+}
+footer.entry-meta{
+	margin-top: 10px;
 }
 
 /* 404 page */
@@ -358,9 +388,20 @@ textarea {
 
 /* =Comments
 -------------------------------------------------------------- */
-
+#comments{
+	margin-top: 50px;
+}
+#comments-title{
+	font-size: 1.5em;
+}
 article.comment {
 	display: block;
+}
+#respond{
+	margin-top: 20px;
+}
+#reply-title{
+	font-size: 1.3em;
 }
 #respond input[type=text] {
 	display: block;
@@ -385,15 +426,7 @@ article.comment {
 
 .widget {
 	display: block;
-	background: #e5f4e5;
-	border: 1px solid #a9d3a4;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	-o-border-radius:5px;
-	-ms-border-radius:5px;
-	border-radius:5px;
 	margin-bottom: 10px;
-	padding: 5px;
 }
 .widget h1{
 	font-size: 1.2em;
@@ -401,9 +434,13 @@ article.comment {
 	color: #085708;
 	margin: 0 0 5px 0;
 }
+.widget ul{
+	margin-left: 0;
+	list-style-type: none;
+}
 .widget a{
-	color: #085708;
-	text-decoration: none;
+	/*color: #085708;
+	text-decoration: none;*/
 }
 .widget-area .widget_search {
 	overflow: hidden;
