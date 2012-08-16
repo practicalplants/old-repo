@@ -69,5 +69,6 @@ $masthead->output();
   </div>
 </div>
 <?php $this->FireEvent('AfterBody'); ?>
+<?php include(realpath(PATH_ROOT.'/../library').'/google-analytics.html'); ?>
 </body>
 </html>

@@ -287,6 +287,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 
 <?php
 		$this->printTrail();
+		include(realpath(__DIR__.'/../../../library').'/google-analytics.html');
 		echo Html::closeElement( 'body' );
 		echo Html::closeElement( 'html' );
 		wfRestoreWarnings();
