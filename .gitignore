@@ -16,3 +16,9 @@ xcuserdata
 # svn & cvs
 .svn
 CVS
+
+#SSO app
+sso/private/session/*
+
+#wordpress
+wordpress/wp-config.php
