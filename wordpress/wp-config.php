@@ -85,6 +85,9 @@ define('WP_ALLOW_REPAIR', true);
 /** Absolute path to the WordPress directory. */
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
+	
+define( 'SSO_URL' ,'http://practicalplants.local/sso');
+define( 'FRONT_END_COOKIE_SSO_SECRET', 'ThereArePlantsWhichArePracticalAndTheyAreTotallyAwesome' );
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
