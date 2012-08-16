@@ -48,6 +48,8 @@ class IntegrationController extends Zend_Controller_Action {
 				}
 				break;
 			
+			case 'json':
+			case 'wordpress':
 			case 'mediawiki':
 			default:
 				
