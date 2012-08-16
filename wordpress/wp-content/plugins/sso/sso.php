@@ -12,22 +12,47 @@ class PracticalPlantsAuthAuthenticationPlugin {
 
 	
 	function __construct() {
+		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
 		add_filter('login_url', array(&$this, 'bypass_reauth'));
 		add_filter('show_password_fields', array(&$this, 'disable'));
 		add_filter('allow_password_reset', array(&$this, 'disable'));
 		add_action('check_passwords', array(&$this, 'generate_password'), 10, 3);
 		add_action('wp_logout', array(&$this, 'logout'));
+		
+		add_action('login_footer', array($this, 'add_login_link'));
+		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
+		
+		add_action('login_head', array($this, 'redirect_login'));\
+		add_action( 'init', array( &$this, 'init' ) );
+	}
+	
+	function init(){
+		$this->check_login();
+	}
+	
+	function check_login(){
+		$user = $this->share_session();
+		if($user){
+			wp_signon(array('user_login'=>$user->username,'user_password'=>'whatever'));
+		}
+	}
+	
+	function redirect_login(){
+		global $redirect_to;
+		//echo $redirect_to; exit;
+		header('Location: '.SSO_URL.'/login?redirect='.urlencode($redirect_to));
+		exit;
 	}
 	
 	function sso_user(){	
-		$user = $this->shareSession();
+		$user = $this->share_session();
 		if( $user && isset($user->username) ){
 			return $user->username;
 		}
 		return false;
 	}
 	function sso_email(){ 
-		$user = $this->shareSession();
+		$user = $this->share_session();
 		if( $user && isset($user->email) ){
 			return $user->email;
 		}
@@ -38,7 +63,7 @@ class PracticalPlantsAuthAuthenticationPlugin {
 	}
 	
 	
-	function shareSession(){
+	function share_session(){
 		$sso_user = false;
 		if(isset($_SESSION['sso_user'])){
 			$sso_user = $_SESSION['sso_user'];
@@ -66,9 +91,19 @@ class PracticalPlantsAuthAuthenticationPlugin {
 	
 
 
+	
 	#
 	# filters & actions
 	#
+	function add_login_link() {
+		global $redirect_to;
+
+		$login_uri = SSO_URL.'/login';//, wp_login_url($redirect_to));
+		$auth_label = 'Practical Plants';
+
+		echo "\t" . '<p id="http-authentication-link"><a class="button-primary" href="' . htmlspecialchars($login_uri) . '">Log In with ' . htmlspecialchars($auth_label) . '</a></p>' . "\n";
+	}
+	
 
 	function bypass_reauth($login_url){
 		return remove_query_arg('reauth', $login_url);
@@ -116,12 +151,20 @@ class PracticalPlantsAuthAuthenticationPlugin {
 
 		return $user;
 	}
+	
+	function authenticate(){
+		$user = $this->check_remote_user();
+		if (!is_wp_error($user)){
+			$user = new WP_User($user->ID);
+		}
+		return $user;
+	}
 }
 
 $sso_authentication_plugin = new PracticalPlantsAuthAuthenticationPlugin();
 
 // Override pluggable function to avoid ordering problem with 'authenticate' filter
-if (!function_exists('wp_authenticate')){
+/*if (!function_exists('wp_authenticate')){
 	function wp_authenticate($username, $password){
 		global $sso_authentication_plugin;
 
@@ -132,6 +175,6 @@ if (!function_exists('wp_authenticate')){
 
 		return $user;
 	}
-}
+}*/
 
 ?>
