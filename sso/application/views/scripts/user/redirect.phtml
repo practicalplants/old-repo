@@ -1,0 +1,6 @@
+<div id="redirecting" class="result-message">
+<h2>You are logged in!</h2>
+<h4>You are being redirected to <a href="<?php echo $this->redirect ?>"><?php echo $this->redirect ?></a>...</h4>
+<p>If you aren't redirected within 5 seconds, click the link above.</p>
+</div>
+<?php $this->headMeta()->appendHttpEquiv('Refresh','5;url='.$this->redirect); ?>

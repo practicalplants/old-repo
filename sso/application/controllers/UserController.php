@@ -41,6 +41,8 @@ class UserController extends Zend_Controller_Action {
     	$this->view->form = $this->getLoginForm();
     	if($redirect){
     		$this->view->form->redirect->setValue($redirect);
+    		$authSess = new Zend_Session_Namespace('Auth');
+    		$authSess->redirect = $redirect;
     	}
     }
 
@@ -90,7 +92,14 @@ class UserController extends Zend_Controller_Action {
         $post = $request->getPost();
         if(isset($post['redirect']) && !empty($post['redirect'])){
         	//whitelist domain here?
-        	$this->_helper->redirector()->gotoUrl($post['redirect']);
+        	$this->view->redirect = $post['redirect'];
+        	return $this->render('redirect');
+        	//$this->_forward('redirect');
+        	//header('Location: '.$post['redirect']); 
+        	//exit;
+        	//no idea why the zend redirector doesnt work but meh
+        	//$this->_helper->redirector()->gotoUrl($post['redirect']);
+        	//exit;
         }
        $this->_helper->redirector()->gotoRoute(array(),'home');
        
@@ -288,9 +297,13 @@ class UserController extends Zend_Controller_Action {
                 	$integrations = new Application_Model_Integrations();
                 	$integrations->onAuthenticate();
                 	
-                	if(isset($post['redirect']) && !empty($post['redirect'])){
+                	if(isset($authSess->redirect) && !empty($authSess->redirect)){
                 	 	//whitelist domain here?
-                	 	$this->_helper->redirector()->gotoUrl($post['redirect']);
+                	 	$this->view->redirect = $authSess->redirect;
+                	 	return $this->render('redirect');
+                	 	//header('Location: '.$authSess->redirect); 
+                	 	//exit;
+                	 	//$this->_helper->redirector()->gotoUrl($authSess->redirect);
                 	 }
                 	$this->_helper->redirector()->gotoRoute(array(),'home');
                 
