@@ -22,7 +22,7 @@ class PracticalPlantsAuthAuthenticationPlugin {
 		add_action('login_footer', array($this, 'add_login_link'));
 		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
 		
-		add_action('login_head', array($this, 'redirect_login'));\
+		add_action('login_init', array($this, 'redirect_login'));
 		add_action( 'init', array( &$this, 'init' ) );
 	}
 	
@@ -40,8 +40,10 @@ class PracticalPlantsAuthAuthenticationPlugin {
 	function redirect_login(){
 		global $redirect_to;
 		//echo $redirect_to; exit;
-		header('Location: '.SSO_URL.'/login?redirect='.urlencode($redirect_to));
-		exit;
+		if($_REQUEST['action'] == 'login'){
+			header('Location: '.SSO_URL.'/login?redirect='.urlencode($redirect_to));
+			exit;
+		}
 	}
 	
 	function sso_user(){	
