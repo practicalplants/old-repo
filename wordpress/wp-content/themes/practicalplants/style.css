@@ -172,7 +172,9 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .sticky {
 }
 .post{
-	margin-bottom: 50px;
+	margin-bottom: 30px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #ccc;
 	font-size: 15px;
 }
 .entry-meta {
@@ -201,6 +203,10 @@ Use it to make something cool, have fun, and share what you've learned with othe
 .paged #content #nav-above,
 .single #content #nav-above {
 	display: block;
+	margin: -30px 0 10px 0;
+}
+.single #content #nav-above{
+	display: none;
 }
 #nav-below {
 	margin: 1em 0 0;
