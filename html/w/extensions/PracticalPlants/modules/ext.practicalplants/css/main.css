@@ -1967,6 +1967,9 @@ body.page-Practical_Plants #page-header #article-summary.indented{
 #main-page-content .discover .discover-result-item .title .binomial{
 	font-style: normal;
 	font-family: CreteRoundItalic;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 #main-page-content .discover .discover-result-item .title .common-name{
 	display: block;
@@ -2134,6 +2137,9 @@ body.page-Practical_Plants #page-header #article-summary.indented{
 #search-discover .discover-result-item .title .binomial{
 	font-style: normal;
 	font-family: CreteRoundItalic;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 #search-discover .discover-result-item .title .common-name{
 	display: block;
