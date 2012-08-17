@@ -38,10 +38,13 @@ class PracticalPlantsAuthAuthenticationPlugin {
 	}
 	
 	function redirect_login(){
-		global $redirect_to;
-		//echo $redirect_to; exit;
-		if($_REQUEST['action'] == 'login'){
-			header('Location: '.SSO_URL.'/login?redirect='.urlencode($redirect_to));
+		global $action;
+		$redirect_to = isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '';
+		if($action == 'login'){
+			$url = SSO_URL.'/login';
+			if($redirect_to)
+				$url.='?redirect='.urlencode($redirect_to);
+			header('Location: '.$url);
 			exit;
 		}
 	}
