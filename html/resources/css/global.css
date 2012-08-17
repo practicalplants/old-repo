@@ -92,3 +92,6 @@ a, a:active, a:hover, a:visited{
 a:hover{
 	text-decoration: underline;
 }
+body{
+	font-family: georgia;
+}

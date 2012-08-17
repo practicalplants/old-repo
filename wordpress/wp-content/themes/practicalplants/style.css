@@ -173,6 +173,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 .post{
 	margin-bottom: 50px;
+	font-size: 15px;
 }
 .entry-meta {
 	clear: both;
@@ -213,7 +214,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	display: block;
 }
 .entry-header{
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 .entry-title{
 	font-size: 2em;
@@ -230,7 +231,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	margin-bottom: 10px;
 }
 footer.entry-meta{
-	margin-top: 10px;
+	margin-top: 15px;
 }
 
 /* 404 page */
@@ -434,7 +435,7 @@ article.comment {
 .widget h1{
 	font-size: 1.2em;
 	font-weight: normal;
-	color: #085708;
+	color: #009900;
 	margin: 0 0 5px 0;
 }
 .widget ul{
@@ -442,8 +443,8 @@ article.comment {
 	list-style-type: none;
 }
 .widget a{
-	/*color: #085708;
-	text-decoration: none;*/
+	color: #777;
+	text-decoration: none;
 }
 .widget-area .widget_search {
 	overflow: hidden;
