@@ -18,7 +18,11 @@ class UserController extends Zend_Controller_Action {
 				case 'associate-provider':
 					break;
 				default:
-					$this->_redirect()->gotoRoute(array(),'home');
+					if(isset($_GET['redirect'])){
+						header('Location: '.$_GET['redirect']);
+					}else{
+						$this->_redirect()->gotoRoute(array(),'home');
+					}
 			}
 		}else{
 			
