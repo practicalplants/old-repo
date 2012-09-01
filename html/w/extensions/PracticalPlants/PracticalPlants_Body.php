@@ -74,6 +74,7 @@ class PracticalPlants{
 		$parser->setFunctionHook('striptags', 'PracticalPlants::striptags');
 		$parser->setFunctionHook('plant name', 'PracticalPlants::plantName');
 		$parser->setFunctionHook('group items', 'PracticalPlants::groupItems');
+		$parser->setFunctionHook('template escape', 'PracticalPlants::escapeForTemplateArgument');
 		$parser->setFunctionHook('case', 'PracticalPlants::changeCase');
 		
 		//$parser->setHook('group items','PracticalPlants::groupItemsTag');
@@ -84,6 +85,7 @@ class PracticalPlants{
 		$magicWords['pask'] = array(0,'pask');
 		$magicWords['plant name'] = array(0,'plant name');
 		$magicWords['group items'] = array(0,'group items');
+		$magicWords['template escape'] = array(0,'template escape');
 		$magicWords['case'] = array(0,'case');
 		$magicWords['striptags'] = array(0,'striptags');
 		return true;
@@ -351,9 +353,6 @@ class PracticalPlants{
 			foreach($groups as $title => $group){
 				$items = array();
 				foreach($group as $item){
-					foreach($item as &$i){
-						//$i = $parser->recursiveTagParse($i);
-					}
 					$items[] = '{{'.$item_tpl.'|'.implode('|',$item).'}}';
 				}
 				$group_render = '{{'.$group_tpl.'|title='.$title.'|items='.implode('',$items).' }}';
@@ -369,6 +368,22 @@ class PracticalPlants{
 	
 	function parseGroup($group_template,$item_template,$groups){
 	
+	}
+	
+	/* Replaces all instances of = and | with a strip marker to allow them to be passed in arguments to a template without being mistaken for mediawiki control characters */
+	function escapeForTemplateArgument($parser){
+		$args = func_get_args();
+		array_shift($args);
+		$i = implode('|', $args); 
+		//echo $i."<br><br>\n\n";
+		while ( $pos = strpos($i,'=')){
+			$i = substr_replace($i, $parser->insertStripItem( '=', $parser->mStripState ), $pos, 1);
+		}
+		//while ( $pos = strpos($i,'|')){
+		//	$i = substr_replace($i, $parser->insertStripItem( '|', $parser->mStripState ), $pos, 1);
+		//}
+		//echo $i."<br><br><hr><br><br>\n\n\n\n\n\n";
+		return $i;
 	}
 	
 	/*function groupItemsTag($content, $args, $parser){
