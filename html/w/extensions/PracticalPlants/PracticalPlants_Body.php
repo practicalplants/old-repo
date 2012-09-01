@@ -319,20 +319,21 @@ class PracticalPlants{
 		return '<span class="plant-name">'.$name.'</span>';
 	}
 	
-	function groupItems($parser,$group_tpl,$item_tpl){	
+	function groupItems($parser,$group_tpl,$item_tpl,$input){	
 		global $wgHooks;
 				
 		$args = array_slice(func_get_args(),3);
+		//echo '<pre>'; print_r($args); echo '</pre><br><br>'; 
 		$groups = array();
 		$output = '';
-		if(count($args)===1 && strpos($args[0],'|')){
-			$args = explode('|',$args[0]);
-			foreach($args as $i => &$a){
-				$a = trim($a);
-				if(empty($a))
-					unset($args[$i]);
-			}
+
+		$args = explode(':|:',$input);
+		foreach($args as $i => &$a){
+			$a = trim($a);
+			if(empty($a))
+				unset($args[$i]);
 		}
+		
 		if(count($args)>0){
 			//echo '<pre>'; echo $group_tpl; echo $item_tpl; print_r($args);
 			//exit;
@@ -351,13 +352,14 @@ class PracticalPlants{
 				$items = array();
 				foreach($group as $item){
 					foreach($item as &$i){
-						$i = $parser->recursiveTagParse($i);
+						//$i = $parser->recursiveTagParse($i);
 					}
 					$items[] = '{{'.$item_tpl.'|'.implode('|',$item).'}}';
 				}
 				$group_render = '{{'.$group_tpl.'|title='.$title.'|items='.implode('',$items).' }}';
 				$output.= $group_render."\n";
 			}
+			//echo "<pre>"; print_r($output); echo "</pre>\n\n\n<br><br><br>";
 			//echo $output; exit;
 			return array($output,'noparse'=>false);//,'isHTML' => true);
 		}else{
