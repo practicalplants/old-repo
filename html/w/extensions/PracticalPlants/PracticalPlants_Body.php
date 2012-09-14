@@ -100,6 +100,7 @@ class PracticalPlants{
 		$format = 'list';
 		$default = 'None listed.';
 		$class = '';
+		$link = true;
 		foreach($args as $arg){
 			$arg = explode('=',$arg);
 			if(is_array($arg)){
@@ -108,6 +109,9 @@ class PracticalPlants{
 						if(in_array($arg[1], array('ul','list')) ){
 							$format = $arg[1];
 						}
+						break;
+					case 'link':
+						$link = ($arg[1]=='false' || $arg[1]=='no' || $arg[1]==false) ? false : true;
 						break;
 					case 'substring':
 						$substring = $arg[1];
@@ -125,7 +129,9 @@ class PracticalPlants{
 		$properties = self::getAllValuesForProperty($property_name,$substring); //SF_AutocompleteAPI::getAllValuesForProperty($property_name,$substring)
 		
 		foreach($properties as &$property){
-			$property = '[['.$property.']]';
+			if($link === true){
+				$property = '[['.$property.']]';
+			}
 		}
 		if(count($properties) > 0){
 			switch($format){
