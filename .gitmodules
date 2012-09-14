@@ -1,0 +1,3 @@
+[submodule "html/w/extensions/Bootstrap"]
+	path = html/w/extensions/Bootstrap
+	url = ../MediaWiki-Bootstrap

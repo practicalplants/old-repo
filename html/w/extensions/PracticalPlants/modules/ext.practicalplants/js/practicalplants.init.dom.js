@@ -19,6 +19,7 @@ $(function(){
 	//sometimes the dom loads so fast things don't get a chance to execute, so run through again to be sure
 	setArticleSummary();
 	setArticleImage();
+	setArticleCommonName();
 	setArticleState();	
 	setArticleActions();
 	glueFooter();
@@ -68,6 +69,7 @@ function checkDom(){
 function setArticleSummary(){
 	var summary = $('#article-summary');
 	if(summary.length > 0){
+		summary.addClass('moved');
 		$('header#page-header #article-title').after(summary);
 	}
 }
@@ -96,6 +98,13 @@ function setArticleActions(){
 	$('#after-header').prepend(actions);
 	actions.addClass('moved');
 }
+function setArticleCommonName(){
+	var common = $('#common-name');
+	common.addClass('moved');
+	if(common.length > 0){
+		$('header#page-header #article-title').append(common);
+	}
+}	
 
 function glueFooter(){
 	/*var footer = $('#footer');

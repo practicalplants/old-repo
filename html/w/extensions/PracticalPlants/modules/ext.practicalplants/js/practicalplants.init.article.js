@@ -71,19 +71,28 @@ function indentSections(){
 }
 
 function initTips(){
-	//$('.article-content [title]').colorTip({color:'yellow'});
-	$('.article-content .definition[title], .article-content .infobox [title]').qtip({ 
+	var opts = {
 		style: { name: 'cream', tip: true },
 		position: {
-		      corner: {
-		         target: 'topMiddle',
-		         tooltip: 'bottomMiddle'
-		      }
+			adjust:{
+				screen:true
+			},
+			corner: {
+				target: 'topMiddle',
+				tooltip: 'bottomMiddle'
+			}
 		   },
+		
 		show:{
 			delay:0
 		}
+	};
+	
+	$('#plant-iconbar .iconbar-icon').each(function(){
+	   $(this).qtip($.extend({}, opts,{ content: $(this).html() }));
 	});
+		
+	$('.article-content .definition[title]').qtip(opts);
 }
 
 function moveDataTable(){
