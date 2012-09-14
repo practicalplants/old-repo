@@ -1,4 +1,11 @@
 <?php
+global $wgDebugLogGroups;
+$wgDebugLogGroups .= array(
+	'practicalplants'			=> dirname(__FILE__).'/logs/practicalplants.log',
+ 	'practicalplants-sso'		=> dirname(__FILE__).'/logs/sso.log'
+ );
+ //wfDebug('Added to logfile groups: ' . print_r($wgDebugLogGroups,true) );
+ 
 include('SSO_Auth.php');
 $wgAuth = new PracticalPlants_SSO_Auth();
 

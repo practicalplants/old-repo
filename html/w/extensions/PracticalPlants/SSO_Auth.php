@@ -63,14 +63,17 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	/* Make a curl request to the SSO application - this will send all current 
 	cookies including the domain-wide SSO cookie, and so can allow us to piggyback on the SSO session */
 	public function userLoadFromSession( $user, &$result ) {
-				
+		wfProfileIn( __METHOD__ );
 		//echo '<pre>'; print_r($user); exit;
 		if(!isset($_SESSION)){
 			self::startSession();
 		}
 		if(isset($_SESSION['sso_user'])){
+			wfDebugLog( 'practicalplants-sso', 'Loading user from session: ' . $_SESSION['sso_user']->username );
+			wfDebug('Loading user from session: ' . $_SESSION['sso_user']->username );
 			$sso_user = $_SESSION['sso_user'];
 		}else{
+			
 			$cookies = array();
 			foreach($_COOKIE as $k=>$v){
 				$cookies[] = $k.'='.$v;
@@ -86,6 +89,8 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 			
 			if($res){
 				$sso_user = json_decode($res);
+				wfDebugLog( 'practicalplants-sso', 'Loaded user from SSO integration: ' . $sso_user['username'] );
+				wfDebug('Loaded user from SSO integration: ' . $sso_user['username'] );
 				$_SESSION['sso_user'] = $sso_user;
 			}
 		}
@@ -114,6 +119,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 			//print_r($user);
 			//exit;
 		}
+		wfProfileOut( __METHOD__ );
 		return true;
 	}
 	
@@ -141,6 +147,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	
 	
 	public function createUserFromSSO($user, $sso_user){
+		wfProfileIn( __METHOD__ );
 		$user->loadDefaults( $user->mName );
         //$user->mRealName                = $realName;
         $user->mEmail                   = $sso_user->email;
@@ -151,6 +158,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
         # Update user count
         $ssUpdate = new SiteStatsUpdate( 0, 0, 0, 0, 1 );
         $ssUpdate->doUpdate();
+        wfProfileOut( __METHOD__ );
 	}
 
 	
@@ -164,11 +172,13 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	 * @return bool
 	 */
 	public function userExists( $username ) {
+		wfProfileIn( __METHOD__ );
 		$ch = curl_init($this->sso_url.'integration/mediawiki/username-exists/'.$username);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$res = (bool) curl_exec($ch);
 		curl_close($ch);
+		wfProfileOut( __METHOD__ );
 		if($res===false){
 			return false;
 		}
