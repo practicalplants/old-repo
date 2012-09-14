@@ -58,6 +58,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 	display: block;
 	width: 960px;
 	margin: 20px auto 0 auto;
+	padding-bottom: 50px;
 }
 
 /* Increase the size of the content area for templates without sidebars */
@@ -464,5 +465,6 @@ article.comment {
 -------------------------------------------------------------- */
 
 #colophon {
-	padding: 1em 0 0;
+	clear: both;
+	padding: 50px 0 50px;
 }
