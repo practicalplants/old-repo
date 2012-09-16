@@ -11,7 +11,7 @@
 });*/
 
 
-//domload isn't fast enough, still get FOUC, so we need to check every 50ms for the presence of the dom elements
+//domload isn't fast enough, still get FOUC, so we need to check every 10ms for the presence of the dom elements
 var loop = setTimeout(checkDom, 10);
 $(function(){ 
 	clearTimeout(loop);
@@ -23,6 +23,8 @@ $(function(){
 	setArticleState();	
 	setArticleActions();
 	glueFooter();
+	initScrollSpy();
+	
 	$(window).resize(glueFooter);
 });//if things haven't been dom by dom load, the element ain't there...
 
@@ -105,7 +107,9 @@ function setArticleCommonName(){
 		$('header#page-header #article-title').append(common);
 	}
 }	
-
+function initScrollSpy(){
+    //$('body').scrollspy();
+}
 function glueFooter(){
 	/*var footer = $('#footer');
 	if(footer.length > 0 && footer.pos().top+footer.outerHeight() < window.height){

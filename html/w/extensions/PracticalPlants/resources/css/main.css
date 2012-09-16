@@ -1,87 +1,6 @@
 /* @override 
-    http://practicalplants.local/skins/practicalplants/css/main.css?303
-    http://practicalplants.local/wiki/skins/PracticalPlants/css/main.css
-    http://practicalplants.local/w/extensions/PracticalPlants/modules/ext.practicalplants/css/main.css
+    http://practicalplants.local/w/extensions/PracticalPlants/resources/css/main.css
 */
-
-
-/* HTML5 Reset */
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
-blockquote, q { quotes: none; }
-blockquote:before, blockquote:after,
-q:before, q:after { content: ""; content: none; }
-ins { background-color: #ff9; color: #000; text-decoration: none; }
-mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
-del { text-decoration: line-through; }
-abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
-table { border-collapse: collapse; border-spacing: 0; }
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
-input, select { vertical-align: middle; }
-
-body { font:13px/1.231 sans-serif; *font-size:small; }
-select, input, textarea, button { font:99% sans-serif; }
-pre, code, kbd, samp { font-family: monospace, sans-serif; }
-
-html { overflow-y: scroll; }
-a:hover, a:active { outline: none; }
-ul, ol { margin-left: 2em; }
-ol { list-style-type: decimal; }
-nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
-small { font-size: 85%; }
-strong, th { font-weight: bold; }
-td { vertical-align: top; }
-sub, sup { font-size: 75%; line-height: 0; position: relative; }
-sup { top: -0.5em; }
-sub { bottom: -0.25em; }
-
-pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 15px; }
-textarea { overflow: auto; } 
-.ie6 legend, .ie7 legend { margin-left: -7px; } 
-input[type="radio"] { vertical-align: text-bottom; }
-input[type="checkbox"] { vertical-align: bottom; }
-.ie7 input[type="checkbox"] { vertical-align: baseline; }
-.ie6 input { vertical-align: text-bottom; }
-label, input[type="button"], input[type="submit"], input[type="image"], button { cursor: pointer; }
-button, input, select, textarea { margin: 0; }
-input:valid, textarea:valid   {  }
-input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
-.no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
-
-
-::-moz-selection{ background: #009900; color:#fff; text-shadow: none; }
-::selection { background:#009900; color:#fff; text-shadow: none; }
-a:link { -webkit-tap-highlight-color: #FFF; }
-button {  width: auto; overflow: visible; }
-.ie7 img { -ms-interpolation-mode: bicubic; }
-
-body, select, input, textarea { color: #000; }
-h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-a, a:active, a:visited { color: #607890; font-weight: normal; }
-a:hover { color: #036; }
-
-
-/* PracticalPlants MediaWiki Skin */
 
 /* =============== Gerneral layout styles ================ */
 a, a:active, a:hover, a:visited{
@@ -158,6 +77,8 @@ nav#menubar{
     color:  #fff;
     font-size: 14px;
     line-height: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 0 10px;
 }
 #menubar .dropdown .dropdown-content{
@@ -170,6 +91,15 @@ nav#menubar{
     -o-border-radius: 0 0 5px 5px;
     -ie-border-radius: 0 0 5px 5px;
     border-radius: 0 0 5px 5px;
+}
+#menubar .dropdown ul.dropdown-content{
+    list-style-type: none;
+    margin: 0;
+}
+#menubar .dropdown .dropdown-content ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 #menubar .dropdown .dropdown-content a{
     color: #fff;
@@ -1506,6 +1436,9 @@ h2 + .tabify{
     list-style: none;
     margin: 0;
 }
+.iconbar-spot{
+    display: inline-block;
+}
 .iconbar-icon{
     overflow: hidden;
     padding: 0;
@@ -1516,10 +1449,55 @@ h2 + .tabify{
     text-indent: -9000px;
     background: url('../images/ui-sprite.png') no-repeat left top;
     margin: 0 2px 0 2px;
+    vertical-align: top;
 }
 .iconbar-icon + .iconbar-icon{
     margin-left: 5px;
 }
+.iconbar-popover{
+    text-align: center;
+}
+.iconbar-popover .popover-title{
+    text-align: center;
+}
+.iconbar-spot .iconbar-popover-content{
+    display: none;
+}
+.iconbar-popover-result{
+    text-align: center;
+    font-family: CreteRoundRegular;
+    font-size: 26px;
+    line-height: 32px;
+    margin-bottom: 10px;
+}
+.iconbar-popover-result .iconbar-icon{
+    height: 32px;
+    /*width: 32px;
+    display: block;
+    margin: 0 auto;*/
+}
+.iconbar-popover-result em{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    padding: 0;
+    line-height: 14px;
+    margin-bottom: -4px;
+}
+.iconbar-popover-content .key{
+    border-top: 1px solid #ccc;
+    text-align: center;
+    margin: 15px -15px 0 -15px;
+    padding: 0 10px;
+}
+.iconbar-popover-content .key .heading{
+    font-family: CreteRoundRegular;
+    text-align: center;
+    margin-bottom: 5px;
+    
+}
+
 
 /*Icon types with bars below need to be taller*/
 .sun-icon,
@@ -1576,7 +1554,7 @@ h2 + .tabify{
                          0 -96px,
                          -32px -96px;
 }
-.soil_ph-icon-very_acid{      background-position: 0 -96px, 0 -96px, 0 -96px, 0 -96px, 0 -96px,     -32px -96px; }
+.soil_ph-icon-very_acid{      background-position: -64px -96px, 0 -96px, 0 -96px, 0 -96px, 0 -96px,     -32px -96px; }
 .soil_ph-icon-acid{           background-position: 0 -96px, -96px -96px, 0 -96px, 0 -96px, 0 -96px,     -32px -96px; }
 .soil_ph-icon-neutral{        background-position: 0 -96px, 0px -96px, -128px -96px, 0 -96px, 0 -96px,     -32px -96px; }
 .soil_ph-icon-alkaline{       background-position: 0 -96px, 0px -96px, 0px -96px, -160px -96px, 0 -96px,     -32px -96px; }
@@ -1610,15 +1588,28 @@ h2 + .tabify{
 .soil_texture-icon{
     background-position: -64px -128px;
     height: 40px;
+    text-indent: 0;
 }
 /* Sprite */
-.soil_texture-icon-sandy{ background-position:-96px -128px; }
-.soil_texture-icon-loamy{ background-position:-256px -128px;}
-.soil_texture-icon-clay{  background-position:-224px -128px;}
+.soil_texture-icon-sandy{ background: none; }
+.soil_texture-icon-loamy{ background: none; }
+.soil_texture-icon-clay{ background: none; }
+.soil_texture-icon-fragment-one,
+.soil_texture-icon-fragment-two,
+.soil_texture-icon-fragment-three{
+    background-image:url('../images/ui-sprite.png');
+    display: inline-block;
+    height: 40px;
+}
+.soil_texture-icon-fragment-one{ width: 11px; background-position:-128px -48px; }
+.soil_texture-icon-fragment-two{ width: 10px; background-position:-139px -48px;}
+.soil_texture-icon-fragment-three{width: 11px; background-position:-149px -48px;} 
 
-.soil_texture-icon-sandy.soil_texture-icon-loamy{ background-position:-128px -128px; }
-.soil_texture-icon-loamy.soil_texture-icon-clay{ background-position:-192px -128px; }
-.soil_texture-icon-sandy.soil_texture-icon-clay{ background-position:-160px -128px; }
+.soil_texture-icon-sandy .soil_texture-icon-fragment-one{ background-position:-160px -48px; }
+.soil_texture-icon-loamy .soil_texture-icon-fragment-two{ background-position:-171px -48px; }
+.soil_texture-icon-clay .soil_texture-icon-fragment-three{ background-position:-181px -48px; }
+.soil_texture-icon-heavy_clay .soil_texture-icon-fragment-three{ background-position:-213px -48px; }
+
 
 .use-icon{
     
@@ -1753,47 +1744,6 @@ h2 + .tabify{
 .scale-slider.-ph-slider-value-very_acid-.-ph-slider-value-very_alkaline-{ width: 84%; }
 
 
-.water-requirements{
-    text-indent:-10000px;
-    background: url('../images/ui-sprite.png') no-repeat left top;
-    width: 80px;
-    height: 32px;
-    overflow: hidden;
-    background-position: 0 0;
-    margin: 0 auto 0 auto;
-}
-.water-requirements.wr-unknown{ background-position: 0 -128px; }
-.water-requirements.wr-low{ background-position:0 -96px; }
-.water-requirements.wr-moderate{ background-position:0 -64px; }
-.water-requirements.wr-high{ background-position: 0 -32px; }
-.water-requirements.wr-aquatic{ background-position: 0 0; }
-
-
-.sun-preference, .shade-preference{
-    text-indent:-10000px;
-    background: url('../images/ui-sprite.png') no-repeat left top;
-    width: 32px;
-    height: 32px;
-    overflow: hidden;
-    background-position: 0 0;
-    display: inline-block;
-}
-.sun-preference.sp-unknown{ background-position: -80px -128px; }
-.sun-preference.sp-full_sun{ background-position: -112px -128px; }
-.sun-preference.sp-partial_sun{ background-position: -144px -128px; }
-.sun-preference.sp-indirect_sun{ background-position: -176px -128px; }
-
-.shade-preference.sp-unknown{ background-position: -80px -96px; }
-.shade-preference.sp-no_shade{ background-position: -112px -96px; }
-.shade-preference.sp-light_shade{ background-position: -144px -96px; }
-.shade-preference.sp-partial_shade{ background-position: -176px -96px; }
-.shade-preference.sp-permanent_shade{ background-position: -208px -96px; }
-.shade-preference.sp-permanent_deep_shade{ background-position: -240px -96px; }
-
-.sun-preference{
-    margin: 0 5px 0 20px;
-}
- 
 
 
 

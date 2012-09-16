@@ -15,84 +15,67 @@ $wgAutoloadClasses['PracticalPlants_CommonsImages'] = dirname(__FILE__) . '/Comm
 
 
 $ppResourceTemplate = array(
-	'localBasePath' => dirname( __FILE__ ),
-	'remoteExtPath' => 'PracticalPlants',
+	'localBasePath' => dirname( __FILE__ ).'/resources',
+	'remoteExtPath' => 'PracticalPlants/resources',
 	'group' => 'ext.practicalplants'
 );
-$wgResourceModules['ext.practicalplants.css'] = $ppResourceTemplate + array(
-        'styles' => array(
-        	'modules/ext.practicalplants/css/main.css'=>array('media'=>'screen'),
-        	'modules/ext.practicalplants/css/print.css'=>array('media'=>'print'),
-        	//'../../../resources/fonts/crete-round/stylesheet.css'=>array('media'=>'screen'), //THIS BREAKS IE. NO FREAKING IDEA WHY.
-        	'../../../resources/css/masthead.css'=>array('media'=>'screen')
-        ),
-        'position'=>'top'
- );
-/*$wgResourceModules['ext.practicalplants.top'] = $ppResourceTemplate+=array(
-        // JavaScript and CSS styles. To combine multiple files, just list them as an array.
-        'scripts' => array( 'js/modernizr-1.7.min.js','js/jquery.ui.autocomplete-html.js','js/practicalplants.js' ),
-        //'styles' => array('css/main.css'=>array('media'=>'screen')),
- 
-        // When your module is loaded, these messages will be available through mw.msg()
-        //'messages' => array( 'myextension-hello-world', 'myextension-goodbye-world' ),
-        
-        'dependencies' => array( 'jquery.ui.autocomplete' )
- );*/
+
 $wgResourceModules += array(
+    'ext.practicalplants.css'=>$ppResourceTemplate + array(
+            'styles' => array(
+                'bootstrap/css/bootstrap.css',
+            	'css/main.css'=>array('media'=>'screen'),
+            	'css/print.css'=>array('media'=>'print'),
+            	'../../../../resources/css/masthead.css'=>array('media'=>'screen')
+            ),
+            'position'=>'top'
+     ),
 	'modernizr' => $ppResourceTemplate + array(
-        'scripts' => array( 'modules/ext.practicalplants/js/modernizr-1.7.min.js' ),
+        'scripts' => array( 'js/modernizr-1.7.min.js' ),
         'dependencies' => array( 'jquery.ui.autocomplete' )
 	),
 	'augment' => $ppResourceTemplate + array(
-	    'scripts' => array( 'modules/ext.practicalplants/js/augment.js' )
+	    'scripts' => array( 'js/augment.js' )
 	),
 	'jquery.ui.autocomplete.html' => $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/jquery.ui.autocomplete-html.js'),
+		'scripts' => array('js/jquery.ui.autocomplete-html.js'),
 		'dependencies' => array( 'jquery.ui.autocomplete' )
 	),
 	'ext.practicalplants.init.dom' => $ppResourceTemplate + array(
 		'scripts' => array(
-			'modules/ext.practicalplants/js/practicalplants.init.dom.js',
-			'modules/ext.practicalplants/js/practicalplants.js'),
+			'js/practicalplants.init.dom.js',
+			'js/practicalplants.js'),
 		'dependencies' => array( 'modernizr','augment' ),
 		'position' => 'top'
 	),
 	'browserupdate' => $ppResourceTemplate + array(
-		'scripts'=> array('modules/ext.practicalplants/js/browserupdate.js')
+		'scripts'=> array('js/browserupdate.js')
 	),
 	'ext.practicalplants.init' => $ppResourceTemplate + array(
 		'scripts' => array(
-			'modules/ext.practicalplants/js/practicalplants.init.mast-search.js',
-			'modules/ext.practicalplants/js/practicalplants.init.forms.js',
-			'modules/ext.practicalplants/js/practicalplants.init.article.js'),
-		'dependencies' => array( 'jquery.ui.autocomplete.html', 'jquery.collapse','jquery.ui.tabs','jquery.qtip','ext.discover.js','jquery.ui.accordion','jquery.scrollto', 'mediawiki.api')
+			'js/practicalplants.init.mast-search.js',
+			'js/practicalplants.init.forms.js',
+			'js/practicalplants.init.article.js'),
+		'dependencies' => array( 'jquery.ui.autocomplete.html', 'jquery.collapse','jquery.ui.tabs','ext.discover.js','jquery.ui.accordion','jquery.scrollto', 'mediawiki.api', 'bootstrap.js')
 	),
-	/*'jquery.cookie' => $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/jquery.cookie.js')
-	),*/
 	'ext.practicalplants.page.main'=> $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/practicalplants.page.main-discover.js'),
+		'scripts' => array('js/practicalplants.page.main-discover.js'),
 		'dependencies' => array( 'jquery.cookie')
 	),
 	'ext.practicalplants.page.search'=> $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/practicalplants.page.search-discover.js'),
+		'scripts' => array('js/practicalplants.page.search-discover.js'),
 		'dependencies' => array( 'jquery.cookie','ext.practicalplants.init')
 	),
 	'jquery.collapse' => $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/jquery.collapse.js'),
+		'scripts' => array('js/jquery.collapse.js'),
 		'dependencies' => array( 'jquery.cookie','ext.practicalplants.init')
 	),
 	'jquery.scrollto' => $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/jquery.scrollto.min.js'),
+		'scripts' => array('js/jquery.scrollto.min.js'),
 		'dependencies' => array( 'jquery')
 	),
-	/*'jquery.colortip' => $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/colortip-1.0/colortip-1.0-jquery.js'),
-		'styles' => array('modules/ext.practicalplants/js/colortip-1.0/colortip-1.0-jquery.css'),
-		'dependencies' => array( 'jquery')
-	),*/
 	'jquery.qtip' => $ppResourceTemplate + array(
-		'scripts' => array('modules/ext.practicalplants/js/jquery.qtip-1.0.0-rc3.min.js'),
+		'scripts' => array('js/jquery.qtip-1.0.0-rc3.min.js'),
 		'dependencies' => array( 'jquery')
 	)
 );

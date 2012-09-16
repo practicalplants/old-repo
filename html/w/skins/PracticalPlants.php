@@ -27,53 +27,12 @@ class SkinPracticalPlants extends SkinTemplate {
 	
 	function initPage( OutputPage $out ) {
 		parent::initPage( $out );
-		
-		//echo '<pre>'; print_r($out); exit;
-		
-		//$out->addModules( 'skins.practicalplants' );
-		
-		//format title...
-		//if( is_array($out->mCategories) && in_array('Plant',$out->mCategories) ){
-		//	$title = $out->getPageTitle();
-		//	$title = PracticalPlants::formatSpeciesName($title);
-		//	$out->setPageTitle($title);
-		//}
-		
-		/*if(preg_match('$<div id="article-summary">(.+)</div>$i', $out->mBodytext, $matches)){
-			$out->mBodytext = preg_replace('$<div id="article-summary">(.+)</div>$i', '', $out->mBodytext);
-			$this->article_summary = $matches[0];
-		}
-		if(preg_match('$<div id="article-image">(.+)</div>$i', $out->mBodytext, $matches)){
-			$out->mBodytext = preg_replace('$<div id="article-image">(.+)</div>$i', '', $out->mBodytext);
-			$this->article_image = $matches[0];
-		}
-		if(preg_match('$<div id="article-state">(.+)</div>$i', $out->mBodytext, $matches)){
-			$out->mBodytext = preg_replace('$<div id="article-state">(.+)</div>$i', '', $out->mBodytext);
-			$this->article_state = $matches[0];
-		}
-		*/
-		
-		//echo $this->article_summary; exit;
-		
-		//add the search form to every page. This just puts it inside the main article, which isn't ideal, but it does the job
-		//$out->addWikiText('<div id="semantic-search">{{Special:RunQuery/Search/Plant_name}}</div>');
-		
-		//$srch = Parser::parse('{{Special:RunQuery/Search/Plant_name}}');
-		//echo $srch; exit;
-		//$out->setPageTitle('<em> TEST </em>');
-		//echo '<pre>'; print_r($out); exit;
 	}
 	
 	function setupSkinUserCss( OutputPage $out ) {
 		global $wgHandheldStyle;
 		parent::setupSkinUserCss( $out );
 
-		//$out->addModuleStyles( 'skins.practicalplants' );
-		//$out->addScript('<script type="text/javascript" src="practicalplants/js/modernizr-1.7.min.js"></script>');
-		//$out->addScript('<script type="text/javascript" src="practicalplants/js/jquery-1.7.1.min.js"></script>');
-		//$out->addStyle( 'practicalplants/css/main.css', 'screen' );
-		//$out->addStyle( 'practicalplants/css/print.css', 'print' );
-		
 		// Ugh. Can't do this properly because $wgHandheldStyle may be a URL
 		//if( $wgHandheldStyle ) {
 			// Currently in testing... try 'chick/main.css'
@@ -223,11 +182,9 @@ class PracticalPlantsTemplate extends BaseTemplate {
 	</article>
 
 
-	<nav id="menubar"<?php $this->html('userlangattributes')  ?> class="masthead-submenu">
+	<nav id="menubar"<?php $this->html('userlangattributes')  ?> class="masthead-submenu navbar">
 		<h2>Navigation Links</h2>
-		<div class="menu"><?php $this->renderNavigation( array( 'PERSONAL') ); $this->renderPortals($this->data['sidebar']); ?></div>
-		
-	
+		<div class="menu"><?php $this->renderNavigation( array( 'PERSONAL') ); $this->renderPortals($this->data['sidebar']); ?></div>	
 	</nav><!-- end of the left (by default at least) column -->
 	
 	
