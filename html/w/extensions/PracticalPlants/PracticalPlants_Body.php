@@ -45,6 +45,15 @@ class PracticalPlants{
 		return true;
 	}
 	
+	public static function loginToEdit($editpage){
+	    global $wgUser;
+	    if($wgUser->isAllowed( 'edit' )){
+	        return true;
+	    }
+	    //echo '<pre>';print_r($page); exit;
+	    //user doesn't have permission, so we redirect
+	    PracticalPlants_SSO_Auth::getInstance()->redirectToLogin($editpage->getArticle());
+	}
 	
 	public static function outputPageParserOutput($out,$parserout){
 		//echo '<pre>';

@@ -7,11 +7,12 @@ $wgDebugLogGroups .= array(
  //wfDebug('Added to logfile groups: ' . print_r($wgDebugLogGroups,true) );
  
 include('SSO_Auth.php');
-$wgAuth = new PracticalPlants_SSO_Auth();
+$wgAuth = PracticalPlants_SSO_Auth::getInstance();
 
 $wgAutoloadClasses['PracticalPlants'] = dirname(__FILE__) . '/PracticalPlants_Body.php';
 $wgAutoloadClasses['PracticalPlants_API'] = dirname(__FILE__) . '/api.php';
 $wgAutoloadClasses['PracticalPlants_CommonsImages'] = dirname(__FILE__) . '/CommonsImages.php';
+$wgAutoloadClasses['PPFormEditAction'] = dirname(__FILE__) . '/FormEditAction.php';
 
 
 $ppResourceTemplate = array(
@@ -83,6 +84,8 @@ $wgResourceModules += array(
 
 $wgHooks['DoEditSectionLink'][] = 'PracticalPlants::doEditSectionLink';
 $wgHooks['BeforePageDisplay'][] = 'PracticalPlants::loadResources';
+$wgHooks['AlternateEdit'][] = 'PracticalPlants::loginToEdit';
+$wgActions['formedit'] = 'PPFormEditAction'; //override SF formedit action to provide forward to login
 
 $wgHooks['ParserAfterTidy'][] = 'PracticalPlants::parserAfterTidy';
 $wgHooks['ParserFirstCallInit'][] = 'PracticalPlants::parserFirstCallInit';

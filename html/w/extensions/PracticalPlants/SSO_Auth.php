@@ -38,8 +38,9 @@
 
 class PracticalPlants_SSO_Auth extends AuthPlugin {
 	
+	private static $instance = null;
 	
-	public function __construct(){
+	private function __construct(){
 		global $wgHooks;
 		global $ssoUrl;
 		$wgHooks['UserLoadFromSession'][] = array($this,'userLoadFromSession');
@@ -50,6 +51,13 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 		
 	}
 	
+	public static function getInstance(){
+	    if(self::$instance===null)
+            self::$instance = new self();
+        return self::$instance;
+	    
+	}
+	
 	public static function startSession(){
 		global $wgSessionName;
 		/*Forcing session start for SSOAuth to work properly */
@@ -58,6 +66,18 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 			session_name( $wgSessionName );
 			session_start();
 		}
+	}
+	
+	public function redirectToLogin($article=null){
+	    $redirect = '';
+	    if($article){
+	        $action = $article->getContext()->getRequest()->getVal('action');
+	        if(!empty($action))
+	            $action = '?action='.$action;
+	        $redirect = '?message=logintoedit&resource_title='.urlencode($article->getTitle()->getText()).'&redirect='.urlencode($article->getTitle()->getFullURL().$action);
+	    }
+	    header('Location: '.$this->sso_url.'/login'.$redirect);
+	    exit;    
 	}
 	
 	/* Make a curl request to the SSO application - this will send all current 
@@ -89,8 +109,8 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 			
 			if($res){
 				$sso_user = json_decode($res);
-				wfDebugLog( 'practicalplants-sso', 'Loaded user from SSO integration: ' . $sso_user['username'] );
-				wfDebug('Loaded user from SSO integration: ' . $sso_user['username'] );
+				wfDebugLog( 'practicalplants-sso', 'Loaded user from SSO integration: ' . $sso_user->username );
+				wfDebug('Loaded user from SSO integration: ' . $sso_user->username );
 				$_SESSION['sso_user'] = $sso_user;
 			}
 		}
