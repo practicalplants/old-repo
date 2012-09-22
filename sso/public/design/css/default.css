@@ -74,7 +74,11 @@ dl.zend_form ul.errors{
 	margin: 3px 0 0 5px;
 	color: Red;
 }
-
+#login-message{
+    font-family: CreteRoundRegular;
+    font-size: 20px;
+    padding: 20px 10px 10px 10px;     
+}
 #login-options{
 	position: relative;
 	text-align: center;

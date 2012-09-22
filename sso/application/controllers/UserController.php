@@ -42,11 +42,24 @@ class UserController extends Zend_Controller_Action {
     public function loginAction(){
     	
     	$redirect = $this->getRequest()->getParam('redirect',null);
+    	$resource = $this->getRequest()->getParam('resource',null);
+    	$message = $this->getRequest()->getParam('message',null);
     	$this->view->form = $this->getLoginForm();
+    	
+    	$authSess = new Zend_Session_Namespace('Auth');
     	if($redirect){
     		$this->view->form->redirect->setValue($redirect);
-    		$authSess = new Zend_Session_Namespace('Auth');
     		$authSess->redirect = $redirect;
+    	}
+    	if($resource){
+    	    $authSess->resource = urldecode($resource);
+    	}
+    	if($message){
+    	    switch($message){
+    	        case 'logintoedit':
+    	            $this->view->message = 'You must be logged in to edit this page.';
+    	        break;
+    	    }
     	}
     }
 
@@ -97,6 +110,10 @@ class UserController extends Zend_Controller_Action {
         if(isset($post['redirect']) && !empty($post['redirect'])){
         	//whitelist domain here?
         	$this->view->redirect = $post['redirect'];
+        	if(isset($authSess->resource)){
+        	    $this->view->resource = $authSess->resource;
+        	    unset($authSess->resource);
+        	}
         	return $this->render('redirect');
         	//$this->_forward('redirect');
         	//header('Location: '.$post['redirect']); 

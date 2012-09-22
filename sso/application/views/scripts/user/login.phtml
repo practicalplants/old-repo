@@ -1,4 +1,7 @@
 <div id="login-options">
+    <?php if(isset($this->message)): ?>
+    <div id="login-message"><?php echo $this->message ?></div>
+    <?php endif; ?>
 	<div id="login-internal" class="login-box">
 		<h1>Login</h1>
 		<?php echo $this->form; ?>
