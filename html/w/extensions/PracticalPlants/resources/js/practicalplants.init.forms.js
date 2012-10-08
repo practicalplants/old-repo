@@ -24,7 +24,7 @@
 		    }
 		});*/
 		
-		$( ".collapsing-form" ).accordion({ header: '.collapser', autoHeight: false, clearStyle:true, collapsible:true, icons:false, navigation:true });
+		//$( ".collapsing-form" ).accordion({ header: '.collapser', autoHeight: false, clearStyle:true, collapsible:true, icons:false, navigation:true });
 		$('.collapsing-form').bind('accordionchange', function(event, ui) {
 			$(ui.newHeader).ScrollTo();
 			
@@ -35,6 +35,22 @@
 		  ui.oldContent // jQuery object, previous content*/
 		});
 		
+		initSidebarButtons();
+		
+	}
+	
+	function initSidebarButtons(){
+	  var save_button = $('#sidebar-save-button')
+	      , edit_form = $('#editform')
+	      , sf_form = $('#sfForm');
+	  if(save_button.length){
+	    if(edit_form.length){
+	      save_button.click(function(){ edit_form.submit(); return false; });
+	    }
+	    if(sf_form.length){
+	      save_button.click(function(){ sf_form.submit(); return false; });
+	    }
+	  }
 	}
 	
 	function initPlantForm(){

@@ -19,13 +19,16 @@ $(function(){
 	//sometimes the dom loads so fast things don't get a chance to execute, so run through again to be sure
 	setArticleSummary();
 	setArticleImage();
+	resizeArticleImage();
+	setTOC();
+	setIconBar();
 	setArticleCommonName();
 	setArticleState();	
 	setArticleActions();
 	glueFooter();
 	initScrollSpy();
 	
-	$(window).resize(glueFooter);
+	$(window).resize(windowResize);
 });//if things haven't been dom by dom load, the element ain't there...
 
 var domOps = {
@@ -68,25 +71,59 @@ function checkDom(){
 	}
 }
 
+function windowResize(){
+  resizeArticleImage();
+  glueFooter();
+}
+
 function setArticleSummary(){
 	var summary = $('#article-summary');
 	if(summary.length > 0){
-		summary.addClass('moved');
-		$('header#page-header #article-title').after(summary);
+		$('#page-header #article-title').after(summary);
 	}
 }
 
 function setArticleImage(){
-	var image = $('#article-image');
-	image_el = $('header#page-header #article-image-container');
-	if(image.length > 0){
-		$('header#page-header #article-title').before(image_el);
-		$('header#page-header #article-title').addClass('indented');
-		$('header#page-header #article-summary').addClass('indented');
+
+	var image = $('#article-image')
+	    , image_el = $('header#page-header #article-image-container')
+	    , header = $('#page-header');
+	if(image.length){
+		header.addClass('with-image')
+		      .find('#article-title').before(image_el);
+		
 		image_el.append(image);
+		
+		resizeArticleImage();
 	}else{
 		image_el.hide();
 	}
+	
+}
+
+function resizeArticleImage(){
+  /*var ic = $('#article-image-container');
+  var height = $('#page-header').height();
+  console.log('Setting image height to',height);
+  
+  //if( ic.find('img').width() / ic.find('img').height() > 1 )
+  o_height = height+2;
+  o_width = 'auto';
+  width = 'auto';
+  ic.css( {'height':o_height, 'width':o_width} );
+  ic.find('#article-image,img').css( {'height':height, 'width':width} );*/
+}
+
+function setTOC(){
+  var $toc = $('#toc');
+  if($toc.length > 0){
+    $('#sidebar #toc-container').prepend($toc);
+  }
+}  
+function setIconBar(){
+  var $ib = $('#plant-iconbar');
+  if($ib.length > 0)
+    $('#page-header').append($ib).addClass('with-iconbar');
 }
 function setArticleState(){
 	//console.log("setting article state to top!");
@@ -97,14 +134,14 @@ function setArticleState(){
 }
 function setArticleActions(){
 	var actions = $('#article-actions');
-	$('#after-header').prepend(actions);
+	$('#page-header').prepend(actions);
 	actions.addClass('moved');
 }
 function setArticleCommonName(){
 	var common = $('#common-name');
 	common.addClass('moved');
 	if(common.length > 0){
-		$('header#page-header #article-title').append(common);
+		$('#page-header #article-title').append(common);
 	}
 }	
 function initScrollSpy(){

@@ -147,97 +147,205 @@ class PracticalPlantsTemplate extends BaseTemplate {
 	<article id="main-entry" class="wiki-entry">
 		
 		<header id="page-header">
-			<h1 id="article-title"><?php $this->html('title') ?></h1>
-			<?php if($this->article_summary) echo $this->article_summary; ?>
-			<div id="article-image-container"><?php if($this->article_image) echo $this->article_image; ?></div>
-		</header>	
-		<div id="after-header">
-		<div class="article-content">
-		<?php if($this->data['undelete']) { ?>
-				<div id="contentSub2"><?php $this->html('undelete') ?></div>
-		<?php } ?><?php if($this->data['newtalk'] ) { ?>
-				<div class="usermessage"><?php $this->html('newtalk')  ?></div>
-		<?php } ?><?php /*if($this->data['showjumplinks']) { ?>
-				<div id="jump-to-nav"><?php $this->msg('jumpto') ?> <a href="#column-one"><?php $this->msg('jumptonavigation') ?></a>, <a href="#searchInput"><?php $this->msg('jumptosearch') ?></a></div>
-		<?php } */ ?>
-		<a id="top"></a>	
-		<!-- start content -->	
-		<?php $this->html('bodytext') ?>
-		<?php if($this->data['catlinks']) { $this->html('catlinks'); } ?>
-		<!-- end content -->
-		<?php if($this->data['dataAfterContent']) { $this->html ('dataAfterContent'); } ?>
-		<div class="visualClear"></div>
-		</div>
-		<nav id="article-actions">
-			<h2>Article Administration</h2>
-			<div class="left">
-			<?php $this->renderNavigation( array( 'VIEWS', 'ACTIONS' ) ); ?>
-			</div>
-			<div class="right">
-			<?php $this->renderNavigation( array( 'NAMESPACES', 'VARIANTS') ); ?>
-			</div>
-		</nav>
-		</div>
-		<a id="beta-banner" href="/wiki/PracticalPlants:Beta">Practical Plants is in Beta!</a>
+		  <div class="width-constraint">
+		    <div id="header-content">
+    			<h1 id="article-title"><?php $this->html('title') ?></h1>
+    			<?php if($this->article_summary) echo $this->article_summary; ?>
+    			<div id="article-image-container"><?php if($this->article_image) echo $this->article_image; ?></div>
+    		</div>
+  		</div>
+  		<a id="beta-banner" href="/wiki/PracticalPlants:Beta"></a>
+		</header>
+		<div class="width-constraint">
+  		<aside id="sidebar">
+  		  <div id="page-buttons">
+  	
+  	  <?php
+  	    /*foreach($this->data['view_urls'] as $type => $link):
+  	      if(strpos($link['attributes'],'selected'))
+  	        continue;
+      	  switch($type):
+      	    case 'view': ?>
+      	    <a href="#" class="btn btn-large btn-success btn-block" id="sidebar-save-page-button"><i class="icon-ok icon-white"></i> Save Changes</a> 
+      	    <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left"></i> Return without Saving</a>  
+            <?php break;
+      	    case 'form_edit':  ?>
+      	    <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-success btn-block"<?php echo $link['attributes'] ?>> <?php echo $link['key'] ?><i class="icon-pencil icon-white"></i> Edit This Page</a>
+      	    <?php break;
+      	    case 'edit': ?>
+      	    <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-edit"></i> Edit Source</a>
+      	    <?php break;
+      	    case 'history': ?>
+      	    <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-small"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-time"></i>  History</a>
+      	    <?php break;
+      	    endswitch;
+      	  endforeach; */?>
+      	
+      	
+      	<?php 
+      	$action = isset($_GET['action']) ? $_GET['action'] : '';
+      	//View button (displayed on edit/history screens)
+      	if( $action==='edit' || $action==='formedit' || $action==='submit'): ?>
+      	  <a href="#" class="btn btn-large btn-success btn-block" id="sidebar-save-button"><i class="icon-ok icon-white"></i> Save Changes</a> 
+      	<?php endif; ?>
+      	<?php 
+      	//View button (displayed on edit/history screens)
+      	if(isset($this->data['view_urls']['view']) && !strpos($this->data['view_urls']['view']['attributes'],'selected') ): 
+      	  $link = $this->data['view_urls']['view'];	?>
+      	  <?php if($action==='submit'): ?>
+      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-danger btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left icon-white"></i> Discard Changes &amp; Return</a>
+      	  <?php else: ?>
+      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left"></i> View Page</a>
+      	  <?php endif; ?>  
+      	<?php endif; ?>
+      	<?php 
+      	//form edit button
+      	if(isset($this->data['view_urls']['form_edit']) && !strpos($this->data['view_urls']['form_edit']['attributes'],'selected') ): 
+      	  $link = $this->data['view_urls']['form_edit'];	?>
+      	  <?php if($action==='submit'): ?>
+      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-danger btn-block"<?php echo $link['attributes'] ?>> <?php echo $link['key'] ?><i class="icon-pencil icon-white"></i> Discard Changes &amp; Edit</a>
+      	  <?php else: ?>
+      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-success btn-block"<?php echo $link['attributes'] ?>> <?php echo $link['key'] ?><i class="icon-pencil icon-white"></i> Edit This Page</a>
+      	  <?php endif; ?>  
+      	  
+      	<?php endif; ?>
+      	<?php 
+      	//edit source button
+      	if(isset($this->data['view_urls']['edit']) && !strpos($this->data['view_urls']['edit']['attributes'],'selected') ): 
+      	  $link = $this->data['view_urls']['edit'];	
+      	  $is_primary = isset($this->data['view_urls']['form_edit']) ? false : true; //if this view has a form edit button, this button should be white, else green
+      	  ?>
+      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large <?php if($is_primary): ?>btn-success <?php endif; ?>btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-edit<?php if($is_primary): ?> icon-white<?php endif;?>"></i> Edit Source</a>
+      	<?php endif; ?> 
+      	<?php 
+      	//history button
+      	if(isset($this->data['view_urls']['history']) && !strpos($this->data['view_urls']['history']['attributes'],'selected') ): 
+      	  $link = $this->data['view_urls']['history'];	?>
+      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-small"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-time"></i>  History</a>
+      	<?php endif; ?> 
+  
+  		  <?php if(!empty($this->data['action_urls'])): ?>
+  		    <div class="dropdown" id="article-actions-dropdown">
+  		      <a id="article-actions-menu" class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-file"></i> <?php $this->msg( 'actions' ) ?> <b class="caret"></b></a>
+  	    		<ul<?php $this->html( 'userlangattributes' ) ?> class="dropdown-menu pull-right">
+  	    			<?php foreach ( $this->data['action_urls'] as $link ): ?>
+  	    				<li<?php echo $link['attributes'] ?>><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?>><?php echo htmlspecialchars( $link['text'] ) ?></a></li>
+  	    			<?php endforeach; ?>
+  	    		</ul>
+  		    </div>
+  		  <?php endif; ?>
+
+
+  		  <div class="dropdown" id="article-toolbox-dropdown" <?php echo Linker::tooltip( 'p-tb' ) ?>>
+  		  	<a class="btn btn-small dropdown-toggle" data-toggle="dropdown" <?php $this->html( 'userlangattributes' ) ?>>
+  		  	  <i class="icon-wrench"></i> <b class="caret"></b> <?php /*$msgObj = wfMessage( 'toolbox' ); echo htmlspecialchars( $msgObj->exists() ? $msgObj->text() : 'toolbox' );*/ ?></a>
+  		  		<ul class="dropdown-menu pull-right">
+  		  <?php
+  		  			foreach( $this->getToolbox() as $key => $val ): ?>
+  		  			<?php echo $this->makeListItem( $key, $val ); ?>
+  		  
+  		  <?php
+  		  			endforeach;
+  		  			if ( isset( $hook ) ) {
+  		  				wfRunHooks( 'SkinTemplateToolboxEnd', array( &$this, true ) );
+  		  			}
+  		  			?>
+  		  		</ul>
+  		  </div>
+  		    
+  		    
+  		  </div>
+  		  <div id="toc-container">
+  		  <?php /*$toc = PracticalPlants::getLayoutSpot('toc');
+  		  if($toc): ?>
+  		  <div id="page-toc">
+  		    <?php echo $toc; ?>
+  		  </div>
+  		   <?php endif; */?>
+  		   </div>
+
+  		</aside>
+  		
+  		<div id="after-header"></div>
+  		<div class="article-content">
+  		<?php if($this->data['undelete']) { ?>
+  				<div id="contentSub2"><?php $this->html('undelete') ?></div>
+  		<?php } ?><?php if($this->data['newtalk'] ) { ?>
+  				<div class="usermessage"><?php $this->html('newtalk')  ?></div>
+  		<?php } ?><?php /*if($this->data['showjumplinks']) { ?>
+  				<div id="jump-to-nav"><?php $this->msg('jumpto') ?> <a href="#column-one"><?php $this->msg('jumptonavigation') ?></a>, <a href="#searchInput"><?php $this->msg('jumptosearch') ?></a></div>
+  		<?php } */ ?>
+  		<a id="top"></a>	
+  		<!-- start content -->	
+  		<?php $this->html('bodytext') ?>
+  		<?php if($this->data['catlinks']) { $this->html('catlinks'); } ?>
+  		<!-- end content -->
+  		<?php if($this->data['dataAfterContent']) { $this->html ('dataAfterContent'); } ?>
+  		<div class="visualClear"></div>
+  		</div>
+		</div><!--/width-constraint-->
+		
 	</article>
 
+  
 
 	<nav id="menubar"<?php $this->html('userlangattributes')  ?> class="masthead-submenu navbar">
 		<h2>Navigation Links</h2>
-		<div class="menu"><?php $this->renderNavigation( array( 'PERSONAL') ); $this->renderPortals($this->data['sidebar']); ?></div>	
+		<div class="menu"><?php $this->renderNavigation( array( 'PERSONAL') ); ?></div>	
 	</nav><!-- end of the left (by default at least) column -->
 	
-	
+	</div><!--/width-constraint-->
 	<div class="clear"></div>
 	<div id="footer"<?php $this->html('userlangattributes') ?>>
-		<div class="footer-column" id="footer-about">
-			<h3>About Practical Plants</h3>
-			<p>Practical Plants is a plant database designed for <a href="/wiki/Permaculture">Permaculture</a> enthusiasts, <a href="/wiki/Agroforestry">Forest Gardeners</a>, Homesteaders, Farmers and anyone interested in <a href="/wiki/Organic">organic horticulture</a>.</p>
-			<p>We believe sustainability must be more than a greenwash over the status quo. It must be a significant rethink of society, with sustainable agriculture as one of the most important components</p>
-		</div>
-		<div class="footer-column" id="footer-thanks">
-			<h3>Our thanks to...</h3>
-			<div class="thanks-to" id="thanks-tinymighty">
-				<a href="http://tinymighty.com" class="thanks-logo"></a>
-				<h4><a href="http://tinymighty.com">TinyMighty</a></h4>
-				<p>Website designed, developed and generously hosted by TinyMighty.</p>
-			</div>
-			<div class="thanks-to" id="thanks-pfaf">
-				<a href="http://pfaf.org" class="thanks-logo"></a>
-				<h4><a href="http://pfaf.org">Plants For A Future</a></h4>
-				<p>The fantastic database this project was forked from was created by PFAF (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
-			</div>
-			<div class="thanks-to" id="thanks-mediawiki">
-				<a href="http://mediawiki.org" class="thanks-logo"></a>
-				<h4><a href="http://mediawiki.org">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org">SMW</a></h4>
-				<p>This website uses technology developed by the smart people behind MediaWiki and Semantic MediaWiki.</p>
-			</div>
-			<div class="thanks-to" id="thanks-cernunnos">
-				<a href="http://cernunnos.es" class="thanks-logo"></a>
-				<h4><a href="http://cernunnos.es">Cernunnos</a></h4>
-				<p>This project is supported by the guys living at Cernunnos.</p>
-			</div>
-		</div>
-		<div class="footer-column" id="footer-others">
-			<?php $links = $this->getFooterLinks(); ?>
-			<div id="footer-docs">
-			<h3>Documents</h3>
-			<ul>
-			<?php foreach( $links['places'] as $link ): ?>
-				<li><?php $this->html( $link ) ?></li>
-			<?php endforeach; ?>
-			</ul>
-			</div>
-			<div id="footer-info">
-			<h3>Page Info</h3>
-			<ul>
-			<?php foreach( $links['info'] as $link ): ?>
-				<li><?php $this->html( $link ) ?></li>
-			<?php endforeach; ?>
-			</ul>
-			</div>
-		</div>
-
+	
+	  <div class="width-constraint">
+  		<div class="footer-column" id="footer-about">
+  			<h3>About Practical Plants</h3>
+  			<p>Practical Plants is a plant database designed for <a href="/wiki/Permaculture">Permaculture</a> enthusiasts, <a href="/wiki/Agroforestry">Forest Gardeners</a>, Homesteaders, Farmers and anyone interested in <a href="/wiki/Organic">organic horticulture</a>.</p>
+  		</div>
+  		<div class="footer-column" id="footer-thanks">
+  			<h3>Our thanks to...</h3>
+  			<div class="thanks-to" id="thanks-tinymighty">
+  				<a href="http://tinymighty.com" class="thanks-logo"></a>
+  				<h4><a href="http://tinymighty.com">TinyMighty</a></h4>
+  				<p>Website designed, developed and generously hosted by TinyMighty.</p>
+  			</div>
+  			<div class="thanks-to" id="thanks-pfaf">
+  				<a href="http://pfaf.org" class="thanks-logo"></a>
+  				<h4><a href="http://pfaf.org">Plants For A Future</a></h4>
+  				<p>The fantastic database this project was forked from was created by PFAF (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
+  			</div>
+  			<div class="thanks-to" id="thanks-mediawiki">
+  				<a href="http://mediawiki.org" class="thanks-logo"></a>
+  				<h4><a href="http://mediawiki.org">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org">SMW</a></h4>
+  				<p>This website uses technology developed by the smart people behind MediaWiki and Semantic MediaWiki.</p>
+  			</div>
+  			<div class="thanks-to" id="thanks-cernunnos">
+  				<a href="http://cernunnos.es" class="thanks-logo"></a>
+  				<h4><a href="http://cernunnos.es">Cernunnos</a></h4>
+  				<p>This project is supported by the guys living at Cernunnos.</p>
+  			</div>
+  		</div>
+  		<div class="footer-column" id="footer-others">
+  			<?php $links = $this->getFooterLinks(); ?>
+  			<div id="footer-docs">
+  			<h3>Documents</h3>
+  			<ul>
+  			<?php foreach( $links['places'] as $link ): ?>
+  				<li><?php $this->html( $link ) ?></li>
+  			<?php endforeach; ?>
+  			</ul>
+  			</div>
+  			<div id="footer-info">
+  			<h3>Page Info</h3>
+  			<ul>
+  			<?php foreach( $links['info'] as $link ): ?>
+  				<li><?php $this->html( $link ) ?></li>
+  			<?php endforeach; ?>
+  			</ul>
+  			</div>
+  		</div>
+    </div><!--/width-constraint-->
 	
 	</div>
 </div>
@@ -298,7 +406,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 			$msg = $name;
 		}
 		?>
-<div class="dropdown" id='<?php echo Sanitizer::escapeId( "p-$name" ) ?>'<?php echo Linker::tooltip( 'p-' . $name ) ?>>
+<div class="" id='<?php echo Sanitizer::escapeId( "p-$name" ) ?>'<?php echo Linker::tooltip( 'p-' . $name ) ?>>
 	<h5<?php $this->html( 'userlangattributes' ) ?>><?php $msgObj = wfMessage( $msg ); echo htmlspecialchars( $msgObj->exists() ? $msgObj->text() : $msg ); ?></h5>
 	<div class="dropdown-content">
 <?php

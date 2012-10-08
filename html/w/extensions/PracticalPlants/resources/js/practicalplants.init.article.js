@@ -10,8 +10,12 @@ function init(){
 		tabify();
 	}
 
-	indentSections();
+	//indentSections();
 	initTips();
+	initIconbarPopovers();
+	setArticleContentHeight();
+	initStickySidebar();
+	initScrollSpyTOC();
 	moveDataTable();
 }
 function initCollapse(){
@@ -24,6 +28,119 @@ function initCollapse(){
 	        }, 300);
 	    }
 	});	
+}
+function setArticleContentHeight(){
+  $('.article-content').css({'min-height':$('#main-entry').outerHeight() - $('#header').outerHeight() } );
+}
+
+
+var sidebar_top, //sidebar top before we fixed it
+    sidebar_btm,
+    $sidebar,
+    $sidebar_toc,
+    $sidebar_toc_ul,
+    sidebar_toc_ul_height, //sidebar toc ul height before we change it
+    article_height,
+    $footer,
+    footer_top;
+function stickSidebar(){
+  var ws = $(window).scrollTop(),
+      wh = $(window).height();
+  
+  //mw.log("Scroll; sidebar top",h,sidebar_top);
+  if($sidebar.length){
+  
+    //set sidebar as static when the window is scrolled to meet it's top
+    if(ws > sidebar_top){
+      
+      //if the footer is visible in the window, make sure the sidebar does not overlap it...
+      if(ws+wh > footer_top){
+        if(!$sidebar.hasClass('absolute')){
+          $sidebar.removeClass('fixed')
+                  .addClass('absolute')
+                  .css({
+                        'top': '',
+                        'right':0
+                       });
+        }
+        //mw.log('Sidebar height:',$sidebar.height());
+        $sidebar.offset({'top': footer_top-$sidebar.outerHeight() });
+      
+      
+      
+      //if the footer is not visible, position the sidebar as fixed and size it to the window height
+      }else{
+        if(!$sidebar.hasClass('fixed')){
+          $sidebar.removeClass('absolute')
+                  .addClass('fixed')
+                  .css({'top':0});
+        }
+        $sidebar.css({'height':wh});
+        
+        //if the sidebar is too tall for the window, make the TOC scrollable
+        if($sidebar_toc.position().top + $sidebar_toc.height() > wh - 60){
+          $sidebar_toc.addClass('scroll')
+          $sidebar_toc_ul.css({ 'height': wh - $sidebar_toc.position().top - 60 });
+          //mw.log("setting toc height to",wh,'-',$sidebar_toc.position().top,'=',wh - $sidebar_toc.position().top);
+          
+          //calculate the percentage of the article height scrolled...
+          var percent = (ws-sidebar_top)/article_height;
+          
+          //mw.log('Scroll percent',percent);
+          //mw.log('Sidebar TOC height, scrollTop, percent, actual percent',
+                  //$sidebar_toc_ul.height(), $sidebar_toc_ul.scrollTop(), percent, $sidebar_toc_ul.scrollTop()/sidebar_toc_ul_height );
+          
+          //set the scrolltop of the sidebar toc ul to the same percent of it's height as the article
+          $sidebar_toc_ul.scrollTop( sidebar_toc_ul_height * percent );
+  
+        }else{
+          $sidebar_toc.removeClass('scroll')
+          $sidebar_toc_ul.css('height','auto');
+        }
+      }
+          
+      
+    }else{
+      $sidebar.removeClass('fixed').removeClass('absolute');
+      $sidebar.innerHeight(article_height).css({'bottom':'', 'top':''});
+    }
+  }
+   
+}
+
+function initStickySidebar(){
+  //these variables do not change on window resize, so we set them here...
+  $sidebar = $('#sidebar');
+  $sidebar_toc = $('#sidebar #toc-container');
+  $sidebar_toc_ul = $('#sidebar #toc-container td > ul');
+  $footer = $('#footer');
+  sidebar_toc_ul_height = $sidebar_toc_ul.height(); //the initial height of the content
+  
+  //this function sets variables which need to be refreshed on window resize
+  setStickySidebarVars();
+  
+  if($sidebar.length){
+    sidebar_top = $sidebar.offset().top;
+    stickSidebar();
+    $(window).bind({'scroll':stickSidebar, 'resize':stickSidebar})
+             .bind('resize',setStickySidebarVars);
+  }
+}
+
+//set variables in outer scope, so they aren't calculated on scroll
+function setStickySidebarVars(){
+  article_height = $('.article-content').outerHeight();
+  footer_top = $footer.offset().top;
+}
+
+function initScrollSpyTOC(){
+  $('body').scrollspy({selector:'#toc td > ul > li > a', offset:0});
+  $(window).bind('activate',function(ev){
+    //if the toc is scrolled, make sure the active item is visible
+    //mw.log('Setting scrollTop of TOC to active element position', $(ev.target).position().top );
+    //$('#toc td > ul').scrollTop( $(ev.target).position().top );
+    mw.log('Activate!', $(ev.target).find('a').attr('href'));
+  });
 }
 
 function tabify(){
@@ -71,41 +188,40 @@ function indentSections(){
 }
 
 function initTips(){
-	/*var opts = {
-		style: { name: 'cream', tip: true },
-		position: {
-			adjust:{
-				screen:true
-			},
-			corner: {
-				target: 'topMiddle',
-				tooltip: 'bottomMiddle'
-			}
-		   },
-		
-		show:{
-			delay:0
-		}
-	};*/
 
+	//init general article tips
+		
+	$('.article-content .definition[title]').tooltip({
+	    placement: 'top'
+	});
+
+}
+
+
+function initIconbarPopovers(){
+  /*var opts = {
+  	style: { name: 'cream', tip: true },
+  	position: {
+  		adjust:{
+  			screen:true
+  		},
+  		corner: {
+  			target: 'topMiddle',
+  			tooltip: 'bottomMiddle'
+  		}
+  	   },
+  	
+  	show:{
+  		delay:0
+  	}
+  };*/
+  
+  
 	/* Init plant article icon bar popovers */
 	var opts = {
 	    placement: 'top',
 	    trigger: 'manual'
 	};
-
-	function enterIcon(){
-
-	}
-	function leaveIcon(){
-
-	}
-	function enterTip(){
-
-	}
-	function leaveTip(){
-
-	}
 
 	$('#plant-iconbar .iconbar-icon').each(function(){
 		var $this = $(this);
@@ -129,6 +245,7 @@ function initTips(){
 		//we want the mouse to be able to pass into the popover
 		var over_icon = false;
 		var over_tip = false;
+		var popover_tips = []; //array of tips opened by this popover, so we can be sure to destroy them later
 
 		/*
 		To allow the mouse to pass from the icon to the popover without triggering the popover to close
@@ -159,8 +276,8 @@ function initTips(){
 		}
 
 		var icon_leave = function(ev){
-			//mw.log('left icon',ev);
-			var $toEl = $(ev.toElement);
+			mw.log('left icon',ev);
+			var $toEl = $(ev.relatedTarget);
 			var $isPopover = false;
 			if($toEl.hasClass('.popover')){
 				$isPopover = $toEl;
@@ -173,6 +290,8 @@ function initTips(){
 				return;
 			}
 			
+			mw.log("Mouse left icon.",$toEl);
+			
 			hide_popover();
 			
 		}
@@ -183,7 +302,7 @@ function initTips(){
 
 		var popover_leave = function(ev){
 			//mw.log('left popover');
-			var $toEl = $(ev.toElement);
+			var $toEl = $(ev.relatedTarget);
 
 			//mw.log('toEL',$toEl);
 
@@ -216,13 +335,27 @@ function initTips(){
 				return;
 			}
 			popover.show();
+			if($popover_el.offset().left < 0){
+			  var popover_adjust = $popover_el.offset().left;
+			  $popover_el.css('left',0);
+			  $popover_el.find('.arrow').css('left',(popover_minus*-1)-8`);
+			}
+			/*if($popover_el.offset().right > $(window).width()){
+			  var popover_adjust = $popover_el.offset().right;
+			  $popover_el.css('left',0);
+			  $popover_el.find('.arrow').css('left',(popover_minus*-1)-8`);
+			}*/
 			//we want to know when the mouse leaves the icon whether it is over the popover or not
 			$popover_el.mouseenter(popover_enter);
 			$popover_el.mouseleave(popover_leave);
 			$('body').mousemove(mousemove);
 
 			//add tooltips to key icons
-			$popover_el.find('.key .iconbar-icon').tooltip({placement:'top'});
+			$popover_el.find('.key .iconbar-icon').each(function(){
+			  $(this).tooltip({placement:'top'});
+			  popover_tips.push($(this).data('tooltip'));
+        mw.log('added tip', popover_tips);
+			});
 		}
 		var hide_popover = function(){
 			if(!$popover_el.hasClass('in')){
@@ -230,20 +363,17 @@ function initTips(){
 				return;
 			}
 			$('body').unbind('mousemove',mousemove);
-			$popover_el.find('.key .iconbar-icon').tooltip('hide');
+			$popover_el.find('.key .iconbar-icon').tooltip('destroy');
+			$.each(popover_tips, function(i, pop){
+			  mw.log('Destroying tips',arguments);
+			  pop.destroy();
+			});
 			popover.hide();
 			$popover_el.unbind(['mouseenter','mouseleave']);
 		}
 
 		$this.mouseenter(icon_enter);
 		$this.mouseleave(icon_leave);
-	});
-
-
-	//init general article tips
-		
-	$('.article-content .definition[title]').tooltip({
-	    placement: 'top'
 	});
 }
 

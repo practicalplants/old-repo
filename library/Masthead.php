@@ -39,16 +39,20 @@ class PracticalPlants_Masthead{
 	
 	function draw(){
 		ob_start();
-?><nav id="masthead"><div id="logo"><a href="/wiki/" id="logo-image"></a><h1><a href="/wiki/"><em>Practical</em> Plants</a></h1></div>
+?>
+  <nav id="masthead">
+    <div class="width-constraint">
+      <div id="logo"><a href="/wiki/" id="logo-image"></a><h1><a href="/wiki/"><em>Practical</em> Plants</a></h1></div>
 
-	<ul class="tabs">
-	<?php foreach($this->tabs as $id=>$tab){ ?>
-	<li class="<?php if($this->active_tab==$id){?>active<?php } ?>"><a href="<?php echo $tab['url'] ?>"><?php echo $tab['title'] ?></a></li><?php } ?>
-	</ul>
-	<?php if(isset($this->search)){ ?><div id="masthead-search">
-		<?php echo $this->search; ?>
-	</div> <?php } ?>
-</nav><?php
+      	<ul class="tabs">
+      	<?php foreach($this->tabs as $id=>$tab){ ?>
+      	  <li class="<?php if($this->active_tab==$id){?>active<?php } ?>"><a href="<?php echo $tab['url'] ?>"><?php echo $tab['title'] ?></a></li><?php } ?>
+      	</ul>
+      	<?php if(isset($this->search)){ ?><div id="masthead-search">
+      		<?php echo $this->search; ?>
+      </div> <?php } ?>
+    </div><!--/width-constraint-->
+  </nav><?php
 		$html = ob_get_contents();
 		ob_end_clean();
 		return $html;
