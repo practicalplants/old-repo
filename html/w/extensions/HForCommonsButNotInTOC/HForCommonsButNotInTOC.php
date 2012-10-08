@@ -20,28 +20,34 @@ function wfForComments() {
 }
  
 # Helper function to output headings
-function renderxh($input, $level, $parser)
-{
-    return "<h$level>" . $parser->recursiveTagParse($input) . "</h$level>";
+function renderxh($input, $attrs, $level, $parser)
+{  
+    $safe_attrs = array('class','style');
+    $attr_string = '';
+    foreach($attrs as $k => $v){
+      if(in_array($k, $safe_attrs))
+        $attr_string.=' '.$k.'='.$v.' ';
+    }
+    return "<h$level $attr_string>" . $parser->recursiveTagParse($input) . "</h$level>";
 }
  
 # The callback functions for converting the input text to HTML output
-function renderxh1( $input, $argv, $parser ) {
-    return renderxh($input, 1, $parser);
+function renderxh1( $input, $attrs,  $parser ) {
+    return renderxh($input, $attrs, 1, $parser);
 }
-function renderxh2( $input, $argv, $parser ) {
-    return renderxh($input, 2, $parser);
+function renderxh2( $input, $attrs,  $parser ) {
+    return renderxh($input, $attrs, 2, $parser);
 }
-function renderxh3( $input, $argv, $parser ) {
-    return renderxh($input, 3, $parser);
+function renderxh3( $input, $attrs,  $parser ) {
+    return renderxh($input, $attrs, 3, $parser);
 }
-function renderxh4( $input, $argv, $parser ) {
-    return renderxh($input, 4, $parser);
+function renderxh4( $input, $attrs,  $parser ) {
+    return renderxh($input, $attrs, 4, $parser);
 }
-function renderxh5( $input, $argv, $parser ) {
-    return renderxh($input, 5, $parser);
+function renderxh5( $input, $attrs,  $parser ) {
+    return renderxh($input, $attrs, 5, $parser);
 }
-function renderxh6( $input, $argv, $parser ) {
-    return renderxh($input, 6, $parser);
+function renderxh6( $input, $attrs,  $parser ) {
+    return renderxh($input, $attrs, 6, $parser);
 }
 ?>
