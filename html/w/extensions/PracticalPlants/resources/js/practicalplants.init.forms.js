@@ -40,17 +40,61 @@
 	}
 	
 	function initSidebarButtons(){
-	  var save_button = $('#sidebar-save-button')
-	      , edit_form = $('#editform')
-	      , sf_form = $('#sfForm');
-	  if(save_button.length){
-	    if(edit_form.length){
-	      save_button.click(function(){ edit_form.submit(); return false; });
-	    }
-	    if(sf_form.length){
-	      save_button.click(function(){ sf_form.submit(); return false; });
-	    }
+	  
+	  var $save_button = $('#sidebar-save-button')
+	      , $wp_summary = $('#wpSummary')
+	      , $form
+	      , $modal;
+	      
+	  if( $('#editform').length ){
+	    $form = $('#editform');
+	  }else if( $('#sfForm').length ){
+	    $form = $('#sfForm');
+	  }else{
+	    return;
 	  }
+	  
+	  function saveButtonClick(force){
+	    
+	    if( !force && !$wp_summary.val() ){
+	      mw.log('Save clicked but no summary set, showing modal.');
+	      $modal.modal('show');
+	      return false;
+	    }else{
+	      mw.log('Save clicked, either forced override for blank summary or summary provided. Saving.');
+	    }  
+	    
+	    $form.submit(); 
+	    return false;
+	  }
+	  
+	  $modal = $('<div class="modal" id="summary-modal" tabindex="-1">'
+	    + '<div class="modal-header">'
+	    +  '<button type="button" class="close" data-dismiss="modal">×</button>'
+	    +  '<h3 id="myModalLabel">Change Summary</h3>'
+	    + '</div>'
+	    + '<div class="modal-body">'
+	    +    '<p><textarea placeholder="Please enter a brief summary of your changes" maxlength="250" rows="5" spellcheck="true"></textarea></p>'
+	    + '</div>'
+	    + '<div class="modal-footer">'
+	    +  '<button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> Cancel</button>'
+	    +  '<button class="btn btn-success" id="save-summary-modal-button"><i class="icon-ok icon-white"></i> Save Changes</button>'
+	    + '</div>'
+	    + '</div>');
+	  $modal
+	    .modal({'show':false})
+	    .find('.btn-success').click(function(){ 
+    	    saveButtonClick(true); //force save even if summary is empty... 
+    	  });
+	  $modal.find('textarea').keyup(function(){
+	    $wp_summary.val( $(this).val() );
+	  });
+    
+	  
+	  
+	  
+	  $save_button.click(function(){ saveButtonClick() });
+	  
 	}
 	
 	function initPlantForm(){
