@@ -338,7 +338,7 @@ function initIconbarPopovers(){
 			if($popover_el.offset().left < 0){
 			  var popover_adjust = $popover_el.offset().left;
 			  $popover_el.css('left',0);
-			  $popover_el.find('.arrow').css('left',(popover_minus*-1)-8`);
+			  $popover_el.find('.arrow').css('left',(popover_minus*-1)-8);
 			}
 			/*if($popover_el.offset().right > $(window).width()){
 			  var popover_adjust = $popover_el.offset().right;
