@@ -2264,8 +2264,12 @@ input#wpDiff{
 
 /* =================== Main Page ================ */
 body.page-Practical_Plants #page-header{
-  padding-right: 40px;
+  padding-right: 0px;
   min-height: 170px;
+}
+body.page-Practical_Plants #page-header #header-content{
+  padding-right: 40px;
+  min-height: 0;
 }
 body.page-Practical_Plants #page-header #article-image-container{
   float: left;
