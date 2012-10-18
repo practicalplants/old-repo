@@ -64,7 +64,8 @@
 	      mw.log('Save clicked, either forced override for blank summary or summary provided. Saving.');
 	    }  
 	    
-	    $form.submit(); 
+	    //we can't just do a form.submit() since MW needs the wpSave value, so let's trigger a click on that button	    
+	    $form.find('#wpSave').click();
 	    return false;
 	  }
 	  
