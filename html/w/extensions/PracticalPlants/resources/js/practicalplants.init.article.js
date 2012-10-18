@@ -4,7 +4,7 @@ $(init); //init on domload
 function init(){
 	
 	if($('.article-content').length > 0){
-		//initCollapse();
+		initCollapse();
 	}
 	if($('.tabify').length > 0){
 		tabify();
@@ -336,9 +336,9 @@ function initIconbarPopovers(){
 			}
 			popover.show();
 			if($popover_el.offset().left < 0){
-			  var popover_adjust = $popover_el.offset().left;
+			  var popover_arrow_left = $this.offset().left;
 			  $popover_el.css('left',0);
-			  $popover_el.find('.arrow').css('left',(popover_minus*-1)-8);
+			  $popover_el.find('.arrow').css('left',popover_arrow_left+15);
 			}
 			/*if($popover_el.offset().right > $(window).width()){
 			  var popover_adjust = $popover_el.offset().right;
