@@ -23,10 +23,20 @@ if( !defined( 'MEDIAWIKI' ) )
  
 class SkinPracticalPlants extends SkinTemplate {
 	var $skinname = 'practicalplants', $stylename = 'practicalplants',
-		$template = 'PracticalPlantsTemplate', $useHeadElement = true;
+		$template = 'PracticalPlantsTemplate', $useHeadElement = false;
 	
 	function initPage( OutputPage $out ) {
 		parent::initPage( $out );
+	}
+	
+	public function setContent($content){
+	  $this->tpl->content = $content;
+	}
+	
+	function setupTemplate( $classname, $repository = false, $cache_dir = false ) {
+		$this->tpl = new PracticalPlantsTemplate();
+		$this->tpl->content = MoveToSkin::getContent();
+		return $this->tpl;
 	}
 	
 	function setupSkinUserCss( OutputPage $out ) {
@@ -57,6 +67,8 @@ class PracticalPlantsTemplate extends BaseTemplate {
 	 * @var Skin
 	 */
 	var $skin;
+	
+	
 
 	/**
 	 * Template filter callback for MonoBook skin.
@@ -130,30 +142,64 @@ class PracticalPlantsTemplate extends BaseTemplate {
 				array_reverse( $this->data['personal_urls'] );
 		}
 
-		$this->html( 'headelement' );
+    require(realpath(__DIR__.'/../../../library').'/Masthead.php');
+    $masthead = new PracticalPlants_Masthead(array(
+    'active_tab'=>'wiki'/*,
+    'search'=>'<form action="/wiki/index.php" id="searchform">
+      <input type="hidden" name="title" value="Special:Search">
+      <input name="search" title="Search Practical Plants [ctrl-option-f]" accesskey="f" id="searchInput" placeholder="Species/Taxonomy name or search term" class="search-field">      <input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">     <input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">   </form>'*/
+  ));
 ?>
+
+<!DOCTYPE html>
+<!--
+<?php print_r($this->content);
+print_r($_GET);
+      	/*print_r($this->data);*/ ?>
+ -->
+<html lang="en" dir="ltr" class="client-nojs">
+  <head>
+    <title><?php echo $this->data['pagetitle'] ?></title>
+    <meta charset="UTF-8" />
+    <?php echo $this->data['headlinks']; ?>
+    <?php echo $this->data['csslinks']; ?>
+    <?php echo $this->data['pagecss']; ?>
+    <?php echo $this->data['usercss']; ?>
+    <?php echo $this->data['jsvarurl']; ?>
+    <?php echo $this->data['headscripts']; ?>
+  </head>
+<body class="<?php echo $this->data['pageclass']; ?>">
+
+
 <div id="page-wrapper">
-	<?php require(realpath(__DIR__.'/../../../library').'/Masthead.php');
-	$masthead = new PracticalPlants_Masthead(array(
-		'active_tab'=>'wiki',
-		'search'=>'<form action="/wiki/index.php" id="searchform">
-			<input type="hidden" name="title" value="Special:Search">
-			<input name="search" title="Search Practical Plants [ctrl-option-f]" accesskey="f" id="searchInput" placeholder="Species/Taxonomy name or search term" class="search-field">			<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">			<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">		</form>'
-	));
+	<?php 
+	
 	$masthead->output();
 	?>
 	
 	<?php if($this->data['sitenotice']) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
-	<article id="main-entry" class="wiki-entry">
 		
-		<header id="page-header">
+	<article id="main-entry" class="wiki-entry">
+	  <?php if(isset($this->content['article state'])): ?>
+	    <?php echo $this->content['article state'][0]; ?>
+	  <?php endif; ?>
+		<?php $header_class = ''; 
+		  if(isset($this->content['article image']))
+		    $header_class .= 'with-image';
+		  if(isset($this->content['icon bar']))
+		    $header_class .= ' with-iconbar';
+		?>
+		<header id="page-header" class="<?php echo $header_class?>">
 		  <div class="width-constraint">
 		    <div id="header-content">
-    			<h1 id="article-title"><?php $this->html('title') ?></h1>
-    			<?php if($this->article_summary) echo $this->article_summary; ?>
-    			<div id="article-image-container"><?php if($this->article_image) echo $this->article_image; ?></div>
+    			<h1 id="article-title"><?php $this->html('title') ?><?php if(isset($this->content['common name'])) echo '<div id="common-name">'.$this->content['common name'][0].'</div>'; ?></h1>
+    			<?php if(isset($this->content['article summary'])): ?><div id="article-summary"><?php echo '<p>'.implode('</p><p>',$this->content['article summary']).'</p>'; ?></div><?php endif; ?>
+    			<div id="article-image-container"><?php if(isset($this->content['article image'])): ?><div id="article-image"><?php echo implode('',$this->content['article image']); ?></div><?php endif; ?></div>
     		</div>
   		</div>
+  		<?php if(isset($this->content['header'])) echo implode('',$this->content['header']); ?>
+  		<?php if(isset($this->content['icon bar'])) echo implode('',$this->content['icon bar']); ?>
+  		<?php if(isset($this->content['use flags'])) echo implode('',$this->content['use flags']); ?>
   		<a id="beta-banner" href="/wiki/PracticalPlants:Beta"></a>
 		</header>
 		<div class="width-constraint">
@@ -184,6 +230,11 @@ class PracticalPlantsTemplate extends BaseTemplate {
       	
       	<?php 
       	$action = isset($_GET['action']) ? $_GET['action'] : '';
+      	echo substr( $this->data->thispage, 0, 16);
+      	if($action==='' && isset($_GET['title'])){
+      	  if( substr( $_GET['title'], 0, 16)  == 'Special:FormEdit')
+      	    $action='formedit';
+      	}
       	//View button (displayed on edit/history screens)
       	if( $action==='edit' || $action==='formedit' || $action==='submit'): ?>
       	  <a href="#" class="btn btn-large btn-success btn-block" id="sidebar-save-button"><i class="icon-ok icon-white"></i> Save Changes</a> 
@@ -256,13 +307,8 @@ class PracticalPlantsTemplate extends BaseTemplate {
   		    
   		  </div>
   		  <div id="toc-container">
-  		  <?php /*$toc = PracticalPlants::getLayoutSpot('toc');
-  		  if($toc): ?>
-  		  <div id="page-toc">
-  		    <?php echo $toc; ?>
+  		    <?php if(isset($this->content['toc'])) echo $this->content['toc'][0] ?>
   		  </div>
-  		   <?php endif; */?>
-  		   </div>
 
   		</aside>
   		
@@ -290,64 +336,63 @@ class PracticalPlantsTemplate extends BaseTemplate {
   
 
 	<nav id="menubar"<?php $this->html('userlangattributes')  ?> class="masthead-submenu navbar">
-		<h2>Navigation Links</h2>
-		<div class="menu"><?php $this->renderNavigation( array( 'PERSONAL') ); ?></div>	
+	  <ul class="nav">
+	    <li><a href="/wiki/"><i class="icon-home icon-white"></i> Home</a>
+	    <li><a href="/wiki/Search"><i class="icon-search icon-white"></i> Advanced Search</a></li>
+	    <li class="dropdown">
+    	    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Your Pages <b class="caret"></b></a>
+      		<ul class="dropdown-menu"<?php $this->html( 'userlangattributes' ) ?>>
+      		<?php 
+      $usertools = $this->getPersonalTools();
+      //print_r($usertools);exit;
+      //remove signup and login links
+      if(isset($usertools['anonlogin']))
+      	unset($usertools['anonlogin']);
+      if(isset($usertools['logout']))
+      	unset($usertools['logout']);
+      	
+      				foreach($usertools  as $key => $item ) { ?>
+      			<?php echo $this->makeListItem( $key, $item ); ?>
+      	
+      	<?php			} ?>
+      		</ul>
+    	</li>
+    </ul>
+    <ul class="nav pull-right">
+    	<li id="search-nav">
+    	  <i class="icon-search icon-white"></i>
+    	  <form action="/wiki/index.php" id="searchform">
+    	  	<input type="hidden" name="title" value="Special:Search">
+    	  	<input name="search" title="Search Practical Plants [ctrl-option-f]" accesskey="f" id="searchInput" placeholder="Enter a plant name or search term..." class="search-field">
+    	  	<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">			<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+    	  </form>
+    	</li>
+    </ul>
+		
 	</nav><!-- end of the left (by default at least) column -->
 	
 	</div><!--/width-constraint-->
 	<div class="clear"></div>
-	<div id="footer"<?php $this->html('userlangattributes') ?>>
 	
-	  <div class="width-constraint">
-  		<div class="footer-column" id="footer-about">
-  			<h3>About Practical Plants</h3>
-  			<p>Practical Plants is a plant database designed for <a href="/wiki/Permaculture">Permaculture</a> enthusiasts, <a href="/wiki/Agroforestry">Forest Gardeners</a>, Homesteaders, Farmers and anyone interested in <a href="/wiki/Organic">organic horticulture</a>.</p>
-  		</div>
-  		<div class="footer-column" id="footer-thanks">
-  			<h3>Our thanks to...</h3>
-  			<div class="thanks-to" id="thanks-tinymighty">
-  				<a href="http://tinymighty.com" class="thanks-logo"></a>
-  				<h4><a href="http://tinymighty.com">TinyMighty</a></h4>
-  				<p>Website designed, developed and generously hosted by TinyMighty.</p>
-  			</div>
-  			<div class="thanks-to" id="thanks-pfaf">
-  				<a href="http://pfaf.org" class="thanks-logo"></a>
-  				<h4><a href="http://pfaf.org">Plants For A Future</a></h4>
-  				<p>The fantastic database this project was forked from was created by PFAF (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
-  			</div>
-  			<div class="thanks-to" id="thanks-mediawiki">
-  				<a href="http://mediawiki.org" class="thanks-logo"></a>
-  				<h4><a href="http://mediawiki.org">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org">SMW</a></h4>
-  				<p>This website uses technology developed by the smart people behind MediaWiki and Semantic MediaWiki.</p>
-  			</div>
-  			<div class="thanks-to" id="thanks-cernunnos">
-  				<a href="http://cernunnos.es" class="thanks-logo"></a>
-  				<h4><a href="http://cernunnos.es">Cernunnos</a></h4>
-  				<p>This project is supported by the guys living at Cernunnos.</p>
-  			</div>
-  		</div>
-  		<div class="footer-column" id="footer-others">
-  			<?php $links = $this->getFooterLinks(); ?>
-  			<div id="footer-docs">
-  			<h3>Documents</h3>
-  			<ul>
-  			<?php foreach( $links['places'] as $link ): ?>
-  				<li><?php $this->html( $link ) ?></li>
-  			<?php endforeach; ?>
-  			</ul>
-  			</div>
-  			<div id="footer-info">
-  			<h3>Page Info</h3>
-  			<ul>
-  			<?php foreach( $links['info'] as $link ): ?>
-  				<li><?php $this->html( $link ) ?></li>
-  			<?php endforeach; ?>
-  			</ul>
-  			</div>
-  		</div>
-    </div><!--/width-constraint-->
-	
-	</div>
+  <?php 
+  $links = $this->getFooterLinks(); 
+  $info = '<ul>';
+  
+  foreach( $links['info'] as $link ){
+    $info .= '<li>' . $this->data[$link] .'</li>';
+  }
+  $info .= '</ul>';
+
+  $masthead->footer(
+    array(
+      array(
+        'id'=>'mw-footer-info',
+        'title'=>"Page Info",
+        'content'=>$info
+      )
+    )
+  ); ?>
+
 </div>
 
 <?php
