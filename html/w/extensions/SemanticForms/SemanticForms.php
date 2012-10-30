@@ -141,7 +141,7 @@ $wgAutoloadClasses['SFTemplateField'] = $sfgIP . '/includes/SF_TemplateField.php
 $wgAutoloadClasses['SFForm'] = $sfgIP . '/includes/SF_Form.php';
 $wgAutoloadClasses['SFTemplateInForm'] = $sfgIP . '/includes/SF_TemplateInForm.php';
 $wgAutoloadClasses['SFFormField'] = $sfgIP . '/includes/SF_FormField.php';
-$wgAutoloadClasses['SFFormPrinter'] = $sfgIP . '/includes/SF_FormPrinter.php';
+$wgAutoloadClasses['SFFormPrinter'] = $sfgIP . '/includes/SF_FormPrinter-new.php';
 $wgAutoloadClasses['SFFormUtils'] = $sfgIP . '/includes/SF_FormUtils.php';
 $wgAutoloadClasses['SFFormEditTab'] = $sfgIP . '/includes/SF_FormEditTab.php';
 $wgAutoloadClasses['SFFormEditPage'] = $sfgIP . '/includes/SF_FormEditPage.php';
@@ -152,6 +152,8 @@ $wgAutoloadClasses['SFParserFunctions'] = $sfgIP . '/includes/SF_ParserFunctions
 $wgAutoloadClasses['SFAutocompleteAPI'] = $sfgIP . '/includes/SF_AutocompleteAPI.php';
 $wgAutoloadClasses['SFAutoeditAPI'] = $sfgIP . '/includes/SF_AutoeditAPI.php';
 $wgAutoloadClasses['SFFormEditAction'] = $sfgIP . '/includes/SF_FormEditAction.php';
+$wgAutoloadClasses['SFMultipleTemplate'] = $sfgIP . '/includes/SF_MultipleTemplate.php';
+
 
 // Form inputs
 $wgAutoloadClasses['SFFormInput'] = $sfgIP . '/includes/forminputs/SF_FormInput.php';
