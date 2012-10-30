@@ -22,15 +22,16 @@ $ppResourceTemplate = array(
 );
 
 $wgResourceModules += array(
-    'ext.practicalplants.css'=>$ppResourceTemplate + array(
-            'styles' => array(
-                'bootstrap/css/bootstrap.css',
-            	'css/main.css'=>array('media'=>'screen'),
-            	'css/print.css'=>array('media'=>'print'),
-            	'../../../../resources/css/masthead.css'=>array('media'=>'screen')
-            ),
-            'position'=>'top'
-     ),
+  'ext.practicalplants.css'=>$ppResourceTemplate + array(
+          'styles' => array(
+            'bootstrap/css/bootstrap.css',
+          	'css/main.css'=>array('media'=>'screen'),
+          	'css/print.css'=>array('media'=>'print'),
+          	'../../../../resources/css/global.css'=>array('media'=>'screen'),
+          	'../../../../resources/css/masthead.css'=>array('media'=>'screen')
+          ),
+          'position'=>'top'
+ ),
 	'modernizr' => $ppResourceTemplate + array(
         'scripts' => array( 'js/modernizr-1.7.min.js' ),
         'dependencies' => array( 'jquery.ui.autocomplete' )
@@ -56,8 +57,9 @@ $wgResourceModules += array(
 		'scripts' => array(
 			'js/practicalplants.init.mast-search.js',
 			'js/practicalplants.init.forms.js',
-			'js/practicalplants.init.article.js'),
-		'dependencies' => array( 'jquery.ui.autocomplete.html', 'jquery.collapse','jquery.ui.tabs','ext.discover.js','jquery.ui.accordion','jquery.scrollto', 'mediawiki.api', 'bootstrap.js')
+			'js/practicalplants.init.article.js',
+			'../../../../resources/js/login-menu.js'),
+		'dependencies' => array( 'jquery.ui.autocomplete.html', 'jquery.collapse','jquery.ui.tabs','ext.discover.js','jquery.ui.accordion','jquery.scrollto', 'mediawiki.api', 'jquery.qtip','bootstrap.js')
 	),
 	'ext.practicalplants.page.main'=> $ppResourceTemplate + array(
 		'scripts' => array('js/practicalplants.page.main-discover.js'),
@@ -94,6 +96,12 @@ $wgHooks['LanguageGetMagic'][] = 'PracticalPlants::languageGetMagic';
 $wgHooks['EditPage::showEditForm:initial'][] = 'PracticalPlants::onEditPage';
 
 $wgHooks['sfEditFormPreloadText'][] = 'PracticalPlants::sfAddSpeciesChild';
+$wgHooks['sfMultipleInstanceTemplateBeforeHTML'][] = 'PracticalPlants::sfMultipleInstanceTemplateBeforeHTML';
+$wgHooks['sfMultipleInstanceTemplateAfterHTML'][] = 'PracticalPlants::sfMultipleInstanceTemplateAfterHTML';
+$wgHooks['sfMultipleInstanceTemplateHTML'][] = 'PracticalPlants::sfMultipleInstanceTemplateHTML';
+$wgHooks['sfMultipleInstanceTemplateInnerHTML'][] = 'PracticalPlants::sfMultipleInstanceTemplateInnerHTML';
+$wgHooks['sfMultipleInstanceTemplateAdderHTML'][] = 'PracticalPlants::sfMultipleInstanceTemplateAdderHTML';
+
 //$wgHooks['sfSetTargetName'][] = 'PracticalPlants::setSpeciesChildName';
 
 //$wgHooks['LinkBegin'][] = 'PracticalPlants::linkBegin';
