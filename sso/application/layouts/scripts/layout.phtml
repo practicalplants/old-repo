@@ -1,10 +1,15 @@
-<?php echo $this->doctype(); ?>
+<?php 
+$masthead = new PracticalPlants_Masthead();
+echo $this->doctype(); ?>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		
 		<?php 
 		echo $this->headTitle();
+		
+		$masthead->headTags();
+
 		$this->headLink()->appendStylesheet($this->baseUrl('/design/css/default.css'));
 			
         $this->headLink()->appendStylesheet($this->baseUrl('/css/layout.css'));
@@ -12,10 +17,9 @@
 
         echo $this->headLink();
 
-        $this->headScript()->appendFile($this->baseUrl('/js/jquery-1.4.4.min.js'));
-        $this->headScript()->appendFile($this->baseUrl('/js/openid-jquery.js'));
-        $this->headScript()->appendFile($this->baseUrl('/js/openid-en.js'));
-
+        $this->headScript()->appendFile($this->baseUrl('../resources/js/libs/openid-jquery.js'));
+        $this->headScript()->appendFile($this->baseUrl('../resources/js/libs/openid-en.js'));
+ 
         echo $this->headScript();
 			        
 		echo $this->headMeta();
@@ -25,7 +29,6 @@
 	<body class="">
 		<?php //echo $this->masthead(); 
 		
-		$masthead = new PracticalPlants_Masthead(array('active_tab'=>'account'));
 		$masthead->output();
 		
 		?>
@@ -35,6 +38,7 @@
 		<div id="main">
 		<?php echo $this->layout()->content; ?>
 		</div>
+		<?php $masthead->footer(); ?>
 		<?php include(realpath(APPLICATION_PATH . '/../../library').'/google-analytics.html'); ?>
 	</body>
 </html>

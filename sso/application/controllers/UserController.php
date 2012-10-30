@@ -339,6 +339,9 @@ class UserController extends Zend_Controller_Action {
                 $this->view->message = $result->getMessages() || 'Authentication failed.';
                 return $this->render('error');
             }
+        }else{
+            $this->view->message = 'No OpenID authentication URL provided.';
+            return $this->render('error');
         }
     }
     
