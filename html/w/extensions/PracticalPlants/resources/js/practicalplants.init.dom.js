@@ -1,35 +1,29 @@
 (function($){
 
-
-//move things around on dom load
-/*$(function(){
-	setArticleSummary();
-	setArticleImage();
-	setArticleState();	
-	glueFooter();
-	$(window).resize(glueFooter);
-});*/
-
-
-//domload isn't fast enough, still get FOUC, so we need to check every 10ms for the presence of the dom elements
-var loop = setTimeout(checkDom, 10);
+/* Move elements on dom load */
 $(function(){ 
-	clearTimeout(loop);
+
+  	
+	resizeArticleImage();
 	
-	//sometimes the dom loads so fast things don't get a chance to execute, so run through again to be sure
+	/* 
+	The following checks for the presence of elements within .article-content 
+	which the MoveToSkin extension should have already moved out of the .article-content 
+	element and into their new positions in the skin.
+	These provide a backup in the rare event things aren't moved properly (eg. there is currently
+	a bug which prevents MoveToSkin working properly on Special:FormEdit pages)
+	*/
+	setTOC();
 	setArticleSummary();
 	setArticleImage();
-	resizeArticleImage();
-	setTOC();
 	setIconBar();
 	setArticleCommonName();
 	setArticleState();	
-	setArticleActions();
 	glueFooter();
 	initScrollSpy();
 	
 	$(window).resize(windowResize);
-});//if things haven't been dom by dom load, the element ain't there...
+});
 
 var domOps = {
 	summary:{
@@ -77,7 +71,7 @@ function windowResize(){
 }
 
 function setArticleSummary(){
-	var summary = $('#article-summary');
+	var summary = $('.article-content #article-summary');
 	if(summary.length > 0){
 		$('#page-header #article-title').after(summary);
 	}
@@ -85,7 +79,7 @@ function setArticleSummary(){
 
 function setArticleImage(){
 
-	var image = $('#article-image')
+	var image = $('.article-content #article-image')
 	    , image_el = $('header#page-header #article-image-container')
 	    , header = $('#page-header');
 	if(image.length){
@@ -95,8 +89,6 @@ function setArticleImage(){
 		image_el.append(image);
 		
 		resizeArticleImage();
-	}else{
-		image_el.hide();
 	}
 	
 }
@@ -115,31 +107,26 @@ function resizeArticleImage(){
 }
 
 function setTOC(){
-  var $toc = $('#toc');
+  var $toc = $('.article-content #toc');
   if($toc.length > 0){
     $('#sidebar #toc-container').prepend($toc);
   }
 }  
 function setIconBar(){
-  var $ib = $('#plant-iconbar');
+  var $ib = $('.article-content #plant-iconbar');
   if($ib.length > 0)
     $('#page-header').append($ib).addClass('with-iconbar');
 }
 function setArticleState(){
 	//console.log("setting article state to top!");
-	var state=$('#article-state');
+	var state=$('.article-content #article-state');
 	if(state.length>0){
 		$('#page-header').before(state);
 	}
 }
-function setArticleActions(){
-	var actions = $('#article-actions');
-	$('#page-header').prepend(actions);
-	actions.addClass('moved');
-}
+
 function setArticleCommonName(){
-	var common = $('#common-name');
-	common.addClass('moved');
+	var common = $('.article-content #common-name');
 	if(common.length > 0){
 		$('#page-header #article-title').append(common);
 	}
@@ -148,14 +135,14 @@ function initScrollSpy(){
     //$('body').scrollspy();
 }
 function glueFooter(){
-	/*var footer = $('#footer');
-	if(footer.length > 0 && footer.pos().top+footer.outerHeight() < window.height){
+	var footer = $('#footer');
+	if(footer.length > 0 && footer.offset().top+footer.outerHeight() < window.height){
 		footer.css({
 		'position':'absolute',
 		'bottom':window.height,
 		'width':window.width
 		});
-	}*/
+	}
 }
 	
 })(jQuery||$);
