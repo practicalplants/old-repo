@@ -11,12 +11,9 @@
 
 	</div><!-- #main -->
 
-	<footer id="colophon" role="contentinfo">
-		<div id="site-generator">
-			<?php do_action( 'toolbox_credits' ); ?>
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'toolbox' ) ); ?>" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'toolbox' ); ?>" rel="generator"><?php printf( __( 'Proudly powered by %s', 'toolbox' ), 'WordPress' ); ?></a>
-		</div>
-	</footer><!-- #colophon -->
+<?php
+$masthead = PracticalPlants_Masthead::getInstance();
+$masthead->footer(); ?>
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

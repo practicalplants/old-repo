@@ -9,7 +9,7 @@
  */
  
 require(realpath(ABSPATH.'/../library').'/Masthead.php');
-$masthead = new PracticalPlants_Masthead(array('active_tab'=>'blog'));
+$masthead = PracticalPlants_Masthead::getInstance(array('active_tab'=>'blog'));
 
 ?><!DOCTYPE html>
 <!--[if IE 6]>
@@ -52,7 +52,7 @@ $masthead = new PracticalPlants_Masthead(array('active_tab'=>'blog'));
 <link rel="stylesheet" type="text/css" media="all" href="/resources/css/global.css" />
 <link rel="stylesheet" type="text/css" media="all" href="/resources/fonts/crete-round/stylesheet.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-<?php echo $masthead->headTags(); ?>
+<?php $masthead->headTags(); ?>
 <?php if ( is_singular() && get_option( 'thread_comments' ) ) wp_enqueue_script( 'comment-reply' ); ?>
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <!--[if lt IE 9]>
