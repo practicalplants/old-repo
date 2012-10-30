@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <?php $this->RenderAsset('Head'); ?>
-  <script src="/community/js/library/jquery.autocomplete.js"></script>
-  <script src="/resources/js/search-autocomplete.js"></script>
+    <?php require(realpath(PATH_ROOT.'/../library').'/Masthead.php');
+$masthead = new PracticalPlants_Masthead(array('active_tab'=>'community'));
+?>
+   <?php 
+   $this->RenderAsset('Head');
+   $masthead->headTags();
+   //The following output is copied from $this->RenderAsset('head')
+?>
+  <?php /*<script src="/community/js/library/jquery.autocomplete.js"></script>
+  <script src="/resources/js/search-autocomplete.js"></script>*/?>
 </head>
 <body id="<?php echo $BodyIdentifier; ?>" class="<?php echo $this->CssClass; ?>">
-<?php require(realpath(PATH_ROOT.'/../library').'/Masthead.php');
-$masthead = new PracticalPlants_Masthead(array('active_tab'=>'community'));
-$masthead->output();
-?>
+<?php $masthead->output(); ?>
 <div id="Frame">
   <div id="Head" class="masthead-submenu">
     <div class="Row">
@@ -61,12 +65,7 @@ $masthead->output();
       <div class="Column ContentColumn" id="Content"><?php $this->RenderAsset('Content'); ?></div>
     </div>
   </div>
-  <div id="Foot">
-    <div class="Row">
-      <a href="{vanillaurl}" class="PoweredByVanilla">Powered by Vanilla</a>
-      <?php	$this->RenderAsset('Foot'); ?>
-    </div>
-  </div>
+  <?php $masthead->footer(); ?>
 </div>
 <?php $this->FireEvent('AfterBody'); ?>
 <?php include(realpath(PATH_ROOT.'/../library').'/google-analytics.html'); ?>
