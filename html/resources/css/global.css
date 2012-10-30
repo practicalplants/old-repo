@@ -70,7 +70,7 @@ button {  width: auto; overflow: visible; }
 
 body, select, input, textarea { color: #000; }
 h1, h2, h3, h4, h5, h6 { font-weight: normal; font-family: CreteRoundRegular, Georgia, sans-serif; }
-a, a:active, a:visited { color: #607890; font-weight: normal; }
+a, a:active, a:visited { color: #607890;  }
 a:hover { color: #036; }
 
 h1{ font-size: 36px; margin: 5px 0 20px 0; }
@@ -86,12 +86,132 @@ h1 em,h2 em,h3 em,h4 em,h5 em,h6 em{
 a, a:active, a:hover, a:visited{
 	/*color: #009900;*/
 	color: rgb(236,80,0);
-	font-weight: normal;
+	/*font-weight: normal;*/
 	text-decoration: none;
 }
 a:hover{
 	text-decoration: underline;
 }
+
+a.btn{
+	color:#000;
+	font-family:CreteRoundRegular;
+}
+a.btn-success,
+a.btn-warning,
+a.btn-danger{
+	color:#fff;
+}
+
+
 body{
-	font-family: georgia;
+  font-family: Georgia, Times New Roman, Times, serif;
+}
+#page-wrapper{
+  position: relative;
+  min-width: 960px;
+}
+.width-constraint{
+  position: relative;
+  /*width: 1200px;*/
+  margin: 0 auto;
+}
+
+
+
+
+/*=================== Sitewide Footer ==================*/
+
+#footer{
+  clear:both;
+  background: #009900;
+  /*background: -webkit-gradient(linear, left top, left bottom, from(rgb(0,144,0)), to(rgb(0,164,0)));
+  background: -webkit-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: -moz-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: -o-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: -ms-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);*/
+  
+  border-top: 1px solid #838276;
+  color: #fff;
+  padding: 10px;
+  font-family: CreteRoundRegular;
+}
+#footer a{
+  color: #fff;
+  text-decoration: underline;
+}
+#footer div.footer-icon{
+  display: inline-block;
+}
+#footer ul{
+  
+}
+#footer ul li{
+  
+}
+#footer{
+  text-align: center;
+}
+#footer .footer-column{
+  text-align: left;
+  padding: 10px;
+  display: inline-block;
+  vertical-align:top;
+}
+#footer .footer-column h3{
+  font-weight: normal;
+  font-size: 20px;
+  margin-bottom: 7px;
+  
+}
+#footer #footer-about{
+  width: 250px;
+  margin-right: 10px;
+}
+#footer #footer-thanks{
+  width: 350px;
+}
+#footer #footer-others{
+  width: 300px;
+}
+#footer #footer-thanks .thanks-to{
+  clear: left;
+  margin-bottom: 7px;
+}
+#footer #footer-thanks .thanks-to a.thanks-logo{
+  float:left;
+  width: 50px;
+  height: 40px;
+  background: url(/resources/images/thanks-icons.png);
+}
+#footer #footer-thanks .thanks-to#thanks-tinymighty a.thanks-logo{
+  
+}
+#footer #footer-thanks .thanks-to#thanks-pfaf a.thanks-logo{
+  background-position: 0 -80px;
+}
+#footer #footer-thanks .thanks-to#thanks-cernunnos a.thanks-logo{
+  background:none;
+}
+#footer #footer-thanks .thanks-to#thanks-mediawiki a.thanks-logo{
+  background-position: 0 -40px;
+}
+#footer #footer-thanks .thanks-to a.thanks-logo img{
+}
+#footer #footer-thanks .thanks-to h4,
+#footer #footer-thanks .thanks-to p{
+  margin-left: 55px;
+}
+#footer #footer-docs{
+  margin-bottom: 30px;
+}
+#footer #footer-docs ul{
+  list-style: bullet;
+  margin-left: 15px;
+}
+#footer #footer-info ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

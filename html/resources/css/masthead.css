@@ -1,154 +1,435 @@
 /* @override 
-	http://practicalplants.local/forum/themes/practicalplants/design/masthead.css
-	http://practicalplants.local/resources/css/masthead.css */
+  http://practicalplants.local/forum/themes/practicalplants/design/masthead.css
+  http://practicalplants.local/resources/css/masthead.css */
 
 /* ========== Practical Plants Masthead =============*/
 nav#masthead{
 
-	display: block;
-	position: relative;
-	
-	text-align: left;
-	
-	background-color: #009900;
-	background: -webkit-gradient(linear, left top, left bottom, from(rgb(0,144,0)), to(rgb(0,164,0)));
-	background: -webkit-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-	background: -moz-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-	background: -o-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-	background: -ms-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-	background: linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-	
-	height: 58px;
-	border-bottom: 1px solid #838276;
-	
-	font-family: CreteRoundRegular;
-	
-	/*z-index: 9;*/
+  display: block;
+  position: relative;
+  
+  text-align: left;
+  
+  background-color: #009900;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(0,144,0)), to(rgb(0,164,0)));
+  background: -webkit-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: -moz-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: -o-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: -ms-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  background: linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
+  
+  height: 58px;
+  border-bottom: 1px solid #838276;
+  
+  font-family: CreteRoundRegular;
+  
+  /*z-index: 9;*/
 }
 nav#masthead em,
-#masthead ul,
-#masthead li,
+#masthead ul.tabs,
+#masthead .tabs li,
 #masthead h1, #masthead h2, #masthead h3, #masthead h4, #masthead h5, #masthead h6,
 #masthead a{
-	padding: 0;
-	margin: 0;
-	text-decoration: none;
-	font-weight: normal;
-	font-style: normal;
+  text-decoration: none;
+  font-weight: normal;
+  font-style: normal;
 }
 
 
 #logo{
-	position: absolute;
-	left: 40px;
-	top: 7px;
-	z-index: 10;
+  position: absolute;
+  left: 40px;
+  top: 7px;
+  z-index: 10;
 }
 #logo #logo-image{
-	display: inline-block;
-	vertical-align: middle;
-	width: 46px;
-	height: 47px;
-	background: url(/resources/images/logo.png);
-	margin: -2px 10px 0 0;
+  display: inline-block;
+  vertical-align: middle;
+  width: 46px;
+  height: 47px;
+  background: url(/resources/images/logo.png);
+  margin: -2px 10px 0 0;
 }
 #logo h1{
-	display: inline-block;
-	vertical-align: middle;
-	font-family: CreteRoundRegular;
-	font-weight: normal;
-	font-size: 24px;
-	color: #fff;
-	text-align: center;
-	margin: -2px 0 0 0;
-	padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  font-family: CreteRoundRegular;
+  font-weight: normal;
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+  margin: -2px 0 0 0;
+  padding: 0;
 }
 #logo h1 a{
-	color: #fff;
-	text-decoration: none;
-	font-weight: normal;
+  color: #fff;
+  text-decoration: none;
+  font-weight: normal;
 }
 #logo h1 em{
-	/*font-style: italic;*/
-	font-family: CreteRoundItalic;
+  /*font-style: italic;*/
+  font-family: CreteRoundItalic;
 }
 #masthead ul.tabs{
-	display: block;
-	margin-left: 300px;
-	margin-right: 300px;
-	height: 58px;
-	text-align: center;
+  display: block;
+  margin-left: 350px;
+  margin-right: 300px;
+  height: 58px;
+  text-align: left;
 }
 #masthead ul.tabs li{
-	display: inline-block;
-	margin-top: 14px;
-	height: 45px;
+  display: inline-block;
+  margin-top: 14px;
+  height: 45px;
 }
 
 #masthead ul.tabs li a{
-	display: inline-block;
-	vertical-align: middle;
-	color: #fff;
-	font-size: 18px;
-	font-family: CreteRoundRegular;
-	margin-top: 0px;
-	padding: 5px 12px 6px 12px;
+  display: inline-block;
+  vertical-align: middle;
+  color: #fff;
+  font-size: 18px;
+  font-family: CreteRoundRegular;
+  margin-top: 0px;
+  padding: 5px 12px 6px 12px;
 }
 #masthead ul.tabs li a:hover{
-	text-decoration: none;
+  text-decoration: none;
 }
 #masthead ul.tabs li:hover{
-	background: rgba(255,255,255,0.3);
-	/*color: #009900;*/
-	-webkit-border-radius: 5px 5px 0 0;
-	-moz-border-radius: 5px 5px 0 0;
-	-o-border-radius: 5px 5px 0 0;
-	-ms-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
+  background: rgba(255,255,255,0.3);
+  /*color: #009900;*/
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+  -ms-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
 }
 #masthead ul.tabs li.active{
-	
-	/*color: #009900;*/
-	-webkit-border-radius: 5px 5px 0 0;
-	-moz-border-radius: 5px 5px 0 0;
-	-o-border-radius: 5px 5px 0 0;
-	-ms-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
-	
-	background: rgb(236,158,0);
+  
+  /*color: #009900;*/
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+  -ms-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  
+  background: rgb(236,158,0);
 }
 
+
+#masthead #masthead-account{
+  position: absolute;
+  top: 13px;
+  right: 10px;
+  width:400px;
+  z-index:25;
+  text-align: right;
+}
+#masthead-account input{ /* Copied from Bootstrap */
+  display: inline-block;
+  height: 20px;
+  padding: 4px 6px;
+  margin-bottom: 9px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+
+
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+#masthead-account input:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+#masthead-account input{
+  width:100px;
+  vertical-align: bottom;
+  margin-bottom:0;
+  margin-right:3px;
+}
+#masthead-account  #email{
+  width:120px;
+}
+#masthead-account #login-button-group button{
+  font-family:CreteRoundRegular;
+}
+#masthead-account #login-button-group ul{
+  text-align: left;
+}
+#masthead-account #login-button-group ul a:visited{
+  color: #000;
+}
+#masthead .icon-google,
+#masthead .icon-twitter,
+#masthead .icon-facebook,
+#masthead .icon-openid,
+#masthead .icon-myopenid{
+  background:url(/resources/images/openid-sprite.png) no-repeat;
+  width:16px;
+  height:16px;
+}
+#masthead .icon-openid{ 
+  background-position: 0 0;
+}
+#masthead .icon-google{
+  background-position: -16px 0;
+}
+#masthead .icon-facebook{
+  background-position: -32px 0;
+}
+#masthead .icon-myopenid{
+  background-position: -48px 0;
+}
+#masthead .icon-twitter{
+  background-position: -64px 0;
+}
+#masthead .icon-practicalplants{
+  background:url(/resources/images/favicon.png);
+  width:16px;
+  height:16px;
+}
+
+
+
+
+#masthead-account #user-loggedin{
+  color:#fff;
+  margin-right:10px;
+}
+
+
+/* .btn rules copied from bootstrap */
+/*#masthead-account .btn {
+  display: inline-block;
+  *display: inline;
+  padding: 4px 14px;
+  margin-bottom: 0;
+  *margin-left: .3em;
+  font-size: 14px;
+  line-height: 20px;
+  *line-height: 20px;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  *background-color: #e6e6e6;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border: 1px solid #bbbbbb;
+  *border: 0;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+  filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+  *zoom: 1;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#masthead-account .btn:hover,
+#masthead-account .btn:active,
+#masthead-account .btn.active,
+#masthead-account .btn.disabled,
+#masthead-account .btn[disabled] {
+  color: #333333;
+  background-color: #e6e6e6;
+  *background-color: #d9d9d9;
+}
+
+#masthead-account .btn:active,
+#masthead-account .btn.active {
+  background-color: #cccccc \9;
+}
+
+#masthead-account .btn:first-child {
+  *margin-left: 0;
+}
+
+#masthead-account .btn:hover {
+  color: #333333;
+  text-decoration: none;
+  background-color: #e6e6e6;
+  *background-color: #d9d9d9;
+
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+     -moz-transition: background-position 0.1s linear;
+       -o-transition: background-position 0.1s linear;
+          transition: background-position 0.1s linear;
+}
+
+#masthead-account .btn:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+#masthead-account .btn.active,
+#masthead-account .btn:active {
+  background-color: #e6e6e6;
+  background-color: #d9d9d9 \9;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#masthead-account .#masthead-account btn.disabled,
+.btn[disabled] {
+  cursor: default;
+  background-color: #e6e6e6;
+  background-image: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
+#masthead-account button{
+  width:auto;
+  padding:4px 4px;
+  vertical-align: top;
+  margin-bottom:0;
+}
+#masthead-account .icon-user,
+#masthead-account .icon-off{
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("../img/glyphicons-halflings.png");
+  background-position: 14px 14px;
+  background-repeat: no-repeat;
+
+  background-image: url("../bootstrap/img/glyphicons-halflings.png");
+}
+#masthead-account .icon-white{
+  background-image: url("../bootstrap/img/glyphicons-halflings-white.png");
+}
+#masthead-account .icon-user{
+  background-position: -168px 0;
+}
+#masthead-account .icon-off{
+  background-position: -384px 0;
+}
+#masthead-account a{
+  color:white;
+}
+#masthead-account .caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: top;
+  border-top: 4px solid #000000;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  content: "";
+}
+#masthead-account #login-button .caret{
+  margin-top:9px;
+}
+*/
 
 #masthead #masthead-search{
-	/*display: none;*/
-	/*display: inline-block;*/
-	/*position: absolute;
-	top: 2px;
-	right: 0;*/
-	position: absolute;
-	top: 0px;
-	right: 10px;
-	height: 58px;
-	line-height: 58px;
+  /*display: none;*/
+  /*display: inline-block;*/
+  /*position: absolute;
+  top: 2px;
+  right: 0;*/
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  height: 58px;
+  line-height: 58px;
 }
 .masthead-submenu{
-	background-color: #ea9800;
-	text-shadow: none;
-	background: -webkit-gradient(linear, left top, left bottom, from(rgb(236,158,0)), to(rgb(224,102,0)));
-	background: -webkit-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-	background: -moz-linear-gradient(-90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-	background: -ms-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-	background: -o-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-	background: linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-	
-	/*background: rgb(236,158,0);*/
-	    
-	
-	font-family: CreteRoundRegular;
-	
-	height: 30px;
+  background-color: #ea9800;
+  text-shadow: none;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgb(236,158,0)), to(rgb(224,102,0)));
+  background: -webkit-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -moz-linear-gradient(-90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -ms-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -o-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  
+  /*background: rgb(236,158,0);*/
+      
+  font-family: CreteRoundRegular;
+  
+  min-height:5px;
+  /*height: 30px;*/
 }
-.masthead-submenu a{
-	color: #fff;
+.masthead-submenu.navbar{
+
+}
+.masthead-submenu .nav{
+  margin: -5px 0 -3px 50px;
+}
+.masthead-submenu .nav li{
+  margin: 0;
+  padding: 0;
+}
+.masthead-submenu .nav  li  a{
+  text-shadow: none;
+  color: white;
+  padding: 6px 25px 7px 20px;
+}
+.masthead-submenu .nav li a:hover{
+  color: white;
+  background: rgba(255,255,255,0.2);
+  text-decoration: none;
+}
+.masthead-submenu .nav  li  a.dropdown-toggle .caret,
+.masthead-submenu .nav  li  a.dropdown-toggle:hover .caret{
+  border-top-color: white !important;
+}
+.masthead-submenu .nav .dropdown.open a.dropdown-toggle{
+  background: none rgba(255,255,255,0.2);
+  color: white;
+}
+.masthead-submenu .nav .dropdown-menu a,
+.masthead-submenu .nav .dropdown-menu a:hover{
+  color: #333;
+}
+.masthead-submenu .nav .dropdown-menu a:hover{
+  background-color: rgba(234, 152, 0, 0.44);
+}
+.masthead-submenu .nav .dropdown-menu li.active a{
+  background-image: none;
+  background-color: #ea9800;
+  color: white;
 }
 
