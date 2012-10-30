@@ -41,11 +41,7 @@ body{
   position: relative;
   min-width: 960px;
 }
-.width-constraint{
-  position: relative;
-  /*width: 1200px;*/
-  margin: 0 auto;
-}
+
 
 
 /* ========= Top Menu Bar =========*/
@@ -66,7 +62,7 @@ nav#menubar{
 #menubar h2{
   display: none;
 }
-#menubar .menu,#menubar .dropdown{
+/*#menubar .menu,#menubar .dropdown{
 }
 #menubar .menu{
   display: inline-block;
@@ -98,8 +94,8 @@ nav#menubar{
   padding: 0 10px;
 }
 #menubar .dropdown .dropdown-content{
-  background: rgb(227,107,0);/*rgb(236,158,0);*/
-  padding: 5px 10px 10px 10px;
+  background: rgb(227,107,0);
+   padding: 5px 10px 10px 10px;
   width: 150px;
   
   -webkit-border-radius: 0 0 5px 5px;
@@ -120,7 +116,7 @@ nav#menubar{
 #menubar .dropdown .dropdown-content a{
   color: #fff;
   font-weight: normal;
-}
+}*/
 
 
 /* ======================= jQuery UI overrides =====================  */
@@ -249,6 +245,40 @@ body .buorg div {
   display: none;
 }
 
+#search-nav{
+  
+}
+#search-nav .icon-search{
+  margin-top: 3px;
+}
+#searchform{
+  display: inline-block;
+  padding-top: 2px;
+}
+#searchform input.search-field{
+  width: 250px;
+  margin-right: 5px;
+  padding: 2px 4px 2px 3px;
+  outline: none;
+  
+  font-size: 14px;
+  
+  font-family: CreteRoundRegular;
+  
+  border: 1px solid rgba(255,255,255,0.5);
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ie-border-radius: 5px;
+  border-radius: 5px;
+  
+  -webkit-transition: width 0.2s ease-in-out 0s;
+  -moz-transition: width 0.2s ease-in-out 0s;
+  -o-transition: width 0.2s ease-in-out 0s;
+  -ms-transition: width 0.2s ease-in-out 0s;
+  transition: width 0.2s ease-in-out 0s;
+}
 
 
 /* ==================== Page Header ======================= */
@@ -346,7 +376,7 @@ article#main-entry{
   /*margin-left: 260px;*/
 }
 #page-header #article-image-container{
-  display: none;
+  /*display: none;*/
 }
 #page-header.with-image #article-image-container{
   display: block;
@@ -405,6 +435,43 @@ article#main-entry{
   border-radius: 5px;*/
   max-width: 248px;
   max-height: 208px;
+}
+
+#page-header #plant-uses-qr{
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 100px;
+  height: 32px;
+  font-size: 0px;
+  line-height: 0px;
+}
+#page-header.with-image #plant-uses-qr{
+  right: 320px;
+}
+#page-header #plant-uses-qr > div{
+  display: inline-block;
+  vertical-align: top;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  text-indent: -9999px;
+  background: url(../images/ui-sprite.png);
+}
+#page-header #plant-uses-qr #plant-uses-qr-edible{
+  background-position: -288px -32px;
+}
+#page-header #plant-uses-qr #plant-uses-qr-medicinal{
+  background-position: -320px -32px;
+}
+#page-header #plant-uses-qr #plant-uses-qr-material{
+  background-position: -352px -32px;
+}
+#page-header #plant-uses-qr > div{
+  opacity: 0.2;
+}
+#page-header #plant-uses-qr > div.active{
+  opacity: 1;
 }
 
 /* This div basically only exists to position the article actions tabs */
@@ -506,12 +573,7 @@ nav#article-actions{
 #page-header #article-actions{
   width: auto;
 }
-nav#article-actions.moved{
-  /*position: absolute;
-  top: -120px;
-  width: auto;
-  z-index: 20;*/
-}
+
 nav#article-actions h2{
   display: none;
 }
@@ -604,98 +666,15 @@ nav#article-actions .tabs #ca-talk.new{
 }
 
 
-#footer{
-  background: #009900;
-  /*background: -webkit-gradient(linear, left top, left bottom, from(rgb(0,144,0)), to(rgb(0,164,0)));
-  background: -webkit-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-  background: -moz-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-  background: -o-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-  background: -ms-linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);
-  background: linear-gradient(top left 90deg, rgb(0,144,0) 0%, rgb(0,164,0) 100%);*/
-  
-  border-top: 1px solid #838276;
-  color: #fff;
-  padding: 10px;
-  font-family: CreteRoundRegular;
-}
-#footer a{
-  color: #fff;
-  text-decoration: underline;
-}
-#footer div.footer-icon{
-  display: inline-block;
-}
-#footer ul{
-  
-}
-#footer ul li{
-  
-}
-#footer{
-  text-align: center;
-}
-#footer .footer-column{
-  text-align: left;
-  padding: 10px;
-  display: inline-block;
-  vertical-align:top;
-}
-#footer .footer-column h3{
-  font-weight: normal;
-  font-size: 20px;
-  margin-bottom: 7px;
-  
-}
-#footer #footer-about{
-  width: 250px;
-  margin-right: 10px;
-}
-#footer #footer-thanks{
-  width: 350px;
-}
-#footer #footer-others{
-  width: 300px;
-}
-#footer #footer-thanks .thanks-to{
-  clear: left;
-  margin-bottom: 7px;
-}
-#footer #footer-thanks .thanks-to a.thanks-logo{
-  float:left;
-  width: 50px;
-  height: 40px;
-  background: url(/resources/images/thanks-icons.png);
-}
-#footer #footer-thanks .thanks-to#thanks-tinymighty a.thanks-logo{
-  
-}
-#footer #footer-thanks .thanks-to#thanks-pfaf a.thanks-logo{
-  background-position: 0 -80px;
-}
-#footer #footer-thanks .thanks-to#thanks-cernunnos a.thanks-logo{
-  background:none;
-}
-#footer #footer-thanks .thanks-to#thanks-mediawiki a.thanks-logo{
-  background-position: 0 -40px;
-}
-#footer #footer-thanks .thanks-to a.thanks-logo img{
-}
-#footer #footer-thanks .thanks-to h4,
-#footer #footer-thanks .thanks-to p{
-  margin-left: 55px;
-}
-#footer #footer-docs{
-  margin-bottom: 30px;
-}
-#footer #footer-docs ul{
-  list-style: bullet;
-  margin-left: 15px;
-}
-#footer #footer-info ul{
+
+#footer #mw-footer-info ul{
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
+
+
 /* =================== Wiki Article =================== */
 article.wiki-entry{
 
@@ -859,7 +838,7 @@ article.wiki-entry{
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;*/
-  padding: 15px 10px 25px;
+  padding: 20px 10px 15px;
   color: #fff;
   font-family: CreteRoundRegular;
   text-align: center;
@@ -1189,7 +1168,7 @@ ul.column-list{
   border-width: 0 0 1px 0;
   padding-top: 0;
   padding-left: 5px;
-  margin-top: -10px;
+  margin-top: 0px;
 }
 .tabify ul.ui-tabs-nav li{
   border-radius: 4px 4px 0 0;
@@ -1225,7 +1204,7 @@ tabify ul.ui-tabs-nav li h3 a{
 }
 h2 + .tabify{
   border-top: 0;
-  margin-top: -8px;
+  margin-top: 0px;
 }
 
 .tabify h2.tabify-header{
@@ -1422,21 +1401,21 @@ h2 + .tabify{
   display: inline;
   color: #000;
 }
-#common-name.moved ul li{
+#common-name ul li{
   margin-left: 3px;
   opacity: 0.4;
   font-size: 14px;
 }
-#common-name.moved ul li:after{
+#common-name ul li:after{
   content: ',';
   display: inline;
 }
-#common-name.moved ul li:first-child{
+#common-name ul li:first-child{
   font-size: 20px;
   opacity: 0.6;
   margin-left: 0;
 }
-#common-name.moved ul li:last-child:after{
+#common-name ul li:last-child:after{
   content: '';
 }
 
@@ -1675,8 +1654,9 @@ h2 + .tabify{
   height: 40px;
 }
 
+.iconbar-icon{ background-position: -64px -128px; }
 .none-icon{ background-position: 0 -128px; }
-.unknown-ucon{ background-position: -32px -128px; }
+.unknown-icon{ background-position: -32px -128px; }
 
 .niche-icon-canopy{      background-position: -352px 0px; }
 .niche-icon-secondary_canopy{      background-position: -352px 0px; }
@@ -1816,6 +1796,7 @@ h2 + .tabify{
   background-position: -64px -128px;
   height: 40px;
   text-indent: 0;
+  font-size: 0px;
 }
 /* Sprite */
 .soil_texture-icon-sandy{ background: none; }
@@ -1827,6 +1808,7 @@ h2 + .tabify{
   background-image:url('../images/ui-sprite.png');
   display: inline-block;
   height: 40px;
+  
 }
 .soil_texture-icon-fragment-one{ width: 11px; background-position:-128px -48px; }
 .soil_texture-icon-fragment-two{ width: 10px; background-position:-139px -48px;}
@@ -2006,6 +1988,17 @@ h2 + .tabify{
 
 
 /* =============== Semantic Forms ================ */
+#sfForm h2{
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 90;
+}
+#sfForm h2 + .tabify{
+  margin-top: -10px;
+}
+#sfForm .collapsee{
+  margin-bottom: 30px;
+}
 table.formtable{
   margin: 10px;
 }
@@ -2156,41 +2149,97 @@ input#wpDiff{
 
 
 
-
+.tbl-tr{
+  display: table-row;
+}
+.tbl-th,
+.tbl-td{
+  display: table-cell;
+}
 
 
 
 
 /* =============== References ================ */
-
 .form-references{
   
 }
+.form-references .ref-title{
+  min-width: 200px;
+}
+.form-references .ref-date{
+  width: 140px;
+}
+.form-references .ref-buttons{
+  width: 50px;
+}
+.form-references .removeButton .btn{
+  padding: 0;
+}
+.form-references .instanceRearranger{
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.form-references .removeButton button,
+.form-references .instanceRearranger{
+  vertical-align: bottom;
+}
+.form-references .table select{
+  width: auto;
+}
+.form-references .table input.createboxInput{
+  width: 95%;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  border-color: transparent;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.form-references .table input.createboxInput:hover{
+  border-color: #ccc;
+}
+.form-references .table th{
+  padding: 2px;
+}
+.form-references .table td{
+  padding: 0 2px;
+}
+.form-references input.dayInput{
+  width: 15px;
+}
+.form-references input.yearInput{
+  width: 30px;
+}
+.form-references select.monthInput{
+  padding: 0;
+  width: 50px;
+}
+.form-references input.dayInput,
+.form-references select.monthInput,
+.form-references input.yearInput{
+  font-size: 12px;
+  vertical-align: top;
+  margin: 0;
+}
 .form-references .multipleTemplateInstance{
-  background: #fafafa;
-  border-radius: 5px;
+  
 }
 .form-references .multipleTemplateInstance .ref-field{
-  vertical-align: top;
-  display: inline-block;
-  width: 320px;
-  margin: 4px 4px 10px 4px;
+  
 }
 .form-references .multipleTemplateInstance .ref-field .label{
-  margin-bottom: 1px;
-  color: #333;
-  font-size: 14px;
+  
 }
 .form-references .multipleTemplateInstance:hover .ref-field .label{
-  margin-bottom: 1px;
-  color: #333;
+  
   
 }
 .form-references .multipleTemplateInstance .ref-type{
 
 }
 .form-references .multipleTemplateInstance .ref-type select{
-  width: 315px;
+  
 }
 .form-references .multipleTemplateInstance .ref-name{
 
@@ -2269,12 +2318,13 @@ body.page-Practical_Plants #page-header{
 }
 body.page-Practical_Plants #page-header #header-content{
   padding-right: 40px;
-  min-height: 0;
+  min-height: 165px;
 }
 body.page-Practical_Plants #page-header #article-image-container{
-  float: left;
-  position: static;
+  position: absolute;
   padding: 0;
+  left: 40px;
+  top: 25px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -2587,7 +2637,7 @@ body.page-Practical_Plants .article-content{
   margin-top: 0;
 }
 body.ns-special #page-header{
-  padding: 10px 40px;
+  
 }
 /* =============== Preference Page ================ */
 

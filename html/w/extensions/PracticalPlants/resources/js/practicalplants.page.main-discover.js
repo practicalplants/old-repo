@@ -20,6 +20,23 @@ function log(){
 	
 function init(){
 	$('#main-page-discover').discover( getOptions() );
+	/*$("#main-page-discover .collapse").collapse({
+		head:'.collapser',
+		group:'.collapsee',
+	    show: function() {
+	        this.animate({
+	            opacity: 'toggle', 
+	            height: 'toggle'
+	        }, 300);
+	    },
+	    hide: function(){
+	    	this.animate({
+	    	    opacity: 'toggle', 
+	    	    height: 'toggle'
+	    	}, 300);
+	    	//this.after('<div class="collapse-notice">This content is hidden. Click the heading to display it.</div>');
+	    }
+	});	*/
 }
 
 function addImageRequest(title,el){
