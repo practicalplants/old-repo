@@ -620,6 +620,60 @@ class PracticalPlants{
 		return true;
 	}
 
+
+	function sfMultipleInstanceTemplateBeforeHTML(&$html, $template){
+		if($template->template_name === 'Reference'){
+			$html = '
+			<div class="multipleTemplateWrapper">
+			<table class="table">
+			<thead>
+				<th class="ref-type">Type</th>
+				<th class="ref-id">Identifier</th>
+				<th class="ref-author">Author</th>
+				<th class="ref-title">Title</th>
+				<th class="ref-source">Source</th>
+				<th class="ref-url">URL/ISBN</th>
+				<th class="ref-date">Date</th>
+				<th class="ref-buttons"></th>
+			</thead>
+			<tbody class="multipleTemplateList">';
+		}
+		return true;
+	}
+	function sfMultipleInstanceTemplateAfterHTML(&$html, $template){
+		if($template->template_name === 'Reference'){
+			$html = '</tbody></table>';
+			$html .= $template->addButtonHTML();
+			$html .= '</div>';
+		}
+		return true;
+	}
+	function sfMultipleInstanceTemplateHTML(&$html, $content, $template){
+		//$html = '<tr class="multipleTemplateInstance">'.$content.'</tr>';
+		if($template->template_name === 'Reference'){
+			$html = '<tr class="multipleTemplateInstance multipleTemplate">'.$content.'</tr>';
+		}
+		return true;
+	}
+
+	function sfMultipleInstanceTemplateAdderHTML(&$html, $content, $template){
+		if($template->template_name === 'Reference'){
+			$html = '<tr class="multipleTemplateStarter" style="display:none">'.$content.'</tr>';
+		}
+		return true;
+	}
+
+	function sfMultipleInstanceTemplateInnerHTML(&$html, $section, $template){
+		global $sfgScriptPath;
+		if($template->template_name === 'Reference'){
+		$html =   str_replace('-!/td!-','</td>',str_replace('-!td!-', '<td>', $section)).'<td>'
+				. '<span class="removeButton"><a class="btn btn-link remover"><i class="icon-remove"></i></a></span>'
+				. '<span class="instanceRearranger"><img src="'.$sfgScriptPath.'/skins/rearranger.png" class="rearrangerImage"></span>'
+				. '</td>';
+		}
+		return true;
+	}
+
 }
 
 ?>
