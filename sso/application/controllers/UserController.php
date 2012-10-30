@@ -454,11 +454,13 @@ class UserController extends Zend_Controller_Action {
     }
     
     protected function destroySession(){
+        $integrations = new Application_Model_Integrations();
+        $integrations->onDestroySession();
+        
     	if (Zend_Session::sessionExists()) {
     	    Zend_Session::destroy(true, true);
     	}
-    	$integrations = new Application_Model_Integrations();
-    	$integrations->onDestroySession();
+    	
     }
 
     /**
