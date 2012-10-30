@@ -10,11 +10,17 @@
 
   var cookie_name = 'sso_method', cookie_path='/';
 
+  function log(){
+    if(console){
+      console.log.apply(console,arguments);
+    }
+  }
+
   function init(){
     $login = $('form#account-menu-login');
     //set the method to the users last chosen method
     current_method = readCookie() || default_method;
-    console.log("Current method is "+readCookie());
+    //console.log("Current method is "+readCookie());
     $('#login-with-dropdown i').attr( 'class', $login.find('[data-auth_name="'+current_method+'"] i').attr('class') );
 
     
@@ -33,34 +39,36 @@
 
     if($login){
       $login.find('a[data-auth_type=external]').click(function(ev){
-        var $this = $(this);
+        ev.preventDefault();
 
+        var $this = $(this);
         $('#login-with-dropdown i').attr( 'class', $this.find('i').attr('class') );
         
+        log('Clicked ',$this.attr('data-auth_name') );
         externalLogin( $this.attr('data-auth_name') );
         
         return false;
-        ev.preventDefault();
+        
       });
 
       $login.find('a[data-auth_type=local]').click(function(ev){
+        ev.preventDefault();
+
         var $this = $(this);
         //open login modal
         $('#login-with-dropdown i').attr( 'class', $this.find('i').attr('class') );
         localLogin();
-
-        ev.preventDefault();
+        
         return false;
         
       });
 
       //when the login button is clicked, simulate a click on the current method link
       $login.find('#login-with-button').click(function(ev){
+        ev.preventDefault();
         var $this = $(this);
 
         $login.find('[data-auth_name="'+current_method+'"]').click();
-
-        ev.preventDefault();
         return false;
       });
     }
@@ -69,13 +77,12 @@
       setCookie(provider);
       auth_url = $login.find('[data-auth_name="'+provider+'"]').attr('data-auth_url');
       if(auth_url){
-          externalLogin(auth_url);
-          $login.find('#openid_identifier').val(provider);
+          $login.find('#loginmenu_openid_identifier').val(auth_url);
           $login.attr('action',external_url).submit();
         }else{
           $openidModal.modal('show');
         }
-
+      return false;
       
     }
 

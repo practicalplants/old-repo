@@ -17,8 +17,8 @@ echo $this->doctype(); ?>
 
         echo $this->headLink();
 
-        $this->headScript()->appendFile($this->baseUrl('../resources/js/libs/openid-jquery.js'));
-        $this->headScript()->appendFile($this->baseUrl('../resources/js/libs/openid-en.js'));
+        $this->headScript()->appendFile($this->baseUrl('/js/openid-jquery.js'));
+        $this->headScript()->appendFile($this->baseUrl('/js/openid-en.js'));
  
         echo $this->headScript();
 			        

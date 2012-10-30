@@ -143,7 +143,7 @@ class UserController extends Zend_Controller_Action {
         $openid_identifier = $this->getRequest()->getParam('openid_identifier', null);
         if($openid_identifier)
         	$authSess->identifier = $openid_identifier;
-        //echo 'ID: '.$authSess->identifier.'<br>';
+        //echo 'ID: '.$openid_identifier.'<br>'; exit;
 
         // $openid_mode will be set after first query to the openid provider
         $openid_mode = $this->getRequest()->getParam('openid_mode', null);

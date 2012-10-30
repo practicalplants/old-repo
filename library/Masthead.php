@@ -63,14 +63,8 @@ class PracticalPlants_Masthead{
         <a href="/sso" id="user-loggedin"><i class="icon-user icon-white"></i> Account</a>
 	  	  <a href="/sso/logout" class="btn btn-small"><i class="icon-off"></i> Log Out</a>
 	  	<?php else: ?>
-	  	  <!--<form method="post" enctype="application/x-www-form-urlencoded" action="/sso/authenticate/">
-          <input type="text" name="email" id="email" value="" placeholder="email">
-          <input type="password" name="password" id="password" value="" placeholder="password">
-          <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
-	  	    <button type="submit" name="login" id="login-button" class="btn"><i class="icon-user"></i> Log In <b class="caret"></b></button>
-	  	  </form>-->
         <form method="post" action="/sso/authenticate/" id="account-menu-login">
-          <input type="hidden" name="openid_identifier" id="openid_identifier" value="">
+          <input type="hidden" name="openid_identifier" id="loginmenu_openid_identifier" value="">
           <div class="btn-group dropdown" id="login-button-group">
             <button class="btn" id="login-with-button">Login with</button>
             <button class="btn dropdown-toggle" data-toggle="dropdown" id="login-with-dropdown">
@@ -209,7 +203,7 @@ class PracticalPlants_Masthead{
       <div class="control-group">
         <label class="control-label" for="openid_identifier">OpenID URL</label>
         <div class="controls">
-          <input type="text" id="openid_identifier" name="openid_identifier" placeholder="http://you.youropenidurl.com">
+          <input type="text" id="loginmodal_openid_identifier" name="openid_identifier" placeholder="http://you.youropenidurl.com">
         </div>
       </div>
     </form>
