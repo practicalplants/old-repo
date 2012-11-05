@@ -20,7 +20,7 @@ $wgExtensionCredits['parserhook'][] = array(
    'path' => __FILE__,
    'name' => 'Move To Skin',
    'description' => 'Move content from the article to the skin.',
-   'version' => 0.1.2, 
+   'version' => '0.1.2', 
    'author' => 'Andru Vallance',
    'url' => 'https://www.mediawiki.org/wiki/Extension:MoveToSkin'
 );
