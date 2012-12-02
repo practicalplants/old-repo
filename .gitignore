@@ -24,3 +24,4 @@ sso/private/session/*
 wordpress/wp-config.php
 html/w/logs/*
 html/w/images
+html/w/images/*
