@@ -23,3 +23,4 @@ sso/private/session/*
 #wordpress
 wordpress/wp-config.php
 html/w/logs/*
+html/w/images
