@@ -337,7 +337,7 @@ print_r($_GET);
 
 	<nav id="menubar"<?php $this->html('userlangattributes')  ?> class="masthead-submenu navbar">
 	  <ul class="nav">
-	    <li><a href="/wiki/"><i class="icon-home icon-white"></i> Home</a>
+	    <li><a href="/wiki/"><i class="icon-home icon-white"></i> Home</a></li>
 	    <li><a href="/wiki/Search"><i class="icon-search icon-white"></i> Advanced Search</a></li>
 	    <li class="dropdown">
     	    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Your Pages <b class="caret"></b></a>
@@ -357,6 +357,7 @@ print_r($_GET);
       	<?php			} ?>
       		</ul>
     	</li>
+      <li><a href="/wiki/Help:Contents"><i class="icon-question-sign icon-white"></i> Help</a></li>
     </ul>
     <ul class="nav pull-right">
     	<li id="search-nav">
