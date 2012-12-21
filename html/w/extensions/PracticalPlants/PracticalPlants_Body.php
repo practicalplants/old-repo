@@ -640,10 +640,10 @@ class PracticalPlants{
 		}
 		return true;
 	}
-	function sfMultipleInstanceTemplateAfterHTML(&$html, $template){
+	function sfMultipleInstanceTemplateAfterHTML(&$html, &$button, $template){
 		if($template->template_name === 'Reference'){
 			$html = '</tbody></table>';
-			$html .= $template->addButtonHTML();
+			$html .= $button;
 			$html .= '</div>';
 		}
 		return true;

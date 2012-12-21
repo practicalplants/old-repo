@@ -484,9 +484,8 @@ class SFFormPrinter {
 						// So, the HTML will be stored in $multipleTemplateString.
 						if ( $allow_multiple ) {
 							//we want to wrap here
-							$multipleTemplateInstance = SFMultipleTemplate::getInstance($template_name);//,$form_is_disabled,$section,$instance_num);
+							$multipleTemplateInstance = new SFMultipleInstanceTemplate($template_name);//,$form_is_disabled,$section,$instance_num);
 							$multipleTemplateInstance->setDisabled($form_is_disabled);
-							$multipleTemplateString.=$multipleTemplateInstance->beforeHTML();
 						}
 					}
 					if ( $curPlaceholder == null ) {
@@ -1372,17 +1371,15 @@ END;
 			}
 
 			if ( $allow_multiple ) {
-				$multipleTemplateInstance->setSection($section);
+				//add the current section as a multiple template instance to print when all sections
+				//have been iterated
+				$multipleTemplateInstance->addInstance($section);
 				if ( $curPlaceholder == null ) {
 					// The normal process.
 					
 					// and add the add button
-					if(!$all_instances_printed){
-						$form_text .= $multipleTemplateInstance->itemHTML();
-					}else{
-						//if all the instances have been added
-						$form_text .= $multipleTemplateInstance->adderHTML();
-						$form_text .= $multipleTemplateInstance->afterHTML();
+					if($all_instances_printed){
+						$form_text .= $multipleTemplateInstance->getHTML();
 					}
 
 				} else { // if ( $curPlaceholder != null ){
@@ -1394,11 +1391,8 @@ END;
 					
 					// If there are still instances to add, add them, otherwise add the hidden template fields
 					// and add the add button
-					if(!$all_instances_printed){
-						$multipleTemplateString .= $multipleTemplateInstance->itemHTML();
-					}else{
-						$multipleTemplateString .= $multipleTemplateInstance->adderHTML();
-						$multipleTemplateString .= $multipleTemplateInstance->afterHTML();
+					if($all_instances_printed){
+						$multipleTemplateString .= $multipleTemplateInstance->getHTML();
 					}
 
 					// We replace the $multipleTemplateString HTML into the
