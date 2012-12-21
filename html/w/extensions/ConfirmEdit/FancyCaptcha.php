@@ -29,6 +29,16 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
+$dir = __DIR__;
+require_once $dir . '/ConfirmEdit.php';
+$wgCaptchaClass = 'FancyCaptcha';
+
+/**
+ * The name of a file backend ($wgFileBackends) to be used for storing files.
+ * Defaults to FSFileBackend using $wgCaptchaDirectory as a base path.
+ */
+$wgCaptchaFileBackend = '';
+
 global $wgCaptchaDirectory;
 $wgCaptchaDirectory = "$wgUploadDirectory/captcha"; // bad default :D
 
@@ -40,11 +50,11 @@ $wgCaptchaSecret = "CHANGE_THIS_SECRET!";
 
 /**
  * By default the FancyCaptcha rotates among all available captchas.
- * Setting $wgCaptchaDeleteOnSolve to true will delete the captcha 
- * files when they are correctly solved. Thus the user will need 
+ * Setting $wgCaptchaDeleteOnSolve to true will delete the captcha
+ * files when they are correctly solved. Thus the user will need
  * something like a cron creating new thumbnails to avoid drying up.
  */
 $wgCaptchaDeleteOnSolve = false;
 
-$wgExtensionMessagesFiles['FancyCaptcha'] = dirname( __FILE__ ) . '/FancyCaptcha.i18n.php';
-$wgAutoloadClasses['FancyCaptcha'] = dirname( __FILE__ ) . '/FancyCaptcha.class.php';
+$wgExtensionMessagesFiles['FancyCaptcha'] = $dir . '/FancyCaptcha.i18n.php';
+$wgAutoloadClasses['FancyCaptcha'] = $dir . '/FancyCaptcha.class.php';

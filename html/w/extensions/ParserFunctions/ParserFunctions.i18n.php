@@ -10,265 +10,30 @@ $messages = array();
 
 $messages['en'] = array(
 	'pfunc_desc'                            => 'Enhance parser with logical functions',
-	'pfunc_time_error'                      => 'Error: invalid time',
-	'pfunc_time_too_long'                   => 'Error: too many #time calls',
-	'pfunc_time_too_big'                    => 'Error: #time only supports years up to 9999',
-	'pfunc_rel2abs_invalid_depth'           => 'Error: Invalid depth in path: "$1" (tried to access a node above the root node)',
-	'pfunc_expr_stack_exhausted'            => 'Expression error: Stack exhausted',
-	'pfunc_expr_unexpected_number'          => 'Expression error: Unexpected number',
-	'pfunc_expr_preg_match_failure'         => 'Expression error: Unexpected preg_match failure',
-	'pfunc_expr_unrecognised_word'          => 'Expression error: Unrecognised word "$1"',
-	'pfunc_expr_unexpected_operator'        => 'Expression error: Unexpected $1 operator',
-	'pfunc_expr_missing_operand'            => 'Expression error: Missing operand for $1',
-	'pfunc_expr_unexpected_closing_bracket' => 'Expression error: Unexpected closing bracket',
-	'pfunc_expr_unrecognised_punctuation'   => 'Expression error: Unrecognised punctuation character "$1"',
-	'pfunc_expr_unclosed_bracket'           => 'Expression error: Unclosed bracket',
-	'pfunc_expr_division_by_zero'           => 'Division by zero',
-	'pfunc_expr_invalid_argument'           => 'Invalid argument for $1: < -1 or > 1',
-	'pfunc_expr_invalid_argument_ln'        => 'Invalid argument for ln: <= 0',
-	'pfunc_expr_unknown_error'              => 'Expression error: Unknown error ($1)',
-	'pfunc_expr_not_a_number'               => 'In $1: result is not a number',
-	'pfunc_string_too_long'                 => 'Error: string exceeds $1 character limit',
-	'pfunc-convert-dimensionmismatch'       => 'Error: cannot convert between units of "$1" and "$2"',
-	'pfunc-convert-unknownunit'             => 'Error: unknown unit "$1"',
-	'pfunc-convert-unknowndimension'        => 'Error: unknown dimension "$1"',
-	'pfunc-convert-invalidcompoundunit'     => 'Error: invalid compound unit "$1"',
-	'pfunc-convert-nounit'                  => 'Error: no source unit given',
-	'pfunc-convert-doublecompoundunit'      => 'Error: cannot parse double compound units like "$1"',
-
-	# DIMENSION NAMES
-	'pfunc-convert-dimension-length'                 => 'length',
-	'pfunc-convert-dimension-area'                   => 'area',
-	'pfunc-convert-dimension-volume'                 => 'volume',
-	'pfunc-convert-dimension-time'                   => 'time',
-	'pfunc-convert-dimension-timesquared'            => 'time<sup>2</sup>',
-	'pfunc-convert-dimension-mass'                   => 'mass',
-	'pfunc-convert-dimension-speed'                  => 'speed',
-	'pfunc-convert-dimension-temperature'            => 'temperature',
-	'pfunc-convert-dimension-acceleration'           => 'acceleration',
-	'pfunc-convert-dimension-force'                  => 'force',
-	'pfunc-convert-dimension-torque'                 => 'torque',
-	'pfunc-convert-dimension-energy'                 => 'energy',
-	'pfunc-convert-dimension-power'                  => 'power',
-	'pfunc-convert-dimension-pressure'               => 'pressure',
-	'pfunc-convert-dimension-density'                => 'density',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'fuelefficiencypositive',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'fuelefficiencynegative',
-
-	# SI PREFIXES
-
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa'   => 'exa',
-	'pfunc-convert-prefix-peta'  => 'peta',
-	'pfunc-convert-prefix-tera'  => 'tera',
-	'pfunc-convert-prefix-giga'  => 'giga',
-	'pfunc-convert-prefix-mega'  => 'mega',
-	'pfunc-convert-prefix-kilo'  => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hecto',
-	'pfunc-convert-prefix-deca'  => 'deca',
-	'pfunc-convert-prefix-deci'  => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli'  => 'milli',
-	'pfunc-convert-prefix-micro' => 'micro',
-	'pfunc-convert-prefix-nano'  => 'nano',
-	'pfunc-convert-prefix-pico'  => 'pico',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto'  => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yocto', 
-	
-	'pfunc-convert-prefix-yotta-abbr' => 'Y',
-	'pfunc-convert-prefix-zetta-abbr' => 'Z',
-	'pfunc-convert-prefix-exa-abbr'   => 'E',
-	'pfunc-convert-prefix-peta-abbr'  => 'P',
-	'pfunc-convert-prefix-tera-abbr'  => 'T',
-	'pfunc-convert-prefix-giga-abbr'  => 'G',
-	'pfunc-convert-prefix-mega-abbr'  => 'M',
-	'pfunc-convert-prefix-kilo-abbr'  => 'k',
-	'pfunc-convert-prefix-hecto-abbr' => 'h',
-	'pfunc-convert-prefix-deca-abbr'  => 'da',
-	'pfunc-convert-prefix-deci-abbr'  => 'd',
-	'pfunc-convert-prefix-centi-abbr' => 'c',
-	'pfunc-convert-prefix-milli-abbr'  => 'm',
-	'pfunc-convert-prefix-micro-abbr' => 'μ',
-	'pfunc-convert-prefix-nano-abbr'  => 'n',
-	'pfunc-convert-prefix-pico-abbr'  => 'p',
-	'pfunc-convert-prefix-femto-abbr' => 'f',
-	'pfunc-convert-prefix-atto-abbr'  => 'a',
-	'pfunc-convert-prefix-zepto-abbr' => 'z',
-	'pfunc-convert-prefix-yocto-abbr' => 'y',
-
-	# LENGTH
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2meter|$2meters}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|angstrom|angstroms}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|mile|miles}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlongs}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|chain|chains}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|rod|rods}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|fathom|fathoms}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|yard|yards}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|foot|feet}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|hand|hands}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|inch|inches}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|nautical mile|nautical miles}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|nautical mile (pre-1970 British)|nautical miles (pre-1970 British)}}',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|nautical mile (pre-1954 US)|nautical miles (pre-1954 US)}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2parsec|$2parsecs}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|$2lightyear|$2lightyears}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|astronomical unit|astronomical units}}',
-
-	'pfunc-convert-unit-length-metre-abbr' => '$2m',
-	'pfunc-convert-unit-length-angstrom-abbr' => 'Å',
-	'pfunc-convert-unit-length-mile-abbr' => 'mi',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'chain',
-	'pfunc-convert-unit-length-rod-abbr' => 'rd',
-	'pfunc-convert-unit-length-fathom-abbr' => 'fathom',
-	'pfunc-convert-unit-length-yard-abbr' => 'yd',
-	'pfunc-convert-unit-length-foot-abbr' => 'ft',
-	'pfunc-convert-unit-length-hand-abbr' => 'h',
-	'pfunc-convert-unit-length-inch-abbr' => 'in',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'nmi',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'nmi (Brit)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'nmi (pre-1954 US)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2pc',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2ly',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'AU',
-
-	# AREA #
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|square kilometer|square kilometers}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|square meter|square meters}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|square centimeter|square centimeters}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|square millimeter|square millimeters}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hectare|hectares}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|square mile|square miles}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|acre|acres}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|square yard|square yards}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|square foot|square feet}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|square inch|square inches}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|square nautical mile|square nautical miles}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|dunam|dunams}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|tsubo|tsubo}}',
-
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'sq mi',
-	'pfunc-convert-unit-area-acre-abbr' => 'acre',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'sq yd',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'sq ft',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'sq in',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'sq nmi',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-
-	# TIME #
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|second|seconds}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2year|$2years}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|day|days}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|hour|hours}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minute|minutes}}',
-
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => '$2yr',
-	'pfunc-convert-unit-time-day-abbr' => 'day',
-	'pfunc-convert-unit-time-hour-abbr' => 'hr',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	
-	# VOLUME #
-	'pfunc-convert-unit-volume-cubicmetre'      => '{{PLURAL:$1|cubic meter|cubic meters}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|cubic centimeter|cubic centimeters}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|cubic millimeter|cubic millimeters}}',
-	'pfunc-convert-unit-volume-kilolitre'       => '{{PLURAL:$1|kiloliter|kiloliters}}',
-	'pfunc-convert-unit-volume-litre'           => '{{PLURAL:$1|liter|liters}}',
-	'pfunc-convert-unit-volume-centilitre'      => '{{PLURAL:$1|centiliter|centiliters}}',
-	'pfunc-convert-unit-volume-millilitre'      => '{{PLURAL:$1|milliliter|milliliters}}',
-	'pfunc-convert-unit-volume-cubicyard'       => '{{PLURAL:$1|cubic yard|cubic yards}}',
-	'pfunc-convert-unit-volume-cubicfoot'       => '{{PLURAL:$1|cubic foot|cubic feet}}',
-	'pfunc-convert-unit-volume-cubicinch'       => '{{PLURAL:$1|cubic inch|cubic inches}}',
-	'pfunc-convert-unit-volume-barrel'          => '{{PLURAL:$1|barrel|barrels}}',
-	'pfunc-convert-unit-volume-bushel'          => '{{PLURAL:$1|bushel|bushels}}',
-	'pfunc-convert-unit-volume-gallon'          => '{{PLURAL:$1|gallon|gallons}}',
-	'pfunc-convert-unit-volume-quart'           => '{{PLURAL:$1|quart|quarts}}',
-	'pfunc-convert-unit-volume-pint'            => '{{PLURAL:$1|pint|pints}}',
-	'pfunc-convert-unit-volume-fluidounce'      => '{{PLURAL:$1|fluid ounce|fluid ounces}}',
-	'pfunc-convert-unit-volume-barrelus'        => '{{PLURAL:$1|US barrel|US barrels}}',
-	'pfunc-convert-unit-volume-barreloil'       => '{{PLURAL:$1|barrel|barrel}}',
-	'pfunc-convert-unit-volume-barrelbeer'      => '{{PLURAL:$1|barrel|barrel}}',
-	'pfunc-convert-unit-volume-usgallon'        => '{{PLURAL:$1|US gallon|US gallons}}',
-	'pfunc-convert-unit-volume-usquart'         => '{{PLURAL:$1|US quart|US quarts}}',
-	'pfunc-convert-unit-volume-uspint'          => '{{PLURAL:$1|US pint|US pints}}',
-	'pfunc-convert-unit-volume-usfluidounce'    => '{{PLURAL:$1|US fluid ounce|US fluid ounces}}',
-	'pfunc-convert-unit-volume-usdrybarrel'     => '{{PLURAL:$1|US dry barrel|US dry barrels}}',
-	'pfunc-convert-unit-volume-usbushel'        => '{{PLURAL:$1|US bushel|US bushels}}',
-	'pfunc-convert-unit-volume-usdrygallon'     => '{{PLURAL:$1|US dry gallon|US dry gallons}}',
-	'pfunc-convert-unit-volume-usdryquart'      => '{{PLURAL:$1|US dry quart|US dry quarts}}',
-	'pfunc-convert-unit-volume-usdrypint'       => '{{PLURAL:$1|US dry pint|US dry pints}}',
-
-	'pfunc-convert-unit-volume-cubicmetre-abbr'      => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr'           => '$2l',
-	'pfunc-convert-unit-volume-cubicyard-abbr'       => 'cu yd',
-	'pfunc-convert-unit-volume-cubicfoot-abbr'       => 'cu ft',
-	'pfunc-convert-unit-volume-cubicinch-abbr'       => 'cu in',
-	'pfunc-convert-unit-volume-barrel-abbr'          => 'bbl',
-	'pfunc-convert-unit-volume-bushel-abbr'          => 'bsh',
-	'pfunc-convert-unit-volume-gallon-abbr'          => 'gal',
-	'pfunc-convert-unit-volume-quart-abbr'           => 'qt',
-	'pfunc-convert-unit-volume-pint-abbr'            => 'pt',
-	'pfunc-convert-unit-volume-fluidounce-abbr'      => 'fl oz',
-	'pfunc-convert-unit-volume-barrelus-abbr'        => 'US bbl',
-	'pfunc-convert-unit-volume-barreloil-abbr'       => 'bbl',
-	'pfunc-convert-unit-volume-barrelbeer-abbr'      => 'bbl',
-	'pfunc-convert-unit-volume-usgallon-abbr'        => 'US gal',
-	'pfunc-convert-unit-volume-usquart-abbr'         => 'US qt',
-	'pfunc-convert-unit-volume-uspint-abbr'          => 'US pt',
-	'pfunc-convert-unit-volume-usfluidounce-abbr'    => 'US fl oz',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr'     => 'US bbl',
-	'pfunc-convert-unit-volume-usbushel-abbr'        => 'US bsh',
-	'pfunc-convert-unit-volume-usdrygallon-abbr'     => 'US dry gal',
-	'pfunc-convert-unit-volume-usdryquart-abbr'      => 'US dry qt',
-	'pfunc-convert-unit-volume-usdrypint-abbr'       => 'US dry pt',
-
-	# SPEED
-	'pfunc-convert-unit-speed-mile-hour'             => 'miles per hour',
-	'pfunc-convert-unit-speed-speedoflight'          => 'c',
-
-	'pfunc-convert-unit-speed-mile-hour-abbr'        => 'mph',
-	'pfunc-convert-unit-speed-speedoflight-abbr'     => 'c',
-	
-	# PRESSURE
-	'pfunc-convert-unit-pressure-pascal'            => '{{PLURAL:$1|$2pascal|$2pascals}}',
-	'pfunc-convert-unit-pressure-bar'               => 'bar',
-	'pfunc-convert-unit-pressure-decibar'           => 'decibar',
-	'pfunc-convert-unit-pressure-millibar'          => 'millibar',
-	'pfunc-convert-unit-pressure-kilobarye'         => 'kilobarye',
-	'pfunc-convert-unit-pressure-barye'             => 'barye',
-	'pfunc-convert-unit-pressure-atmosphere'        => '{{PLURAL:$1|atmosphere|atmospheres}}',
-	'pfunc-convert-unit-pressure-torr'              => '{{PLURAL:$1|Torr|Torr}}',
-	'pfunc-convert-unit-pressure-mmhg'              => '{{PLURAL:$1|millimeter of mercury|millimeters of mercury}}',
-	'pfunc-convert-unit-pressure-inhg'              => '{{PLURAL:$1|inch of mercury|inches of mercury}}',
-	'pfunc-convert-unit-pressure-psi'               => '{{PLURAL:$1|pound per square-inch|pounds per square-inch}}',
-
-	'pfunc-convert-unit-pressure-pascal-abbr'            => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr'               => 'bar',
-	'pfunc-convert-unit-pressure-decibar-abbr'           => 'dbar',
-	'pfunc-convert-unit-pressure-millibar-abbr'           => 'mbar',
-	'pfunc-convert-unit-pressure-kilobarye-abbr'         => 'kBa',
-	'pfunc-convert-unit-pressure-barye-abbr'             => 'Ba',
-	'pfunc-convert-unit-pressure-atmosphere-abbr'        => 'atm',
-	'pfunc-convert-unit-pressure-torr-abbr'              => 'Torr',
-	'pfunc-convert-unit-pressure-mmhg-abbr'              => 'mmHg',
-	'pfunc-convert-unit-pressure-inhg-abbr'              => 'inHg',
-	'pfunc-convert-unit-pressure-psi-abbr'               => 'psi',
+	'pfunc_time_error'                      => 'Error: Invalid time.',
+	'pfunc_time_too_long'                   => 'Error: Too many #time calls.',
+	'pfunc_time_too_big'                    => 'Error: #time only supports years up to 9999.',
+	'pfunc_rel2abs_invalid_depth'           => 'Error: Invalid depth in path: "$1" (tried to access a node above the root node).',
+	'pfunc_expr_stack_exhausted'            => 'Expression error: Stack exhausted.',
+	'pfunc_expr_unexpected_number'          => 'Expression error: Unexpected number.',
+	'pfunc_expr_preg_match_failure'         => 'Expression error: Unexpected preg_match failure.',
+	'pfunc_expr_unrecognised_word'          => 'Expression error: Unrecognised word "$1".',
+	'pfunc_expr_unexpected_operator'        => 'Expression error: Unexpected $1 operator.',
+	'pfunc_expr_missing_operand'            => 'Expression error: Missing operand for $1.',
+	'pfunc_expr_unexpected_closing_bracket' => 'Expression error: Unexpected closing bracket.',
+	'pfunc_expr_unrecognised_punctuation'   => 'Expression error: Unrecognised punctuation character "$1".',
+	'pfunc_expr_unclosed_bracket'           => 'Expression error: Unclosed bracket.',
+	'pfunc_expr_division_by_zero'           => 'Division by zero.',
+	'pfunc_expr_invalid_argument'           => 'Invalid argument for $1: < -1 or > 1.',
+	'pfunc_expr_invalid_argument_ln'        => 'Invalid argument for ln: <= 0.',
+	'pfunc_expr_unknown_error'              => 'Expression error: Unknown error ($1).',
+	'pfunc_expr_not_a_number'               => 'In $1: Result is not a number.',
+	'pfunc_string_too_long'                 => 'Error: String exceeds $1 character limit.',
 );
 
 /** Message documentation (Message documentation)
  * @author Jon Harald Søby
+ * @author Kghbln
  * @author Meno25
  * @author Siebrand
  * @author The Evil IP address
@@ -316,7 +81,7 @@ $messages['aln'] = array(
 	'pfunc_expr_unexpected_number' => 'gabim Shprehja: Numri i papritur',
 );
 
-/** Aragonese (Aragonés)
+/** Aragonese (aragonés)
  * @author Juanpabl
  */
 $messages['an'] = array(
@@ -407,7 +172,7 @@ $messages['as'] = array(
 	'pfunc_time_error' => 'ভুল: অযোগ্য সময়',
 );
 
-/** Asturian (Asturianu)
+/** Asturian (asturianu)
  * @author Esbardu
  * @author Xuacu
  */
@@ -415,6 +180,7 @@ $messages['ast'] = array(
 	'pfunc_desc' => "Ameyora l'análisis sintáuticu con funciones llóxiques",
 	'pfunc_time_error' => 'Error: tiempu non válidu',
 	'pfunc_time_too_long' => 'Error: demasiaes llamaes #time',
+	'pfunc_time_too_big' => 'Error: #time sólo almite años fasta 9999.',
 	'pfunc_rel2abs_invalid_depth' => 'Error: Nivel de subdireutoriu non válidu: "$1" (intentu d\'accesu penriba del direutoriu raíz)',
 	'pfunc_expr_stack_exhausted' => "Error d'espresión: Pila escosada",
 	'pfunc_expr_unexpected_number' => "Error d'espresión: Númberu inesperáu",
@@ -431,64 +197,16 @@ $messages['ast'] = array(
 	'pfunc_expr_unknown_error' => "Error d'espresión: Error desconocíu ($1)",
 	'pfunc_expr_not_a_number' => 'En $1: el resultáu nun ye un númberu',
 	'pfunc_string_too_long' => 'Error: la cadena pasa la llende de $1 caráuteres',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2metru|$2metros}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|angstrom|angstroms}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|milla|milles}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|yarda|yardes}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|pie|pies}}',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|quilómetru cuadráu|quilómetros cuadraos}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|metru cuadráu|metros cuadraos}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|segundu|segundos}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2añu|$2años}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|día|díes}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|hora|hores}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minutu|minutos}}',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => '$2añ',
-	'pfunc-convert-unit-time-day-abbr' => 'día',
-	'pfunc-convert-unit-time-hour-abbr' => 'h',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|metru cúbicu|metros cúbicos}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|centímetru cúbicu|centímetros cúbicos}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|milímetru cúbicu|milímetros cúbicos}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|kilollitru|kilollitros}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|llitru|llitros}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|centillitru|centillitros}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|milillitru|milillitros}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2l',
-	'pfunc-convert-unit-speed-mile-hour' => 'milles por hora',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|$2pascal|$2pascales}}',
-	'pfunc-convert-unit-pressure-bar' => 'bar',
-	'pfunc-convert-unit-pressure-decibar' => 'decibar',
-	'pfunc-convert-unit-pressure-millibar' => 'milibar',
-	'pfunc-convert-unit-pressure-kilobarye' => 'kilobario',
-	'pfunc-convert-unit-pressure-barye' => 'bario',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|atmósfera|atmósferes}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'dbar',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'mbar',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'kBa',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ba',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
 );
 
-/** Azerbaijani (Azərbaycanca)
+/** Azerbaijani (azərbaycanca)
  * @author Cekli829
  */
 $messages['az'] = array(
 	'pfunc_time_error' => 'Xəta: yanlış zaman',
 );
 
-/** Bashkir (Башҡортса)
+/** Bashkir (башҡортса)
  * @author Assele
  */
 $messages['ba'] = array(
@@ -537,7 +255,7 @@ $messages['bcc'] = array(
 	'pfunc_expr_not_a_number' => 'ته $1: نتیجه یک عددی نهنت',
 );
 
-/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
+/** Belarusian (Taraškievica orthography) (беларуская (тарашкевіца)‎)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Red Winged Duck
@@ -565,7 +283,7 @@ $messages['be-tarask'] = array(
 	'pfunc_string_too_long' => 'Памылка: у радку перавышаны ліміт $1 {{PLURAL:$1|сымбаль|сымбалі|сымбаляў}}',
 );
 
-/** Bulgarian (Български)
+/** Bulgarian (български)
  * @author DCLXVI
  * @author Spiritia
  */
@@ -616,7 +334,7 @@ $messages['bn'] = array(
 	'pfunc_expr_not_a_number' => '$1: এ ফলাফল কোন সংখ্যা নয়',
 );
 
-/** Breton (Brezhoneg)
+/** Breton (brezhoneg)
  * @author Fulup
  */
 $messages['br'] = array(
@@ -642,7 +360,7 @@ $messages['br'] = array(
 	'pfunc_string_too_long' => "Fazi : Dreist d'ar vevenn uhelañ a $1 arouezenn eo an neudennad",
 );
 
-/** Bosnian (Bosanski)
+/** Bosnian (bosanski)
  * @author CERminator
  * @author Seha
  */
@@ -669,7 +387,7 @@ $messages['bs'] = array(
 	'pfunc_string_too_long' => 'Greška: Niz prelazi limit od $1 znakova',
 );
 
-/** Catalan (Català)
+/** Catalan (català)
  * @author Jordi Roqué
  * @author Qllach
  * @author SMP
@@ -696,7 +414,7 @@ $messages['ca'] = array(
 	'pfunc_string_too_long' => 'Error: La cadena és $1 caràcters massa llarga',
 );
 
-/** Chechen (Нохчийн)
+/** Chechen (нохчийн)
  * @author Sasan700
  */
 $messages['ce'] = array(
@@ -705,7 +423,7 @@ $messages['ce'] = array(
 	'pfunc_expr_unrecognised_word' => 'Яздарехь гlалат ду: дойзуш доцу дош «$1»',
 );
 
-/** Czech (Česky)
+/** Czech (česky)
  * @author Danny B.
  * @author Li-sung
  * @author Matěj Grabovský
@@ -733,62 +451,9 @@ $messages['cs'] = array(
 	'pfunc_expr_unknown_error' => 'Chyba ve výrazu: Neznámá chyba ($1)',
 	'pfunc_expr_not_a_number' => 'V $1: výsledkem není číslo',
 	'pfunc_string_too_long' => 'Chyba: Řetězec je delší než $1 {{PLURAL:$1|znak|znaky|znaků}}, což je limit',
-	'pfunc-convert-dimensionmismatch' => 'Chyba: Nelze převést mezi jednotkami „$1“ a „$2“.',
-	'pfunc-convert-unknownunit' => 'Chyba: Neznámá jednotka „$1“.',
-	'pfunc-convert-unknowndimension' => 'Chyba: Neznámý rozměr „$1“',
-	'pfunc-convert-invalidcompoundunit' => 'Chyba: Neplatná složená jednotka „$1“.',
-	'pfunc-convert-nounit' => 'Chyba: Nebyla zadána zdrojová jednotka.',
-	'pfunc-convert-doublecompoundunit' => 'Chyba: Nelze zpracovat dvojitě složené jednotky, jako je „$1“.',
-	'pfunc-convert-dimension-length' => 'délka',
-	'pfunc-convert-dimension-area' => 'plocha',
-	'pfunc-convert-dimension-volume' => 'objem',
-	'pfunc-convert-dimension-time' => 'čas',
-	'pfunc-convert-dimension-timesquared' => 'čas²',
-	'pfunc-convert-dimension-mass' => 'hmotnost',
-	'pfunc-convert-dimension-speed' => 'rychlost',
-	'pfunc-convert-dimension-temperature' => 'teplota',
-	'pfunc-convert-dimension-acceleration' => 'zrychlení',
-	'pfunc-convert-dimension-force' => 'síla',
-	'pfunc-convert-dimension-torque' => 'točivý moment',
-	'pfunc-convert-dimension-energy' => 'energie',
-	'pfunc-convert-dimension-power' => 'výkon',
-	'pfunc-convert-dimension-pressure' => 'tlak',
-	'pfunc-convert-dimension-density' => 'hustota',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'spotřeba',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hekto',
-	'pfunc-convert-prefix-deca' => 'deka',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'mili',
-	'pfunc-convert-prefix-micro' => 'mikro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'piko',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yokto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2metr|$2metry|$2metrů}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|míle|míle|mil}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|stopa|stopy|stop}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|palec|palce|palců}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2parsek|$2parseky|$2parseků}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|astronomická jednotka|astronomické jednotky|astronomických jednotek}}',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|kilometr čtvereční|kilometry čtvereční|kilometrů čtverečních}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hektar|hektary|hektarů}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|akr|akry|akrů}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|čtvereční stopa|čtvereční stopy|čtverečních stop}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|čtvereční palec|čtvereční palce|čtverečních palců}}',
 );
 
-/** Danish (Dansk)
+/** Danish (dansk)
  * @author Byrial
  * @author Morten LJ
  * @author Peter Alberti
@@ -821,9 +486,11 @@ $messages['da'] = array(
  * @author LWChris
  * @author Metalhead64
  * @author Raimond Spekking
+ * @author Rentenirer
+ * @author Rillke
  */
 $messages['de'] = array(
-	'pfunc_desc' => 'Erweitert den Parser um logische Funktionen',
+	'pfunc_desc' => 'Ergänzt Parserfunktionen, die logische Funktionen auf Wikiseiten ermöglichen',
 	'pfunc_time_error' => 'Fehler: Ungültige Zeitangabe',
 	'pfunc_time_too_long' => 'Fehler: Zu viele #time-Aufrufe',
 	'pfunc_time_too_big' => 'Fehler: #time unterstützt nur Jahre bis 9999',
@@ -854,11 +521,13 @@ $messages['de-ch'] = array(
 
 /** Zazaki (Zazaki)
  * @author Aspar
+ * @author Erdemaslancan
  */
 $messages['diq'] = array(
-	'pfunc_desc' => 'Enhance parser with logical functions',
+	'pfunc_desc' => 'Peserkerden fonksiyanane mantıxin weş kere',
 	'pfunc_time_error' => 'xeta: zemano nemeqbul',
 	'pfunc_time_too_long' => 'xeta:zaf zêd mesajê #timeyi',
+	'pfunc_time_too_big' => 'Xırabin: #time honke qebuliya cı hetana 9999.',
 	'pfunc_rel2abs_invalid_depth' => 'Hata: Yolda geçersiz derinlik: "$1" (kök düğümünün üstünde bir düğüme erişmeye çalıştı)',
 	'pfunc_expr_stack_exhausted' => 'xetaya ifadeyi: stack qediya',
 	'pfunc_expr_unexpected_number' => 'xetaya ifadeyi: amaro bêtexmin',
@@ -870,14 +539,14 @@ $messages['diq'] = array(
 	'pfunc_expr_unrecognised_punctuation' => 'xetaya ifadeyi: karakterê noqtakerdışê "$1"i yo ke nêşınasiyeno',
 	'pfunc_expr_unclosed_bracket' => 'xetaya ifadeyi: parantezo nêqefelnaye',
 	'pfunc_expr_division_by_zero' => 'pê sıfır teqsim ker',
-	'pfunc_expr_invalid_argument' => 'Invalid argument for $1: < -1 or > 1',
-	'pfunc_expr_invalid_argument_ln' => 'Invalid argument for ln: <= 0',
+	'pfunc_expr_invalid_argument' => 'Qande $1 vurnayeno xoser: : < -1 or > 1.',
+	'pfunc_expr_invalid_argument_ln' => 'Qande Ln vurnayeno xoser: < = 0.',
 	'pfunc_expr_unknown_error' => 'xetaya ifadeyi: neticeya ke nêzaniyena ($1)',
 	'pfunc_expr_not_a_number' => '$1 de: netice yew amar niyo',
 	'pfunc_string_too_long' => 'xeta: rêze heddê karakteri yo $1i veciyaya',
 );
 
-/** Lower Sorbian (Dolnoserbski)
+/** Lower Sorbian (dolnoserbski)
  * @author Michawiki
  */
 $messages['dsb'] = array(
@@ -905,6 +574,7 @@ $messages['dsb'] = array(
 /** Greek (Ελληνικά)
  * @author Consta
  * @author Dead3y3
+ * @author Lou
  * @author Omnipaedista
  * @author Απεργός
  */
@@ -920,7 +590,7 @@ $messages['el'] = array(
 	'pfunc_expr_unexpected_operator' => 'Σφάλμα έκφρασης: Μη αναμενόμενος τελεστής $1',
 	'pfunc_expr_missing_operand' => 'Σφάλμα έκφρασης: Λείπει ο τελεστέος για την έκφραση $1',
 	'pfunc_expr_unexpected_closing_bracket' => 'Σφάλμα έκφρασης: Μη αναμενόμενη αγκύλη κλεισίματος',
-	'pfunc_expr_unrecognised_punctuation' => 'Σφάλμα έκφρασης: Μη αναγνρίσμος χαρακτήρας στίξης "$1"',
+	'pfunc_expr_unrecognised_punctuation' => 'Σφάλμα έκφρασης: Μη αναγνωρίσμος χαρακτήρας στίξης "$1"',
 	'pfunc_expr_unclosed_bracket' => 'Σφάλμα έκφρασης: Αγκύλη χωρίς κλείσιμο',
 	'pfunc_expr_division_by_zero' => 'Διαίρεση με το μηδέν',
 	'pfunc_expr_invalid_argument' => 'Άκυρη παράμετρος για το $1: < -1 ή > 1',
@@ -928,30 +598,6 @@ $messages['el'] = array(
 	'pfunc_expr_unknown_error' => 'Σφάλμα έκφρασης: Άγνωστο σφάλμα ($1)',
 	'pfunc_expr_not_a_number' => 'Στο $1: το αποτέλεσμα δεν είναι αριθμός',
 	'pfunc_string_too_long' => 'Σφάλμα: ο ορμαθός υπερβαίνει $1 το όριο χαρακτήρων',
-);
-
-/**
- * British english
- * @author Happy-melon
- */
-$messages['en-gb'] = array(
-	# LENGTH
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2metre|$2metres}}',
-	
-	# AREA #
-	'pfunc-convert-unit-area-squarekilometre'  => '{{PLURAL:$1|square kilometre|square kilometres}}',
-	'pfunc-convert-unit-area-squaremetre'      => '{{PLURAL:$1|square metre|square metres}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|square centimetre|square centimetres}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|square millimetre|square millimetres}}',
-	
-	# VOLUME #
-	'pfunc-convert-unit-volume-cubicmetre'      => '{{PLURAL:$1|cubic metre|cubic metres}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|cubic centimetre|cubic centimetres}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|cubic millimetre|cubic millimetres}}',
-	'pfunc-convert-unit-volume-litre'           => '{{PLURAL:$1|$2litre|$2litres}}',
-
-	# PRESSURE
-	'pfunc-convert-unit-pressure-mmhg'              => '{{PLURAL:$1|millimetre of mercury|millimetres of mercury}}',
 );
 
 /** Esperanto (Esperanto)
@@ -979,7 +625,8 @@ $messages['eo'] = array(
 	'pfunc_string_too_long' => 'Eraro: Ĉeno preterpasas signo-limon $1',
 );
 
-/** Spanish (Español)
+/** Spanish (español)
+ * @author Bernardom
  * @author Crazymadlover
  * @author Muro de Aguas
  * @author Remember the dot
@@ -989,6 +636,7 @@ $messages['es'] = array(
 	'pfunc_desc' => 'Mejora el analizador lógico con funciones.',
 	'pfunc_time_error' => 'Error con la expresión: Tiempo no válido',
 	'pfunc_time_too_long' => 'Error con la expresión: se están utilizando demasiados "#time"',
+	'pfunc_time_too_big' => 'Error: #time solo admite años hasta 9999.',
 	'pfunc_rel2abs_invalid_depth' => 'Error: Profundidad no válida en la ruta: «$1» (trataste de acceder a un nodo por encima de la raíz)',
 	'pfunc_expr_stack_exhausted' => 'Error de expresión: Pila agotada',
 	'pfunc_expr_unexpected_number' => 'Error con la expresión: Número no esperado',
@@ -1007,15 +655,16 @@ $messages['es'] = array(
 	'pfunc_string_too_long' => 'Error: la cadena excede el límite de $1 caracteres',
 );
 
-/** Estonian (Eesti)
+/** Estonian (eesti)
  * @author Pikne
  */
 $messages['et'] = array(
 	'pfunc_desc' => 'Laiendab parserit loogiliste funktsioonidega.',
+	'pfunc_time_error' => 'Tõrge: Vigane aeg',
 	'pfunc_expr_division_by_zero' => 'Nulliga jagamine',
 );
 
-/** Basque (Euskara)
+/** Basque (euskara)
  * @author An13sa
  * @author Kobazulo
  */
@@ -1066,7 +715,7 @@ $messages['fa'] = array(
 	'pfunc_string_too_long' => 'خطا: رشته از محدودیت نویسه‌ای $1 تجاوز می‌کند',
 );
 
-/** Finnish (Suomi)
+/** Finnish (suomi)
  * @author Agony
  * @author Cimon Avaro
  * @author Nike
@@ -1093,16 +742,19 @@ $messages['fi'] = array(
 	'pfunc_string_too_long' => 'Virhe: Merkkijono ylittää $1 merkin ylärajan',
 );
 
-/** French (Français)
+/** French (français)
  * @author Crochet.david
+ * @author Gomoko
  * @author Grondin
+ * @author Hashar
  * @author IAlex
+ * @author Od1n
  * @author Sherbrooke
  * @author Urhixidur
  * @author Verdy p
  */
 $messages['fr'] = array(
-	'pfunc_desc' => 'Améliore le parseur avec des fonctions logiques',
+	'pfunc_desc' => 'Améliore l’analyseur syntaxique avec des fonctions logiques',
 	'pfunc_time_error' => 'Erreur : durée invalide.',
 	'pfunc_time_too_long' => 'Erreur : appels trop nombreux à <code>#time</code>.',
 	'pfunc_time_too_big' => 'Erreur : #time prend uniquement en charge des années jusqu’à 9999.',
@@ -1122,78 +774,9 @@ $messages['fr'] = array(
 	'pfunc_expr_unknown_error' => 'Erreur d’expression : erreur inconnue ($1).',
 	'pfunc_expr_not_a_number' => 'Dans $1 : le résultat n’est pas un nombre.',
 	'pfunc_string_too_long' => 'Erreur : La chaîne dépasse la limite maximale de $1 caractère{{PLURAL:$1||s}}.',
-	'pfunc-convert-unknownunit' => 'Erreur : "$1" est une unité inconnue.',
-	'pfunc-convert-unknowndimension' => 'Erreur : "$1" est une dimension inconnue.',
-	'pfunc-convert-dimension-length' => 'longueur',
-	'pfunc-convert-dimension-area' => 'aire',
-	'pfunc-convert-dimension-volume' => 'volume',
-	'pfunc-convert-dimension-time' => 'temps',
-	'pfunc-convert-dimension-timesquared' => 'temps<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'masse',
-	'pfunc-convert-dimension-speed' => 'vitesse',
-	'pfunc-convert-dimension-temperature' => 'température',
-	'pfunc-convert-dimension-acceleration' => 'accélération',
-	'pfunc-convert-dimension-force' => 'force',
-	'pfunc-convert-dimension-torque' => 'couple',
-	'pfunc-convert-dimension-energy' => 'énergie',
-	'pfunc-convert-dimension-power' => 'puissance',
-	'pfunc-convert-dimension-pressure' => 'pression',
-	'pfunc-convert-dimension-density' => 'densité',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hecto',
-	'pfunc-convert-prefix-deca' => 'deca',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'milli',
-	'pfunc-convert-prefix-micro' => 'micro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'pico',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yocto',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|brasse|brasses}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|pied|pieds}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|main|mains}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|pouce|pouces}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|unité astronomique|unités astronomiques}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hectare|hectares}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|seconde|secondes}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|jour|jours}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|heure|heures}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minute|minutes}}',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => '$2an',
-	'pfunc-convert-unit-time-day-abbr' => 'j',
-	'pfunc-convert-unit-time-hour-abbr' => 'h',
-	'pfunc-convert-unit-time-minute-abbr' => 'm',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|litre|litres}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|centilitre|centilitres}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|millilitre|millilitres}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|boisseau|boisseaux}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2l',
-	'pfunc-convert-unit-speed-mile-hour' => 'miles par heure',
-	'pfunc-convert-unit-pressure-bar' => 'bar',
-	'pfunc-convert-unit-pressure-decibar' => 'decibar',
-	'pfunc-convert-unit-pressure-millibar' => 'millibar',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
 );
 
-/** Franco-Provençal (Arpetan)
+/** Franco-Provençal (arpetan)
  * @author ChrisPtDe
  */
 $messages['frp'] = array(
@@ -1218,7 +801,7 @@ $messages['frp'] = array(
 	'pfunc_string_too_long' => 'Èrror : la chêna dèpâsse la limita d’amont de $1 caractèro{{PLURAL:$1||s}}',
 );
 
-/** Galician (Galego)
+/** Galician (galego)
  * @author Alma
  * @author Elisardojm
  * @author Toliño
@@ -1245,43 +828,6 @@ $messages['gl'] = array(
 	'pfunc_expr_unknown_error' => 'Erro de expresión: Erro descoñecido ($1).',
 	'pfunc_expr_not_a_number' => 'En $1: O resultado non é un número.',
 	'pfunc_string_too_long' => 'Erro: A cadea excede o límite de $1 caracteres.',
-	'pfunc-convert-dimension-length' => 'lonxitude',
-	'pfunc-convert-dimension-area' => 'área',
-	'pfunc-convert-dimension-volume' => 'volume',
-	'pfunc-convert-dimension-time' => 'tempo',
-	'pfunc-convert-dimension-timesquared' => 'tempo<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'masa',
-	'pfunc-convert-dimension-speed' => 'velocidade',
-	'pfunc-convert-dimension-temperature' => 'temperatura',
-	'pfunc-convert-dimension-acceleration' => 'aceleración',
-	'pfunc-convert-dimension-force' => 'forza',
-	'pfunc-convert-dimension-torque' => 'torque',
-	'pfunc-convert-dimension-energy' => 'enerxía',
-	'pfunc-convert-dimension-power' => 'potencia',
-	'pfunc-convert-dimension-pressure' => 'presión',
-	'pfunc-convert-dimension-density' => 'densidade',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'xiga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'quilo',
-	'pfunc-convert-prefix-hecto' => 'hecto',
-	'pfunc-convert-prefix-deca' => 'deca',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'milli',
-	'pfunc-convert-prefix-micro' => 'micro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'pico',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yocto',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
@@ -1341,122 +887,6 @@ $messages['he'] = array(
 	'pfunc_expr_unknown_error' => 'שגיאה בביטוי: שגיאה בלתי ידועה ($1)',
 	'pfunc_expr_not_a_number' => 'התוצאה של $1 אינה מספר',
 	'pfunc_string_too_long' => 'שגיאה: המחרוזת עוברת את גבול התווים המותר, $1',
-	'pfunc-convert-dimensionmismatch' => 'שגיאה: לא ניתן להמיר בין יחידות של "$1" ושל "$2".',
-	'pfunc-convert-unknownunit' => 'שגיאה: יחידה לא ידועה "$1".',
-	'pfunc-convert-unknowndimension' => 'שגיאה: ממד לא ידוע "$1".',
-	'pfunc-convert-invalidcompoundunit' => 'שגיאה: יחידה מורכבת לא ידועה "$1".',
-	'pfunc-convert-nounit' => 'שגיאה: לא ניתנה יחידה התחלתית.',
-	'pfunc-convert-doublecompoundunit' => 'שגיאה: לא ניתן לפענח יחידות מורכבות כפולות כמו "$1".',
-	'pfunc-convert-dimension-length' => 'אורך',
-	'pfunc-convert-dimension-area' => 'שטח',
-	'pfunc-convert-dimension-volume' => 'נפח',
-	'pfunc-convert-dimension-time' => 'זמן',
-	'pfunc-convert-dimension-timesquared' => 'זמן<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'מסה',
-	'pfunc-convert-dimension-speed' => 'מהירות',
-	'pfunc-convert-dimension-temperature' => 'חום',
-	'pfunc-convert-dimension-acceleration' => 'תאוצה',
-	'pfunc-convert-dimension-force' => 'כוח',
-	'pfunc-convert-dimension-torque' => 'מומנט הסיבוב',
-	'pfunc-convert-dimension-energy' => 'אנרגיה',
-	'pfunc-convert-dimension-power' => 'הספק',
-	'pfunc-convert-dimension-pressure' => 'לחץ',
-	'pfunc-convert-dimension-density' => 'צפיפות',
-	'pfunc-convert-prefix-yotta' => 'יוטא',
-	'pfunc-convert-prefix-zetta' => 'זטא',
-	'pfunc-convert-prefix-exa' => 'אקסה',
-	'pfunc-convert-prefix-peta' => 'פטה',
-	'pfunc-convert-prefix-tera' => 'טרה',
-	'pfunc-convert-prefix-giga' => 'גיגה',
-	'pfunc-convert-prefix-mega' => 'מגה',
-	'pfunc-convert-prefix-kilo' => 'קילו',
-	'pfunc-convert-prefix-hecto' => 'הקטו',
-	'pfunc-convert-prefix-deca' => 'דקה',
-	'pfunc-convert-prefix-deci' => 'דצי',
-	'pfunc-convert-prefix-centi' => 'סנטי',
-	'pfunc-convert-prefix-milli' => 'מילי',
-	'pfunc-convert-prefix-micro' => 'מיקרו',
-	'pfunc-convert-prefix-nano' => 'ננו',
-	'pfunc-convert-prefix-pico' => 'פיקו',
-	'pfunc-convert-prefix-femto' => 'פמטו',
-	'pfunc-convert-prefix-atto' => 'אטו',
-	'pfunc-convert-prefix-zepto' => 'זפטו',
-	'pfunc-convert-prefix-yocto' => 'יוקטו',
-	'pfunc-convert-unit-length-furlong-abbr' => 'פרלונג',
-	'pfunc-convert-unit-length-chain-abbr' => 'שלשלת',
-	'pfunc-convert-unit-length-rod-abbr' => 'מַטֶּה',
-	'pfunc-convert-unit-length-fathom-abbr' => 'פאתום',
-	'pfunc-convert-unit-length-yard-abbr' => 'יארד',
-	'pfunc-convert-unit-length-foot-abbr' => 'רגל',
-	'pfunc-convert-unit-length-hand-abbr' => 'כף־יד',
-	'pfunc-convert-unit-length-inch-abbr' => 'אינץ׳',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'מיל ימי',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'מיל ימי (אנגלי)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'מיל ימי (ארה״ב לפני 1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2 פארסק',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2 שנות אור',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'יחידה אסטרונומית',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'קמ״ר',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'מ״ר',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'סמ״ר',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'ממ״ר',
-	'pfunc-convert-unit-area-hectare-abbr' => 'הקטאר',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'מיל רבוע',
-	'pfunc-convert-unit-area-acre-abbr' => 'אקר',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'יארד רבוע',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'רגל רבועה',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'אינץ׳ רבוע',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'מיל ימי רבוע',
-	'pfunc-convert-unit-area-dunam-abbr' => 'דונם',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'צובו',
-	'pfunc-convert-unit-time-second-abbr' => 'שנייה',
-	'pfunc-convert-unit-time-day-abbr' => 'יום',
-	'pfunc-convert-unit-time-hour-abbr' => 'שעה',
-	'pfunc-convert-unit-time-minute-abbr' => 'דקה',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'מטר מעוקב',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'ס״מ מעוקב',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'מ״מ מעוקב',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2 ל׳',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'יארד מעוקב',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'רגל מעוקבת',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'אינץ׳ מעוקב',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'חבית',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'בושל',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'גלון',
-	'pfunc-convert-unit-volume-quart-abbr' => 'קווארטה',
-	'pfunc-convert-unit-volume-pint-abbr' => 'פיינט',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'אונקייה',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'חבית אמריקאית',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'חבית',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'חבית',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'גלון אמריקאי',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'קווארטה אמריקאית',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'פיינט אמריקאי',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'אונקייה אמריקאית',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'חבית אמריקאית',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'בושל אמריקאי',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'גלון יבש אמריקאי',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'קווארטה יבשה אמריקאית',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'פיינט יבש אמריקאי',
-	'pfunc-convert-unit-speed-mile-hour' => 'מיל לשעה',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'מיל לשעה',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-bar' => 'בר',
-	'pfunc-convert-unit-pressure-decibar' => 'דציבר',
-	'pfunc-convert-unit-pressure-millibar' => 'מיליבר',
-	'pfunc-convert-unit-pressure-kilobarye' => 'קילובָּרְיֶה',
-	'pfunc-convert-unit-pressure-barye' => 'בָּרְיֶה',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'בר',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'דציבר',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'מיליבר',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'קילובָּרְיֶה',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'בָּרְיֶה',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'אטמ׳',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'טור',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'מ״מ כספית',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'אינץ׳ כספית',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
 /** Hindi (हिन्दी)
@@ -1484,41 +914,43 @@ $messages['hi'] = array(
 	'pfunc_expr_not_a_number' => '$1 में: रिज़ल्ट संख्यामें नहीं हैं',
 );
 
-/** Croatian (Hrvatski)
+/** Croatian (hrvatski)
  * @author Dalibor Bosits
  * @author Dnik
  * @author Ex13
+ * @author Roberta F.
  * @author SpeedyGonsales
  */
 $messages['hr'] = array(
 	'pfunc_desc' => 'Mogućnost proširivanja parsera logičkim funkcijama',
-	'pfunc_time_error' => 'Greška: oblik vremena nije valjan',
-	'pfunc_time_too_long' => 'Greška: prevelik broj #time (vremenskih) poziva',
-	'pfunc_rel2abs_invalid_depth' => 'Greška: Nevaljana dubina putanje: "$1" (pokušaj pristupanja čvoru iznad korijenskog)',
-	'pfunc_expr_stack_exhausted' => 'Greška u predlošku: prepunjen stog',
-	'pfunc_expr_unexpected_number' => 'Greška u predlošku: Neočekivan broj',
-	'pfunc_expr_preg_match_failure' => 'Greška u predlošku: Neočekivana preg_match greška',
-	'pfunc_expr_unrecognised_word' => 'Greška u predlošku: Nepoznata riječ "$1"',
-	'pfunc_expr_unexpected_operator' => 'Greška u predlošku: Neočekivani operator $1',
-	'pfunc_expr_missing_operand' => 'Greška u predlošku: Operator $1 nedostaje',
-	'pfunc_expr_unexpected_closing_bracket' => 'Greška u predlošku: Neočekivana zatvorena zagrada',
-	'pfunc_expr_unrecognised_punctuation' => 'Greška u predlošku: Nepoznat interpunkcijski znak "$1"',
-	'pfunc_expr_unclosed_bracket' => 'Greška u predlošku: Nezatvorene zagrade',
+	'pfunc_time_error' => 'Pogrješka: oblik vremena nije valjan',
+	'pfunc_time_too_long' => 'Pogrješka: prevelik broj #time (vremenskih) poziva',
+	'pfunc_rel2abs_invalid_depth' => 'Pogrješka: Nevaljana dubina putanje: "$1" (pokušaj pristupanja čvoru iznad korijenskog)',
+	'pfunc_expr_stack_exhausted' => 'Pogrješka u predlošku: prepunjen stog',
+	'pfunc_expr_unexpected_number' => 'Pogrješka u predlošku: Neočekivan broj',
+	'pfunc_expr_preg_match_failure' => 'Pogrješka u predlošku: Neočekivana preg_match pogrješka',
+	'pfunc_expr_unrecognised_word' => 'Pogrješka u predlošku: Nepoznata riječ "$1"',
+	'pfunc_expr_unexpected_operator' => 'Pogrješka u predlošku: Neočekivani operator $1',
+	'pfunc_expr_missing_operand' => 'Pogrješka u predlošku: Operator $1 nedostaje',
+	'pfunc_expr_unexpected_closing_bracket' => 'Pogrješka u predlošku: Neočekivana zatvorena zagrada',
+	'pfunc_expr_unrecognised_punctuation' => 'Pogrješka u predlošku: Nepoznat interpunkcijski znak "$1"',
+	'pfunc_expr_unclosed_bracket' => 'Pogrješka u predlošku: Nezatvorene zagrade',
 	'pfunc_expr_division_by_zero' => 'Dijeljenje s nulom',
 	'pfunc_expr_invalid_argument' => 'Nevaljani argumenti za $1: < -1 ili > 1',
 	'pfunc_expr_invalid_argument_ln' => 'Nevaljani argument za ln: <= 0',
-	'pfunc_expr_unknown_error' => 'Greška u predlošku: Nepoznata greška ($1)',
+	'pfunc_expr_unknown_error' => 'Pogrješka u predlošku: Nepoznata pogrješka ($1)',
 	'pfunc_expr_not_a_number' => 'U $1: rezultat nije broj',
-	'pfunc_string_too_long' => 'Greška: Niz prelazi ograničenje od $1 znakova',
+	'pfunc_string_too_long' => 'Pogrješka: Niz prelazi ograničenje od $1 znakova',
 );
 
-/** Upper Sorbian (Hornjoserbsce)
+/** Upper Sorbian (hornjoserbsce)
  * @author Michawiki
  */
 $messages['hsb'] = array(
 	'pfunc_desc' => 'Parser wo logiske funkcije rozšěrić',
 	'pfunc_time_error' => 'Zmylk: njepłaćiwe časowe podaće',
 	'pfunc_time_too_long' => 'Zmylk: přewjele zawołanjow #time',
+	'pfunc_time_too_big' => 'Zmylk: #time jenož lěta hač do 9999 podpěruje.',
 	'pfunc_rel2abs_invalid_depth' => 'Zmylk: Njepłaćiwa hłubokosć w pućiku: "$1" (Pospyt, zo by na suk wyše hłowneho suka dohrabnyło)',
 	'pfunc_expr_stack_exhausted' => 'Wurazowy zmylk: Staplowy skład wučerpany',
 	'pfunc_expr_unexpected_number' => 'Wurazowy zmylk: Njewočakowana ličba',
@@ -1537,7 +969,7 @@ $messages['hsb'] = array(
 	'pfunc_string_too_long' => 'Zmylk: Znamješkowy slěd překročuje limit $1 znamješkow',
 );
 
-/** Hungarian (Magyar)
+/** Hungarian (magyar)
  * @author Dani
  */
 $messages['hu'] = array(
@@ -1563,7 +995,7 @@ $messages['hu'] = array(
 	'pfunc_string_too_long' => 'Hiba: a sztring túllépte a(z) $1 karakteres határt',
 );
 
-/** Interlingua (Interlingua)
+/** Interlingua (interlingua)
  * @author McDutchie
  */
 $messages['ia'] = array(
@@ -1587,55 +1019,6 @@ $messages['ia'] = array(
 	'pfunc_expr_unknown_error' => 'Error de expression: Error incognite ($1)',
 	'pfunc_expr_not_a_number' => 'In $1: le resultato non es un numero',
 	'pfunc_string_too_long' => 'Error: Le catena excede le limite de $1 {{PLURAL:$1|character|characteres}}',
-	'pfunc-convert-dimensionmismatch' => 'Error: Impossibile converter inter unitates de "$1" e "$2".',
-	'pfunc-convert-unknownunit' => 'Error: Unitate "$1" incognite.',
-	'pfunc-convert-unknowndimension' => 'Error: Dimension "$1" incognite.',
-	'pfunc-convert-invalidcompoundunit' => 'Error: Unitate composite "$1" invalide.',
-	'pfunc-convert-nounit' => 'Error: Nulle unitate de origine specificate.',
-	'pfunc-convert-doublecompoundunit' => 'Error: Non pote processar unitates composite duplice como "$1".',
-	'pfunc-convert-dimension-length' => 'longitude',
-	'pfunc-convert-dimension-area' => 'area',
-	'pfunc-convert-dimension-volume' => 'volumine',
-	'pfunc-convert-dimension-time' => 'tempore',
-	'pfunc-convert-dimension-timesquared' => 'tempore<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'massa',
-	'pfunc-convert-dimension-speed' => 'velocitate',
-	'pfunc-convert-dimension-temperature' => 'temperatura',
-	'pfunc-convert-dimension-acceleration' => 'acceleration',
-	'pfunc-convert-dimension-force' => 'fortia',
-	'pfunc-convert-dimension-torque' => 'torsion',
-	'pfunc-convert-dimension-energy' => 'energia',
-	'pfunc-convert-dimension-power' => 'potentia',
-	'pfunc-convert-dimension-pressure' => 'pression',
-	'pfunc-convert-dimension-density' => 'densitate',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'efficientiaenergeticpositive',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'efficientiaenergeticnegative',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hecto',
-	'pfunc-convert-prefix-deca' => 'deca',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'milli',
-	'pfunc-convert-prefix-micro' => 'micro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'pico',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yocto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2metro|$2metros}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|ångström|ångströmes}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|millia|millias}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlongs}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|catena|catenas}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|pertica|perticas}}',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -1674,7 +1057,7 @@ $messages['io'] = array(
 	'pfunc_expr_division_by_zero' => 'Divido per zero',
 );
 
-/** Italian (Italiano)
+/** Italian (italiano)
  * @author Beta16
  * @author BrokenArrow
  * @author Darth Kule
@@ -1708,29 +1091,30 @@ $messages['it'] = array(
  * @author Fryed-peach
  * @author JtFuruhata
  * @author Ohgi
+ * @author Shirayuki
  * @author 青子守歌
  */
 $messages['ja'] = array(
 	'pfunc_desc' => 'パーサーに論理関数を追加して拡張する',
-	'pfunc_time_error' => 'エラー: 時刻が不正です',
-	'pfunc_time_too_long' => 'エラー: #time 呼び出しが多すぎます',
-	'pfunc_time_too_big' => 'エラー: #timeは最大で9999年までです。',
-	'pfunc_rel2abs_invalid_depth' => 'エラー: パス "$1" の階層が不正です(ルート階層からのアクセスをお試しください)',
-	'pfunc_expr_stack_exhausted' => '構文エラー: スタックが空です',
-	'pfunc_expr_unexpected_number' => '構文エラー: 予期せぬ数字です',
-	'pfunc_expr_preg_match_failure' => '構文エラー: 予期せぬ形で preg_match に失敗しました',
-	'pfunc_expr_unrecognised_word' => '構文エラー: "$1" は認識できません',
-	'pfunc_expr_unexpected_operator' => '構文エラー: 予期せぬ演算子 $1 があります',
-	'pfunc_expr_missing_operand' => '構文エラー: $1 の演算対象がありません',
-	'pfunc_expr_unexpected_closing_bracket' => '構文エラー: 予期せぬ閉じ括弧です',
-	'pfunc_expr_unrecognised_punctuation' => '構文エラー: 認識できない区切り文字 "$1" があります',
-	'pfunc_expr_unclosed_bracket' => '構文エラー: 括弧が閉じられていません',
-	'pfunc_expr_division_by_zero' => '0で除算しました',
-	'pfunc_expr_invalid_argument' => '$1の引数が無効です: < -1 または > 1',
+	'pfunc_time_error' => 'エラー: 時刻が無効です。',
+	'pfunc_time_too_long' => 'エラー: #time の呼び出しが多すぎます。',
+	'pfunc_time_too_big' => 'エラー: #time が対応しているのは 9999 年までです。',
+	'pfunc_rel2abs_invalid_depth' => 'エラー: パス「$1」の階層が無効です (ルート階層からのアクセスをお試しください)。',
+	'pfunc_expr_stack_exhausted' => '構文エラー: スタックを使い果たしました。',
+	'pfunc_expr_unexpected_number' => '構文エラー: 予期しない数字です。',
+	'pfunc_expr_preg_match_failure' => '構文エラー: preg_match で予期しない失敗をしました。',
+	'pfunc_expr_unrecognised_word' => '構文エラー: 「$1」を認識できません。',
+	'pfunc_expr_unexpected_operator' => '構文エラー: 予期しない演算子 $1 です。',
+	'pfunc_expr_missing_operand' => '構文エラー: $1 の演算対象がありません。',
+	'pfunc_expr_unexpected_closing_bracket' => '構文エラー: 予期しない閉じ括弧です。',
+	'pfunc_expr_unrecognised_punctuation' => '構文エラー: 認識できない区切り文字「$1」です。',
+	'pfunc_expr_unclosed_bracket' => '構文エラー: 括弧が閉じられていません。',
+	'pfunc_expr_division_by_zero' => '0 で除算しました。',
+	'pfunc_expr_invalid_argument' => '$1 の引数が無効です: < -1 または > 1',
 	'pfunc_expr_invalid_argument_ln' => 'ln の引数が無効です: <= 0',
-	'pfunc_expr_unknown_error' => '構文エラー: 予期せぬエラー($1)',
-	'pfunc_expr_not_a_number' => '$1: 結果が数字ではありません',
-	'pfunc_string_too_long' => 'エラー: 文字列が文字数制限 $1 を超えました',
+	'pfunc_expr_unknown_error' => '構文エラー: 不明なエラー ($1) です。',
+	'pfunc_expr_not_a_number' => '$1: 結果が数値ではありません。',
+	'pfunc_string_too_long' => 'エラー: 文字列の長さが上限の $1 文字を超えています。',
 );
 
 /** Javanese (Basa Jawa)
@@ -1770,7 +1154,7 @@ $messages['ka'] = array(
 	'pfunc_string_too_long' => 'შეცდომა: სტრიქონის ზომა აღემატება $1 სიმბოლოს ლიმიტს',
 );
 
-/** Kazakh (Arabic script) (‫قازاقشا (تٴوتە)‬) */
+/** Kazakh (Arabic script) (قازاقشا (تٴوتە)‏) */
 $messages['kk-arab'] = array(
 	'pfunc_time_error' => 'قاتە: جارامسىز ۋاقىت',
 	'pfunc_time_too_long' => 'قاتە: #time شاقىرۋى تىم كوپ',
@@ -1789,7 +1173,7 @@ $messages['kk-arab'] = array(
 	'pfunc_expr_not_a_number' => '$1 دەگەندە: ناتىيجە سان ەمەس',
 );
 
-/** Kazakh (Cyrillic) (Қазақша (Cyrillic)) */
+/** Kazakh (Cyrillic script) (қазақша (кирил)‎) */
 $messages['kk-cyrl'] = array(
 	'pfunc_time_error' => 'Қате: жарамсыз уақыт',
 	'pfunc_time_too_long' => 'Қате: #time шақыруы тым көп',
@@ -1808,7 +1192,7 @@ $messages['kk-cyrl'] = array(
 	'pfunc_expr_not_a_number' => '$1 дегенде: нәтиже сан емес',
 );
 
-/** Kazakh (Latin) (Қазақша (Latin)) */
+/** Kazakh (Latin script) (qazaqşa (latın)‎) */
 $messages['kk-latn'] = array(
 	'pfunc_time_error' => 'Qate: jaramsız waqıt',
 	'pfunc_time_too_long' => 'Qate: #time şaqırwı tım köp',
@@ -1869,9 +1253,10 @@ $messages['ko'] = array(
 
 /** Colognian (Ripoarisch)
  * @author Purodha
+ * @author Rentenirer
  */
 $messages['ksh'] = array(
-	'pfunc_desc' => 'Deit em Wiki Funxione för Entscheidunge un esu dobei.',
+	'pfunc_desc' => 'Deit em Wiki Funxione för Entscheidunge un esu jät dobei.',
 	'pfunc_time_error' => 'Fähler: Onjöltijje Zick.',
 	'pfunc_time_too_long' => 'Fähler: <code>#time</code> weed zo öff jebruch.',
 	'pfunc_time_too_big' => 'Ene Fähleres opjefalle: <code lang="en">#time</code> kann bloß bes nohm Johr 9999 jonn.',
@@ -1891,38 +1276,6 @@ $messages['ksh'] = array(
 	'pfunc_expr_unknown_error' => 'Fähler en enem Ußdrock: Unbikannt ($1)',
 	'pfunc_expr_not_a_number' => 'Fähler en enem Ußdrock: En <code>$1</code> es dat wat erus kütt kein Zahl.',
 	'pfunc_string_too_long' => 'Fähler en enem Ußdrock: En Zeijshereih es länger wi $1 Zeijshe.',
-	'pfunc-convert-dimension-length' => 'Längemohß',
-	'pfunc-convert-dimension-area' => 'Flächemohß',
-	'pfunc-convert-dimension-volume' => 'Hohlmohß',
-	'pfunc-convert-dimension-time' => 'Ziggmohß',
-	'pfunc-convert-dimension-timesquared' => 'Zigg<sup>2</sup>-Mohß',
-	'pfunc-convert-dimension-mass' => 'Mohß för de  Mass',
-	'pfunc-convert-dimension-speed' => 'Jeschwendechkeit',
-	'pfunc-convert-dimension-pressure' => 'Drock',
-	'pfunc-convert-prefix-yotta' => 'Yotta',
-	'pfunc-convert-prefix-zetta' => 'Zetta',
-	'pfunc-convert-prefix-exa' => 'Exa',
-	'pfunc-convert-prefix-tera' => 'Tera',
-	'pfunc-convert-prefix-giga' => 'Giga',
-	'pfunc-convert-prefix-mega' => 'Mega',
-	'pfunc-convert-prefix-kilo' => 'Killo',
-	'pfunc-convert-prefix-hecto' => 'Häkto',
-	'pfunc-convert-prefix-deca' => 'Dekka',
-	'pfunc-convert-prefix-deci' => 'Dezi',
-	'pfunc-convert-prefix-centi' => 'Cänti',
-	'pfunc-convert-prefix-milli' => 'Milli',
-	'pfunc-convert-prefix-micro' => 'Mikro',
-	'pfunc-convert-prefix-nano' => 'Nanno',
-	'pfunc-convert-prefix-pico' => 'Picko',
-	'pfunc-convert-prefix-femto' => 'Fämto',
-	'pfunc-convert-prefix-atto' => 'Atto',
-	'pfunc-convert-prefix-zepto' => 'Zäpto',
-	'pfunc-convert-prefix-yocto' => 'Jokto',
-	'pfunc-convert-unit-length-metre' => 'Meeter',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|Meil|Meile|Meile}}',
-	'pfunc-convert-unit-area-squarekilometre' => 'Quadraatkillomeetere',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm²',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -1975,14 +1328,14 @@ $messages['li'] = array(
 	'pfunc_string_too_long' => 'Fout: De teks is lenger es de limiet van $1 {{PLURAL:$1|teike|teikes}}',
 );
 
-/** Lithuanian (Lietuvių)
+/** Lithuanian (lietuvių)
  * @author Hugo.arg
  */
 $messages['lt'] = array(
 	'pfunc_time_error' => 'Klaida: neteisingas laikas',
 );
 
-/** Latvian (Latviešu)
+/** Latvian (latviešu)
  * @author Papuass
  */
 $messages['lv'] = array(
@@ -1991,7 +1344,7 @@ $messages['lv'] = array(
 	'pfunc_expr_division_by_zero' => 'Dalīšana ar nulli',
 );
 
-/** Macedonian (Македонски)
+/** Macedonian (македонски)
  * @author Bjankuloski06
  * @author Brest
  */
@@ -2016,217 +1369,6 @@ $messages['mk'] = array(
 	'pfunc_expr_unknown_error' => 'Грешка во изразот: Непозната грешка ($1)',
 	'pfunc_expr_not_a_number' => 'Во $1: резултатот не е број',
 	'pfunc_string_too_long' => 'Грешка: низата го надминува ограничувањето од $1 знаци',
-	'pfunc-convert-dimensionmismatch' => 'Грешка: претворањето од единицата „$1“ во единицата „$2“ е невозможно',
-	'pfunc-convert-unknownunit' => 'Грешка: непозната единица „$1“',
-	'pfunc-convert-unknowndimension' => 'Грешка: непозната димензија „$1“',
-	'pfunc-convert-invalidcompoundunit' => 'Грешка: неважечка мешовита единица „$1“',
-	'pfunc-convert-nounit' => 'Грешка: нема наведено изворна единица',
-	'pfunc-convert-doublecompoundunit' => 'Грешка: не можам да парсирам двојни мешовити единици како „$1“',
-	'pfunc-convert-dimension-length' => 'должина',
-	'pfunc-convert-dimension-area' => 'плоштина',
-	'pfunc-convert-dimension-volume' => 'волумен',
-	'pfunc-convert-dimension-time' => 'време',
-	'pfunc-convert-dimension-timesquared' => 'време<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'маса',
-	'pfunc-convert-dimension-speed' => 'брзина',
-	'pfunc-convert-dimension-temperature' => 'температура',
-	'pfunc-convert-dimension-acceleration' => 'забрзување',
-	'pfunc-convert-dimension-force' => 'сила',
-	'pfunc-convert-dimension-torque' => 'момент на сила',
-	'pfunc-convert-dimension-energy' => 'енергија',
-	'pfunc-convert-dimension-power' => 'моќ',
-	'pfunc-convert-dimension-pressure' => 'притисок',
-	'pfunc-convert-dimension-density' => 'густина',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'позитивна горивна ефикасност',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'негативна горивна ефикасност',
-	'pfunc-convert-prefix-yotta' => 'јота',
-	'pfunc-convert-prefix-zetta' => 'зета',
-	'pfunc-convert-prefix-exa' => 'екса',
-	'pfunc-convert-prefix-peta' => 'пета',
-	'pfunc-convert-prefix-tera' => 'тера',
-	'pfunc-convert-prefix-giga' => 'гига',
-	'pfunc-convert-prefix-mega' => 'мега',
-	'pfunc-convert-prefix-kilo' => 'кило',
-	'pfunc-convert-prefix-hecto' => 'хекто',
-	'pfunc-convert-prefix-deca' => 'дека',
-	'pfunc-convert-prefix-deci' => 'деци',
-	'pfunc-convert-prefix-centi' => 'санти',
-	'pfunc-convert-prefix-milli' => 'мили',
-	'pfunc-convert-prefix-micro' => 'микро',
-	'pfunc-convert-prefix-nano' => 'нано',
-	'pfunc-convert-prefix-pico' => 'пико',
-	'pfunc-convert-prefix-femto' => 'фемто',
-	'pfunc-convert-prefix-atto' => 'ато',
-	'pfunc-convert-prefix-zepto' => 'зепто',
-	'pfunc-convert-prefix-yocto' => 'јокто',
-	'pfunc-convert-prefix-yotta-abbr' => 'Ј',
-	'pfunc-convert-prefix-zetta-abbr' => 'З',
-	'pfunc-convert-prefix-exa-abbr' => 'Е',
-	'pfunc-convert-prefix-peta-abbr' => 'П',
-	'pfunc-convert-prefix-tera-abbr' => 'Т',
-	'pfunc-convert-prefix-giga-abbr' => 'Г',
-	'pfunc-convert-prefix-mega-abbr' => 'М',
-	'pfunc-convert-prefix-kilo-abbr' => 'к',
-	'pfunc-convert-prefix-hecto-abbr' => 'х',
-	'pfunc-convert-prefix-deca-abbr' => 'да',
-	'pfunc-convert-prefix-deci-abbr' => 'д',
-	'pfunc-convert-prefix-centi-abbr' => 'с',
-	'pfunc-convert-prefix-milli-abbr' => 'м',
-	'pfunc-convert-prefix-micro-abbr' => 'μ',
-	'pfunc-convert-prefix-nano-abbr' => 'н',
-	'pfunc-convert-prefix-pico-abbr' => 'п',
-	'pfunc-convert-prefix-femto-abbr' => 'ф',
-	'pfunc-convert-prefix-atto-abbr' => 'а',
-	'pfunc-convert-prefix-zepto-abbr' => 'з',
-	'pfunc-convert-prefix-yocto-abbr' => 'ј',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|метар|метри}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|ангстрем|ангстреми}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|милја|милји}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|фурлонг|фурлонзи}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|ланец|ланци}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|прачка|прачки}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|фатом|фатоми}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|јарда|јарди}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|стапка|стапки}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|дланка|дланки}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|инч|инчи}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|наутичка милја|наутички милји}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|наутичка милја (британска, пред 1970)|наутички милји (британска, пред 1970)}}',
-	'pfunc-convert-unit-length-nauticalmileus' => '{PLURAL:$1|наутичка милја (американска, пред 1954)|наутички милји (американски, пред 1954)}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2 парсек|$2 парсеци}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|светлосна година|светлосни години}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|астрономска единица|астрономски единици}}',
-	'pfunc-convert-unit-length-metre-abbr' => '$2 м',
-	'pfunc-convert-unit-length-mile-abbr' => 'ми',
-	'pfunc-convert-unit-length-furlong-abbr' => 'фурлонг',
-	'pfunc-convert-unit-length-chain-abbr' => 'ланец',
-	'pfunc-convert-unit-length-rod-abbr' => 'пр',
-	'pfunc-convert-unit-length-fathom-abbr' => 'фатом',
-	'pfunc-convert-unit-length-yard-abbr' => 'јд',
-	'pfunc-convert-unit-length-foot-abbr' => 'ст',
-	'pfunc-convert-unit-length-hand-abbr' => 'дл',
-	'pfunc-convert-unit-length-inch-abbr' => 'ин',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'нми',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'нми (брит)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'нми (амер. пред 1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2 пс',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2 сг',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'ae',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|квадратен километар|квадратни километри}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|квадратен метар|квадратни метри}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|квадратен сантиметар|квадратни сантиметри}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|квадратен милиметар|квадратни милиметри}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|хектар|хектари}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|квадратна милја|квадратни милји}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|акр|акри}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|квадратна јарда|квадратни јарди}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|квадратна стапка|квадратни стапки}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|квадратен инч|квадратни инчи}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|квадратна наутичка милја|квадратни наутички милји}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|дунум|дунуми}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|цубо|цуба}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'км<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'м<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'см<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'мм<msup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ха',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'ми<sup>2</sup>',
-	'pfunc-convert-unit-area-acre-abbr' => 'акр',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'јд<sup>2</sup>',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'ст<sup>2</sup>',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'ин<sup>2</sup>',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'нми<sup>2</sup>',
-	'pfunc-convert-unit-area-dunam-abbr' => 'дунум',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'цубо',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|секунда|секунди}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|година|години}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|ден|дена}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|час|часа}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|минута|минути}}',
-	'pfunc-convert-unit-time-second-abbr' => 'с',
-	'pfunc-convert-unit-time-year-abbr' => '$2 г',
-	'pfunc-convert-unit-time-day-abbr' => 'ден',
-	'pfunc-convert-unit-time-hour-abbr' => 'ч',
-	'pfunc-convert-unit-time-minute-abbr' => 'мин',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|кубен метар|кубни метри}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|кубен сантиметар|кубни сантиметри}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|кубен милиметар|кубни милиметри}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|килолитар|килолитри}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|литар|литри}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|центилитар|центилитри}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|милилитар|милилитри}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|кубна јарда|кубни јарди}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|кубна стапка|кубни стапки}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|кубен инч|кубни инчи}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|барел|барели}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|бушел|бушели}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|галон|галони}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|кварта|кварти}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|пинта|пинти}}',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1|течна унца|течни унци}}',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1|американски барел|американски барели}}',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1|барел|барели}}',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1|барел|барели}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|американски галон|американски галони}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|американска кварта|американски кварти}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|американска пинта|американски пинти}}',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1|американска течна унца|американски течни унци}}',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1|американски сув барел|американски суви барели}}',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1|американски бушел|американски бушели}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|американски сув галон|американски суви галони}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|американска сува кварта|американски суви кварти}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|американска сува пинта|американски суви пинти}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'м<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'см<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'мм<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2 л',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'јд<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'ст<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'ин<sup>3</sup>',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'ббл',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'бш',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'гал',
-	'pfunc-convert-unit-volume-quart-abbr' => 'кт',
-	'pfunc-convert-unit-volume-pint-abbr' => 'пт',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'тч уц',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'ббл (САД)',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'ббл',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'ббл',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'гал (САД)',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'кт (САД)',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'пт (САД)',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'тч уц (САД)',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'ббл (САД)',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'бш (САД)',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'сув гал (САД)',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'сув кт (САД)',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'сув пт (САД)',
-	'pfunc-convert-unit-speed-mile-hour' => 'милји на час',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'ми/ч',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|паскал|паскали}}',
-	'pfunc-convert-unit-pressure-bar' => 'бар',
-	'pfunc-convert-unit-pressure-decibar' => 'децибар',
-	'pfunc-convert-unit-pressure-millibar' => 'милибар',
-	'pfunc-convert-unit-pressure-kilobarye' => 'килобарија',
-	'pfunc-convert-unit-pressure-barye' => 'барија',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|атмосфера|атмосфери}}',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1|тор|тора}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|милиметар живин столб|милиметри живин столб}}',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|инч живин столб|инчи живин столб}}',
-	'pfunc-convert-unit-pressure-psi' => '{{PLURAL:$1|фунта на квадратен инч|фунти на квадратен инч}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2 Па',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'бар',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'дбар',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'мбар',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'кБа',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ба',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'атм',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'тор',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'ммHg',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'инHg',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
 /** Malayalam (മലയാളം)
@@ -2309,198 +1451,9 @@ $messages['ms'] = array(
 	'pfunc_expr_unknown_error' => 'Ralat ungkapan: Ralat tidak diketahui ($1)',
 	'pfunc_expr_not_a_number' => 'Dalam $1: hasil bukan nombor',
 	'pfunc_string_too_long' => 'Ralat: Rentetan melampaui batas aksara $1',
-	'pfunc-convert-dimensionmismatch' => 'Ralat: Tidak boleh menukar antara unit-unit "$1" dan "$2".',
-	'pfunc-convert-unknownunit' => 'Ralat: Unit "$1" tidak dikenali.',
-	'pfunc-convert-unknowndimension' => 'Ralat: Matra "$1" tidak dikenali.',
-	'pfunc-convert-invalidcompoundunit' => 'Ralat: Unit majmuk "$1" tidak sah.',
-	'pfunc-convert-nounit' => 'Ralat: Tiada unit sumber yang diberikan.',
-	'pfunc-convert-doublecompoundunit' => 'Ralat: Unit majmuk berganda seperti "$1" tidak boleh dihuraikan.',
-	'pfunc-convert-dimension-length' => 'panjang',
-	'pfunc-convert-dimension-area' => 'luas',
-	'pfunc-convert-dimension-volume' => 'isipadu',
-	'pfunc-convert-dimension-time' => 'masa',
-	'pfunc-convert-dimension-timesquared' => 'masa<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'jisim',
-	'pfunc-convert-dimension-speed' => 'kelajuan',
-	'pfunc-convert-dimension-temperature' => 'suhu',
-	'pfunc-convert-dimension-acceleration' => 'pecutan',
-	'pfunc-convert-dimension-force' => 'daya',
-	'pfunc-convert-dimension-torque' => 'tork',
-	'pfunc-convert-dimension-energy' => 'tenaga',
-	'pfunc-convert-dimension-power' => 'kuasa',
-	'pfunc-convert-dimension-pressure' => 'tekanan',
-	'pfunc-convert-dimension-density' => 'ketumpatan',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'kecekapanbahanapipositif',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'kecekapanbahanapinegatif',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'eksa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hekto',
-	'pfunc-convert-prefix-deca' => 'deka',
-	'pfunc-convert-prefix-deci' => 'desi',
-	'pfunc-convert-prefix-centi' => 'senti',
-	'pfunc-convert-prefix-milli' => 'mili',
-	'pfunc-convert-prefix-micro' => 'mikro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'piko',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yokto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2meter|$2meter}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|angstrom|angstrom}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|batu|batu}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlong}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|rantai|rantai}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|pol|pol}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|fatom|fatom}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|ela|ela}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|kaki|kaki}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|tangan|tangan}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|inci|inci}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|batu nautika|batu nautika}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|batu nautika (British pra-1970)|batu nautika (British pra-1970)}}',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|batu nautika (AS pra-1954)|batu nautika (AS pra-1954)}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2parsek|$2parsek}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|$2tahun cahaya|$2tahun cahaya}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|unit astronomi|unit astronomi}}',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'rantai',
-	'pfunc-convert-unit-length-rod-abbr' => 'pol',
-	'pfunc-convert-unit-length-fathom-abbr' => 'fatom',
-	'pfunc-convert-unit-length-yard-abbr' => 'ela',
-	'pfunc-convert-unit-length-foot-abbr' => 'kaki',
-	'pfunc-convert-unit-length-hand-abbr' => 'tgn',
-	'pfunc-convert-unit-length-inch-abbr' => 'in',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'batu n',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'batu n (Brit)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'batu n (AS pra-1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2pc',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2tc',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'AU',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|kilometer persegi|kilometer persegi}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|meter persegi|meter persegi}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|sentimeter persegi|sentimeter persegi}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|milimeter persegi|milimeter persegi}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hektar|hektar}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|batu persegi|batu persegi}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|ekar|ekar}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|ela persegi|ela persegi}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|kaki persegi|kaki persegi}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|inci persegi|inci persegi}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|batu nautika persegi|batu nautika persegi}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|dunam|dunam}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|tsubo|tsubo}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'batu<sup>2</sup>',
-	'pfunc-convert-unit-area-acre-abbr' => 'ekar',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'ela<sup>2</sup>',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'kaki<sup>2</sup>',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'inci<sup>2</sup>',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'batu n<sup>2</sup>',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-	'pfunc-convert-unit-time-second' => '{{PLURAL: $1|saat|saat}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL: $1|$2tahun|$2tahun}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|hari|hari}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|jam|jam}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minit|minit}}',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => '$2thn',
-	'pfunc-convert-unit-time-day-abbr' => 'hari',
-	'pfunc-convert-unit-time-hour-abbr' => 'jam',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|meter padu|meter padu}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|sentimeter padu|sentimeter padu}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|milimeter padu|milimeter padu}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|kilolite|kiloliter}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|liter|liter}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|sentiliter|sentiliter}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|mililiter|mililiter}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|ela padu|ela padu}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|kaki padu|kaki padu}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|inci padu|inci padu}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|tong|tong}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|busyel|busyel}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|gelen|gelen}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|kuart|kuart}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|pain|pain}}',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1|auns bendalir|auns bendalir}}',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1|tong AS|tong AS}}',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1|tong|tong}}',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1|tong|tong}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|gelen AS|gelen AS}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|kuart AS|kuart AS}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|pain AS|pain AS}}',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1|auns bendalir AS|auns bendalir AS}}',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1|tong kering AS|tong kering AS}}',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1|busyel AS|busyel AS}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|gelen kering AS|gelen kering AS}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|kuart kering AS|kuart kering AS}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|pain kering AS|pain kering AS}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2l',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'ela<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'kaki<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'inci<sup>3</sup>',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'tong',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'bsh',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'gal',
-	'pfunc-convert-unit-volume-quart-abbr' => 'qt',
-	'pfunc-convert-unit-volume-pint-abbr' => 'pt',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'fl oz',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'tong AS',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'tong',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'tong',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'gal AS',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'qt AS',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'pt AS',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'fl oz AS',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'tong AS',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'bsh AS',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'gal kering AS',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'qt kering AS',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'pt kering AS',
-	'pfunc-convert-unit-speed-mile-hour' => 'batu sejam',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'bsj',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|$2pascal|$2pascal}}',
-	'pfunc-convert-unit-pressure-bar' => 'bar',
-	'pfunc-convert-unit-pressure-decibar' => 'desibar',
-	'pfunc-convert-unit-pressure-millibar' => 'milibar',
-	'pfunc-convert-unit-pressure-kilobarye' => 'kilobarye',
-	'pfunc-convert-unit-pressure-barye' => 'barye',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|atmosfera|atmosfera}}',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1|Torr|Torr}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|milimeter raksa|milimeter raksa}}',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|inci raksa|inci raksa}}',
-	'pfunc-convert-unit-pressure-psi' => '{{PLURAL:$1|paun seinci persegi|paun seinci persegi}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'dbar',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'mbar',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'kBa',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ba',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'Torr',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'mmHg',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'inHg',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
-/** Erzya (Эрзянь)
+/** Erzya (эрзянь)
  * @author Botuzhaleny-sodamo
  */
 $messages['myv'] = array(
@@ -2514,6 +1467,33 @@ $messages['myv'] = array(
  */
 $messages['nah'] = array(
 	'pfunc_time_error' => 'Ahcuallōtl: ahcualli cāhuitl',
+);
+
+/** Norwegian Bokmål (norsk (bokmål)‎)
+ * @author Event
+ * @author Laaknor
+ */
+$messages['nb'] = array(
+	'pfunc_desc' => 'Utvid parser med logiske funksjoner',
+	'pfunc_time_error' => 'Feil: ugyldig tid',
+	'pfunc_time_too_long' => 'Feil: #time brukt for mange ganger',
+	'pfunc_time_too_big' => 'Feil: #time støtter kun år opp til 9999',
+	'pfunc_rel2abs_invalid_depth' => 'Feil: Ugyldig dybde i sti: «$1» (prøvde å få tilgang til en node over rotnoden)',
+	'pfunc_expr_stack_exhausted' => 'Uttrykksfeil: Stakk utbrukt',
+	'pfunc_expr_unexpected_number' => 'Uttrykksfeil: Uventet nummer',
+	'pfunc_expr_preg_match_failure' => 'Uttrykksfeil: Uventet preg_match-feil',
+	'pfunc_expr_unrecognised_word' => 'Uttrykksfeil: Ugjenkjennelig ord «$1»',
+	'pfunc_expr_unexpected_operator' => 'Uttrykksfeil: Uventet $1-operator',
+	'pfunc_expr_missing_operand' => 'Uttrykksfeil: Mangler operand for $1',
+	'pfunc_expr_unexpected_closing_bracket' => 'Uttrykksfeil: Uventet lukkende parentes',
+	'pfunc_expr_unrecognised_punctuation' => 'Uttrykksfeil: Ugjenkjennelig tegn «$1»',
+	'pfunc_expr_unclosed_bracket' => 'Uttrykksfeil: Åpen parentes',
+	'pfunc_expr_division_by_zero' => 'Deling på null',
+	'pfunc_expr_invalid_argument' => 'Ugyldig argument for $1: < -1 eller > 1',
+	'pfunc_expr_invalid_argument_ln' => 'Ugyldig argument for ln: <= 0',
+	'pfunc_expr_unknown_error' => 'Uttrykksfeil: Ukjent feil ($1)',
+	'pfunc_expr_not_a_number' => 'I $1: resultat er ikke et tall',
+	'pfunc_string_too_long' => 'Feil: Strengen går over grensen på $1 tegn',
 );
 
 /** Low German (Plattdüütsch)
@@ -2540,11 +1520,13 @@ $messages['nds'] = array(
 	'pfunc_expr_not_a_number' => 'In $1: wat rutkamen is, is kene Tall',
 );
 
-/** Nepali (नेपाली) */
+/** Nepali (नेपाली)
+ * @author RajeshPandey
+ */
 $messages['ne'] = array(
 	'pfunc_time_error' => 'त्रुटी: गलत/वा हुदैनहुने समय',
 	'pfunc_time_too_long' => 'त्रुटी: एकदम धेरै #time callहरु',
-	'pfunc_rel2abs_invalid_depth' => 'त्रुटी: पाथमा (इनभ्यालिड)गलत गहिराइ(डेप्थ) भयो: "$1" (ले रुट नोड भन्दापनि माथिको नोडलाइ चलाउन(एकसेस) गर्न खोज्यो)',
+	'pfunc_rel2abs_invalid_depth' => 'त्रुटी: पाथमा (इनभ्यालिड)गलत गहिराइ(डेप्थ) भयो: "$1" (ले रुट नोड भन्दापनि माथिको नोडलाइ चलाउन(एकसेस गर्न) खोज्यो)',
 );
 
 /** Dutch (Nederlands)
@@ -2572,202 +1554,14 @@ $messages['nl'] = array(
 	'pfunc_expr_unknown_error' => 'Fout in uitdrukking: onbekende fout ($1)',
 	'pfunc_expr_not_a_number' => 'In $1: resultaat is geen getal',
 	'pfunc_string_too_long' => 'Fout: De tekst is langer dan de limiet van $1 {{PLURAL:$1|karakter|karakters}}',
-	'pfunc-convert-dimensionmismatch' => 'Fout: het is niet mogelijk te converteren tussen de eenheden van "$1" en "$2".',
-	'pfunc-convert-unknownunit' => 'Fout: onbekende eenheid "$1".',
-	'pfunc-convert-unknowndimension' => 'Fout: Onbekende afmeting "$1".',
-	'pfunc-convert-invalidcompoundunit' => 'Fout: Ongeldige samengestelde eenheid "$1".',
-	'pfunc-convert-nounit' => 'Fout: Geen broneenheid opgegeven.',
-	'pfunc-convert-doublecompoundunit' => 'Fout: het is niet mogelijk samengestelde eenheden zoals "$1" te verwerken.',
-	'pfunc-convert-dimension-length' => 'lengte',
-	'pfunc-convert-dimension-area' => 'oppervlakte',
-	'pfunc-convert-dimension-volume' => 'inhoud',
-	'pfunc-convert-dimension-time' => 'tijd',
-	'pfunc-convert-dimension-timesquared' => 'tijd<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'massa',
-	'pfunc-convert-dimension-speed' => 'snelheid',
-	'pfunc-convert-dimension-temperature' => 'temperatuur',
-	'pfunc-convert-dimension-acceleration' => 'versnelling',
-	'pfunc-convert-dimension-force' => 'kracht',
-	'pfunc-convert-dimension-torque' => 'koppel',
-	'pfunc-convert-dimension-energy' => 'energie',
-	'pfunc-convert-dimension-power' => 'vermogen',
-	'pfunc-convert-dimension-pressure' => 'druk',
-	'pfunc-convert-dimension-density' => 'dichtheid',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'brandstofefficientiepositief',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'brandstofefficientienegatief',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hecto',
-	'pfunc-convert-prefix-deca' => 'deca',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'milli',
-	'pfunc-convert-prefix-micro' => 'micro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'pico',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yocto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|meter|meter}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|angstrom|angstrom}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|mijl|mijl}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlong}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|chain|chains}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|roede|roede}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|vadem|vadem}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|yard|yards}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|voet|voet}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|hand|handen}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|inch|inches}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|nautische mijl|nautische mijlen}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|nautische mijl (Brits, voor 1970)|nautische mijlen (Brits, voor 1970)}}',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|nautische mijl (VS, voor 1954)|nautische mijlen (VS, voor 1954)}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2 parsec|$2 parsecs}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|$2 lichtjaar|$2 lichtjaren}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|astronomische eenheid|astronomische eenheden}}',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'chain',
-	'pfunc-convert-unit-length-rod-abbr' => 'rd',
-	'pfunc-convert-unit-length-fathom-abbr' => 'fath',
-	'pfunc-convert-unit-length-yard-abbr' => 'yd',
-	'pfunc-convert-unit-length-foot-abbr' => 'ft',
-	'pfunc-convert-unit-length-hand-abbr' => 'h',
-	'pfunc-convert-unit-length-inch-abbr' => 'in',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'NM',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'MN (Brits)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'MN (VS voor 1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2pc',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2lj',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'AE',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|vierkante kilometer|vierkante kilometer}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|vierkante meter|vierkante meter}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|vierkante centimeter|vierkante centimeter}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|vierkante millimeter|vierkante millimeter}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hectare|hectare}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|vierkante mijl|vierkante mijl}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|acre|acres}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|vierkante yard|vierkante yards}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|voerkante foot|vierkante foot}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|vierkante inch|vierkante inches}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|vierkante nautische mijl|vierkante nautische mijlen}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|dunam|dunams}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|tsubo|tsubo}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'sq mi',
-	'pfunc-convert-unit-area-acre-abbr' => 'acre',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'sq yd',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'sq ft',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'sq in',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'vierkante mijl',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|seconde|seconden}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2jaar|$2jaren}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|dag|dagen}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|uur|uur}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minuut|minuten}}',
-	'pfunc-convert-unit-time-second-abbr' => 'sec.',
-	'pfunc-convert-unit-time-year-abbr' => '$2jaar',
-	'pfunc-convert-unit-time-day-abbr' => 'dag',
-	'pfunc-convert-unit-time-hour-abbr' => 'uur',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1| kubieke meter|kubieke meter}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|kubieke centimeter|kubieke centimeter}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|kubieke millimeter|kubieke millimeter}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|kiloliter|kiloliter}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|liter|liter}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|centiliters|centiliter}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|milliliter|milliliter}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|kubieke yard|kubieke yard}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|kubieke voet|kubieke voet}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|kubieke inch|kubieke inch}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|vat|vaten}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|bushel|bushels}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|gallon|gallon}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|quart|quart}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|pint|pints}}',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1|fluid ounce|fluid ounces}}',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1|VS-vat|VS-vaten}}',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1|vat|vaten}}',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1|vat|vaten}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|VS-gallon|VS-gallon}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|VS-quart|VS-quart}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|VS-pint|VS-pints}}',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1|VS-fluid ounce|VS-fluid ounces}}',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1|VS-droog vat|VS-droge vaten}}',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1|VS-bushel|VS-bushels}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|VS-droge gallon|VS-droge gallon}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|VS-droge quart|VS-droge quart}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|VS-droge pint|VS-droge pints}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => 'l',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'yd<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'ft<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'in<sup>3</sup>',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'bsh',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'gal',
-	'pfunc-convert-unit-volume-quart-abbr' => 'qt',
-	'pfunc-convert-unit-volume-pint-abbr' => 'pt',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'fl.oz.',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'VS bbl',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'VS gal',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'VS qt',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'VS pt',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'VS fl.oz.',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'VS bbl',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'VS bsh',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'VS drg.gal',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'VS drg.qt',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'VS drg.pt',
-	'pfunc-convert-unit-speed-mile-hour' => 'mijl per uur',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'mpu',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|$2pascal|$2pascal}}',
-	'pfunc-convert-unit-pressure-bar' => 'bar',
-	'pfunc-convert-unit-pressure-decibar' => 'decibar',
-	'pfunc-convert-unit-pressure-millibar' => 'millibar',
-	'pfunc-convert-unit-pressure-kilobarye' => 'kilobarn',
-	'pfunc-convert-unit-pressure-barye' => 'barye',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|atmosfeer|atmosfeer}}',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1|Torr|Torr}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|millimeter kwik|millimeter kwik}}',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|duim kwik|duimen kwik}}',
-	'pfunc-convert-unit-pressure-psi' => '{{PLURAL:$1|pond per vierkante inch|pond per vierkante inch}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'dbar',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'mbar',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'kBa',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ba',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'Torr',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'mmHg',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'inHg',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
-/** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+/** Norwegian Nynorsk (norsk (nynorsk)‎)
  * @author Eirik
  * @author Frokor
  * @author Gunnernett
  * @author Harald Khan
+ * @author Njardarlogar
  */
 $messages['nn'] = array(
 	'pfunc_desc' => 'Legg til logiske funksjonar i parseren.',
@@ -2791,35 +1585,9 @@ $messages['nn'] = array(
 	'pfunc_string_too_long' => 'Feil: Strengen går over grensa på $1 teikn',
 );
 
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
- * @author Jon Harald Søby
- * @author Laaknor
- */
-$messages['no'] = array(
-	'pfunc_desc' => 'Utvid parser med logiske funksjoner',
-	'pfunc_time_error' => 'Feil: ugyldig tid',
-	'pfunc_time_too_long' => 'Feil: #time brukt for mange ganger',
-	'pfunc_time_too_big' => 'Feil: #time støtter kun år opp til 9999',
-	'pfunc_rel2abs_invalid_depth' => 'Feil: Ugyldig dybde i sti: «$1» (prøvde å få tilgang til en node over rotnoden)',
-	'pfunc_expr_stack_exhausted' => 'Uttrykksfeil: Stakk utbrukt',
-	'pfunc_expr_unexpected_number' => 'Uttrykksfeil: Uventet nummer',
-	'pfunc_expr_preg_match_failure' => 'Uttrykksfeil: Uventet preg_match-feil',
-	'pfunc_expr_unrecognised_word' => 'Uttrykksfeil: Ugjenkjennelig ord «$1»',
-	'pfunc_expr_unexpected_operator' => 'Uttrykksfeil: Uventet $1-operator',
-	'pfunc_expr_missing_operand' => 'Uttrykksfeil: Mangler operand for $1',
-	'pfunc_expr_unexpected_closing_bracket' => 'Uttrykksfeil: Uventet lukkende parentes',
-	'pfunc_expr_unrecognised_punctuation' => 'Uttrykksfeil: Ugjenkjennelig tegn «$1»',
-	'pfunc_expr_unclosed_bracket' => 'Uttrykksfeil: Åpen parentes',
-	'pfunc_expr_division_by_zero' => 'Deling på null',
-	'pfunc_expr_invalid_argument' => 'Ugyldig argument for $1: < -1 eller > 1',
-	'pfunc_expr_invalid_argument_ln' => 'Ugyldig argument for ln: <= 0',
-	'pfunc_expr_unknown_error' => 'Uttrykksfeil: Ukjent feil ($1)',
-	'pfunc_expr_not_a_number' => 'I $1: resultat er ikke et tall',
-	'pfunc_string_too_long' => 'Feil: Strengen går over grensen på $1 tegn',
-);
-
-/** Occitan (Occitan)
+/** Occitan (occitan)
  * @author Cedric31
+ * @author Jfblanc
  */
 $messages['oc'] = array(
 	'pfunc_desc' => 'Augmenta lo parser amb de foncions logicas',
@@ -2831,7 +1599,7 @@ $messages['oc'] = array(
 	'pfunc_expr_preg_match_failure' => 'Expression erronèa : una expression pas compresa a pas capitat',
 	'pfunc_expr_unrecognised_word' => "Error d'expression : lo mot '''$1''' es pas reconegut",
 	'pfunc_expr_unexpected_operator' => "Error d'expression : l'operador '''$1''' es pas reconegut",
-	'pfunc_expr_missing_operand' => "Error d'expression : l'operanda '''$1''' es pas reconeguda",
+	'pfunc_expr_missing_operand' => "Error d'expression : l'operand '''$1''' es pas reconegut",
 	'pfunc_expr_unexpected_closing_bracket' => "Error d'expression : parentèsi tampanta pas prevista",
 	'pfunc_expr_unrecognised_punctuation' => "Error d'expression : caractèr de ponctuacion « $1 » pas reconegut",
 	'pfunc_expr_unclosed_bracket' => 'Error d’expression : parentèsi pas tampada',
@@ -2843,9 +1611,11 @@ $messages['oc'] = array(
 	'pfunc_string_too_long' => 'Error : La cadena depassa lo limit maximal de $1 caractèr{{PLURAL:$1||s}}',
 );
 
-/** Polish (Polski)
+/** Polish (polski)
  * @author Derbeth
+ * @author Grzechooo
  * @author Sp5uhe
+ * @author Woytecr
  */
 $messages['pl'] = array(
 	'pfunc_desc' => 'Rozszerza analizator składni o funkcje logiczne',
@@ -2868,145 +1638,10 @@ $messages['pl'] = array(
 	'pfunc_expr_unknown_error' => 'Błąd w wyrażeniu – nieznany błąd ($1)',
 	'pfunc_expr_not_a_number' => 'W $1 – wynik nie jest liczbą',
 	'pfunc_string_too_long' => 'Błąd – długość ciągu znaków przekracza dopuszczalne $1',
-	'pfunc-convert-dimensionmismatch' => 'Błąd – nie można konwertować pomiędzy jednostkami „$1” i „$2”',
-	'pfunc-convert-unknownunit' => 'Błąd – nieznana jednostka „$1”',
-	'pfunc-convert-unknowndimension' => 'Błąd – nieznana jednostka „$1”',
-	'pfunc-convert-invalidcompoundunit' => 'Błąd – nieprawidłowa jednostka złożona „$1”',
-	'pfunc-convert-nounit' => 'Błąd – brak jednostki źródłowej',
-	'pfunc-convert-doublecompoundunit' => 'Błąd – nie można przetworzyć jednostki podwójnie złożonej jak „$1”',
-	'pfunc-convert-dimension-length' => 'długość',
-	'pfunc-convert-dimension-area' => 'powierzchnia',
-	'pfunc-convert-dimension-volume' => 'objętość',
-	'pfunc-convert-dimension-time' => 'czas',
-	'pfunc-convert-dimension-timesquared' => 'czas<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'masa',
-	'pfunc-convert-dimension-speed' => 'prędkość',
-	'pfunc-convert-dimension-temperature' => 'temperatura',
-	'pfunc-convert-dimension-acceleration' => 'przyspieszenie',
-	'pfunc-convert-dimension-force' => 'siła',
-	'pfunc-convert-dimension-torque' => 'moment obrotowy',
-	'pfunc-convert-dimension-energy' => 'energia',
-	'pfunc-convert-dimension-power' => 'moc',
-	'pfunc-convert-dimension-pressure' => 'ciśnienie',
-	'pfunc-convert-dimension-density' => 'gęstość',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'bezwzględne zużycie paliwa',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'nieprawidłowe zużycie paliwa',
-	'pfunc-convert-prefix-yotta' => 'jotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'eksa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hekto',
-	'pfunc-convert-prefix-deca' => 'deka',
-	'pfunc-convert-prefix-deci' => 'decy',
-	'pfunc-convert-prefix-centi' => 'centy',
-	'pfunc-convert-prefix-milli' => 'mili',
-	'pfunc-convert-prefix-micro' => 'mikro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'piko',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'jokto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2 metr|$2 metry|$2 metrów}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|angstrem|angstremy|angstremów}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|mila|mile|mil}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlongi|furlongów}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|łańcuch|łańcuchy|łańcuchów}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|pręt|pręty|prętów}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|sążeń|sążnie|sążni}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|jard|jardy|jardów}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|stopa|stopy|stóp}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|dłoń|dłonie|dłoni}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|cal|cale|cali}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|mila morska|mile morskie|mil morskich}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|mila morska brytyjska|mile morskie brytyjskie|mil morskich brytyjskich}} sprzed 1970 roku',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|mila morska amerykańska|mile morskie amerykańskie|mil morskich amerykańskich}} sprzed 1954 roku',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2 parsek|$2 parseki|$2 parseków}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|$2 rok świetlny|$2 lata świetlne|$2 lat świetlnych}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|jednostka astronomiczna|jednostki astronomiczne|jednostek astronomicznych}}',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'łańcuch',
-	'pfunc-convert-unit-length-rod-abbr' => 'rd',
-	'pfunc-convert-unit-length-fathom-abbr' => 'sążeń',
-	'pfunc-convert-unit-length-yard-abbr' => 'jard',
-	'pfunc-convert-unit-length-foot-abbr' => 'stopa',
-	'pfunc-convert-unit-length-hand-abbr' => 'dłoń',
-	'pfunc-convert-unit-length-inch-abbr' => 'cal',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'INM',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'angielska mila morska',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'amerykańska mila morska sprzed 1954 roku',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2 pc',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2 lat świetlnych',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'j.a.',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|kilometr kwadratowy|kilometry kwadratowe|kilometrów kwadratowych}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|metr kwadratowy|metry kwadratowe|metrów kwadratowych}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|centymetr kwadratowy|centymetry kwadratowe|centymetrów kwadratowych}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|milimetr kwadratowy|milimetry kwadratowe|milimetrów kwadratowych}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hektar|hektary|hektarów}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|mila kwadratowa|mile kwadratowe|mil kwadratowych}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|akr|akry|akrów}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|jard kwadratowy|jardy kwadratowe|jardów kwadratowych}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|stopa kwadratowa|stopy kwadratowe|stóp kwadratowych}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|cal kwadratowy|cale kwadratowe|cali kwadratowych}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|mila morska kwadratowa|mile morskie kwadratowe|mil morskich kwadratowych}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|dunam|dunamy|dunamów}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|tsubo|tsubo|tsubo}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'mila<sup>2</sup>',
-	'pfunc-convert-unit-area-acre-abbr' => 'akr',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'jard<sup>2</sup>',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'stopa<sup>2</sup>',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'cal<sup>2</sup>',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'mila morska<sup>2</sup>',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|sekunda|sekundy|sekund}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2 rok|$2 lata|$2 lat}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|dzień|dni}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|godzina|godziny|godzin}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minuta|minuty|minut}}',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => '$2 jard',
-	'pfunc-convert-unit-time-day-abbr' => 'doba',
-	'pfunc-convert-unit-time-hour-abbr' => 'h',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|metr sześcienny|metry sześcienne|metrów sześciennych}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|centymetr sześcienny|centymetry sześcienne|centymetrów sześciennych}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|milimetr sześcienny|milimetry sześcienne|milimetrów sześciennych}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|tysiąc litrów|tysiące litrów|tysięcy litrów}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|litr|litry|litrów}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|dziesiąta część|dziesiąte części|dziesiątych części}} litra',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|mililitr|mililitry|mililitrów}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|jard|jardów}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2 l',
-	'pfunc-convert-unit-speed-mile-hour' => 'mil na godzinę',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|$2paskal|$2paskali}}',
-	'pfunc-convert-unit-pressure-bar' => 'barów',
-	'pfunc-convert-unit-pressure-decibar' => 'decybarów',
-	'pfunc-convert-unit-pressure-millibar' => 'millibarów',
-	'pfunc-convert-unit-pressure-kilobarye' => 'kilobarów',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|atmosfera|atmosfer}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|milimtr słupka rtęci|milimetrów słupka rtęci}}',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|cal słupka rtęci|cali słupka rtęci}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar.',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'dbar',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'mmHg',
 );
 
 /** Piedmontese (Piemontèis)
+ * @author Borichèt
  * @author Bèrto 'd Sèra
  * @author Dragonòt
  */
@@ -3014,7 +1649,7 @@ $messages['pms'] = array(
 	'pfunc_desc' => 'Mijora ël parse con funsion lògiche',
 	'pfunc_time_error' => 'Eror: temp nen bon',
 	'pfunc_time_too_long' => 'Eror: #time a ven ciamà tròpe vire',
-	'pfunc_time_too_big' => 'Eror: #time a përmëtt mach agn fin al 9999',
+	'pfunc_time_too_big' => "Eror: #time a përmët mach j'agn fin al 9999.",
 	'pfunc_rel2abs_invalid_depth' => 'Eror: profondità nen bon-a ant ël përcors: "$1" (a l\'é provasse a ciamé un grop dzora a la rèis)',
 	'pfunc_expr_stack_exhausted' => "Eror ëd l'espression: stach esaurìa",
 	'pfunc_expr_unexpected_number' => "Eror ëd l'espression: nùmer pa spetà",
@@ -3037,128 +1672,8 @@ $messages['pms'] = array(
  * @author Khalid Mahmood
  */
 $messages['pnb'] = array(
-	'pfunc-convert-dimension-length' => 'لمبائی',
-	'pfunc-convert-dimension-area' => 'تھاں',
-	'pfunc-convert-dimension-volume' => 'والیوم',
-	'pfunc-convert-dimension-time' => 'ویلہ',
-	'pfunc-convert-dimension-timesquared' => 'واری<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'ماس',
-	'pfunc-convert-dimension-speed' => 'دوڑ',
-	'pfunc-convert-dimension-temperature' => 'گرمی ناپ',
-	'pfunc-convert-dimension-acceleration' => 'سدی دوڑ',
-	'pfunc-convert-dimension-force' => 'زور',
-	'pfunc-convert-dimension-torque' => 'ٹارک',
-	'pfunc-convert-dimension-energy' => 'انرجی',
-	'pfunc-convert-dimension-power' => 'پاور',
-	'pfunc-convert-dimension-pressure' => 'دبآ',
-	'pfunc-convert-dimension-density' => 'گوڑا',
-	'pfunc-convert-prefix-yotta' => 'یوٹا',
-	'pfunc-convert-prefix-zetta' => 'زیٹا',
-	'pfunc-convert-prefix-exa' => 'ایکسا',
-	'pfunc-convert-prefix-peta' => 'پیٹا',
-	'pfunc-convert-prefix-tera' => 'ٹیرا',
-	'pfunc-convert-prefix-giga' => 'گیگا',
-	'pfunc-convert-prefix-mega' => 'میگا',
-	'pfunc-convert-prefix-kilo' => 'کلو',
-	'pfunc-convert-prefix-hecto' => 'ہیکٹو',
-	'pfunc-convert-prefix-deca' => 'ڈیکا',
-	'pfunc-convert-prefix-deci' => 'ڈیسی',
-	'pfunc-convert-prefix-centi' => 'سنٹی',
-	'pfunc-convert-prefix-milli' => 'ملی',
-	'pfunc-convert-prefix-micro' => 'مائکرو',
-	'pfunc-convert-prefix-nano' => 'نینو',
-	'pfunc-convert-prefix-pico' => 'پکو',
-	'pfunc-convert-prefix-femto' => 'فمٹو',
-	'pfunc-convert-prefix-atto' => 'اٹو',
-	'pfunc-convert-prefix-zepto' => 'زپٹو',
-	'pfunc-convert-prefix-yocto' => 'یوکٹو',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2میٹر}}',
-	'pfunc-convert-unit-length-furlong-abbr' => 'فرلانگ',
-	'pfunc-convert-unit-length-chain-abbr' => 'زنجیر',
-	'pfunc-convert-unit-length-rod-abbr' => 'رداس',
-	'pfunc-convert-unit-length-fathom-abbr' => 'فیدم',
-	'pfunc-convert-unit-length-yard-abbr' => 'گز',
-	'pfunc-convert-unit-length-foot-abbr' => 'فٹ',
-	'pfunc-convert-unit-length-hand-abbr' => 'کینٹہ',
-	'pfunc-convert-unit-length-inch-abbr' => 'انچ',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'سمندری میل',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'سمندری میل (برطانیہ)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'سمندری میل (امریکہ 1954 توں پہلے)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2کمپیوٹر',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2ly',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'اسمانی ناپ',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|مربع کلومیٹر|مربع کلومیٹر}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|مربع میٹر|مربع میٹر}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|مربع سینٹیمیٹر|مربع سینٹیمیٹر}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|مربع میلیمیٹر|مربع میلیمیٹر}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|ہیکٹر|ہیکٹر}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|مربع میلیمیٹر|مربع میل}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|ایکڑ|ایکڑ}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|مربع گز|مربع گز}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|مربع فٹ|مربع فٹ}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|مربع انچ|مربع انچ}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|مربع سمندری میل|مربع سمندری میل}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|ڈنام|ڈنام}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|زوبو|زوبو}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'کلومیٹر<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ہیکٹر',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'مربع میل',
-	'pfunc-convert-unit-area-acre-abbr' => 'ایکڑ',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'مربع گز',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'مربع فٹ',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'مربع انچ',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'مربع سمندری میل',
-	'pfunc-convert-unit-area-dunam-abbr' => 'دونام',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'سوبو',
-	'pfunc-convert-unit-time-second' => '$1 {{PLURAL:$1|سکنٹ|سکنٹاں}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2ورہ|$2ورے}}',
-	'pfunc-convert-unit-time-day' => ' {{PLURAL:$1|دن|دناں}}',
-	'pfunc-convert-unit-time-hour' => ' {{PLURAL:$1|کینٹا|کینٹے}}',
-	'pfunc-convert-unit-time-minute' => ' {{PLURAL:$1|منٹ|منٹاں}}',
-	'pfunc-convert-unit-time-second-abbr' => 'سکنث',
-	'pfunc-convert-unit-time-year-abbr' => '$2ورہ',
-	'pfunc-convert-unit-time-day-abbr' => 'دیاڑھ',
-	'pfunc-convert-unit-time-hour-abbr' => 'کینٹہ',
-	'pfunc-convert-unit-time-minute-abbr' => 'منٹ',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|مربع میٹر|مربع میٹر}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|مربع سینٹیمیٹر|مربع سینٹیمیٹر}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|مربع میلیمیٹر|مربع میلیمیٹر}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|کلولٹر|کلولٹر}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|لٹر|لٹر}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|سینٹیلٹر}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|ملیلٹر}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|مربع گز}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|مربع فٹ}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|مربع انچ}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|بیرل}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|بشل}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|گیلن}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|کوارٹز}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|پنٹ}}',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1|پانیسر اونس}}',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1|بیرل}}',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1|بیرل}}',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1|بیرل}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|گیلن}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|کوارٹز}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|پنٹ}}',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1|پانیسر اونس}}',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1|بیرل}}',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1|بشل}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|گیلن}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|کوارٹز}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|پنٹ}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'سینٹی میٹر<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'ملی میٹر<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2ly',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'مربع گز',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'مربع فٹ',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'مکعب انچ',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'bbl',
+	'pfunc_time_error' => 'غلطی: ویلہ ٹھیک نئیں۔',
+	'pfunc_time_too_long' => 'غلطی: بعوت ساریاں # کالاں',
 );
 
 /** Pashto (پښتو)
@@ -3169,7 +1684,7 @@ $messages['ps'] = array(
 	'pfunc_expr_division_by_zero' => 'وېش په صفر',
 );
 
-/** Portuguese (Português)
+/** Portuguese (português)
  * @author Hamilton Abreu
  * @author Malafaya
  */
@@ -3196,7 +1711,7 @@ $messages['pt'] = array(
 	'pfunc_string_too_long' => 'Erro: Texto excede o limite de $1 caracteres',
 );
 
-/** Brazilian Portuguese (Português do Brasil)
+/** Brazilian Portuguese (português do Brasil)
  * @author Eduardo.mps
  * @author Giro720
  */
@@ -3249,20 +1764,21 @@ $messages['qu'] = array(
 	'pfunc_string_too_long' => 'Pantasqa: Qillqa tiwlliqa $1 sanampa saywatam llallin',
 );
 
-/** Romanian (Română)
+/** Romanian (română)
  * @author KlaudiuMihaila
  * @author Minisarm
  * @author Stelistcristi
  */
 $messages['ro'] = array(
-	'pfunc_desc' => 'Îmbunătățiți parser-ul cu funcții logice',
+	'pfunc_desc' => 'Îmbunătățește parserul cu funcții logice',
 	'pfunc_time_error' => 'Eroare: timp incorect',
 	'pfunc_time_too_long' => 'Eroare: prea multe apeluri #time',
-	'pfunc_rel2abs_invalid_depth' => 'Eroare: adâncime incorectă în cale: "$1" (încercat accesarea unui nod deasupra nodului rădăcină)',
-	'pfunc_expr_stack_exhausted' => 'Eroare de expresie: Stivă epuizată',
+	'pfunc_time_too_big' => 'Eroare: #time acceptă doar ani până la 9999',
+	'pfunc_rel2abs_invalid_depth' => 'Eroare: adâncime incorectă în cale: „$1” (încercat accesarea unui nod deasupra nodului rădăcină)',
+	'pfunc_expr_stack_exhausted' => 'Eroare de expresie: stivă epuizată',
 	'pfunc_expr_unexpected_number' => 'Eroare de expresie: număr neașteptat',
 	'pfunc_expr_preg_match_failure' => 'Eroare de expresie: eșuare preg_match neașteptată',
-	'pfunc_expr_unrecognised_word' => 'Eroare de expresie: "$1" este cuvânt necunoscut',
+	'pfunc_expr_unrecognised_word' => 'Eroare de expresie: „$1” este un cuvânt nerecunoscut',
 	'pfunc_expr_unexpected_operator' => 'Eroare de expresie: operator $1 neașteptat',
 	'pfunc_expr_missing_operand' => 'Eroare de expresie: operand lipsă pentru $1',
 	'pfunc_expr_unexpected_closing_bracket' => 'Eroare de expresie: paranteză închisă neașteptată',
@@ -3273,16 +1789,17 @@ $messages['ro'] = array(
 	'pfunc_expr_invalid_argument_ln' => 'Argument incorect pentru ln: <= 0',
 	'pfunc_expr_unknown_error' => 'Eroare de expresie: eroare necunoscută ($1)',
 	'pfunc_expr_not_a_number' => 'În $1: rezultatul nu este un număr',
-	'pfunc_string_too_long' => 'Eroare: Şirul depășește limita de caractere de $1',
+	'pfunc_string_too_long' => 'Eroare: șirul depășește limita de caractere de $1',
 );
 
-/** Tarandíne (Tarandíne)
+/** tarandíne (tarandíne)
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
 	'pfunc_desc' => "L'analizzatore avanzate cu le funziune loggeche",
 	'pfunc_time_error' => 'Errore: Orarie invalide',
 	'pfunc_time_too_long' => 'Errore: stonne troppe #time chiamate',
+	'pfunc_time_too_big' => "Errore: #time vole sulamende valore de anne 'mbonde a 9999",
 	'pfunc_rel2abs_invalid_depth' => "Errore: Profondità invalide jndr'à 'u percorse: \"\$1\" (s'à pruvate a pigghià 'nu node sus a 'u node radice)",
 	'pfunc_expr_stack_exhausted' => 'Espressione in errore: Stack anghiute',
 	'pfunc_expr_unexpected_number' => 'Espressione in errore: Numere inaspettate',
@@ -3301,7 +1818,7 @@ $messages['roa-tara'] = array(
 	'pfunc_string_too_long' => "Errore: 'A stringhe supranesce 'u limite de $1 carattere",
 );
 
-/** Russian (Русский)
+/** Russian (русский)
  * @author G0rn
  * @author Александр Сигачёв
  */
@@ -3326,198 +1843,9 @@ $messages['ru'] = array(
 	'pfunc_expr_unknown_error' => 'Ошибка выражения: неизвестная ошибка ($1)',
 	'pfunc_expr_not_a_number' => 'В $1: результат не является числом',
 	'pfunc_string_too_long' => 'Ошибка: строка превышает ограничение в $1 символов',
-	'pfunc-convert-dimensionmismatch' => 'Ошибка. Не удается преобразовать единицы измерения «$1» и «$2».',
-	'pfunc-convert-unknownunit' => 'Ошибка. Неизвестная единица «$1».',
-	'pfunc-convert-unknowndimension' => 'Ошибка. Неизвестная размерность «$1».',
-	'pfunc-convert-invalidcompoundunit' => 'Ошибка. Недопустимая составная единица «$1».',
-	'pfunc-convert-nounit' => 'Ошибка. Не указана исходная единица.',
-	'pfunc-convert-doublecompoundunit' => 'Ошибка. Невозможно разобрать двойные составные единицы вида «$1».',
-	'pfunc-convert-dimension-length' => 'длина',
-	'pfunc-convert-dimension-area' => 'площадь',
-	'pfunc-convert-dimension-volume' => 'объём',
-	'pfunc-convert-dimension-time' => 'время',
-	'pfunc-convert-dimension-timesquared' => 'время<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'масса',
-	'pfunc-convert-dimension-speed' => 'скорость',
-	'pfunc-convert-dimension-temperature' => 'температура',
-	'pfunc-convert-dimension-acceleration' => 'ускорение',
-	'pfunc-convert-dimension-force' => 'сила',
-	'pfunc-convert-dimension-torque' => 'крутящий момент',
-	'pfunc-convert-dimension-energy' => 'энергия',
-	'pfunc-convert-dimension-power' => 'мощность',
-	'pfunc-convert-dimension-pressure' => 'давление',
-	'pfunc-convert-dimension-density' => 'плотность',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'позитивная топливная эффективность',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'негативная топливная эффективность',
-	'pfunc-convert-prefix-yotta' => 'йотта',
-	'pfunc-convert-prefix-zetta' => 'зетта',
-	'pfunc-convert-prefix-exa' => 'экса',
-	'pfunc-convert-prefix-peta' => 'пета',
-	'pfunc-convert-prefix-tera' => 'тера',
-	'pfunc-convert-prefix-giga' => 'гига',
-	'pfunc-convert-prefix-mega' => 'мега',
-	'pfunc-convert-prefix-kilo' => 'кило',
-	'pfunc-convert-prefix-hecto' => 'гекто',
-	'pfunc-convert-prefix-deca' => 'дека',
-	'pfunc-convert-prefix-deci' => 'деци',
-	'pfunc-convert-prefix-centi' => 'санти',
-	'pfunc-convert-prefix-milli' => 'милли',
-	'pfunc-convert-prefix-micro' => 'микро',
-	'pfunc-convert-prefix-nano' => 'нано',
-	'pfunc-convert-prefix-pico' => 'пико',
-	'pfunc-convert-prefix-femto' => 'фемто',
-	'pfunc-convert-prefix-atto' => 'атто',
-	'pfunc-convert-prefix-zepto' => 'зепто',
-	'pfunc-convert-prefix-yocto' => 'йокто',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2метр|$2метра|$2метров}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|ангстрем|ангстрема|ангстрем}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|миля|мили|миль}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|фурлонг|фурлонга|фурлонгов}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|чейн|чейна|чейнов}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|род|рода|родов}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|фатом|фатома|фатомов}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|ярд|ярда|ярдов}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|фут|фута|футов}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|хэнд|хэнда|хэндов}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|дюйм|дюйма|дюймов}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|морская миля|морские мили|морских милей}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|морская миля (британская до 1970)|морские мили (британских до 1970)|морских миль (британских до 1970)}}',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|морская миля (США до 1970)|морские мили (США до 1970)|морских миль (США до 1970)}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2парсек|$2парсека|$2парсек}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|$2 световой год|$2 световых года|$2 световых лет}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|астрономическая единица|астрономические единицы|астрономических единиц}}',
-	'pfunc-convert-unit-length-furlong-abbr' => 'фурлонг',
-	'pfunc-convert-unit-length-chain-abbr' => 'чейн',
-	'pfunc-convert-unit-length-rod-abbr' => 'род',
-	'pfunc-convert-unit-length-fathom-abbr' => 'фатом',
-	'pfunc-convert-unit-length-yard-abbr' => 'ярд',
-	'pfunc-convert-unit-length-foot-abbr' => 'фут',
-	'pfunc-convert-unit-length-hand-abbr' => 'хэнд',
-	'pfunc-convert-unit-length-inch-abbr' => 'дюйм',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'морская миля',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'брит. морская миля',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'морская миля (США до 1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2 пк',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2 св. г.',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'а. е.',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|квадратный километр|квадратных километра|квадратных километров}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|квадратный метр|квадратных метра|квадратных метров}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|квадратный сантиметр|квадратных сантиметра|квадратных сантиметров}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|квадратный миллиметр|квадратных миллиметра|квадратных миллиметров}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|гектар|гектара|гектар}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|квадратная миля|квадратных мили|квадратных миль}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|акр|акра|акров}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|квадратный ярд|квадратных ярда|квадратных ярдов}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|квадратный фут|квадратных фута|квадратных футов}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|квадратный дюйм|квадратных дюйма|квадратных дюймов}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|квадратная морская миля|квадратные морские мили|квадратных морских миль}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|дунам|дунама|дунамов}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|цубо|цубо|цубо}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'км<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'м<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'см<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'мм<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'га',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'кв. ми',
-	'pfunc-convert-unit-area-acre-abbr' => 'акр',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'кв. ярд',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'кв. м',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'кв. дюйм',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'кв. м. ми',
-	'pfunc-convert-unit-area-dunam-abbr' => 'дунам',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'цубо',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|секунда|секунды|секунд}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2год|$2года|$2лет}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|день|дня|дней}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|час|часа|часов}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|минута|минуты|минут}}',
-	'pfunc-convert-unit-time-second-abbr' => 'с',
-	'pfunc-convert-unit-time-year-abbr' => '$2 г',
-	'pfunc-convert-unit-time-day-abbr' => 'дн',
-	'pfunc-convert-unit-time-hour-abbr' => 'ч.',
-	'pfunc-convert-unit-time-minute-abbr' => 'м.',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|кубический метр|кубических метра|кубических метров}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|кубический сантиметр|кубических сантиметра|кубических сантиметров}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|кубический миллиметр|кубических миллиметра|кубических миллиметров}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|килолитр|килолитра|килолитров}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|литр|литра|литров}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|сантилитр|сантилитра|сантилитров}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|миллилитр|миллилитра|миллилитров}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|кубический ярд|кубических ярда|кубических ярдов}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|кубический фут|кубических фута|кубических футов}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|кубический дюйм|кубических дюйма|кубических дюймов}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|баррель|барреля|баррелей}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|бушель|бушеля|бушелей}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|галлон|галлона|галлонов}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|кварта|кварты|кварт}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|пинта|пинты|пинт}}',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1|жидкая унция|жидких унции|жидких унций}}',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1|баррель США|барреля США|баррелей США}}',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1|баррель|барреля|баррелей}}',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1|баррель|барреля|баррелей}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|галлон США|галлона США|галлонов США}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|кварта США|кварты США|кварт США}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|пинта США|пинты США|пинт США}}',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1|жидкая унция США|жидких унции США|жидких унций США}}',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1|сухой баррель США|сухих барреля США|сухих баррелей США}}',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1|бушель США|бушеля США|бушелей США}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|сухой галлон США|сухих галлона США|сухих галлонов США}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|сухая кварта США|сухие кварты США|сухих кварт США}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|сухая пинта США|сухих пинты США|сухих пинт США}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'м<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'см<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'мм<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2 л',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'куб. ярд',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'куб. фут',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'куб. дюйм',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'бр.',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'бш.',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'гал.',
-	'pfunc-convert-unit-volume-quart-abbr' => 'кв.',
-	'pfunc-convert-unit-volume-pint-abbr' => 'пт.',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'жид. унц.',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'бр. США',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'бр.',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'бр.',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'гал. США',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'кт. США',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'пт. США',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'жид. унц. США',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'бр. США',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'вш. США',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'сух. гал. США',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'сух. кт. США',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'сух. пт. США',
-	'pfunc-convert-unit-speed-mile-hour' => 'миль/час',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'миль/ч',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|$2паскаль|$2паскаля|$2паскалей}}',
-	'pfunc-convert-unit-pressure-bar' => 'бар',
-	'pfunc-convert-unit-pressure-decibar' => 'децибар',
-	'pfunc-convert-unit-pressure-millibar' => 'миллибар',
-	'pfunc-convert-unit-pressure-kilobarye' => 'килобария',
-	'pfunc-convert-unit-pressure-barye' => 'бария',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|атмосфера|атмосферы|атмосфер}}',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1|торр|торра|торр}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|миллиметр ртутного столба|миллиметра ртутного столба|миллиметров ртутного столба}}',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|дюйм ртутного столба|дюйма ртутного столба|дюймов ртутного столба}}',
-	'pfunc-convert-unit-pressure-psi' => '{{PLURAL:$1|фунт на квадратный дюйм|фунта на квадратный дюйм|фунтов на квадратный дюйм}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Па',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'бар',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'дбар',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'мбар',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'КБа',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ба',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'атм',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'торр',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'мм рт. ст.',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'дюйм. рт. ст.',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'фунт. на кв. дюйм',
 );
 
-/** Rusyn (Русиньскый)
+/** Rusyn (русиньскый)
  * @author Gazeb
  */
 $messages['rue'] = array(
@@ -3542,7 +1870,7 @@ $messages['rue'] = array(
 	'pfunc_string_too_long' => 'Хыба: Ланц є довшый як $1 {{PLURAL:$1|знак|знакы|знаків}}, што є ліміт',
 );
 
-/** Yakut (Саха тыла)
+/** Sakha (саха тыла)
  * @author HalanTul
  */
 $messages['sah'] = array(
@@ -3568,7 +1896,7 @@ $messages['sah'] = array(
 	'pfunc_string_too_long' => 'Алҕас: Устуруока уһуна $1 бэлиэннэн хааччахха баппат',
 );
 
-/** Sicilian (Sicilianu)
+/** Sicilian (sicilianu)
  * @author Melos
  * @author Santu
  */
@@ -3620,7 +1948,7 @@ $messages['si'] = array(
 	'pfunc_string_too_long' => 'Error: වදන් පෙළ අකුරු $1 සීමාව ඉක්මවයි',
 );
 
-/** Slovak (Slovenčina)
+/** Slovak (slovenčina)
  * @author Helix84
  */
 $messages['sk'] = array(
@@ -3645,7 +1973,7 @@ $messages['sk'] = array(
 	'pfunc_string_too_long' => 'Chyba: Reťazec prekračuje limit $1 znakov',
 );
 
-/** Slovenian (Slovenščina)
+/** Slovenian (slovenščina)
  * @author Dbc334
  */
 $messages['sl'] = array(
@@ -3669,200 +1997,9 @@ $messages['sl'] = array(
 	'pfunc_expr_unknown_error' => 'Napaka v izrazu: Neznana napaka ($1)',
 	'pfunc_expr_not_a_number' => 'V $1: rezultat ni število',
 	'pfunc_string_too_long' => 'Napaka: Niz presega omejitev $1 {{PLURAL:$1|znaka|znakov}}',
-	'pfunc-convert-dimensionmismatch' => 'Napaka: Ne morem pretvoriti med enotama »$1« in »$2«.',
-	'pfunc-convert-unknownunit' => 'Napaka: Neznana enota »$1«.',
-	'pfunc-convert-unknowndimension' => 'Napaka: Neznana razsežnost »$1«.',
-	'pfunc-convert-invalidcompoundunit' => 'Napaka: Neveljavna sestavljena enota »$1«.',
-	'pfunc-convert-nounit' => 'Napaka: Izvirna enota ni podana.',
-	'pfunc-convert-doublecompoundunit' => 'Napaka: Ne morem razčleniti dvojne sestavljene enote, kot je »$1«.',
-	'pfunc-convert-dimension-length' => 'dolžina',
-	'pfunc-convert-dimension-area' => 'ploščina',
-	'pfunc-convert-dimension-volume' => 'prostornina',
-	'pfunc-convert-dimension-time' => 'čas',
-	'pfunc-convert-dimension-timesquared' => 'čas<sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'masa',
-	'pfunc-convert-dimension-speed' => 'hitrost',
-	'pfunc-convert-dimension-temperature' => 'temperatura',
-	'pfunc-convert-dimension-acceleration' => 'pospešek',
-	'pfunc-convert-dimension-force' => 'sila',
-	'pfunc-convert-dimension-torque' => 'navor',
-	'pfunc-convert-dimension-energy' => 'energija',
-	'pfunc-convert-dimension-power' => 'moč',
-	'pfunc-convert-dimension-pressure' => 'tlak',
-	'pfunc-convert-dimension-density' => 'gostota',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'pozitivna učinkovitost goriva',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'negativna učinkovitost goriva',
-	'pfunc-convert-prefix-yotta' => 'jota',
-	'pfunc-convert-prefix-zetta' => 'zeta',
-	'pfunc-convert-prefix-exa' => 'eksa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hekto',
-	'pfunc-convert-prefix-deca' => 'deka',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'mili',
-	'pfunc-convert-prefix-micro' => 'mikro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'piko',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'ato',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'jokto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|meter|metra|metri|metrov}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|angstrem|angstrema|angstremi|angstremov}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|milja|milji|milje|milj}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlonga|furlongi|furlongov}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|veriga|verigi|verige|verig}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|palica|palici|palice|palic}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|seženj|sežnja|sežnji|sežnjev}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|jard|jarda|jardi|jardov}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|čevelj|čevlja|čevlji|čeljev}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|dlan|dlani}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|palec|palca|palci|palcev}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|navtična milja|navtični milji|navtične milje|navtičnih milj}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|navtična milja|navtični milji|navtične milje|navtičnih milj}} (britanska, pred 1970)',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|navtična milja|navtični milji|navtične milje|navtičnih milj}} (ZDA, pred 1954)',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|parsek|parseka|parseki|persekov}}',
-	'pfunc-convert-unit-length-lightyear' => '$2 {{PLURAL:$1|svetlobno leto|svetlobni leti|svetlobna leta|svetlobnih let}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|astronomska enota|astronomski enoti|astronomske enote|astronomskih enot}}',
-	'pfunc-convert-unit-length-metre-abbr' => 'm',
-	'pfunc-convert-unit-length-angstrom-abbr' => 'Å',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'veriga',
-	'pfunc-convert-unit-length-rod-abbr' => 'rd',
-	'pfunc-convert-unit-length-fathom-abbr' => 'seženj',
-	'pfunc-convert-unit-length-yard-abbr' => 'yd',
-	'pfunc-convert-unit-length-foot-abbr' => 'ft',
-	'pfunc-convert-unit-length-hand-abbr' => 'h',
-	'pfunc-convert-unit-length-inch-abbr' => 'in',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'nmi',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'nmi (Brit)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'nmi (ZDA, pred 1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2 pc',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2 sv. l.',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'a.e.',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|kvadratni kilometer|kvadratna kilometra|kvadratni kilometri|kvadratnih kilometrov}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|kvadratni meter|kvadratna metra|kvadratni metri|kvadratnih metrov}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|kvadratni centimeter|kvadratna centimetra|kvadratni centimetri|kvadratnih centimetrov}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|kvadratni milimeter|kvadratna milimetra|kvadratni milimetri|kvadratnih milimetrov}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hektar|hektara|hektare|hektarov}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|kvadratna milja|kvadratni milji|kvadratne milje|kvadratnih milj}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|aker|akra|akri|akrov}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|kvadratni jard|kvadratna jarda|kvadratni jardi|kvadratnih jardov}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|kvadratni čevelj|kvadratna čevlja|kvadratni čevlji|kvadratnih čevljev}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|kvadratni palec|kvadratna palca|kvadratni palci|kvadratnih palcev}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|kvadratna navtična milja|kvadratni navtični milji|kvadratne navtične milje|kvadratnih navtičnih milj}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|dunam|dunama|dunami|dunamov}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|tsubo|tsuba|tsubi|tsubov}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'kv. mi',
-	'pfunc-convert-unit-area-acre-abbr' => 'aker',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'kv. yd',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'kv. ft',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'kv. in',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'kv nmi',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|sekunda|sekundi|sekunde|sekund}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|leto|leti|leta|let}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|dan|dneva|dnevi|dni}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|ura|uri|ure|ur}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minuta|minuti|minute|minut}}',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => 'leto',
-	'pfunc-convert-unit-time-day-abbr' => 'dan',
-	'pfunc-convert-unit-time-hour-abbr' => 'ura',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|kubični meter|kubična metra|kubični metri|kubičnih metrov}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|kubični centimeter|kubična centimetra|kubični centimetri|kubičnih centimetrov}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|kubični milimeter|kubična milimetra|kubični milimetri|kubičnih milimetrov}}',
-	'pfunc-convert-unit-volume-kilolitre' => 'kilo{{PLURAL:$1|liter|litra|litri|litrov}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|liter|litra|litri|litrov}}',
-	'pfunc-convert-unit-volume-centilitre' => 'centi{{PLURAL:$1|liter|litra|litri|litrov}}',
-	'pfunc-convert-unit-volume-millilitre' => 'mili{{PLURAL:$1|liter|litra|litri|litrov}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|kubični jard|kubična jarda|kubični jardi|kubičnih jardov}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|kubični čevelj|kubična čevlja|kubični čevlji|kubičnih čevljev}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|kubični palec|kubična palca|kubični palci|kubičnih palcev}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|sod|soda|sodi|sodov}}',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1|bušel|bušla|bušli|bušlov}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|galona|galoni|galone|galon}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|kvart|kvarta|kvarti|kvartov}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|pint|pinta|pinti|pintov}}',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1|tekočinska unča|tekočinski unči|tekočinske unče|tekočinskih unč}}',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1|ameriški sod|ameriška soda|ameriški sodi|ameriških sodov}}',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1|sod|soda|sodi|sodov}}',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1|sod|soda|sodi|sodov}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|ameriška galona|ameriški galoni|ameriške galone|ameriških galon}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|ameriški kvart|ameriška kvarta|ameriški kvarti|ameriških kvartov}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|ameriški pint|ameriška pinta|ameriški pinti|ameriških pintov}}',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1|ameriška tekočinska unča|ameriški tekočinski unči|ameriške tekočinske unče|ameriških tekočinskih unč}}',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1|ameriški suhi sod|ameriška suha soda|ameriški suhi sodi|ameriških suhih sodov}}',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1|ameriški bušel|ameriška bušla|ameriški bušli|ameriških bušlov}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|ameriška suha galona|ameriški suhi galoni|ameriške suhe galone|ameriških suhih galon}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|ameriški suhi kvart|ameriška suha kvarta|ameriški suhi kvarti|ameriških suhih kvartov}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|ameriški suhi pint|ameriška suha pinta|ameriški suhi pinti|ameriških suhih pintov}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2 l',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'kub. yd',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'kub. ft',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'kub. in',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'bsh',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'gal',
-	'pfunc-convert-unit-volume-quart-abbr' => 'qt',
-	'pfunc-convert-unit-volume-pint-abbr' => 'pt',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'fl oz',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'am. bbl',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'am. gal',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'am. qt',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'am. pt',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'am. fl oz',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'am. bbl',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'am. bsh',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'am. suha gal',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'am. suhi qt',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'am. suhi pt',
-	'pfunc-convert-unit-speed-mile-hour' => 'milje na uro',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'mph',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|paskal|paskala|paskali|paskalov}}',
-	'pfunc-convert-unit-pressure-bar' => 'bar',
-	'pfunc-convert-unit-pressure-decibar' => 'decibar',
-	'pfunc-convert-unit-pressure-millibar' => 'milibar',
-	'pfunc-convert-unit-pressure-kilobarye' => 'kilobarye',
-	'pfunc-convert-unit-pressure-barye' => 'barye',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|atmosfera|atmosferi|atmosfere|atmosfer}}',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1|torr|torra|torri|torrov}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|milimeter|milimetra|milimetri|milimetrov}} živega srebra',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|palec|palca|palci|palcev}} živega srebra',
-	'pfunc-convert-unit-pressure-psi' => '{{PLURAL:$1|funt|funta|funti|funtov}} na kvadratni palec',
-	'pfunc-convert-unit-pressure-pascal-abbr' => 'Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'dbar',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'mbar',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'kBa',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ba',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'Torr',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'mmHg',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'inHg',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
-/** Albanian (Shqip)
+/** Albanian (shqip)
  * @author Olsi
  * @author Vinie007
  */
@@ -3889,7 +2026,7 @@ $messages['sq'] = array(
 	'pfunc_string_too_long' => 'Gabim: string kalon limit $1 karakter',
 );
 
-/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (српски (ћирилица)‎)
  * @author Millosh
  * @author Rancher
  * @author Verlor
@@ -3915,7 +2052,7 @@ $messages['sr-ec'] = array(
 	'pfunc_string_too_long' => 'Грешка: реч прекорачује $1  слова, што је постављено ограничење',
 );
 
-/** Serbian Latin ekavian (‪Srpski (latinica)‬)
+/** Serbian (Latin script) (srpski (latinica)‎)
  * @author Michaello
  */
 $messages['sr-el'] = array(
@@ -3974,11 +2111,13 @@ $messages['su'] = array(
 	'pfunc_expr_division_by_zero' => 'Pambagi ku nol',
 );
 
-/** Swedish (Svenska)
+/** Swedish (svenska)
  * @author Ainali
  * @author Lejonel
+ * @author Lokal Profil
  * @author M.M.S.
  * @author Najami
+ * @author WikiPhoenix
  */
 $messages['sv'] = array(
 	'pfunc_desc' => 'Lägger till logiska funktioner i parsern',
@@ -4001,147 +2140,6 @@ $messages['sv'] = array(
 	'pfunc_expr_unknown_error' => 'Fel i uttryck: Okänt fel ($1)',
 	'pfunc_expr_not_a_number' => 'I $1: resultatet är inte ett tal',
 	'pfunc_string_too_long' => 'Fel: Strängen överskrider gränsen på $1 tecken',
-	'pfunc-convert-dimensionmismatch' => 'Fel: Kan inte konvertera mellan enheterna "$1" och "$2".',
-	'pfunc-convert-unknownunit' => 'Fel: Okänd enhet "$1".',
-	'pfunc-convert-unknowndimension' => 'Fel: Okänd dimension "$1".',
-	'pfunc-convert-dimension-length' => 'längd',
-	'pfunc-convert-dimension-area' => 'area',
-	'pfunc-convert-dimension-volume' => 'volym',
-	'pfunc-convert-dimension-time' => 'tid',
-	'pfunc-convert-dimension-timesquared' => 'tid <sup>2</sup>',
-	'pfunc-convert-dimension-mass' => 'massa',
-	'pfunc-convert-dimension-speed' => 'hastighet',
-	'pfunc-convert-dimension-temperature' => 'temperatur',
-	'pfunc-convert-dimension-acceleration' => 'acceleration',
-	'pfunc-convert-dimension-force' => 'kraft',
-	'pfunc-convert-dimension-torque' => 'vridmoment',
-	'pfunc-convert-dimension-energy' => 'energi',
-	'pfunc-convert-dimension-pressure' => 'tryck',
-	'pfunc-convert-dimension-density' => 'densitet',
-	'pfunc-convert-prefix-yotta' => 'yotta',
-	'pfunc-convert-prefix-zetta' => 'zetta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'peta',
-	'pfunc-convert-prefix-tera' => 'tera',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mega',
-	'pfunc-convert-prefix-kilo' => 'kilo',
-	'pfunc-convert-prefix-hecto' => 'hekto',
-	'pfunc-convert-prefix-deca' => 'deka',
-	'pfunc-convert-prefix-deci' => 'deci',
-	'pfunc-convert-prefix-centi' => 'centi',
-	'pfunc-convert-prefix-milli' => 'milli',
-	'pfunc-convert-prefix-micro' => 'mikro',
-	'pfunc-convert-prefix-nano' => 'nano',
-	'pfunc-convert-prefix-pico' => 'piko',
-	'pfunc-convert-prefix-femto' => 'femto',
-	'pfunc-convert-prefix-atto' => 'atto',
-	'pfunc-convert-prefix-zepto' => 'zepto',
-	'pfunc-convert-prefix-yocto' => 'yokto',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1|$2meter|$2meter}}',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1|ångström|ångström}}',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1|engelsk mil|engelska mil}}',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1|furlong|furlonger}}',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1|chain|chains}}',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1|stång|stänger}}',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1|famn|famnar}}',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1|yard|yards}}',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1|fot|fot}}',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1|hand|händer}}',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1|tum|tum}}',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1|nautisk mil|nautiska mil}}',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1|nautisk mil (innan 1970, brittisk)|nautiska mil (innan 1970, brittisk)}}',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1|nautisk mil (innan 1954, USA)|nautiska mil (innan 1954, USA)}}',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1|$2parsec|$2parsec}}',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1|$2ljusår|$2ljusår}}',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1|astronomisk enhet|astronomiska enheter}}',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'chain',
-	'pfunc-convert-unit-length-fathom-abbr' => 'famn',
-	'pfunc-convert-unit-length-yard-abbr' => 'yd',
-	'pfunc-convert-unit-length-foot-abbr' => 'ft',
-	'pfunc-convert-unit-length-hand-abbr' => 'h',
-	'pfunc-convert-unit-length-inch-abbr' => 'in',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'nmi',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'nmi (Storbr.)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'nmi (innan 1954, USA)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2pc',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'AU',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1|kvadratkilometer|kvadratkilometer}}',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1|kvadratmeter|kvadratmeter}}',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1|kvadratcentimeter|kvadratcentimeter}}',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1|kvadratmillimeter|kvadratmillimeter}}',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1|hektar|hektar}}',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1|kvadratmil|kvadratmil}}',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1|tunnland|tunnland}}',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1|kvadratyard|kvadratyard}}',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1|kvadratfot|kvadratfötter}}',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1|kvadrattum|kvadrattum}}',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1|kvadratisk nautisk mil|kvadratiska nautiska mil}}',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1|dunam|dunam}}',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1|tsubo|tsubo}}',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm<sup>2</sup>',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm<sup>2</sup>',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm<sup>2</sup>',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'kv mil',
-	'pfunc-convert-unit-area-acre-abbr' => 'tunnland',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'kv yd',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'kv ft',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'kv in',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'kv nmi',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1|sekund|sekunder}}',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1|$2år|$2år}}',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1|dag|dagar}}',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1|timme|timmar}}',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1|minut|minuter}}',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-day-abbr' => 'dag',
-	'pfunc-convert-unit-time-hour-abbr' => 'tim',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1|kubikmeter|kubikmeter}}',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1|kubikcentimeter|kubikcentimeter}}',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1|kubikmillimeter|kubikmillimeter}}',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1|kiloliter|kiloliter}}',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1|liter|liter}}',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1|centiliter|centiliter}}',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1|milliliter|milliliter}}',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1|kubikyard|kubikyards}}',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1|kubikfot|kubikfötter}}',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1|kubiktum|kubiktum}}',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1|fat|fat}}',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1|gallon|gallons}}',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1|quart|quarts}}',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1|pint|pints}}',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1|gallon (USA, våt)|gallon (USA, våt)}}',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1|quart (USA, våt)|quart (USA, våt)}}',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1|pint (USA, våt)|pint (USA, våt)}}',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1|gallon (USA, torr)|gallon (USA, torr)}}',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1|quart (USA, torr)|quart (USA, torr)}}',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1|pint (USA, torr)|pint (USA, torr)}}',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm<sup>3</sup>',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm<sup>3</sup>',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2l',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'gal',
-	'pfunc-convert-unit-speed-mile-hour' => 'miles per timme',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'mph',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1|$2pascal|$2pascal}}',
-	'pfunc-convert-unit-pressure-bar' => 'bar',
-	'pfunc-convert-unit-pressure-millibar' => 'millibar',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1|atmosfär|atmosfärer}}',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1|torr|torr}}',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1|millimeter kvicksilver|millimeter kvicksilver}}',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1|tum kvicksilver|tum kvicksilver}}',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'mbar',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'mmHg',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
 /** Telugu (తెలుగు)
@@ -4166,7 +2164,7 @@ $messages['te'] = array(
 	'pfunc_expr_not_a_number' => '$1లో: వచ్చిన ఫలితం సంఖ్య కాదు',
 );
 
-/** Tajik (Cyrillic) (Тоҷикӣ (Cyrillic))
+/** Tajik (Cyrillic script) (тоҷикӣ)
  * @author Ibrahim
  */
 $messages['tg-cyrl'] = array(
@@ -4188,7 +2186,7 @@ $messages['tg-cyrl'] = array(
 	'pfunc_expr_not_a_number' => 'Дар $1: натиҷа адад нест',
 );
 
-/** Tajik (Latin) (Тоҷикӣ (Latin))
+/** Tajik (Latin script) (tojikī)
  * @author Liangent
  */
 $messages['tg-latn'] = array(
@@ -4308,7 +2306,7 @@ $messages['tr'] = array(
 	'pfunc_string_too_long' => 'Hata: Dize $1 karakter sınırını geçiyor',
 );
 
-/** Ukrainian (Українська)
+/** Ukrainian (українська)
  * @author AS
  * @author Ahonc
  */
@@ -4334,7 +2332,7 @@ $messages['uk'] = array(
 	'pfunc_string_too_long' => 'Помилка: довжина рядка перевищує межу в {{PLURAL:$1|$1 символ|$1 символи|$1 символів}}',
 );
 
-/** Vèneto (Vèneto)
+/** vèneto (vèneto)
  * @author Candalua
  */
 $messages['vec'] = array(
@@ -4359,7 +2357,7 @@ $messages['vec'] = array(
 	'pfunc_string_too_long' => 'Eròr: la stringa la va fora dal limite de {{PLURAL:$1|1 caràtere|$1 caràteri}}',
 );
 
-/** Veps (Vepsan kel')
+/** Veps (vepsän kel’)
  * @author Игорь Бродский
  */
 $messages['vep'] = array(
@@ -4391,195 +2389,6 @@ $messages['vi'] = array(
 	'pfunc_expr_unknown_error' => 'Lỗi biểu thức: Lỗi không rõ nguyên nhân ($1)',
 	'pfunc_expr_not_a_number' => 'Trong $1: kết quả không phải là kiểu số',
 	'pfunc_string_too_long' => 'Lỗi: Chuỗi vượt quá giới hạn $1 ký tự',
-	'pfunc-convert-dimensionmismatch' => 'Lỗi: Không thể chuyển đổi giữa các đơn vị “$1” và “$2”.',
-	'pfunc-convert-unknownunit' => 'Lỗi: Không hiểu đơn vị “$1”.',
-	'pfunc-convert-unknowndimension' => 'Lỗi: Không hiểu kích thước “$1”.',
-	'pfunc-convert-invalidcompoundunit' => 'Lỗi: Đơn vị ghép “$1” không hợp lệ.',
-	'pfunc-convert-nounit' => 'Lỗi: Không đưa vào đơn vị nguồn.',
-	'pfunc-convert-doublecompoundunit' => 'Lỗi: Không thể phân tích các đơn vị ghép đúp như “$1”.',
-	'pfunc-convert-dimension-length' => 'chiều dài',
-	'pfunc-convert-dimension-area' => 'diện tích',
-	'pfunc-convert-dimension-volume' => 'thể tích',
-	'pfunc-convert-dimension-time' => 'thời gian',
-	'pfunc-convert-dimension-timesquared' => 'thời gian²',
-	'pfunc-convert-dimension-mass' => 'khối lượng',
-	'pfunc-convert-dimension-speed' => 'tốc độ',
-	'pfunc-convert-dimension-temperature' => 'nhiệt độ',
-	'pfunc-convert-dimension-acceleration' => 'gia tốc',
-	'pfunc-convert-dimension-force' => 'lực lượng',
-	'pfunc-convert-dimension-torque' => 'mô men lực',
-	'pfunc-convert-dimension-energy' => 'năng lượng',
-	'pfunc-convert-dimension-power' => 'công suất',
-	'pfunc-convert-dimension-pressure' => 'áp suất',
-	'pfunc-convert-dimension-density' => 'mật độ',
-	'pfunc-convert-dimension-fuelefficiencypositive' => 'hiệu quả nhiên liệu dương',
-	'pfunc-convert-dimension-fuelefficiencynegative' => 'hiệu quả nhiên liệu âm',
-	'pfunc-convert-prefix-yotta' => 'yôta',
-	'pfunc-convert-prefix-zetta' => 'zêta',
-	'pfunc-convert-prefix-exa' => 'exa',
-	'pfunc-convert-prefix-peta' => 'pêta',
-	'pfunc-convert-prefix-tera' => 'têra',
-	'pfunc-convert-prefix-giga' => 'giga',
-	'pfunc-convert-prefix-mega' => 'mêga',
-	'pfunc-convert-prefix-kilo' => 'kilô',
-	'pfunc-convert-prefix-hecto' => 'hêctô',
-	'pfunc-convert-prefix-deca' => 'đềca',
-	'pfunc-convert-prefix-deci' => 'đêxi',
-	'pfunc-convert-prefix-centi' => 'xenti',
-	'pfunc-convert-prefix-milli' => 'mili',
-	'pfunc-convert-prefix-micro' => 'micrô',
-	'pfunc-convert-prefix-nano' => 'nanô',
-	'pfunc-convert-prefix-pico' => 'picô',
-	'pfunc-convert-prefix-femto' => 'femtô',
-	'pfunc-convert-prefix-atto' => 'atô',
-	'pfunc-convert-prefix-zepto' => 'zéptô',
-	'pfunc-convert-prefix-yocto' => 'yóctô',
-	'pfunc-convert-unit-length-metre' => '{{PLURAL:$1}}$2mét',
-	'pfunc-convert-unit-length-angstrom' => '{{PLURAL:$1}}ångström',
-	'pfunc-convert-unit-length-mile' => '{{PLURAL:$1}}dặm',
-	'pfunc-convert-unit-length-furlong' => '{{PLURAL:$1}}furlong',
-	'pfunc-convert-unit-length-chain' => '{{PLURAL:$1}}chain',
-	'pfunc-convert-unit-length-rod' => '{{PLURAL:$1}}rod',
-	'pfunc-convert-unit-length-fathom' => '{{PLURAL:$1}}fathom',
-	'pfunc-convert-unit-length-yard' => '{{PLURAL:$1}}yard',
-	'pfunc-convert-unit-length-foot' => '{{PLURAL:$1}}foot',
-	'pfunc-convert-unit-length-hand' => '{{PLURAL:$1}}hand',
-	'pfunc-convert-unit-length-inch' => '{{PLURAL:$1}}inch',
-	'pfunc-convert-unit-length-nauticalmile' => '{{PLURAL:$1}}hải lý',
-	'pfunc-convert-unit-length-nauticalmileuk' => '{{PLURAL:$1}}hải lý (Anh trước 1970)',
-	'pfunc-convert-unit-length-nauticalmileus' => '{{PLURAL:$1}}hải lý (Mỹ trước 1954)',
-	'pfunc-convert-unit-length-parsec' => '{{PLURAL:$1}}$2parsec',
-	'pfunc-convert-unit-length-lightyear' => '{{PLURAL:$1}}$2 năm ánh sáng',
-	'pfunc-convert-unit-length-astronomicalunit' => '{{PLURAL:$1}}đơn vị thiên văn',
-	'pfunc-convert-unit-length-furlong-abbr' => 'furlong',
-	'pfunc-convert-unit-length-chain-abbr' => 'chain',
-	'pfunc-convert-unit-length-rod-abbr' => 'rd',
-	'pfunc-convert-unit-length-fathom-abbr' => 'fathom',
-	'pfunc-convert-unit-length-yard-abbr' => 'yd',
-	'pfunc-convert-unit-length-foot-abbr' => 'ft',
-	'pfunc-convert-unit-length-hand-abbr' => 'h',
-	'pfunc-convert-unit-length-inch-abbr' => 'in',
-	'pfunc-convert-unit-length-nauticalmile-abbr' => 'nmi',
-	'pfunc-convert-unit-length-nauticalmileuk-abbr' => 'nmi (Anh)',
-	'pfunc-convert-unit-length-nauticalmileus-abbr' => 'nmi (Mỹ trước 1954)',
-	'pfunc-convert-unit-length-parsec-abbr' => '$2pc',
-	'pfunc-convert-unit-length-lightyear-abbr' => '$2ly',
-	'pfunc-convert-unit-length-astronomicalunit-abbr' => 'ua',
-	'pfunc-convert-unit-area-squarekilometre' => '{{PLURAL:$1}}kilômét vuông',
-	'pfunc-convert-unit-area-squaremetre' => '{{PLURAL:$1}}mét vuông',
-	'pfunc-convert-unit-area-squarecentimetre' => '{{PLURAL:$1}}xentimét vuông',
-	'pfunc-convert-unit-area-squaremillimetre' => '{{PLURAL:$1}}millimét vuông',
-	'pfunc-convert-unit-area-hectare' => '{{PLURAL:$1}}hecta',
-	'pfunc-convert-unit-area-squaremile' => '{{PLURAL:$1}}dặm vuông',
-	'pfunc-convert-unit-area-acre' => '{{PLURAL:$1}}mẫu Anh',
-	'pfunc-convert-unit-area-squareyard' => '{{PLURAL:$1}}yard vuông',
-	'pfunc-convert-unit-area-squarefoot' => '{{PLURAL:$1}}foot vuông',
-	'pfunc-convert-unit-area-squareinch' => '{{PLURAL:$1}}inch vuông',
-	'pfunc-convert-unit-area-squarenauticalmile' => '{{PLURAL:$1}}hải lý vuông',
-	'pfunc-convert-unit-area-dunam' => '{{PLURAL:$1}}dunam',
-	'pfunc-convert-unit-area-tsubo' => '{{PLURAL:$1}}tsubo',
-	'pfunc-convert-unit-area-squarekilometre-abbr' => 'km²',
-	'pfunc-convert-unit-area-squaremetre-abbr' => 'm²',
-	'pfunc-convert-unit-area-squarecentimetre-abbr' => 'cm²',
-	'pfunc-convert-unit-area-squaremillimetre-abbr' => 'mm²',
-	'pfunc-convert-unit-area-hectare-abbr' => 'ha',
-	'pfunc-convert-unit-area-squaremile-abbr' => 'sq mi',
-	'pfunc-convert-unit-area-acre-abbr' => 'mẫu',
-	'pfunc-convert-unit-area-squareyard-abbr' => 'sq yd',
-	'pfunc-convert-unit-area-squarefoot-abbr' => 'sq ft',
-	'pfunc-convert-unit-area-squareinch-abbr' => 'sq in',
-	'pfunc-convert-unit-area-squarenauticalmile-abbr' => 'sq nmi',
-	'pfunc-convert-unit-area-dunam-abbr' => 'dunam',
-	'pfunc-convert-unit-area-tsubo-abbr' => 'tsubo',
-	'pfunc-convert-unit-time-second' => '{{PLURAL:$1}}giây',
-	'pfunc-convert-unit-time-year' => '{{PLURAL:$1}}$2 năm',
-	'pfunc-convert-unit-time-day' => '{{PLURAL:$1}}ngày',
-	'pfunc-convert-unit-time-hour' => '{{PLURAL:$1}}giờ',
-	'pfunc-convert-unit-time-minute' => '{{PLURAL:$1}}phút',
-	'pfunc-convert-unit-time-second-abbr' => 's',
-	'pfunc-convert-unit-time-year-abbr' => '$2yr',
-	'pfunc-convert-unit-time-day-abbr' => 'ngày',
-	'pfunc-convert-unit-time-hour-abbr' => 'h',
-	'pfunc-convert-unit-time-minute-abbr' => 'min',
-	'pfunc-convert-unit-volume-cubicmetre' => '{{PLURAL:$1}}mét khối',
-	'pfunc-convert-unit-volume-cubiccentimetre' => '{{PLURAL:$1}}xentimét khối',
-	'pfunc-convert-unit-volume-cubicmillimetre' => '{{PLURAL:$1}}milimét khối',
-	'pfunc-convert-unit-volume-kilolitre' => '{{PLURAL:$1}}kilôlít',
-	'pfunc-convert-unit-volume-litre' => '{{PLURAL:$1}}lít',
-	'pfunc-convert-unit-volume-centilitre' => '{{PLURAL:$1}}xentilít',
-	'pfunc-convert-unit-volume-millilitre' => '{{PLURAL:$1}}mililít',
-	'pfunc-convert-unit-volume-cubicyard' => '{{PLURAL:$1}}yard khối',
-	'pfunc-convert-unit-volume-cubicfoot' => '{{PLURAL:$1}}foot khối',
-	'pfunc-convert-unit-volume-cubicinch' => '{{PLURAL:$1}}inch khối',
-	'pfunc-convert-unit-volume-barrel' => '{{PLURAL:$1}}thùng',
-	'pfunc-convert-unit-volume-bushel' => '{{PLURAL:$1}}giạ',
-	'pfunc-convert-unit-volume-gallon' => '{{PLURAL:$1}}gallon',
-	'pfunc-convert-unit-volume-quart' => '{{PLURAL:$1}}quart',
-	'pfunc-convert-unit-volume-pint' => '{{PLURAL:$1}}pint',
-	'pfunc-convert-unit-volume-fluidounce' => '{{PLURAL:$1}}aoxơ chất lỏng',
-	'pfunc-convert-unit-volume-barrelus' => '{{PLURAL:$1}}thùng Mỹ',
-	'pfunc-convert-unit-volume-barreloil' => '{{PLURAL:$1}}thùng',
-	'pfunc-convert-unit-volume-barrelbeer' => '{{PLURAL:$1}}thùng',
-	'pfunc-convert-unit-volume-usgallon' => '{{PLURAL:$1}}gallon Mỹ',
-	'pfunc-convert-unit-volume-usquart' => '{{PLURAL:$1}}quart Mỹ',
-	'pfunc-convert-unit-volume-uspint' => '{{PLURAL:$1}}pint Mỹ',
-	'pfunc-convert-unit-volume-usfluidounce' => '{{PLURAL:$1}}aoxơ chất lỏng Mỹ',
-	'pfunc-convert-unit-volume-usdrybarrel' => '{{PLURAL:$1}}thùng chất khô Mỹ',
-	'pfunc-convert-unit-volume-usbushel' => '{{PLURAL:$1}}thùng Mỹ',
-	'pfunc-convert-unit-volume-usdrygallon' => '{{PLURAL:$1}}gallon chất khô Mỹ',
-	'pfunc-convert-unit-volume-usdryquart' => '{{PLURAL:$1}}quart chất khô Mỹ',
-	'pfunc-convert-unit-volume-usdrypint' => '{{PLURAL:$1}}pint chất khô Mỹ',
-	'pfunc-convert-unit-volume-cubicmetre-abbr' => 'm³',
-	'pfunc-convert-unit-volume-cubiccentimetre-abbr' => 'cm³',
-	'pfunc-convert-unit-volume-cubicmillimetre-abbr' => 'mm³',
-	'pfunc-convert-unit-volume-litre-abbr' => '$2l',
-	'pfunc-convert-unit-volume-cubicyard-abbr' => 'cu yd',
-	'pfunc-convert-unit-volume-cubicfoot-abbr' => 'cu ft',
-	'pfunc-convert-unit-volume-cubicinch-abbr' => 'cu in',
-	'pfunc-convert-unit-volume-barrel-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-bushel-abbr' => 'bsh',
-	'pfunc-convert-unit-volume-gallon-abbr' => 'gal',
-	'pfunc-convert-unit-volume-quart-abbr' => 'qt',
-	'pfunc-convert-unit-volume-pint-abbr' => 'pt',
-	'pfunc-convert-unit-volume-fluidounce-abbr' => 'fl oz',
-	'pfunc-convert-unit-volume-barrelus-abbr' => 'bbl Mỹ',
-	'pfunc-convert-unit-volume-barreloil-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-barrelbeer-abbr' => 'bbl',
-	'pfunc-convert-unit-volume-usgallon-abbr' => 'gal Mỹ',
-	'pfunc-convert-unit-volume-usquart-abbr' => 'qt Mỹ',
-	'pfunc-convert-unit-volume-uspint-abbr' => 'pt Mỹ',
-	'pfunc-convert-unit-volume-usfluidounce-abbr' => 'fl oz Mỹ',
-	'pfunc-convert-unit-volume-usdrybarrel-abbr' => 'bbl Mỹ',
-	'pfunc-convert-unit-volume-usbushel-abbr' => 'bsh Mỹ',
-	'pfunc-convert-unit-volume-usdrygallon-abbr' => 'dry gal Mỹ',
-	'pfunc-convert-unit-volume-usdryquart-abbr' => 'dry qt Mỹ',
-	'pfunc-convert-unit-volume-usdrypint-abbr' => 'dry pt Mỹ',
-	'pfunc-convert-unit-speed-mile-hour' => 'dặm một giờ',
-	'pfunc-convert-unit-speed-speedoflight' => 'c',
-	'pfunc-convert-unit-speed-mile-hour-abbr' => 'mph',
-	'pfunc-convert-unit-speed-speedoflight-abbr' => 'c',
-	'pfunc-convert-unit-pressure-pascal' => '{{PLURAL:$1}}$2pascal',
-	'pfunc-convert-unit-pressure-bar' => 'ba',
-	'pfunc-convert-unit-pressure-decibar' => 'đêxiba',
-	'pfunc-convert-unit-pressure-millibar' => 'miliba',
-	'pfunc-convert-unit-pressure-kilobarye' => 'kilôbarye',
-	'pfunc-convert-unit-pressure-barye' => 'barye',
-	'pfunc-convert-unit-pressure-atmosphere' => '{{PLURAL:$1}}atmôtphe',
-	'pfunc-convert-unit-pressure-torr' => '{{PLURAL:$1}}torr',
-	'pfunc-convert-unit-pressure-mmhg' => '{{PLURAL:$1}}milimét thủy ngân',
-	'pfunc-convert-unit-pressure-inhg' => '{{PLURAL:$1}}inch thủy ngân',
-	'pfunc-convert-unit-pressure-psi' => '{{PLURAL:$1}}pound một inch vuông',
-	'pfunc-convert-unit-pressure-pascal-abbr' => '$2Pa',
-	'pfunc-convert-unit-pressure-bar-abbr' => 'bar',
-	'pfunc-convert-unit-pressure-decibar-abbr' => 'dbar',
-	'pfunc-convert-unit-pressure-millibar-abbr' => 'mbar',
-	'pfunc-convert-unit-pressure-kilobarye-abbr' => 'kBa',
-	'pfunc-convert-unit-pressure-barye-abbr' => 'Ba',
-	'pfunc-convert-unit-pressure-atmosphere-abbr' => 'atm',
-	'pfunc-convert-unit-pressure-torr-abbr' => 'Torr',
-	'pfunc-convert-unit-pressure-mmhg-abbr' => 'mmHg',
-	'pfunc-convert-unit-pressure-inhg-abbr' => 'inHg',
-	'pfunc-convert-unit-pressure-psi-abbr' => 'psi',
 );
 
 /** Volapük (Volapük)
@@ -4636,15 +2445,19 @@ $messages['yue'] = array(
 	'pfunc_expr_not_a_number' => '響 $1: 結果唔係數字',
 );
 
-/** Simplified Chinese (‪中文(简体)‬)
+/** Simplified Chinese (中文（简体）‎)
+ * @author Hydra
  * @author Liangent
+ * @author PhiLiP
  * @author Philip
  * @author Shinjiman
+ * @author 阿pp
  */
 $messages['zh-hans'] = array(
 	'pfunc_desc' => '用逻辑函数加强解析器',
 	'pfunc_time_error' => '错误：无效时间',
 	'pfunc_time_too_long' => '错误：#time调用次数过多',
+	'pfunc_time_too_big' => '错误：#time只支持到9999年',
 	'pfunc_rel2abs_invalid_depth' => '错误：无效路径深度：“$1”（尝试访问根节点以上节点）',
 	'pfunc_expr_stack_exhausted' => '表达式错误：堆栈耗尽',
 	'pfunc_expr_unexpected_number' => '表达式错误：未预料的数字',
@@ -4663,7 +2476,7 @@ $messages['zh-hans'] = array(
 	'pfunc_string_too_long' => '错误：字符串超过$1字符限制',
 );
 
-/** Traditional Chinese (‪中文(繁體)‬)
+/** Traditional Chinese (中文（繁體）‎)
  * @author Gaoxuewei
  * @author Liangent
  * @author Mark85296341
