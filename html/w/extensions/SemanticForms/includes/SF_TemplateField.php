@@ -30,7 +30,7 @@ class SFTemplateField {
 		$f->mDelimiter = $delimiter;
 		$f->mDisplay = $display;
 		// Delimiter should default to ','.
-		if ( !empty( $isList ) && empty( $delimiter ) ) {
+		if ( $isList && !$delimiter ) {
 			$f->mDelimiter = ',';
 		}
 		return $f;
@@ -72,14 +72,8 @@ class SFTemplateField {
 		// this returns an array of objects
 		$allowed_values = SFUtils::getSMWPropertyValues( $store, $proptitle, "Allows value" );
 		$label_formats = SFUtils::getSMWPropertyValues( $store, $proptitle, "Has field label format" );
-		if ( class_exists( 'SMWDIProperty' ) ) {
-			// SMW 1.6+
-			$propValue = SMWDIProperty::newFromUserLabel( $this->mSemanticProperty );
-			$this->mPropertyType = $propValue->findPropertyTypeID();
-		} else {
-			$propValue = SMWPropertyValue::makeUserProperty( $this->mSemanticProperty );
-			$this->mPropertyType = $propValue->getPropertyTypeID();
-		}
+		$propValue = SMWDIProperty::newFromUserLabel( $this->mSemanticProperty );
+		$this->mPropertyType = $propValue->findPropertyTypeID();
 
 		foreach ( $allowed_values as $allowed_value ) {
 			// HTML-unencode each value
@@ -164,7 +158,7 @@ class SFTemplateField {
 	 * within this class.
 	 */
 	public static function createTemplateText( $template_name, $template_fields, $internal_obj_property, $category, $aggregating_property, $aggregating_label, $template_format ) {
-		$template_header = wfMsgForContent( 'sf_template_docu', $template_name );
+		$template_header = wfMessage( 'sf_template_docu', $template_name )->inContentLanguage()->text();
 		$text = <<<END
 <noinclude>
 $template_header
@@ -174,9 +168,10 @@ END;
 		$text .= '{{' . $template_name;
 		if ( count( $template_fields ) > 0 ) { $text .= "\n"; }
 		foreach ( $template_fields as $field ) {
+			if ( $field->mFieldName == '' ) continue;
 			$text .= "|" . $field->mFieldName . "=\n";
 		}
-		$template_footer = wfMsgForContent( 'sf_template_docufooter' );
+		$template_footer = wfMessage( 'sf_template_docufooter' )->inContentLanguage()->text();
 		$text .= <<<END
 }}
 </pre>
@@ -185,7 +180,7 @@ $template_footer
 END;
 		// Only add a call to #set_internal if the Semantic Internal
 		// Objects extension is also installed.
-		if ( !empty( $internal_obj_property ) && class_exists( 'SIOInternalObject' ) ) {
+		if ( $internal_obj_property && class_exists( 'SIOInternalObject' ) ) {
 			$setInternalText = '{{#set_internal:' . $internal_obj_property;
 		} else {
 			$setInternalText = null;
@@ -193,7 +188,10 @@ END;
 		$setText = '';
 
  		// Topmost part of table depends on format.
-		if ( $template_format == 'infobox' ) {
+		if ( !$template_format ) $template_format = 'standard';
+		if ( $template_format == 'standard' ) {
+			$tableText = '{| class="wikitable"' . "\n";
+		} elseif ( $template_format == 'infobox' ) {
 			// A CSS style can't be used, unfortunately, since most
 			// MediaWiki setups don't have an 'infobox' or
 			// comparable CSS class.
@@ -204,28 +202,52 @@ END;
 
 END;
 		} else {
-			$tableText = '{| class="wikitable"' . "\n";
+			$tableText = '';
 		}
 
 		foreach ( $template_fields as $i => $field ) {
+			if ( $field->mFieldName == '' ) continue;
+			if ( $field->mLabel == '' ) {
+				$field->mLabel = $field->mFieldName;
+			}
 			// Header/field label column
 			if ( is_null( $field->mDisplay ) ) {
-				if ( $i > 0 ) {
-					$tableText .= "|-\n";
+				if ( $template_format == 'standard' || $template_format == 'infobox' ) {
+					if ( $i > 0 ) {
+						$tableText .= "|-\n";
+					}
+					$tableText .= '! ' . $field->mLabel . "\n";
+				} elseif ( $template_format == 'plain' ) {
+					$tableText .= "\n'''" .  $field->mLabel . ":''' ";
+				} elseif ( $template_format == 'sections' ) {
+					$tableText .= "\n==" .  $field->mLabel . "==\n";
 				}
-				$tableText .= '! ' . $field->mLabel . "\n";
 			} elseif ( $field->mDisplay == 'nonempty' ) {
 				$tableText .= '{{#if:{{{' . $field->mFieldName . '|}}}|';
-				if ( $i > 0 ) {
-					$tableText .= "{{!}}-\n";
+				if ( $template_format == 'standard' || $template_format == 'infobox' ) {
+					if ( $i > 0 ) {
+						$tableText .= "{{!}}-\n";
+					}
+					$tableText .= '! ' . $field->mLabel . "\n";
+				} elseif ( $template_format == 'plain' ) {
+					$tableText .= "'''" .  $field->mLabel . "''' ";
+				} elseif ( $template_format == 'sections' ) {
+					$tableText .= '==' .  $field->mLabel . "==\n";
 				}
-				$tableText .= '! ' . $field->mLabel . "\n";
 			} // If it's 'hidden', do nothing
 			// Value column
-			if ( empty( $field->mSemanticProperty ) ) {
-				$tableText .= "| {{{" . $field->mFieldName . "|}}}\n";
+			if ( $template_format == 'standard' || $template_format == 'infobox' ) {
+				if ( $field->mDisplay == 'hidden' ) {
+				} elseif ( $field->mDisplay == 'hidden' ) {
+					$tableText .= "{{!}} ";
+				} else {
+					$tableText .= "| ";
+				}
+			}
+			if ( !$field->mSemanticProperty ) {
+				$tableText .= "{{{" . $field->mFieldName . "|}}}\n";
 			} elseif ( !is_null( $setInternalText ) ) {
-				$tableText .= "| {{{" . $field->mFieldName . "|}}}\n";
+				$tableText .= "{{{" . $field->mFieldName . "|}}}\n";
 				if ( $field->mIsList ) {
 					$setInternalText .= '|' . $field->mSemanticProperty . '#list={{{' . $field->mFieldName . '|}}}';
 				} else {
@@ -238,7 +260,7 @@ END;
 					$setText .= $field->mSemanticProperty . '={{{' . $field->mFieldName . '|}}}|';
 				}
 			} elseif ( $field->mDisplay == 'nonempty' ) {
-				$tableText .= '{{!}} [[' . $field->mSemanticProperty . '::{{{' . $field->mFieldName . "|}}}]]}}\n";
+				$tableText .= '[[' . $field->mSemanticProperty . '::{{{' . $field->mFieldName . "|}}}]]}}\n";
 			} elseif ( $field->mIsList ) {
 				// If this field is meant to contain a list,
 				// add on an 'arraymap' function, that will
@@ -256,30 +278,40 @@ END;
 						}
 					}
 				}
-				$tableText .= "| {{#arraymap:{{{" . $field->mFieldName . "|}}}|" . $field->mDelimiter . "|$var|[[" . $field->mSemanticProperty . "::$var]]}}\n";
+				$tableText .= "{{#arraymap:{{{" . $field->mFieldName . "|}}}|" . $field->mDelimiter . "|$var|[[" . $field->mSemanticProperty . "::$var]]}}\n";
 			} else {
-				$tableText .= "| [[" . $field->mSemanticProperty . "::{{{" . $field->mFieldName . "|}}}]]\n";
+				$tableText .= "[[" . $field->mSemanticProperty . "::{{{" . $field->mFieldName . "|}}}]]\n";
 			}
 		}
 
-		// Add a row with an inline query to this table, for
+		// Add an inline query to the output text, for
 		// aggregation, if a property was specified.
 		if ( !is_null( $aggregating_property ) && $aggregating_property !== '' ) {
-			if ( count( $template_fields ) > 0 ) {
-				$tableText .= "|-\n";
-			}
-			$tableText .= <<<END
+			if ( $template_format == 'standard' || $template_format == 'infobox' ) {
+				if ( count( $template_fields ) > 0 ) {
+					$tableText .= "|-\n";
+				}
+				$tableText .= <<<END
 ! $aggregating_label
-| {{#ask:[[$aggregating_property::{{SUBJECTPAGENAME}}]]|format=list}}
-
+| 
 END;
+			} elseif ( $template_format == 'plain' ) {
+				$tableText .= "\n'''$aggregating_label:''' ";
+			} elseif ( $template_format == 'sections' ) {
+				$tableText .= "\n==$aggregating_label==\n";
+			}
+			$tableText .= "{{#ask:[[$aggregating_property::{{SUBJECTPAGENAME}}]]|format=list}}\n";
 		}
-		$tableText .= "|}";
+		if ( $template_format == 'standard' || $template_format == 'infobox' ) {
+			$tableText .= "|}";
+		}
 		// Leave out newlines if there's an internal property
 		// set here (which would mean that there are meant to be
 		// multiple instances of this template.)
 		if ( is_null( $setInternalText ) ) {
-			$tableText .= "\n";
+			if ( $template_format == 'standard' || $template_format == 'infobox' ) {
+				$tableText .= "\n";
+			}
 		} else {
 			$setInternalText .= "}}";
 			$text .= $setInternalText;

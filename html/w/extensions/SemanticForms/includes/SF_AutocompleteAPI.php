@@ -52,6 +52,11 @@ class SFAutocompleteAPI extends ApiBase {
 			$data = array();
 		}
 
+		// If we got back an error message, exit with that message.
+		if ( !is_array( $data ) ) {
+			$this->dieUsage( $data );
+		}
+
 		// to prevent JS parsing problems, display should be the same
 		// even if there are no results
 		/*
@@ -60,10 +65,16 @@ class SFAutocompleteAPI extends ApiBase {
 		}
 		 */
 
-		// Format data as the API requires it.
-		$formattedData = array();
-		foreach ( $data as $value ) {
-			$formattedData[] = array( 'title' => $value );
+		// Format data as the API requires it - this is not needed
+		// for "values from url", where the data is already formatted
+		// correctly.
+		if ( is_null( $external_url ) ) {
+			$formattedData = array();
+			foreach ( $data as $value ) {
+				$formattedData[] = array( 'title' => $value );
+			}
+		} else {
+			$formattedData = $data;
 		}
 
 		// Set top-level elements.
@@ -119,11 +130,11 @@ class SFAutocompleteAPI extends ApiBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: SF_AutocompleteAPI.php 112139 2012-02-22 19:52:49Z yaron $';
+		return __CLASS__ . ': $Id$';
 	}
 
 	private static function getAllValuesForProperty( $property_name, $substring, $base_property_name = null, $base_value = null ) {
-		global $sfgMaxAutocompleteValues;
+		global $sfgMaxAutocompleteValues, $sfgCacheAutocompleteValues, $sfgAutocompleteCacheTimeout;
 
 		$values = array();
 		$db = wfGetDB( DB_SLAVE );
@@ -134,6 +145,23 @@ class SFAutocompleteAPI extends ApiBase {
 		$is_relation = ( $property->getPropertyTypeID() == '_wpg' );
 		$property_name = str_replace( ' ', '_', $property_name );
 		$conditions = array( 'p_ids.smw_title' => $property_name );
+
+		// Use cache if allowed
+		if ( $sfgCacheAutocompleteValues ) {
+			$cache = SFFormUtils::getFormCache();
+			// Remove trailing whitespace to avoid unnecessary database selects
+			$cacheKeyString = $property_name . '::' . rtrim( $substring );
+			if ( !is_null( $base_property_name ) ) {
+				$cacheKeyString .= ',' . $base_property_name . ',' . $base_value;
+			}
+			$cacheKey = wfMemcKey( 'sf-autocomplete' , md5( $cacheKeyString ) ); 		
+			$values = $cache->get( $cacheKey );
+
+			if ( !empty( $values ) ){
+				// Return with results immediately
+				return $values;
+			}
+		}
 
 		if ( $is_relation ) {
 			$value_field = 'o_ids.smw_title';
@@ -174,6 +202,11 @@ class SFAutocompleteAPI extends ApiBase {
 			$values[] = str_replace( '_', ' ', $row[0] );
 		}
 		$db->freeResult( $res );
+
+		if ( $sfgCacheAutocompleteValues ) {
+			// Save to cache.
+			$cache->set( $cacheKey, $values , $sfgAutocompleteCacheTimeout );
+		}
 
 		return $values;
 	}

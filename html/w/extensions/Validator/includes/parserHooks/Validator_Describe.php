@@ -8,12 +8,11 @@
  * @file Validator_Describe.php
  * @ingroup Validator
  *
- * @licence GNU GPL v3 or later
+ * @licence GNU GPL v2+
  *
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class ValidatorDescribe extends ParserHook {
-
 	/**
 	 * Field to store the value of the language parameter.
 	 *
@@ -22,16 +21,6 @@ class ValidatorDescribe extends ParserHook {
 	 * @var string
 	 */
 	protected $language;
-
-	/**
-	 * No LSB in pre-5.3 PHP *sigh*.
-	 * This is to be refactored as soon as php >=5.3 becomes acceptable.
-	 */
-	public static function staticMagic( array &$magicWords, $langCode ) {
-		$className = __CLASS__;
-		$instance = new $className();
-		return $instance->magic( $magicWords, $langCode );
-	}
 
 	/**
 	 * No LSB in pre-5.3 PHP *sigh*.
@@ -402,14 +391,14 @@ class ValidatorDescribe extends ParserHook {
 	 *
 	 * @since 0.4.3
 	 *
-	 * @param Parameter $parameter
+	 * @param IParamDefinition $parameter
 	 * @param array $defaults
 	 *
 	 * @return string
 	 */
-	protected function getDescriptionRow( Parameter $parameter, array $defaults ) {
+	protected function getDescriptionRow( IParamDefinition $parameter, array $defaults ) {
 		$aliases = $parameter->getAliases();
-		$aliases = count( $aliases ) > 0 ? implode( ', ', $aliases ) : '-';
+		$aliases = empty( $aliases ) ?  '-' : implode( ', ', $aliases );
 
 		$description = $parameter->getMessage();
 		if ( $description === false ) {
@@ -496,5 +485,4 @@ EOT;
 		$key = array_shift( $args );
 		return wfMsgReal( $key, $args, true, $this->language );
 	}
-
 }

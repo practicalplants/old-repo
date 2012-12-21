@@ -10,7 +10,7 @@
  * @ingroup SMW
  * @ingroup API
  *
- * @licence GNU GPL v3+
+ * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class ApiSMWInfo extends ApiBase {
@@ -94,7 +94,7 @@ class ApiSMWInfo extends ApiBase {
 	}	
 	
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiSMWInfo.php 112438 2012-02-26 14:21:22Z nikerabbit $';
+		return __CLASS__ . ': $Id$';
 	}		
 	
 }

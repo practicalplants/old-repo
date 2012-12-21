@@ -20,8 +20,10 @@ $magicWords['en'] = array(
 $magicWords['ar'] = array(
 	'forminput' => array( 0, 'مدخل_النموذج' ),
 	'formlink' => array( 0, 'وصلة_النموذج' ),
+	'queryformlink' => array( 0, 'وصلة_نموذج_استعلام' ),
 	'arraymap' => array( 0, 'خريطة_المصفوفة' ),
 	'arraymaptemplate' => array( 0, 'قالب_خريطة_المصفوفة' ),
+	'autoedit' => array( 0, 'تعديل_تلقائي' ),
 );
 
 /** Egyptian Spoken Arabic (مصرى) */
@@ -50,7 +52,22 @@ $magicWords['ja'] = array(
 	'arraymaptemplate' => array( 0, '配列マップテンプレート' ),
 );
 
-/** Macedonian (Македонски) */
+/** Georgian (ქართული) */
+$magicWords['ka'] = array(
+	'autoedit' => array( 0, 'ავტო_რედაქტირება' ),
+);
+
+/** Korean (한국어) */
+$magicWords['ko'] = array(
+	'forminput' => array( 0, '양식입력' ),
+	'formlink' => array( 0, '양식링크' ),
+	'queryformlink' => array( 0, '쿼리양식링크' ),
+	'arraymap' => array( 0, '배열지도' ),
+	'arraymaptemplate' => array( 0, '배열지도틀' ),
+	'autoedit' => array( 0, '자동편집' ),
+);
+
+/** Macedonian (македонски) */
 $magicWords['mk'] = array(
 	'forminput' => array( 0, 'вносзаобразец' ),
 	'formlink' => array( 0, 'врсказаобразец' ),
@@ -66,7 +83,7 @@ $magicWords['mr'] = array(
 	'arraymaptemplate' => array( 0, 'नकाशेसाचारचना', 'arraymaptemplate' ),
 );
 
-/** Nedersaksisch (Nedersaksisch) */
+/** Nedersaksies (Nedersaksies) */
 $magicWords['nds-nl'] = array(
 	'forminput' => array( 0, 'formulierinvoer' ),
 	'formlink' => array( 0, 'formulierverwiezing', 'formulierverwijzing' ),
@@ -77,17 +94,19 @@ $magicWords['nds-nl'] = array(
 $magicWords['nl'] = array(
 	'forminput' => array( 0, 'formulierinvoer' ),
 	'formlink' => array( 0, 'formulierverwijzing' ),
+	'queryformlink' => array( 0, 'zoekformulierverwijzing' ),
+	'arraymap' => array( 0, 'arraymapping' ),
 	'arraymaptemplate' => array( 0, 'arraymapsjabloon' ),
 	'autoedit' => array( 0, 'autobewerken' ),
 );
 
-/** Serbian (Cyrillic script) (‪Српски (ћирилица)‬) */
+/** Serbian (Cyrillic script) (српски (ћирилица)‎) */
 $magicWords['sr-ec'] = array(
 	'forminput' => array( 0, 'формирајулаз', 'формирај_улаз' ),
 	'formlink' => array( 0, 'формирај_везу' ),
 );
 
-/** Serbian (Latin script) (‪Srpski (latinica)‬) */
+/** Serbian (Latin script) (srpski (latinica)‎) */
 $magicWords['sr-el'] = array(
 	'forminput' => array( 0, 'obrazuj_ulaz' ),
 	'formlink' => array( 0, 'obrazuj_vezu' ),

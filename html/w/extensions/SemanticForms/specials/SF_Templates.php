@@ -53,12 +53,7 @@ class TemplatesPage extends QueryPage {
 	function isSyndicated() { return false; }
 
 	function getPageHeader() {
-		global $wgUser;
-		
-		$sk = $wgUser->getSkin();
-		$create_template_link = SFUtils::linkForSpecialPage( $sk, 'CreateTemplate' );
-		$header = "<p>" . $create_template_link . ".</p>\n";
-		$header .= '<p>' . wfMsg( 'sf_templates_docu' ) . "</p><br />\n";
+		$header = '<p>' . wfMessage( 'sf_templates_docu' )->text() . "</p><br />\n";
 		return $header;
 	}
 
@@ -115,10 +110,13 @@ class TemplatesPage extends QueryPage {
 
 	function formatResult( $skin, $result ) {
 		$title = Title::makeTitle( NS_TEMPLATE, $result->value );
-		$text = $skin->makeLinkObj( $title, htmlspecialchars( $title->getText() ) );
+		$text = smwfGetLinker()->makeLinkObj( $title, htmlspecialchars( $title->getText() ) );
 		$category = $this->getCategoryDefinedByTemplate( $title );
 		if ( $category !== '' ) {
-			$text .= ' ' . wfMsgExt( 'sf_templates_definescat', 'parseinline', SFUtils::linkText( NS_CATEGORY, $category ) );
+			$text .= ' ' . wfMessage(
+				'sf_templates_definescat',
+				SFUtils::linkText( NS_CATEGORY, $category )
+			)->parse();
 		}
 		return $text;
 	}

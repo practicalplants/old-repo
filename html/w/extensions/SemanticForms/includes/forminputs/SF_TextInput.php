@@ -105,7 +105,7 @@ class SFTextInput extends SFFormInput {
 			$query_string .= "&wpDestFile=$default_filename";
 		}
 		$upload_window_url = $upload_window_page->getTitle()->getFullURL( $query_string );
-		$upload_label = wfMsg( 'upload' );
+		$upload_label = wfMessage( 'upload' )->text();
 		// We need to set the size by default.
 		$style = "width:650 height:500";
 
@@ -120,7 +120,11 @@ class SFTextInput extends SFFormInput {
 		$linkAttrs = array(
 			'href' => $upload_window_url,
 			'class' => implode( ' ', $cssClasses ),
-			'title' => $upload_label,
+			// The 'title' parameter sets the label below the
+			// window; we're leaving it blank, because otherwise
+			// it can by mistaken by users for a button, leading
+			// to confusion.
+			//'title' => $upload_label,
 			'rev' => $style,
 			'data-input-id' => $input_id
 		);
@@ -230,27 +234,27 @@ class SFTextInput extends SFFormInput {
 		$params[] = array(
 			'name' => 'size',
 			'type' => 'int',
-			'description' => wfMsg( 'sf_forminputs_size' )
+			'description' => wfMessage( 'sf_forminputs_size' )->text()
 		);
 		$params[] = array(
 			'name' => 'maxlength',
 			'type' => 'int',
-			'description' => wfMsg( 'sf_forminputs_maxlength' )
+			'description' => wfMessage( 'sf_forminputs_maxlength' )->text()
 		);
 		$params[] = array(
 			'name' => 'placeholder',
 			'type' => 'string',
-			'description' => wfMsg( 'sf_forminputs_placeholder' )
+			'description' => wfMessage( 'sf_forminputs_placeholder' )->text()
 		);
 		$params[] = array(
 			'name' => 'uploadable',
 			'type' => 'boolean',
-			'description' => wfMsg( 'sf_forminputs_uploadable' )
+			'description' => wfMessage( 'sf_forminputs_uploadable' )->text()
 		);
 		$params[] = array(
 			'name' => 'default filename',
 			'type' => 'string',
-			'description' => wfMsg( 'sf_forminputs_defaultfilename' )
+			'description' => wfMessage( 'sf_forminputs_defaultfilename' )->text()
 		);
 		return $params;
 	}

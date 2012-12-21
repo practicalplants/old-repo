@@ -22,7 +22,7 @@ class SFListBoxInput extends SFMultiEnumInput {
 		$params[] = array(
 			'name' => 'size',
 			'type' => 'int',
-			'description' => wfMsg( 'sf_forminputs_listboxsize' )
+			'description' => wfMessage( 'sf_forminputs_listboxsize' )->text()
 		);
 		return $params;
 	}
@@ -44,7 +44,7 @@ class SFListBoxInput extends SFMultiEnumInput {
 		} else {
 			$delimiter = ',';
 		}
-		$cur_values = SFUtils::getValuesArray( $cur_value, $delimiter );
+		$cur_values = SFUtils::getValuesArray( $this->mCurrentValue, $delimiter );
 		$className .= ' sfShowIfSelected';
 
 		if ( ( $possible_values = $this->mOtherArgs['possible_values'] ) == null ) {

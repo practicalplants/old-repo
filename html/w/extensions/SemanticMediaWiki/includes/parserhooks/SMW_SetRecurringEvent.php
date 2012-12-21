@@ -183,7 +183,7 @@ class SMWSetRecurringEvent {
 			if ( $unit === 'year' || $unit == 'month' ) {
 				$cur_year = $cur_date->getYear();
 				$cur_month = $cur_date->getMonth();
-				$cur_day = $cur_date->getDay();
+				$cur_day = $start_date->getDay();
 				$cur_time = $cur_date->getTimeString();
 
 				if ( $unit == 'year' ) {
@@ -196,7 +196,16 @@ class SMWSetRecurringEvent {
 					$display_month = ( $cur_month == 0 ) ? 12 : $cur_month;
 				}
 
+				// If the date is February 29, and this isn't
+				// a leap year, change it to February 28.
+				if ( $cur_month == 2 && $cur_day == 29 ) {
+					if ( !date( 'L', strtotime( "$cur_year-1-1" ) ) ) {
+						$cur_day = 28;
+					}
+				}
+
 				$date_str = "$cur_year-$display_month-$cur_day $cur_time";
+				$cur_date = SMWDataValueFactory::newTypeIDValue( '_dat', $date_str );
 				$all_date_strings = array_merge( $all_date_strings, $included_dates);
 				$cur_date_jd = $cur_date->getDataItem()->getJD();
 			} elseif ( $unit == 'dayofweekinmonth' ) {

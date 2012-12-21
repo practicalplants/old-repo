@@ -75,32 +75,32 @@ class SFTextAreaInput extends SFFormInput {
 		$params['preload'] = array(
 			'name' => 'preload',
 			'type' => 'string',
-			'description' => wfMsg( 'sf_forminputs_preload' )
+			'description' => wfMessage( 'sf_forminputs_preload' )->text()
 		);
 		$params['rows'] = array(
 			'name' => 'rows',
 			'type' => 'int',
-			'description' => wfMsg( 'sf_forminputs_rows' )
+			'description' => wfMessage( 'sf_forminputs_rows' )->text()
 		);
 		$params['cols'] = array(
 			'name' => 'cols',
 			'type' => 'int',
-			'description' => wfMsg( 'sf_forminputs_cols' )
+			'description' => wfMessage( 'sf_forminputs_cols' )->text()
 		);
 		$params['maxlength'] = array(
 			'name' => 'maxlength',
 			'type' => 'int',
-			'description' => wfMsg( 'sf_forminputs_maxlength' )
+			'description' => wfMessage( 'sf_forminputs_maxlength' )->text()
 		);
 		$params['placeholder'] = array(
 			'name' => 'placeholder',
 			'type' => 'string',
-			'description' => wfMsg( 'sf_forminputs_placeholder' )
+			'description' => wfMessage( 'sf_forminputs_placeholder' )->text()
 		);
 		$params['autogrow'] = array(
 			'name' => 'autogrow',
 			'type' => 'boolean',
-			'description' => wfMsg( 'sf_forminputs_autogrow' )
+			'description' => wfMessage( 'sf_forminputs_autogrow' )->text()
 		);
 		return $params;
 	}
@@ -121,7 +121,9 @@ class SFTextAreaInput extends SFFormInput {
 
 		global $sfgTabIndex, $sfgFieldNum;
 
-		// Use a special ID for the free text field, for FCK's needs.
+		// Use a special ID for the free text field -
+		// this was originally done for FCKeditor, but maybe it's
+		// useful for other stuff too.
 		$input_id = $this->mInputName == 'sf_free_text' ? 'sf_free_text' : "input_$sfgFieldNum";
 
 		if ( $this->mUseWikieditor ) {

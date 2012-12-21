@@ -19,8 +19,6 @@ class SFFormPrinter {
 	public $mInputTypeHooks;
 	public $standardInputsIncluded;
 	public $mPageTitle;
-	
-	public static $preg_delim = '%';
 
 	public function __construct() {
 		// Initialize variables.
@@ -158,17 +156,29 @@ class SFFormPrinter {
 	}
 
 	/**
-	 * Show the set of previous deletions for the page being added.
-	 * This function is copied almost exactly from
-	 * EditPage::showDeletionLog() - unfortunately, neither that function
-	 * nor Article::showDeletionLog() can be called from here, since
-	 * they're both protected.
+	 * Show the set of previous deletions for the page being edited.
 	 */
 	function showDeletionLog( $out ) {
 		// if MW doesn't have LogEventsList defined, exit immediately
-		if ( ! class_exists( 'LogEventsList' ) )
+		if ( ! class_exists( 'LogEventsList' ) ) {
 			return false;
+		}
 
+		// MW 1.18+ ?
+		if ( method_exists( 'LogEventsList', 'showLogExtract' ) ) {
+			LogEventsList::showLogExtract( $out, 'delete', $this->mPageTitle->getPrefixedText(),
+								'', array( 'lim' => 10,
+										   'conds' => array( "log_action != 'revision'" ),
+										   'showIfEmpty' => false,
+										   'msgKey' => array( 'moveddeleted-notice' ) )
+						);
+			return true;
+		}
+
+		// Old code, that can be removed once compatibility for
+		// MW 1.17 goes away (or maybe it can be removed already).
+		// This code was copied almost exactly from the method
+		// EditPage::showDeletionLog(), which no longer exists.
 		global $wgUser;
 		$loglist = new LogEventsList( $wgUser->getSkin(), $out );
 		$pager = new LogPager( $loglist, 'delete', false, $this->mPageTitle->getPrefixedText() );
@@ -185,7 +195,7 @@ class SFFormPrinter {
 			if ( $count > 10 ) {
 				$out->addHTML( $wgUser->getSkin()->link(
 					SpecialPage::getTitleFor( 'Log' ),
-					wfMsgHtml( 'deletelog-fulllog' ),
+					wfMessage( 'deletelog-fulllog' )->escaped(),
 					array(),
 					array(
 						'type' => 'delete',
@@ -248,7 +258,7 @@ class SFFormPrinter {
 			$rearranger = '';
 		}
 
-		$removeButton = Html::input( null, wfMsg( 'sf_formedit_remove' ), 'button', $attributes );
+		$removeButton = Html::input( null, wfMessage( 'sf_formedit_remove' )->text(), 'button', $attributes );
 
 		$text = <<<END
 			<table>
@@ -330,7 +340,6 @@ END;
 		global $wgRequest, $wgUser, $wgParser;
 		global $sfgTabIndex; // used to represent the current tab index in the form
 		global $sfgFieldNum; // used for setting various HTML IDs
-		$preg_delim = self::$preg_delim;
 
 		wfProfileIn( __METHOD__ );
 
@@ -388,8 +397,12 @@ END;
 		}
 
 		global $wgOut;
-		// show previous set of deletions for this page, if it's been deleted before
-		if ( ! $form_submitted && ( $this->mPageTitle && !$this->mPageTitle->exists() ) ) {
+		// Show previous set of deletions for this page, if it's been
+		// deleted before.
+		if ( ! $form_submitted &&
+			( $this->mPageTitle && !$this->mPageTitle->exists() &&
+			is_null( $page_name_formula ) )
+		) {
 			$this->showDeletionLog( $wgOut );
 		}
 		// Unfortunately, we can't just call userCan() here because,
@@ -403,7 +416,6 @@ END;
 			// The handling of $wgReadOnly and $wgReadOnlyFile
 			// has to be done separately.
 			if ( wfReadOnly() ) {
-				global $wgReadOnly;
 				$permissionErrors = array( array( 'readonlytext', array ( wfReadOnlyReason() ) ) );
 			}
 			$userCanEditPage = count( $permissionErrors ) == 0;
@@ -416,12 +428,16 @@ END;
 			// user is anonymous, and it's not a query -
 			// wiki-text for bolding has to be replaced with HTML.
 			if ( $wgUser->isAnon() && ! $is_query ) {
-				$anon_edit_warning = preg_replace( $preg_delim."'''(.*)'''".$preg_delim, "<strong>$1</strong>", wfMsg( 'anoneditwarning' ) );
+				$anon_edit_warning = preg_replace(
+					"/'''(.*)'''/",
+					"<strong>$1</strong>",
+					wfMessage( 'anoneditwarning' )->text()
+				);
 				$form_text .= "<p>$anon_edit_warning</p>\n";
 			}
 		} else {
 			$form_is_disabled = true;
-			$wgOut->setPageTitle( wfMsg( 'badaccess' ) );
+			$wgOut->setPageTitle( wfMessage( 'badaccess' )->text() );
 			$wgOut->addWikiText( $wgOut->formatPermissionsErrorMessage( $permissionErrors, 'edit' ) );
 			$wgOut->addHTML( "\n<hr />\n" );
 		}
@@ -508,7 +524,7 @@ END;
 					$template_name = trim( $tag_components[1] );
 					$tif = SFTemplateInForm::create( $template_name );
 					$query_template_name = str_replace( ' ', '_', $template_name );
-					$add_button_text = wfMsg( 'sf_formedit_addanother' );
+					$add_button_text = wfMessage( 'sf_formedit_addanother' )->text();
 					// Also replace periods with underlines, since that's what
 					// POST does to strings anyway.
 					$query_template_name = str_replace( '.', '_', $query_template_name );
@@ -530,7 +546,7 @@ END;
 								// will have a multiple+placeholder parameters, and get the placeholder value.
 								// We expect something like TemplateName[fieldName], and convert it to the
 								// TemplateName___fieldName form used internally.
-								preg_match( $preg_delim.'\s*(.*)\[(.*)\]\s*'.$preg_delim, $sub_components[1], $matches );
+								preg_match( '/\s*(.*)\[(.*)\]\s*/', $sub_components[1], $matches );
 								$curPlaceholder = ( count( $matches ) > 2 ) ? self::placeholderFormat( $matches[1], $matches[2] ) : null;
 								unset ( $matches );
 							}
@@ -576,7 +592,7 @@ END;
 							array( '/', '(', ')' ),
 							array( '\/', '\(', '\)' ),
 							$search_template_str );
-						$found_instance = preg_match( $preg_delim.'{{' . $preg_match_template_str . '\s*[\|}]'.$preg_delim.'i', str_replace( '_', ' ', $existing_page_content ) );
+						$found_instance = preg_match( '/{{' . $preg_match_template_str . '\s*[\|}]/i', str_replace( '_', ' ', $existing_page_content ) );
 						if ( $allow_multiple ) {
 							// find instances of this template in the page -
 							// if there's at least one, re-parse this section of the
@@ -595,7 +611,7 @@ END;
 						// even if there are more
 						if ( $found_instance ) {
 							$matches = array();
-							$search_pattern = $preg_delim.'{{' . $preg_match_template_str . '\s*[\|}]'.$preg_delim.'i';
+							$search_pattern = '/{{' . $preg_match_template_str . '\s*[\|}]/i';
 							$content_str = str_replace( '_', ' ', $existing_page_content );
 							preg_match( $search_pattern, $content_str, $matches, PREG_OFFSET_CAPTURE );
 							// is this check necessary?
@@ -657,7 +673,14 @@ END;
 								// the "free text" field - which is bad, but it's harder for the code to detect
 								// the problem - though hopefully, easier for users.)
 								if ( $uncompleted_curly_brackets > 0 || $uncompleted_square_brackets > 0 ) {
-									$form_text .= "\t" . '<div class="warningbox">' . wfMsg( 'sf_formedit_mismatchedbrackets', $this->mPageTitle->getFullURL( array( 'action' => 'edit' ) ) ) . "</div>\n<br clear=\"both\" />\n";
+									$form_text .= "\t" . '<div class="warningbox">' .
+										wfMessage(
+											'sf_formedit_mismatchedbrackets',
+											$this->mPageTitle->getFullURL(
+												array( 'action' => 'edit' )
+											)
+										)->text() .
+										"</div>\n<br clear=\"both\" />\n";
 								}
 								$existing_template_text = substr( $existing_page_content, $start_char, $i - $start_char );
 								// now remove this template from the text being edited
@@ -852,6 +875,12 @@ END;
 							} elseif ( $sub_components[0] == 'values from property' ) {
 								$propertyName = $sub_components[1];
 								$possible_values = SFUtils::getAllValuesForProperty( $propertyName );
+							} elseif ( $sub_components[0] == 'values from query' ) {
+								$pages = SFUtils::getAllPagesForQuery( $sub_components[1] );
+								foreach ( $pages as $page ) {
+									$page_name_for_values = $page->getDbKey();
+									$possible_values[] = $page_name_for_values;
+								}
 							} elseif ( $sub_components[0] == 'values from category' ) {
 								$category_name = ucfirst( $sub_components[1] );
 								$possible_values = SFUtils::getAllPagesForCategory( $category_name, 10 );
@@ -968,23 +997,13 @@ END;
 								$default_value = '!free_text!';
 							} else {
 								$default_value = $cur_value;
-								// If the FCKeditor extension is installed and
-								// active, the default value needs to be parsed
-								// for use in the editor.
-								global $wgFCKEditorDir;
-								if ( $wgFCKEditorDir && strpos( $existing_page_content, '__NORICHEDITOR__' ) === false ) {
-									$showFCKEditor = SFFormUtils::getShowFCKEditor();
-									if ( !$form_submitted && ( $showFCKEditor & RTE_VISIBLE ) ) {
-										$default_value = SFFormUtils::prepareTextForFCK( $cur_value );
-									}
-								}
 							}
 							$new_text = SFTextAreaInput::getHTML( $default_value, 'sf_free_text', false, ( $form_is_disabled || $is_restricted ), $field_args );
 							if ( in_array( 'edittools', $free_text_components ) ) {
 								// borrowed from EditPage::showEditTools()
 								$options[] = 'parse';
-								$edittools_text = $wgParser->recursiveTagParse( wfMsg( 'edittools', array( 'content' ) ) );
-								
+								$edittools_text = $wgParser->recursiveTagParse( wfMessage( 'edittools', array( 'content' ) )->text() );
+
 								$new_text .= <<<END
 		<div class="mw-editTools">
 		$edittools_text
@@ -1158,10 +1177,10 @@ END;
 						if ( $default_value == 'now' &&
 								// if the date is hidden, cur_value will already be set
 								// to the default value
-								( $cur_value === '' || $cur_value == 'now' ) ) {
+								( $cur_value == '' || $cur_value == 'now' ) ) {
 							if ( $input_type == 'date' || $input_type == 'datetime' ||
 									$input_type == 'year' ||
-									( $input_type === '' && $form_field->getTemplateField()->getPropertyType() == '_dat' ) ) {
+									( $input_type == '' && $form_field->getTemplateField()->getPropertyType() == '_dat' ) ) {
 								// Get current time, for the time zone specified in the wiki.
 								global $wgLocaltimezone;
 								if ( isset( $wgLocaltimezone ) ) {
@@ -1276,12 +1295,15 @@ END;
 					// set a flag so that the standard 'form bottom' won't get displayed
 					$this->standardInputsIncluded = true;
 					// cycle through the other components
+					$is_checked = false;
 					for ( $i = 2; $i < count( $tag_components ); $i++ ) {
 						$component = $tag_components[$i];
 						$sub_components = array_map( 'trim', explode( '=', $component ) );
 						if ( count( $sub_components ) == 1 ) {
 							if ( $sub_components[0] == 'edittools' ) {
 								$free_text_components[] = 'edittools';
+							} elseif ( $sub_components[0] == 'checked' ) {
+								$is_checked = true;
 							}
 						} elseif ( count( $sub_components ) == 2 ) {
 							switch( $sub_components[0] ) {
@@ -1306,7 +1328,7 @@ END;
 					} elseif ( $input_name == 'minor edit' ) {
 						$new_text = SFFormUtils::minorEditInputHTML( $form_is_disabled, $input_label, $attr );
 					} elseif ( $input_name == 'watch' ) {
-						$new_text = SFFormUtils::watchInputHTML( $form_is_disabled, $input_label, $attr );
+						$new_text = SFFormUtils::watchInputHTML( $form_is_disabled, $is_checked, $input_label, $attr );
 					} elseif ( $input_name == 'save' ) {
 						$new_text = SFFormUtils::saveButtonHTML( $form_is_disabled, $input_label, $attr );
 					} elseif ( $input_name == 'save and continue' ) {
@@ -1378,7 +1400,7 @@ END;
 					// For mostly aesthetic purposes, if the template call ends with
 					// a bunch of pipes (i.e., it's an indexed template with unused
 					// parameters at the end), remove the pipes.
-					$template_text = preg_replace( $preg_delim.'\|*$'.$preg_delim, '', $template_text );
+					$template_text = preg_replace( '/\|*$/', '', $template_text );
 					// add another newline before the final bracket, if this template
 					// call is already more than one line
 					if ( strpos( $template_text, "\n" ) ) {
@@ -1401,7 +1423,10 @@ END;
 					// keeping a track array (e.g., /@replace_(.*)@/)
 					$reptmp = self::makePlaceholderInWikiText( $curPlaceholder );
 					if ( $curPlaceholder != null && $data_text && strpos( $data_text, $reptmp, 0 ) !== false ) {
-						$data_text = preg_replace( $preg_delim . $reptmp . $preg_delim, $template_text . $reptmp, $data_text );
+						// Escape $template_text, because values like $1 cause problems
+						// for preg_replace().
+						$escaped_template_text = str_replace( '$', '\$', $template_text );
+						$data_text = preg_replace( '/' . $reptmp . '/', $escaped_template_text . $reptmp, $data_text );
 					} else {
 						$data_text .= $template_text . "\n";
 					}
@@ -1410,16 +1435,16 @@ END;
 					// text, we know that we are
 					// doing a replace.
 					if ( $existing_page_content && strpos( $existing_page_content, '{{{insertionpoint}}}', 0 ) !== false ) {
-						$existing_page_content = preg_replace( $preg_delim.'\{\{\{insertionpoint\}\}\}(\r?\n?)'.$preg_delim,
-							preg_replace( $preg_delim.'\}\}'.$preg_delim.'m', '}�',
-								preg_replace( $preg_delim.'\{\{'.$preg_delim.'m', '�{', $template_text ) ) .
+						$existing_page_content = preg_replace( '/\{\{\{insertionpoint\}\}\}(\r?\n?)/',
+							preg_replace( '/\}\}/m', '}�',
+								preg_replace( '/\{\{/m', '�{', $template_text ) ) .
 							"\n{{{insertionpoint}}}",
 							$existing_page_content );
 					// otherwise, if it's a partial form, we have to add the new
 					// text somewhere
 					} elseif ( $form_is_partial && $wgRequest->getCheck( 'partial' ) ) {
-						$existing_page_content = preg_replace( $preg_delim.'\}\}'.$preg_delim.'m', '}�',
-							preg_replace( $preg_delim.'\{\{'.$preg_delim.'m', '�{', $template_text ) ) .
+						$existing_page_content = preg_replace( '/\}\}/m', '}�',
+							preg_replace( '/\{\{/m', '�{', $template_text ) ) .
 								"\n{{{insertionpoint}}}\n" . $existing_page_content;
 					}
 				}
@@ -1444,7 +1469,7 @@ END;
 						$multipleTemplateString .= "</fieldset>\n";
 						unset ( $template_label );
 					}
-					$form_text = preg_replace( $preg_delim . self::makePlaceholderInFormHTML( $curPlaceholder ) . $preg_delim,
+					$form_text = preg_replace( '/' . self::makePlaceholderInFormHTML( $curPlaceholder ) . '/',
 						$multipleTemplateString, $form_text );
 				}
 				if ( ! $all_instances_printed ) {
@@ -1464,10 +1489,10 @@ END;
 		// tags in the HTML and wiki-text.
 		foreach ( $placeholderFields as $stringToReplace ) {
 			// remove the @<replacename>@ tags from the data that is submitted
-			$data_text = preg_replace( $preg_delim . self::makePlaceholderInWikiText( $stringToReplace ) . $preg_delim, '', $data_text );
+			$data_text = preg_replace( '/' . self::makePlaceholderInWikiText( $stringToReplace ) . '/', '', $data_text );
 
 			// remove the @<insertHTML>@ tags from the generated HTML form
-			$form_text = preg_replace( $preg_delim . self::makePlaceholderInFormHTML( $stringToReplace ) . $preg_delim, '', $form_text );
+			$form_text = preg_replace( '/' . self::makePlaceholderInFormHTML( $stringToReplace ) . '/', '', $form_text );
 		}
 
 		// if it wasn't included in the form definition, add the
@@ -1487,10 +1512,10 @@ END;
 				$form_text .= Html::hidden( 'partial', 1 );
 			} else {
 				$free_text = null;
-				$existing_page_content = preg_replace( array( $preg_delim.'�\{'.$preg_delim.'m', $preg_delim.'\}�'.$preg_delim.'m' ),
+				$existing_page_content = preg_replace( array( '/�\{/m', '/\}�/m' ),
 					array( '{{', '}}' ),
 					$existing_page_content );
-				$existing_page_content = preg_replace( $preg_delim.'\{\{\{insertionpoint\}\}\}'.$preg_delim, '', $existing_page_content );
+				$existing_page_content = preg_replace( '/\{\{\{insertionpoint\}\}\}/', '', $existing_page_content );
 			}
 		} elseif ( $source_is_page ) {
 			// if the page is the source, free_text will just be whatever in the
@@ -1517,16 +1542,7 @@ END;
 		}
 
 		wfRunHooks( 'sfModifyFreeTextField', array( &$free_text, $existing_page_content ) );
-		// if the FCKeditor extension is installed, use that for the free text input
-		global $wgFCKEditorDir;
-		if ( $wgFCKEditorDir && strpos( $existing_page_content, '__NORICHEDITOR__' ) === false ) {
-			$showFCKEditor = SFFormUtils::getShowFCKEditor();
-			if ( !$form_submitted && ( $showFCKEditor & RTE_VISIBLE ) ) {
-				$free_text = SFFormUtils::prepareTextForFCK( $free_text );
-			}
-		} else {
-			$showFCKEditor = 0;
-		}
+
 		// now that we have it, substitute free text into the form and page
 		$escaped_free_text = Sanitizer::safeEncodeAttribute( $free_text );
 		$form_text = str_replace( '!free_text!', $escaped_free_text, $form_text );
@@ -1534,8 +1550,12 @@ END;
 
 		// Add a warning in, if we're editing an existing page and that
 		// page appears to not have been created with this form.
-		if ( !$is_query && $this->mPageTitle->exists() && ( $existing_page_content !== '' ) && ! $source_page_matches_this_form ) {
-			$form_text = "\t" . '<div class="warningbox">' . wfMsg( 'sf_formedit_formwarning', $this->mPageTitle->getFullURL() ) . "</div>\n<br clear=\"both\" />\n" . $form_text;
+		if ( !$is_query && is_null( $page_name_formula ) &&
+			$this->mPageTitle->exists() && $existing_page_content !== ''
+			&& !$source_page_matches_this_form ) {
+			$form_text = "\t" . '<div class="warningbox">' .
+				wfMessage( 'sf_formedit_formwarning', $this->mPageTitle->getFullURL() )->text() .
+				"</div>\n<br clear=\"both\" />\n" . $form_text;
 		}
 
 		// add form bottom, if no custom "standard inputs" have been defined
@@ -1556,20 +1576,8 @@ END;
 		$form_text .= "\t</form>\n";
 
 		// Add general Javascript code.
-		wfRunHooks( 'sfAddJavascriptToForm', array( &$javascript_text ) );
-
-		// @TODO The FCKeditor Javascript should be handled within
-		// the FCKeditor extension itself, using the hook.
 		$javascript_text = "";
-		if ( $free_text_was_included && $showFCKEditor > 0 ) {
-			$javascript_text .= SFFormUtils::mainFCKJavascript( $showFCKEditor, $field_args );
-			if ( $showFCKEditor & ( RTE_TOGGLE_LINK | RTE_POPUP ) ) {
-				$javascript_text .= SFFormUTils::FCKToggleJavascript();
-			}
-			if ( $showFCKEditor & RTE_POPUP ) {
-				$javascript_text .= SFFormUTils::FCKPopupJavascript();
-			}
-		}
+		wfRunHooks( 'sfAddJavascriptToForm', array( &$javascript_text ) );
 
 		// Send the autocomplete values to the browser, along with the
 		// mappings of which values should apply to which fields.

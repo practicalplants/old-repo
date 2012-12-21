@@ -69,7 +69,7 @@
  * {{#formlink:form=User|link text=Add a user
  * |query string=namespace=User&preload=UserStub}}
  *
- * 
+ *
  * 'queryformlink' links to Special:RunQuery, instead of Special:FormEdit.
  * It is called in the exact same way as 'formlink', though the
  * 'target' parameter should not be specified, and 'link text' is now optional,
@@ -168,7 +168,7 @@ class SFParserFunctions {
 	static function renderFormLink ( &$parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // We don't need the parser.
-		
+
 		// hack to remove newline from beginning of output, thanks to
 		// http://jimbojw.com/wiki/index.php?title=Raw_HTML_Output_from_a_MediaWiki_Parser_Function
 		return $parser->insertStripItem( SFUtils::createFormLink( $parser, 'FormEdit', $params ), $parser->mStripState );
@@ -177,20 +177,15 @@ class SFParserFunctions {
 	static function renderQueryFormLink ( &$parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // We don't need the parser.
-		// If it's a popup, make this just a static display of
-		// results, with no 'additiona query' form, since at the
-		// moment additional queries can't be handled anyway.
-		if ( in_array( 'popup', $params ) ) {
-			$params[] = 'wpRunQuery=true';
-			$params[] = 'additionalquery=false';
-		}
-		
+
 		// hack to remove newline from beginning of output, thanks to
 		// http://jimbojw.com/wiki/index.php?title=Raw_HTML_Output_from_a_MediaWiki_Parser_Function
 		return $parser->insertStripItem( SFUtils::createFormLink( $parser, 'RunQuery', $params ), $parser->mStripState );
 	}
 
 	static function renderFormInput ( &$parser ) {
+
+		global $wgHtml5;
 
 		$params = func_get_args();
 		array_shift( $params ); // don't need the parser
@@ -202,6 +197,7 @@ class SFParserFunctions {
 		$inRemoteAutocompletion = false;
 		$inSize = 25;
 		$classStr = "";
+		$inPlaceholder = "";
 		// assign params - support unlabelled params, for backwards compatibility
 		foreach ( $params as $i => $param ) {
 			$elements = explode( '=', $param, 2 );
@@ -232,7 +228,7 @@ class SFParserFunctions {
 				// URL-encoded ampersands, so that the string
 				// doesn't get split up on the '&'.
 				$inQueryStr = str_replace( '&amp;', '%26', $value );
-				
+
 				parse_str($inQueryStr, $arr);
 				$inQueryArr = SFUtils::array_merge_recursive_distinct( $inQueryArr, $arr );
 			} elseif ( $param_name == 'autocomplete on category' ) {
@@ -243,6 +239,8 @@ class SFParserFunctions {
 				$autocompletion_type = 'namespace';
 			} elseif ( $param_name == 'remote autocompletion' ) {
 				$inRemoteAutocompletion = true;
+			} elseif ( $param_name == 'placeholder' ) {
+				$inPlaceholder = $value;
 			} elseif ( $param_name == null && $value == 'popup' ) {
 				SFUtils::loadScriptsForPopupForm( $parser );
 				$classStr = 'popupforminput';
@@ -251,7 +249,7 @@ class SFParserFunctions {
 				$value = urlencode($value);
 				parse_str("$param_name=$value", $arr);
 				$inQueryArr = SFUtils::array_merge_recursive_distinct( $inQueryArr, $arr );
-				
+
 			} elseif ( $i == 0 ) {
 				$inFormName = $value;
 				$positionalParameters = true;
@@ -266,7 +264,7 @@ class SFParserFunctions {
 				// URL-encoded ampersands, so that the string
 				// doesn't get split up on the '&'.
 				$inQueryStr = str_replace( '&amp;', '%26', $value );
-				
+
 				parse_str($inQueryStr, $arr);
 				$inQueryArr = SFUtils::array_merge_recursive_distinct( $inQueryArr, $arr );
 			}
@@ -281,6 +279,10 @@ class SFParserFunctions {
 
 END;
 		$formInputAttrs = array( 'size' => $inSize );
+
+		if ( $wgHtml5 ) {
+			$formInputAttrs['placeholder'] = $inPlaceholder;
+		}
 
 		// Now apply the necessary settings and Javascript, depending
 		// on whether or not there's autocompletion (and whether the
@@ -297,7 +299,7 @@ END;
 			// on the page, we only need to do this the first time
 			if ( $input_num == 1 ) {
 				$parser->disableCache();
-				SFUtils::addJavascriptAndCSS();
+				SFUtils::addJavascriptAndCSS( $parser );
 			}
 
 			$inputID = 'input_' . $input_num;
@@ -342,7 +344,7 @@ END;
 			}
 		}
 
-		$button_str = ( $inButtonStr != '' ) ? $inButtonStr : wfMsg( 'sf_formstart_createoredit' );
+		$button_str = ( $inButtonStr != '' ) ? $inButtonStr : wfMessage( 'sf_formstart_createoredit' )->escaped();
 		$str .= <<<END
 			<input type="submit" value="$button_str" /></p>
 			</form>
@@ -514,6 +516,7 @@ END;
 		$summary = null;
 		$classString = 'autoedit-trigger';
 		$inQueryArr = array();
+		$editTime = null;
 
 		// parse parameters
 		$params = func_get_args();
@@ -556,7 +559,20 @@ END;
 					$arr = array( $key => $value );
 					$inQueryArr = SFUtils::array_merge_recursive_distinct( $inQueryArr, $arr );
 					break;
-				
+
+				case 'target':
+				case 'title':
+					$value = $parser->recursiveTagParse( $value );
+					$arr = array( $key => $value );
+					$inQueryArr = SFUtils::array_merge_recursive_distinct( $inQueryArr, $arr );
+
+					$targetTitle = Title::newFromText( $value );
+
+					if ( $targetTitle !== null ) {
+						$targetArticle = new Article( $targetTitle );
+						$editTime = $targetArticle->getTimestamp();
+					}
+
 				default :
 
 					$value = $parser->recursiveTagParse( $value );
@@ -581,7 +597,9 @@ END;
 		if ( $linkString == null ) return null;
 
 		if ( $linkType == 'button' ) {
-			$linkElement = Html::rawElement( 'button', array( 'class' => $classString ), $linkString );
+			// Html::rawElement() before MW 1.21 or so drops the type attribute
+			// do not use Html::rawElement() for buttons!
+			$linkElement = '<button ' . Html::expandAttributes( array( 'type' => 'submit', 'class' => $classString ) ) . '>' . $linkString . '</button>';
 		} elseif ( $linkType == 'link' ) {
 			$linkElement = Html::rawElement( 'a', array( 'class' => $classString, 'href' => "#" ), $linkString );
 		} else {
@@ -589,10 +607,14 @@ END;
 		}
 
 		if ( $summary == null ) {
-			$summary = wfMsg( 'sf_autoedit_summary', "[[$wgTitle]]" );
+			$summary = wfMessage( 'sf_autoedit_summary', "[[$wgTitle]]" )->text();
 		}
 
 		$formcontent .= Html::hidden( 'wpSummary', $summary );
+
+		if ( $editTime !== null ) {
+			$formcontent .= Html::hidden( 'wpEdittime', $editTime );
+		}
 
 		$form = Html::rawElement( 'form', array( 'class' => 'autoedit-data' ), $formcontent );
 

@@ -7,13 +7,13 @@
  */
 
 /**
- * Forms for adding and editing semantic data
+ * Forms for adding and editing semantic data.
  *
  * @defgroup SF Semantic Forms
  */
 
 /**
- * The module Form Inputs contains form input classes
+ * The module Form Inputs contains form input classes.
  * @defgroup SFFormInput Form Inputs
  * @ingroup SF
  */
@@ -40,7 +40,7 @@ if ( !defined( 'SMW_VERSION' ) ) {
 	die( "ERROR: <a href=\"http://semantic-mediawiki.org\">Semantic MediaWiki</a> must be installed for Semantic Forms to run!" );
 }
 
-define( 'SF_VERSION', '2.4.2' );
+define( 'SF_VERSION', '2.5.2 alpha' );
 
 $wgExtensionCredits[defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'specialpage'][] = array(
 	'path' => __FILE__,
@@ -69,7 +69,7 @@ $sfgIP = dirname( __FILE__ );
 # #
 
 
-// constants for special properties
+// Constants for special properties
 define( 'SF_SP_HAS_DEFAULT_FORM', 1 );
 define( 'SF_SP_HAS_ALTERNATE_FORM', 2 );
 define( 'SF_SP_CREATES_PAGES_WITH_FORM', 3 );
@@ -82,6 +82,8 @@ $wgHooks['LinkEnd'][] = 'SFFormLinker::setBrokenLink';
 // 'SkinTemplateNavigation' replaced 'SkinTemplateTabs' in the Vector skin
 $wgHooks['SkinTemplateTabs'][] = 'SFFormEditAction::displayTab';
 $wgHooks['SkinTemplateNavigation'][] = 'SFFormEditAction::displayTab2';
+$wgHooks['SkinTemplateTabs'][] = 'SFHelperFormAction::displayTab';
+$wgHooks['SkinTemplateNavigation'][] = 'SFHelperFormAction::displayTab2';
 $wgHooks['smwInitProperties'][] = 'SFUtils::initProperties';
 $wgHooks['AdminLinks'][] = 'SFUtils::addToAdminLinks';
 $wgHooks['ArticlePurge'][] = 'SFFormUtils::purgeCache';
@@ -95,9 +97,11 @@ $wgHooks['CanonicalNamespaces'][] = 'SFUtils::registerNamespaces';
 // Using UnknownAction is deprecated from MW 1.18 onwards.
 if ( version_compare( $wgVersion, '1.18', '<' ) ) {
 	$wgHooks['UnknownAction'][] = 'SFFormEditAction::displayForm';
+	$wgHooks['UnknownAction'][] = 'SFHelperFormAction::displayForm';
 } else {
 	// Introduced in MW 1.18.
 	$wgActions['formedit'] = 'SFFormEditAction';
+	$wgActions['formcreate'] = 'SFHelperFormAction';
 }
 
 // API modules
@@ -141,7 +145,7 @@ $wgAutoloadClasses['SFTemplateField'] = $sfgIP . '/includes/SF_TemplateField.php
 $wgAutoloadClasses['SFForm'] = $sfgIP . '/includes/SF_Form.php';
 $wgAutoloadClasses['SFTemplateInForm'] = $sfgIP . '/includes/SF_TemplateInForm.php';
 $wgAutoloadClasses['SFFormField'] = $sfgIP . '/includes/SF_FormField.php';
-$wgAutoloadClasses['SFFormPrinter'] = $sfgIP . '/includes/SF_FormPrinter-new.php';
+$wgAutoloadClasses['SFFormPrinter'] = $sfgIP . '/includes/SF_FormPrinter.php';
 $wgAutoloadClasses['SFFormUtils'] = $sfgIP . '/includes/SF_FormUtils.php';
 $wgAutoloadClasses['SFFormEditTab'] = $sfgIP . '/includes/SF_FormEditTab.php';
 $wgAutoloadClasses['SFFormEditPage'] = $sfgIP . '/includes/SF_FormEditPage.php';
@@ -152,8 +156,7 @@ $wgAutoloadClasses['SFParserFunctions'] = $sfgIP . '/includes/SF_ParserFunctions
 $wgAutoloadClasses['SFAutocompleteAPI'] = $sfgIP . '/includes/SF_AutocompleteAPI.php';
 $wgAutoloadClasses['SFAutoeditAPI'] = $sfgIP . '/includes/SF_AutoeditAPI.php';
 $wgAutoloadClasses['SFFormEditAction'] = $sfgIP . '/includes/SF_FormEditAction.php';
-$wgAutoloadClasses['SFMultipleTemplate'] = $sfgIP . '/includes/SF_MultipleTemplate.php';
-
+$wgAutoloadClasses['SFHelperFormAction'] = $sfgIP . '/includes/SF_HelperFormAction.php';
 
 // Form inputs
 $wgAutoloadClasses['SFFormInput'] = $sfgIP . '/includes/forminputs/SF_FormInput.php';
@@ -199,7 +202,7 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 		'ext.semanticforms.main' => $sfgResourceTemplate + array(
 			'scripts' => array(
 				'libs/SemanticForms.js',
-				'libs/SF_ajax_form_preview.js',
+				'libs/SF_preview.js'
 			),
 			'styles' => array(
 				'skins/SemanticForms.css',
@@ -213,6 +216,14 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 				'jquery.ui.widget',
 				'ext.semanticforms.fancybox',
 				'ext.semanticforms.autogrow',
+				'mediawiki.util',
+			),
+			'messages' => array(
+				'sf_formerrors_header',
+				'sf_blank_error',
+				'sf_bad_url_error',
+				'sf_bad_email_error',
+				'sf_bad_number_error',
 			),
 		),
 		'ext.semanticforms.fancybox' => $sfgResourceTemplate + array(
@@ -231,11 +242,19 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 			'scripts' => 'libs/SF_autoedit.js',
 			'styles' => 'skins/SF_autoedit.css',
 			'dependencies' => array( 'jquery' ),
+			'messages' => array(
+				'sf-autoedit-wait',
+				'sf_autoedit_anoneditwarning',
+			),
 		),
 		'ext.semanticforms.submit' => $sfgResourceTemplate + array(
 			'scripts' => 'libs/SF_submit.js',
 			'styles' => 'skins/SF_submit.css',
 			'dependencies' => array( 'jquery' ),
+			'messages' => array(
+				'sf_formedit_saveandcontinue_summary',
+				'sf_formedit_saveandcontinueediting',
+			),
 		),
 		'ext.semanticforms.collapsible' => $sfgResourceTemplate + array(
 			'scripts' => 'libs/SF_collapsible.js',
@@ -248,7 +267,7 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 			'dependencies' => array(
 				'ext.semanticforms.main',
 				'jquery.wikiEditor',
-		),
+			),
 		),
 		'ext.semanticforms.imagepreview' => $sfgResourceTemplate + array(
 			'scripts' => 'libs/SF_imagePreview.js',
@@ -259,14 +278,50 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 // PHP fails to find relative includes at some level of inclusion:
 // $pathfix = $IP . $sfgScriptPath;
 
-// load global functions
-require_once( 'includes/SF_GlobalFunctions.php' );
+// Global functions
+
+/**
+ *  This is a delayed init that makes sure that MediaWiki is set up
+ *  properly before we add our stuff.
+ */
+function sffSetupExtension() {
+	// This global variable is needed so that other extensions can hook
+	// into it to add their own input types.
+	global $sfgFormPrinter;
+	$sfgFormPrinter = new StubObject( 'sfgFormPrinter', 'SFFormPrinter' );
+}
+
+/**
+ * Initialize a global language object for content language. This
+ * must happen early on, even before user language is known, to
+ * determine labels for additional namespaces. In contrast, messages
+ * can be initialised much later, when they are actually needed.
+ */
+function sffInitContentLanguage( $langcode ) {
+	global $sfgIP, $sfgContLang;
+
+	if ( !empty( $sfgContLang ) ) { return; }
+
+	$cont_lang_class = 'SF_Language' . str_replace( '-', '_', ucfirst( $langcode ) );
+	if ( file_exists( $sfgIP . '/languages/' . $cont_lang_class . '.php' ) ) {
+		include_once( $sfgIP . '/languages/' . $cont_lang_class . '.php' );
+	}
+
+	// fallback if language not supported
+	if ( !class_exists( $cont_lang_class ) ) {
+		include_once( $sfgIP . '/languages/SF_LanguageEn.php' );
+		$cont_lang_class = 'SF_LanguageEn';
+	}
+
+	$sfgContLang = new $cont_lang_class();
+}
+
 
 sffInitContentLanguage( $wgLanguageCode );
 
 # ##
 # The number of allowed values per autocomplete - too many might
-# slow down the database, and Javascript's completion
+# slow down the database, and Javascript's completion.
 # ##
 $sfgMaxAutocompleteValues = 1000;
 
@@ -277,6 +332,12 @@ $sfgMaxAutocompleteValues = 1000;
 # of words fails for them.
 # ##
 $sfgAutocompleteOnAllChars = false;
+
+# ##
+# Used for caching of autocompletion values.
+# ##
+$sfgCacheAutocompleteValues = false;
+$sfgAutocompleteCacheTimeout = null;
 
 # ##
 # Global variables for handling the two edit tabs (for traditional editing
@@ -338,7 +399,7 @@ $sfgCacheFormDefinitions = false;
  *
  * If this setting remains at null the setting for the $wgParserCacheType will
  * be used.
- * 
+ *
  * For available types see $wgMainCacheType.
  */
 $sfgFormCacheType = null;
@@ -349,6 +410,11 @@ $sfgFormCacheType = null;
 # user is currently on, instead of from all pages in the wiki.
 # ##
 $sfgRedLinksCheckOnlyLocalProps = false;
+
+# ##
+# Show the "create with form" tab for uncreated templates and categories.
+# ##
+$sfgShowTabsForAllHelperForms = true;
 
 # ##
 # Displays the form above, instead of below, the results, in the
