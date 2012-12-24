@@ -123,8 +123,8 @@ nav#menubar{
 /* The preceeding ul selector is necessary to increase specifity over the overrides 
 semantic forms uses, since it's css gets included after this file */
 ul.ui-autocomplete{
-  /*opacity: 0.9;
-  z-index:99;*/
+  /*opacity: 0.9;*/
+  z-index:99;
 }
 ul .ui-menu-item{
   font-family: CreteRoundRegular;
@@ -251,11 +251,10 @@ body .buorg div {
 #search-nav .icon-search{
   margin-top: 3px;
 }
-#searchform{
-  display: inline-block;
-  padding-top: 2px;
+#search-nav{
+  padding-top: 3px;
 }
-#searchform input.search-field{
+input.search-field{
   width: 250px;
   margin-right: 5px;
   padding: 2px 4px 2px 3px;
@@ -279,7 +278,13 @@ body .buorg div {
   -ms-transition: width 0.2s ease-in-out 0s;
   transition: width 0.2s ease-in-out 0s;
 }
-
+.search-field.loading{
+  background: #fff url(/resources/images/loader-small-arrows.gif) no-repeat center right;
+}
+#search-nav .search-field{
+  margin-right: 32px;
+  width:260px;
+}
 
 /* ==================== Page Header ======================= */
 
@@ -383,7 +388,7 @@ article#main-entry{
   position: absolute;
   bottom: 10px;
   right: 30px;
-  z-index: 2;
+  z-index: 1;
   
   background: white;
   padding: 10px;  
@@ -1538,7 +1543,7 @@ h2 + .tabify{
   bottom: -1px;
   width: 100%;
   margin: 0;
-  z-index: 1;
+  z-index: 0;
   padding-left: 0;
 }
 #page-header #plant-iconbar .iconbar-section:first-child{

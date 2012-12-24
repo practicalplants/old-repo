@@ -3,18 +3,18 @@
 	
 	function init(){
 		
-		search_input = $('input#searchInput');
+		search_input = $('input#plant-search');
 		var search_input_width = search_input.width();
 		
 		
-		search_input.focus(function(){
+		/*search_input.focus(function(){
 			var $this = $(this);
 			$this.width(search_input_width*1.5);
 		})
 		.blur(function(){
 			var $this = $(this);
 			$this.width(search_input_width);
-		});
+		});*/
 		
 		initAutocomplete();
 	}
