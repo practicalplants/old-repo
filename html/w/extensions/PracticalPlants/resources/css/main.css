@@ -390,36 +390,31 @@ article#main-entry{
   right: 30px;
   z-index: 1;
   
-  background: white;
-  padding: 10px;  
-  width: 248px;
-  height: 208px;
-  border: 1px solid #ccc;
+
+  width: 270px;
+  height: 230px;
   
   text-align: center;
   
   box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
 }
-#page-header #article-image-container{
 
-}
+
 #page-header #article-image{
-  /*border: 1px solid #b0c0b0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  overflow: hidden;
-  padding: 0;
-  position: relative;
-  z-index: 1;*/
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;  
+  overflow:hidden;
+  max-height: 208px;
+
 }
 #page-header #article-image a{
   display: inline-block;
   padding: 0;
   margin: 0;
   font-size: 0px;
+  max-height: 205px;
+  overflow: hidden;
 }
 #page-header #article-image a.new{
   height: 190px;
@@ -439,8 +434,21 @@ article#main-entry{
   -ms-border-radius: 5px;
   border-radius: 5px;*/
   max-width: 248px;
-  max-height: 208px;
 }
+#page-header.with-image #article-image-container #article-image a,
+#page-header.with-image #article-image-container #article-image{
+}
+/*show full image on hover */
+#page-header.with-image #article-image-container:hover #article-image{
+  box-shadow: 0px 2px 20px rgba(0,0,0,0.3);
+}
+#page-header.with-image #article-image-container:hover #article-image a,
+#page-header.with-image #article-image-container:hover #article-image{
+  height:auto;
+  max-height:inherit;
+  overflow: visible;
+}
+
 
 #page-header #plant-uses-qr{
   position: absolute;
