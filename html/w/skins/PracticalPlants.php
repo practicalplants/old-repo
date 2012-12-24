@@ -362,7 +362,11 @@ print_r($_GET);
     <ul class="nav pull-right">
     	<li id="search-nav">
     	  <i class="icon-search icon-white"></i>
-    	  <input name="search" title="Search All Plants" accesskey="f" id="plant-search" placeholder="Enter a plant name..." class="search-field">
+    	  <form action="/wiki/index.php" id="searchform">
+    	  	<input type="hidden" name="title" value="Special:Search">
+    	  	<input name="search" title="Search All Plants" accesskey="f" id="plant-search" placeholder="Enter a plant name or search term..." class="search-field">
+    	  	<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">			<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+    	  </form>
     	</li>
     </ul>
 		

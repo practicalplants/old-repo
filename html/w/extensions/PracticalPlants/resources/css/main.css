@@ -245,8 +245,8 @@ body .buorg div {
   display: none;
 }
 
-#search-nav{
-  
+#search-nav #searchform{
+  display: inline-block;
 }
 #search-nav .icon-search{
   margin-top: 3px;
