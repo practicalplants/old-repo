@@ -2348,6 +2348,10 @@ body.page-Practical_Plants #page-header #article-image-container{
 body.page-Practical_Plants #page-header #article-image{
   border: none;
   width: 200px;
+  background:transparent;
+}
+body.page-Practical_Plants #page-header #article-image-container:hover #article-image{
+  box-shadow: none;
 }
 body.page-Practical_Plants #page-header #article-image img{
   width: 200px;
