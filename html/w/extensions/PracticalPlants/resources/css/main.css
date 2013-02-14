@@ -2370,6 +2370,8 @@ body.page-Practical_Plants .article-content{
   margin-right: 0;  
 }
 
+/* @group Main Page */
+
 #main-page-content{
   display: table;
   clear: left;
@@ -2556,6 +2558,36 @@ body.page-Practical_Plants .article-content{
 #main-page-info{
   clear: left;
 }
+
+
+#recently-modified-plant-list{
+  
+}
+#recently-modified-plant-list .recently-modified-item{
+  clear: left;
+  min-height: 50px;
+  margin: 0 0 10px 0;
+  width: 300px;
+  display: inline-block;
+}
+#recently-modified-plant-list .recently-modified-item .plant-name{
+  
+}
+#recently-modified-plant-list .recently-modified-item .plant-image{
+  width: 50px;
+  max-height: 50px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  font-size: 1px;
+  
+  float: left;
+  margin: 0 5px 5px 0;
+}
+#recently-modified-plant-list .recently-modified-item .plant-image.no-image{
+  background: #f5f5f5 url('/resources/images/no-image-green-248.png') no-repeat left top;
+  background-size: cover;
+}
+/* @end */
 
 /* =============== Search Page ================ */
 #search-discover{
