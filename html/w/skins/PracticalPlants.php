@@ -142,7 +142,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 				array_reverse( $this->data['personal_urls'] );
 		}
 
-    require(realpath(__DIR__.'/../../../library').'/Masthead.php');
+    require_once(realpath(__DIR__.'/../../../library').'/Masthead.php');
     $masthead = new PracticalPlants_Masthead(array(
     'active_tab'=>'wiki'/*,
     'search'=>'<form action="/wiki/index.php" id="searchform">
