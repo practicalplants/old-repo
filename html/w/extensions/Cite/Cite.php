@@ -18,13 +18,15 @@ if ( ! defined( 'MEDIAWIKI' ) )
  */
 
 $wgHooks['ParserFirstCallInit'][] = 'wfCite';
+$wgHooks['BeforePageDisplay'][] = 'wfCiteBeforePageDisplay';
+
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
 	'name' => 'Cite',
 	'author' => 'Ævar Arnfjörð Bjarmason',
 	'descriptionmsg' => 'cite-desc',
-	'url' => 'http://www.mediawiki.org/wiki/Extension:Cite/Cite.php'
+	'url' => 'https://www.mediawiki.org/wiki/Extension:Cite/Cite.php'
 );
 $wgParserTestFiles[] = dirname( __FILE__ ) . "/citeParserTests.txt";
 $wgParserTestFiles[] = dirname( __FILE__ ) . "/citeCatTreeParserTests.txt";
@@ -45,8 +47,13 @@ $wgAllowCiteGroups = true;
 $wgCiteCacheReferences = false;
 
 /**
+ * Enables experimental popups
+ */
+$wgCiteEnablePopups = false;
+
+/**
  * Performs the hook registration.
- * Note that several extensions (and even core!) try to detect if Cite is 
+ * Note that several extensions (and even core!) try to detect if Cite is
  * installed by looking for wfCite().
  *
  * @param $parser Parser
@@ -55,6 +62,42 @@ $wgCiteCacheReferences = false;
  */
 function wfCite( $parser ) {
 	return Cite::setHooks( $parser );
+}
+
+// Resources
+$citeResourceTemplate = array(
+	'localBasePath' => dirname(__FILE__) . '/modules',
+	'remoteExtPath' => 'Cite/modules'
+);
+
+$wgResourceModules['ext.cite'] = $citeResourceTemplate + array(
+	'styles' => array(),
+	'scripts' => 'ext.cite/ext.cite.js',
+	'position' => 'bottom',
+	'dependencies' => array(
+		'jquery.tooltip',
+	),
+);
+
+$wgResourceModules['jquery.tooltip'] = $citeResourceTemplate + array(
+	'styles' => 'jquery.tooltip/jquery.tooltip.css',
+	'scripts' => 'jquery.tooltip/jquery.tooltip.js',
+	'position' => 'bottom',
+);
+
+/**
+ * @param $out OutputPage
+ * @param $sk Skin
+ * @return bool
+ */
+function wfCiteBeforePageDisplay( $out, &$sk ) {
+	global $wgCiteEnablePopups;
+
+	if ( $wgCiteEnablePopups ) {
+		$out->addModules( 'ext.cite' );
+	}
+
+	return true;
 }
 
 /**#@-*/

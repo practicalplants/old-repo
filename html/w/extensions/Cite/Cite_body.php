@@ -64,15 +64,6 @@ class Cite {
 	var $mGroupCnt = array();
 
 	/**
-	 * Internal counter for anonymous references, separate from
-	 * $mOutCnt because anonymous references won't increment it,
-	 * but will incremement $mOutCnt
-	 *
-	 * @var int
-	 */
-	var $mInCnt = 0;
-	
-	/**
 	 * Counter to track the total number of (useful) calls to either the
 	 * ref or references tag hook
 	 */
@@ -98,6 +89,14 @@ class Cite {
 	 * @var Parser
 	 */
 	var $mParser;
+
+	/**
+	 * True when the ParserAfterParse hook has been called.
+	 * Used to avoid doing anything in ParserBeforeTidy.
+	 *
+	 * @var boolean
+	 */
+	var $mHaveAfterParse = false;
 
 	/**
 	 * True when a <ref> tag is being processed.
@@ -392,7 +391,6 @@ class Cite {
 							  'follow' => $follow ) ) );
 				array_splice( $this->mRefCallStack, $k, 0,
 						   array( array( 'new', $call, $str, $key, $group, $this->mOutCnt ) ) );
-				$this->mInCnt++;
 			}
 			// return an empty string : this is not a reference
 			return '';
@@ -403,7 +401,7 @@ class Cite {
 			$this->mRefs[$group][] = array( 'count' => - 1, 'text' => $str, 'key' => ++$this->mOutCnt );
 			$this->mRefCallStack[] = array( 'new', $call, $str, $key, $group, $this->mOutCnt );
 
-			return $this->linkRef( $group, $this->mInCnt++ );
+			return $this->linkRef( $group, $this->mOutCnt );
 		} elseif ( is_string( $key ) ) {
 			// Valid key
 			if ( !isset( $this->mRefs[$group][$key] ) || !is_array( $this->mRefs[$group][$key] ) ) {
@@ -416,7 +414,6 @@ class Cite {
 				);
 				$this->mRefCallStack[] = array( 'new', $call, $str, $key, $group, $this->mOutCnt );
 
-				$this->mInCnt++;
 				return
 					$this->linkRef(
 						$group,
@@ -510,7 +507,7 @@ class Cite {
 			$this->mRefs[$group][$key]['text'] = null;
 			# continue without break
 		case 'increment':
-			# Rollback increase in named ref occurences.
+			# Rollback increase in named ref occurrences.
 			$this->mRefs[$group][$key]['count']--;
 			break;
 		}
@@ -617,9 +614,9 @@ class Cite {
 
 	/**
 	 * Make output to be returned from the references() function
-	 * 
+	 *
 	 * @param $group
-	 * 
+	 *
 	 * @return string XHTML ready for output
 	 */
 	function referencesFormat( $group ) {
@@ -634,8 +631,8 @@ class Cite {
 			$ent[] = $this->referencesFormatEntry( $k, $v );
 		}
 
-		$prefix = wfMsgForContentNoTrans( 'cite_references_prefix' );
-		$suffix = wfMsgForContentNoTrans( 'cite_references_suffix' );
+		$prefix = wfMessage( 'cite_references_prefix' )->inContentLanguage()->plain();
+		$suffix = wfMessage( 'cite_references_suffix' )->inContentLanguage()->plain();
 		$content = implode( "\n", $ent );
 
 		// Let's try to cache it.
@@ -689,69 +686,83 @@ class Cite {
 	function referencesFormatEntry( $key, $val ) {
 		// Anonymous reference
 		if ( !is_array( $val ) ) {
-			return wfMsgForContentNoTrans(
+			return wfMessage(
 					'cite_references_link_one',
 					$this->referencesKey( $key ),
 					$this->refKey( $key ),
-					$val
-				);
-		} elseif ( isset( $val['follow'] ) ) {
-			return wfMsgForContentNoTrans(
+					$this->referenceText( $key, $val )
+				)->inContentLanguage()->plain();
+		}
+		$text = $this->referenceText( $key, $val['text'] );
+		if ( isset( $val['follow'] ) ) {
+			return wfMessage(
 					'cite_references_no_link',
 					$this->referencesKey( $val['follow'] ),
-					$val['text']
-				);
+					$text
+				)->inContentLanguage()->plain();
 		} elseif ( $val['text'] == '' ) {
-			return wfMsgForContentNoTrans(
+			return wfMessage(
 						'cite_references_link_one',
 						$this->referencesKey( $key ),
 						$this->refKey( $key, $val['count'] ),
-						$this->error( 'cite_error_references_no_text', $key )
-					);
+						$text
+					)->inContentLanguage()->plain();
 		}
 
 		if ( $val['count'] < 0 ) {
-			return wfMsgForContentNoTrans(
+			return wfMessage(
 					'cite_references_link_one',
 					$this->referencesKey( $val['key'] ),
 					# $this->refKey( $val['key'], $val['count'] ),
 					$this->refKey( $val['key'] ),
-
-					( $val['text'] != '' ? $val['text'] : $this->error( 'cite_error_references_no_text', $key ) )
-				);
+					$text
+				)->inContentLanguage()->plain();
 			// Standalone named reference, I want to format this like an
 			// anonymous reference because displaying "1. 1.1 Ref text" is
 			// overkill and users frequently use named references when they
 			// don't need them for convenience
 		} elseif ( $val['count'] === 0 ) {
-			return wfMsgForContentNoTrans(
+			return wfMessage(
 					'cite_references_link_one',
 					$this->referencesKey( $key . "-" . $val['key'] ),
 					# $this->refKey( $key, $val['count'] ),
 					$this->refKey( $key, $val['key'] . "-" . $val['count'] ),
-					( $val['text'] != '' ? $val['text'] : $this->error( 'cite_error_references_no_text', $key ) )
-				);
+					$text
+				)->inContentLanguage()->plain();
 		// Named references with >1 occurrences
 		} else {
 			$links = array();
 			// for group handling, we have an extra key here.
 			for ( $i = 0; $i <= $val['count']; ++$i ) {
-				$links[] = wfMsgForContentNoTrans(
+				$links[] = wfMessage(
 						'cite_references_link_many_format',
 						$this->refKey( $key, $val['key'] . "-$i" ),
 						$this->referencesFormatEntryNumericBacklinkLabel( $val['number'], $i, $val['count'] ),
 						$this->referencesFormatEntryAlternateBacklinkLabel( $i )
-				);
+				)->inContentLanguage()->plain();
 			}
 
 			$list = $this->listToText( $links );
 
-			return wfMsgForContentNoTrans( 'cite_references_link_many',
+			return wfMessage( 'cite_references_link_many',
 					$this->referencesKey( $key . "-" . $val['key'] ),
 					$list,
-					( $val['text'] != '' ? $val['text'] : $this->error( 'cite_error_references_no_text', $key ) )
-				);
+					$text
+				)->inContentLanguage()->plain();
 		}
+	}
+
+	/**
+	 * Returns formatted reference text
+	 * @param String $key
+	 * @param String $text
+	 * @return String
+	 */
+	function referenceText( $key, $text ) {
+		if ( $text == '' ) {
+			return $this->error( 'cite_error_references_no_text', $key, 'noparse' );
+		}
+		return '<span class="reference-text">' . rtrim( $text, "\n" ) . "</span>\n";
 	}
 
 	/**
@@ -793,7 +804,7 @@ class Cite {
 			return $this->mBacklinkLabels[$offset];
 		} else {
 			// Feed me!
-			return $this->error( 'cite_error_references_no_backlink_label' );
+			return $this->error( 'cite_error_references_no_backlink_label', null, 'noparse' );
 		}
 	}
 
@@ -823,7 +834,7 @@ class Cite {
 			return $this->mLinkLabels[$group][$offset - 1];
 		} else {
 			// Feed me!
-			return $this->error( 'cite_error_no_link_label_group', array( $group, $message ) );
+			return $this->error( 'cite_error_no_link_label_group', array( $group, $message ), 'noparse' );
 		}
 	}
 
@@ -839,10 +850,11 @@ class Cite {
 	 * @return string A key for use in wikitext
 	 */
 	function refKey( $key, $num = null ) {
-		$prefix = wfMsgForContent( 'cite_reference_link_prefix' );
-		$suffix = wfMsgForContent( 'cite_reference_link_suffix' );
+		$prefix = wfMessage( 'cite_reference_link_prefix' )->inContentLanguage()->text();
+		$suffix = wfMessage( 'cite_reference_link_suffix' )->inContentLanguage()->text();
 		if ( isset( $num ) ) {
-			$key = wfMsgForContentNoTrans( 'cite_reference_link_key_with_num', $key, $num );
+			$key = wfMessage( 'cite_reference_link_key_with_num', $key, $num )
+				->inContentLanguage()->plain();
 		}
 
 		return "$prefix$key$suffix";
@@ -860,10 +872,11 @@ class Cite {
 	 * @return string A key for use in wikitext
 	 */
 	function referencesKey( $key, $num = null ) {
-		$prefix = wfMsgForContent( 'cite_references_link_prefix' );
-		$suffix = wfMsgForContent( 'cite_references_link_suffix' );
+		$prefix = wfMessage( 'cite_references_link_prefix' )->inContentLanguage()->text();
+		$suffix = wfMessage( 'cite_references_link_suffix' )->inContentLanguage()->text();
 		if ( isset( $num ) ) {
-			$key = wfMsgForContentNoTrans( 'cite_reference_link_key_with_num', $key, $num );
+			$key = wfMessage( 'cite_reference_link_key_with_num', $key, $num )
+				->inContentLanguage()->plain();
 		}
 
 		return "$prefix$key$suffix";
@@ -876,7 +889,7 @@ class Cite {
 	 * @param $group
 	 * @param $key string The key for the link
 	 * @param $count int The index of the key, used for distinguishing
-	 *                   multiple occurances of the same key
+	 *                   multiple occurrences of the same key
 	 * @param $label int The label to use for the link, I want to
 	 *                   use the same label for all occourances of
 	 *                   the same named reference.
@@ -890,13 +903,13 @@ class Cite {
 
 		return
 			$this->parse(
-				wfMsgForContentNoTrans(
+				wfMessage(
 					'cite_reference_link',
 					$this->refKey( $key, $count ),
 					$this->referencesKey( $key . $subkey ),
 					$this->getLinkLabel( $label, $group,
 						( ( $group == CITE_DEFAULT_GROUP ) ? '' : "$group " ) . $wgContLang->formatNum( $label ) )
-				)
+				)->inContentLanguage()->plain()
 			);
 	}
 
@@ -915,8 +928,8 @@ class Cite {
 	function listToText( $arr ) {
 		$cnt = count( $arr );
 
-		$sep = wfMsgForContentNoTrans( 'cite_references_link_many_sep' );
-		$and = wfMsgForContentNoTrans( 'cite_references_link_many_and' );
+		$sep = wfMessage( 'cite_references_link_many_sep' )->inContentLanguage()->plain();
+		$and = wfMessage( 'cite_references_link_many_and' )->inContentLanguage()->plain();
 
 		if ( $cnt == 1 ) {
 			// Enforce always returning a string
@@ -988,7 +1001,8 @@ class Cite {
 	 */
 	function genBacklinkLabels() {
 		wfProfileIn( __METHOD__ );
-		$text = wfMsgForContentNoTrans( 'cite_references_link_many_format_backlink_labels' );
+		$text = wfMessage( 'cite_references_link_many_format_backlink_labels' )
+			->inContentLanguage()->plain();
 		$this->mBacklinkLabels = preg_split( '#[\n\t ]#', $text );
 		wfProfileOut( __METHOD__ );
 	}
@@ -1020,11 +1034,11 @@ class Cite {
 	 *
 	 * @return bool
 	 */
-	function clearState( $parser ) {
+	function clearState( &$parser ) {
 		if ( $parser->extCite !== $this ) {
 			return $parser->extCite->clearState( $parser );
 		}
-		
+
 		# Don't clear state when we're in the middle of parsing
 		# a <ref> tag
 		if ( $this->mInCite || $this->mInReferences ) {
@@ -1032,8 +1046,7 @@ class Cite {
 		}
 
 		$this->mGroupCnt = array();
-		$this->mOutCnt = - 1;
-		$this->mInCnt = 0;
+		$this->mOutCnt = 0;
 		$this->mCallCnt = 0;
 		$this->mRefs = array();
 		$this->mReferencesErrors = array();
@@ -1046,16 +1059,23 @@ class Cite {
 	 * Called at the end of page processing to append an error if refs were
 	 * used without a references tag.
 	 *
+	 * @param $afterParse bool  true if called from the ParserAfterParse hook
 	 * @param $parser Parser
 	 * @param $text string
 	 *
 	 * @return bool
 	 */
-	function checkRefsNoReferences( &$parser, &$text ) {
+	function checkRefsNoReferences( $afterParse, &$parser, &$text ) {
 		if ( $parser->extCite !== $this ) {
-			return $parser->extCite->checkRefsNoReferences( $parser, $text );
+			return $parser->extCite->checkRefsNoReferences( $afterParse, $parser, $text );
 		}
-		
+
+		if ( $afterParse ) {
+			$this->mHaveAfterParse = true;
+		} elseif ( $this->mHaveAfterParse ) {
+			return true;
+		}
+
 		if ( $parser->getOptions()->getIsSectionPreview() ) {
 			return true;
 		}
@@ -1073,13 +1093,13 @@ class Cite {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Hook for the InlineEditor extension. If any ref or reference reference tag is in the text, the entire
 	 * page should be reparsed, so we return false in that case.
 	 *
 	 * @param $output
-	 * 
+	 *
 	 * @return bool
 	 */
 	function checkAnyCalls( &$output ) {
@@ -1099,10 +1119,11 @@ class Cite {
 		global $wgHooks;
 
 		$parser->extCite = new self();
-		
+
 		if ( !Cite::$hooksInstalled ) {
 			$wgHooks['ParserClearState'][] = array( $parser->extCite, 'clearState' );
-			$wgHooks['ParserBeforeTidy'][] = array( $parser->extCite, 'checkRefsNoReferences' );
+			$wgHooks['ParserAfterParse'][] = array( $parser->extCite, 'checkRefsNoReferences', true );
+			$wgHooks['ParserBeforeTidy'][] = array( $parser->extCite, 'checkRefsNoReferences', false );
 			$wgHooks['InlineEditorPartialAfterParse'][] = array( $parser->extCite, 'checkAnyCalls' );
 			Cite::$hooksInstalled = true;
 		}
@@ -1117,18 +1138,20 @@ class Cite {
 	 *
 	 * @param string $key   Message name for the error
 	 * @param string $param Parameter to pass to the message
-	 * @return string XHTML ready for output
+	 * @param string $parse Whether to parse the message ('parse') or not ('noparse')
+	 * @return string XHTML or wikitext ready for output
 	 */
-	function error( $key, $param = null ) {
+	function error( $key, $param = null, $parse = 'parse' ) {
 		# We rely on the fact that PHP is okay with passing unused argu-
-		# ments to functions.  If $1 is not used in the message, wfMsg will
+		# ments to functions.  If $1 is not used in the message, wfMessage will
 		# just ignore the extra parameter.
-		return
-			$this->parse(
-				'<strong class="error">' .
-				wfMsgNoTrans( 'cite_error', wfMsgNoTrans( $key, $param ) ) .
-				'</strong>'
-			);
+		$ret = '<strong class="error">' .
+			wfMessage( 'cite_error', wfMessage( $key, $param )->plain() )->plain() .
+			'</strong>';
+		if ( $parse == 'parse' ) {
+			$ret = $this->parse( $ret );
+		}
+		return $ret;
 	}
 
 	/**
@@ -1139,7 +1162,8 @@ class Cite {
 	 * @param string $data Serialized error data
 	 */
 	function croak( $error, $data ) {
-		wfDebugDieBacktrace( wfMsgForContent( 'cite_croak', $this->error( $error ), $data ) );
+		wfDebugDieBacktrace( wfMessage( 'cite_croak', $this->error( $error ), $data )
+			->inContentLanguage()->text() );
 	}
 
 	/**#@-*/
