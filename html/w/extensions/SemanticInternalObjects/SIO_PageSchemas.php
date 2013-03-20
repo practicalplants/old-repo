@@ -70,7 +70,7 @@ class SIOPageSchemas extends PSExtensionHandler {
 				$hasExistingValues = true;
 			}
 		}
-		$text = '<p>' . 'Name of property to connect this template\'s fields to the rest of the page (should only be used if this template can have multiple instances):' . ' ';
+		$text = '<p>' . wfMsgHtml( 'semanticinternalobjects-mainpropertyname' ) . ' ' . wfMsgHtml( 'semanticinternalobjects-propnamewarning' ) . ' ';
 		$propName = PageSchemas::getValueFromObject( $prop_array, 'name' );
 		$text .= Html::input( 'sio_property_name_num', $propName, array( 'size' => 15 ) ) . "\n";
 
@@ -138,6 +138,8 @@ class SIOPageSchemas extends PSExtensionHandler {
 			if ( !in_array( $propTitle, $selectedPages ) ) {
 				continue;
 			}
+
+			// FIXME: cannot access protected SMWPageSchemas::createPropertyText
 			$jobParams['page_text'] = SMWPageSchemas::createPropertyText( $pageTypeLabel, null );
 			$jobs[] = new PSCreatePageJob( $propTitle, $jobParams );
 		}
