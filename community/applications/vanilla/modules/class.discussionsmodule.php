@@ -12,20 +12,10 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
  * Renders recently active discussions
  */
 class DiscussionsModule extends Gdn_Module {
-   public $Limit = 10;
-   public $Prefix = 'Discussion';
    
-   public function __construct() {
-      parent::__construct();
-      $this->_ApplicationFolder = 'vanilla';
-   }
-   
-   public function GetData($Limit = FALSE) {
-      if (!$Limit)
-         $Limit = $this->Limit;
-      
+   public function GetData($Limit = 10) {
       $DiscussionModel = new DiscussionModel();
-      $this->SetData('Discussions', $DiscussionModel->Get(0, $Limit, array('Announce' => 'all')));
+      $this->Data = $DiscussionModel->Get(0, $Limit);
    }
 
    public function AssetTarget() {
@@ -33,12 +23,9 @@ class DiscussionsModule extends Gdn_Module {
    }
 
    public function ToString() {
-      if (!$this->Data('Discussions')) {
-         $this->GetData();
-      }
-      
-      require_once Gdn::Controller()->FetchViewLocation('helper_functions', 'Discussions', 'Vanilla');
-      
-      return parent::ToString();
+      if (is_object($this->Data) && $this->Data->NumRows() > 0)
+         return parent::ToString();
+
+      return '';
    }
 }

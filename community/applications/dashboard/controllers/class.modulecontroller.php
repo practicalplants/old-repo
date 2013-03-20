@@ -14,10 +14,7 @@ class ModuleController extends Gdn_Controller {
    /**
     * Creates and renders an instance of a module.
     */
-   public function Index($Module, $AppFolder = '', $DeliveryType = '') {
-      if (!$DeliveryType)
-         $this->DeliveryType(DELIVERY_TYPE_VIEW);
-      
+   public function Index($Module, $AppFolder = '') {
       $ModuleClassExists = class_exists($Module);
 
       if ($ModuleClassExists) {
@@ -38,15 +35,6 @@ class ModuleController extends Gdn_Controller {
 
 
             $ModuleInstance = new $Module($this);
-            $ModuleInstance->Visible = TRUE;
-            
-            $WhiteList = array('Limit', 'Help');
-            foreach ($this->Request->Get() as $Key => $Value) {
-               if (in_array($Key, $WhiteList)) {
-                  $ModuleInstance->$Key = $Value;
-               }
-            }
-            
             $this->SetData('_Module', $ModuleInstance);
             $this->Render('Index', FALSE, 'dashboard');
             return;

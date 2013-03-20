@@ -1,18 +1,16 @@
 // This file contains javascript that is specific to the dashboard/entry controller.
 jQuery(document).ready(function($) {
-	
    // Check to see if the selected email is valid
    $('#Register input[name$=Email], body.register input[name$=Email]').blur(function() {
       var email = $(this).val();
       if (email != '') {
-         var checkUrl = gdn.url('/dashboard/user/emailavailable');
+         var checkUrl = gdn.url('/dashboard/user/emailavailable/'+encodeURIComponent(email)+'/x');
          $.ajax({
             type: "GET",
             url: checkUrl,
-            data: { email: email },
             dataType: 'text',
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-               gdn.informError(xhr, true);
+               $.popup({}, XMLHttpRequest.responseText);
             },
             success: function(text) {
                if (text == 'FALSE')
@@ -33,8 +31,8 @@ jQuery(document).ready(function($) {
             type: "GET",
             url: checkUrl,
             dataType: 'text',
-            error: function(xhr) {
-               gdn.informError(xhr, true);
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+               $.popup({}, XMLHttpRequest.responseText);
             },
             success: function(text) {
                if (text == 'FALSE')

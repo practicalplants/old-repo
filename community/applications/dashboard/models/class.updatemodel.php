@@ -158,7 +158,7 @@ class UpdateModel extends Gdn_Model {
 
          $Addon['Checked'] = TRUE;
          $Addon['Path'] = $Path;
-         $UploadsPath = PATH_UPLOADS.'/';
+         $UploadsPath = PATH_LOCAL_UPLOADS.'/';
          if (StringBeginsWith($Addon['Path'], $UploadsPath)) {
             $Addon['File'] = substr($Addon['Path'], strlen($UploadsPath));
          }

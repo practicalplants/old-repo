@@ -34,7 +34,7 @@ class LocaleModel {
       $Locales = array_unique(ConsolidateArrayValuesByKey($this->AvailableLocalePacks(), 'Locale'), SORT_STRING);
       asort($Locales);
       $Locales = array_combine($Locales, $Locales);
-   
+
       return $Locales;
    }
 
@@ -146,7 +146,7 @@ class LocaleModel {
    }
 
    /**
-    * Temporarily enable a locale pack without installing it
+    * Enable a locale pack without installing it to the config or mappings.
     *
     * @param string $LocaleKey The key of the folder.
     */
@@ -156,14 +156,9 @@ class LocaleModel {
          throw NotFoundException('Locale');
 
       // Grab all of the definition files from the locale.
-      $Paths = SafeGlob(PATH_ROOT."/locales/{$LocaleKey}/*.php");
-      
-      // Unload the dynamic config
-      Gdn::Locale()->Unload();
-      
-      // Load each locale file, checking for errors
+      $Paths = SafeGlob(PATH_ROOT."/locales/$LocaleKey/*.php");
       foreach ($Paths as $Path) {
-         Gdn::Locale()->Load($Path, FALSE);
+         Gdn::Locale()->Load($Path);
       }
    }
 

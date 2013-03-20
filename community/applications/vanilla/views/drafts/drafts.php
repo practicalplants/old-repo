@@ -4,8 +4,8 @@ $ShowOptions = TRUE;
 $Alt = '';
 foreach ($this->DraftData->Result() as $Draft) {
 	$Offset = GetValue('CountComments', $Draft, 0);
-	if($Offset > C('Vanilla.Comments.PerPage', 30)) {
-		$Offset -= C('Vanilla.Comments.PerPage', 30);
+	if($Offset > C('Vanilla.Comments.PerPage', 50)) {
+		$Offset -= C('Vanilla.Comments.PerPage', 50);
 	} else {
 		$Offset = 0;
 	}
@@ -14,7 +14,7 @@ foreach ($this->DraftData->Result() as $Draft) {
    $Alt = $Alt == ' Alt' ? '' : ' Alt';
    ?>
    <li class="Item Draft<?php echo $Alt; ?>">
-      <div class="Options"><?php echo Anchor(T('Draft.Delete', 'Delete'), 'vanilla/drafts/delete/'.$Draft->DraftID.'/'.$Session->TransientKey().'?Target='.urlencode($this->SelfUrl), 'Delete'); ?></div>
+      <div class="OptionButton"><?php echo Anchor(T('Draft.Delete', 'Delete'), 'vanilla/drafts/delete/'.$Draft->DraftID.'/'.$Session->TransientKey().'?Target='.urlencode($this->SelfUrl), 'Delete'); ?></div>
       <div class="ItemContent">
          <?php echo Anchor($Draft->Name, $EditUrl, 'Title DraftLink'); ?>
          <div class="Excerpt"><?php

@@ -1,37 +1,27 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Plugin base class
- * 
  * A simple framework that all plugins should extend. Aside from the implementation of
  * Gdn_IPlugin, this class provides some convenience methods to make plugin development
  * easier and faster.
  *
- * @author Tim Gunter <tim@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
- * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
+ * @author Tim Gunter
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
-
 abstract class Gdn_Plugin extends Gdn_Pluggable implements Gdn_IPlugin {
-   
-   protected $Sender;
    
    public function __construct() {
       parent::__construct();
-   }
-   
-   /**
-    * Get an instance of the calling class
-    * 
-    * WARNING: This method uses Late Static Binding and therefore requires 
-    * PHP 5.3+
-    * 
-    * @return Gdn_Plugin
-    */
-   public static function Instance() {
-      return Gdn::PluginManager()->GetPluginInstance(get_called_class(), Gdn_PluginManager::ACCESS_CLASSNAME);
    }
 
    public function GetPluginName() {
@@ -244,15 +234,12 @@ abstract class Gdn_Plugin extends Gdn_Pluggable implements Gdn_IPlugin {
       return C($EnabledKey, FALSE);
    }
    
-   public function Dispatch($Sender, $RequestArgs = array()) {
-      $this->Sender = $Sender;
+   public function Dispatch(&$Sender, $RequestArgs = array()) {
       $Sender->Form = new Gdn_Form();
       
       $ControllerMethod = 'Controller_Index';
       if (is_array($RequestArgs) && sizeof($Sender->RequestArgs)) {
          list($MethodName) = $Sender->RequestArgs;
-         // Account for suffix
-         $MethodName = array_shift($Trash = explode('.', $MethodName));
          $TestControllerMethod = 'Controller_'.$MethodName;
          if (method_exists($this, $TestControllerMethod))
             $ControllerMethod = $TestControllerMethod;
@@ -267,20 +254,10 @@ abstract class Gdn_Plugin extends Gdn_Pluggable implements Gdn_IPlugin {
       }
    }
    
-   /**
-    * Passthru render request to sender
-    * 
-    * This render method automatically adds the correct ApplicationFolder parameter
-    * so that $Sender->Render() will first check the plugin's views/ folder.
-    * 
-    * @param string $ViewName 
-    */
-   public function Render($ViewName) {
-      $PluginFolder = $this->GetPluginFolder(FALSE);
-      $this->Sender->Render($ViewName, '', $PluginFolder);
-   }
-   
    public function UserMetaModel() {
-      return Gdn::UserMetaModel();
+      static $UserMetaModel = NULL;
+      if (is_null($UserMetaModel))
+         $UserMetaModel = new UserMetaModel();
+      return $UserMetaModel;
    }
 }

@@ -30,29 +30,14 @@ class SpamModel extends Gdn_Pluggable {
     */
    public static function IsSpam($RecordType, $Data, $Options = array()) {
       // Set some information about the user in the data.
+      TouchValue('IPAddress', $Data, Gdn::Request()->IpAddress());
+      
       if ($RecordType == 'Registration') {
          TouchValue('Username', $Data, $Data['Name']);
       } else {
-         TouchValue('InsertUserID', $Data, Gdn::Session()->UserID);
-         
-         $User = Gdn::UserModel()->GetID(GetValue('InsertUserID', $Data), DATASET_TYPE_ARRAY);
-         
-         if ($User) {
-            if (GetValue('Verified', $User)) {
-               // The user has been verified and isn't a spammer.
-               return FALSE;
-            }
-            TouchValue('Username', $Data, $User['Name']);
-            TouchValue('Email', $Data, $User['Email']);
-            TouchValue('IPAddress', $Data, $User['LastIPAddress']);
-         }
+         TouchValue('Username', $Data, Gdn::Session()->User->Name);
+         TouchValue('Email', $Data, Gdn::Session()->User->Email);
       }
-      
-      if (!isset($Data['Body']) && isset($Data['Story'])) {
-         $Data['Body'] = $Data['Story'];
-      }
-      
-      TouchValue('IPAddress', $Data, Gdn::Request()->IpAddress());
 
       $Sp = self::_Instance();
       
@@ -73,8 +58,6 @@ class SpamModel extends Gdn_Pluggable {
                break;
             case 'Comment':
             case 'Discussion':
-            case 'Activity':
-            case 'ActivityComment':
                $LogOptions['GroupBy'] = array('RecordID');
                break;
          }

@@ -19,10 +19,16 @@ if (!function_exists('FormatPossessive')) {
    }
 }
 
+if (!function_exists('Plural')) {
+   function Plural($Number, $Singular, $Plural) {
+		// Make sure to fix comma-formatted numbers
+      $WorkingNumber = str_replace(',', '', $Number);
+      return sprintf(T($WorkingNumber == 1 ? $Singular : $Plural), $Number);
+   }
+}
+
 $Definition['Locale'] = 'en-CA';
 $Definition['_Locale'] = 'Locale';
-
-$Definition['Apply for Membership'] = 'Register';
 
 // THESE ARE RELATED TO VALIDATION FUNCTIONS IN /garden/library/core/validation.functions.php
 $Definition['ValidateRegex'] = '%s does not appear to be in the correct format.';
@@ -48,13 +54,8 @@ $Definition['ValidateBanned'] = 'That %s is not allowed.';
 $Definition['ValidateUrlStringRelaxed'] = '%s can not contain slashes, quotes or tag characters.';
 $Definition['ErrorPermission'] = 'Sorry, permission denied.';
 $Definition['InviteErrorPermission'] = 'Sorry, permission denied.';
-$Definition['PermissionRequired.Garden.Moderation.Manage'] = 'You need to be a moderator to do that.';
-$Definition['PermissionRequired.Garden.Settings.Manage'] = 'You need to be an administrator to do that.';
-$Definition['PermissionRequired.Javascript'] = 'You need to enable javascript to do that.';
 $Definition['ErrorBadInvitationCode'] = 'The invitation code you supplied is not valid.';
 $Definition['ErrorCredentials'] = 'Sorry, no account could be found related to the email/username and password you entered.';
-$Definition['User not found.'] = 'Sorry, no account could be found related to the email/username you entered.';
-$Definition['Invalid password.'] = 'The password you entered was incorrect. Remember that passwords are case-sensitive.';
 $Definition['ErrorPluginVersionMatch'] = 'The enabled {0} plugin (version {1}) failed to meet the version requirements ({2}).';
 $Definition['ErrorPluginDisableRequired'] = 'You cannot disable the {0} plugin because the {1} plugin requires it in order to function.';
 $Definition['ErrorPluginEnableRequired'] = 'This plugin requires that the {0} plugin be enabled before it can be enabled itself.';
@@ -141,7 +142,8 @@ $Definition['Date.DefaultYearFormat'] = '%B %Y';
 $Definition['Date.DefaultTimeFormat'] = '%l:%M%p';
 $Definition['Date.DefaultDateTimeFormat'] = '%B %e, %Y %l:%M%p';
 $Definition['Saved'] = 'Your changes have been saved.';
-$Definition['%s new plural'] = '%s new';
+$Definition['%s New Plural'] = '%s new';
+
 $Definition['TermsOfService'] = 'Terms of Service';
 $Definition['TermsOfServiceText'] = "
    <p>You agree, through your use of this service, that you will not use this
@@ -170,9 +172,5 @@ $Definition['Warning: This is for advanced users.'] = '<b>Warning</b>: This is f
 $Definition['Activity.Delete'] = '×';
 $Definition['Draft.Delete'] = '×';
 $Definition['ConnectName'] = 'Username';
-//$Definition['EmbededDiscussionFormat'] = '<div class="EmbeddedContent">{Image}<strong>{Title}</strong>
-//<p>{Excerpt}</p>
-//<p><a href="{Url}">Read the full story here</a></p><div class="ClearFix"></div></div>';
-
 
 // TODO: PROVIDE TRANSLATIONS FOR ALL CONFIGURATION SETTINGS THAT ARE EDITABLE ON ADMIN FORMS (ie. Vanilla.Comments.MaxLength, etc).

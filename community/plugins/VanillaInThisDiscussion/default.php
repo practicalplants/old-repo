@@ -24,10 +24,10 @@ $PluginInfo['VanillaInThisDiscussion'] = array(
 
 class VanillaInThisDiscussionPlugin extends Gdn_Plugin {
 
-   public function DiscussionController_BeforeDiscussionRender_Handler($Sender) {
+   public function DiscussionController_BeforeDiscussionRender_Handler(&$Sender) {
       include_once(PATH_PLUGINS.DS.'VanillaInThisDiscussion'.DS.'class.inthisdiscussionmodule.php');
       $InThisDiscussionModule = new InThisDiscussionModule($Sender);
-      $InThisDiscussionModule->GetData($Sender->Data('Discussion.DiscussionID'));
+      $InThisDiscussionModule->GetData($Sender->DiscussionID);
       $Sender->AddModule($InThisDiscussionModule);
    }
    

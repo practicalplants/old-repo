@@ -3,9 +3,19 @@
 <div class="Info">
    <?php echo T('Tags are keywords that users can assign to discussions to help categorize their question with similar questions.'); ?>
 </div>
-
-<?php echo $this->Form->Open(); ?>
-
+<div class="FilterMenu">
+      <?php
+      echo Anchor(
+         T(C('Plugins.Tagging.Enabled') ? 'Disable Tagging' : 'Enable Tagging'),
+         'settings/toggletagging/'.Gdn::Session()->TransientKey(),
+         'SmallButton'
+      );
+   ?>
+</div>
+<?php if (C('Plugins.Tagging.Enabled')): 
+echo $this->Form->Open();   
+?>
+<hr />
 <div class="Info">
    <?php
       echo $this->Form->Errors();
@@ -47,3 +57,5 @@
 PagerModule::Write();
 
 echo $this->Form->Close();
+
+endif;

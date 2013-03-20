@@ -1,16 +1,7 @@
 <?php if (!defined('APPLICATION')) exit();
-
 /**
- * MySQL structure driver
- * 
- * MySQL-specific structure tools for performing structural changes on MySQL 
- * database servers.
- *
- * @author Todd Burry <todd@vanillaforums.com> 
- * @copyright 2003 Vanilla Forums, Inc
- * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
- * @package Garden
- * @since 2.0
+ * @copyright Copyright 2008, 2009 Vanilla Forums Inc.
+ * @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
  */
 
 class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
@@ -156,16 +147,8 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
       $PrimaryKey = array();
       $UniqueKey = array();
       $FullTextKey = array();
-      $AllowFullText = TRUE;
-      $Indexes = array();
       $Keys = '';
       $Sql = '';
-      
-      $ForceDatabaseEngine = C('Database.ForceStorageEngine');
-      if ($ForceDatabaseEngine && !$this->_TableStorageEngine) {
-         $this->_TableStorageEngine = $ForceDatabaseEngine;
-         $AllowFullText = $this->_SupportsFulltext();
-      }
 
       foreach ($this->_Columns as $ColumnName => $Column) {
          if ($Sql != '')
@@ -176,19 +159,15 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
          $ColumnKeyTypes = (array)$Column->KeyType;
 
          foreach ($ColumnKeyTypes as $ColumnKeyType) {
-            $KeyTypeParts = explode('.', $ColumnKeyType, 2);
-            $ColumnKeyType = $KeyTypeParts[0];
-            $IndexGroup = GetValue(1, $KeyTypeParts, '');
-            
             if ($ColumnKeyType == 'primary')
                $PrimaryKey[] = $ColumnName;
             elseif ($ColumnKeyType == 'key')
-               $Indexes['FK'][$IndexGroup][] = $ColumnName;
+               $Keys .= ",\nkey `".Gdn_Format::AlphaNumeric('`FK_'.$this->_TableName.'_'.$ColumnName).'` (`'.$ColumnName.'`)';
             elseif ($ColumnKeyType == 'index')
-               $Indexes['IX'][$IndexGroup][] = $ColumnName;
+               $Keys .= ",\nindex `".Gdn_Format::AlphaNumeric('`IX_'.$this->_TableName.'_'.$ColumnName).'` (`'.$ColumnName.'`)';
             elseif ($ColumnKeyType == 'unique')
                $UniqueKey[] = $ColumnName;
-            elseif ($ColumnKeyType == 'fulltext' && $AllowFullText)
+            elseif ($ColumnKeyType == 'fulltext')
                $FullTextKey[] = $ColumnName;
          }
       }
@@ -201,19 +180,6 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
       // Build full text index.
       if (count($FullTextKey) > 0)
          $Keys .= ",\nfulltext index `".Gdn_Format::AlphaNumeric('TX_'.$this->_TableName).'` (`'.implode('`, `', $FullTextKey)."`)";
-      // Build the rest of the keys.
-      foreach ($Indexes as $IndexType => $IndexGroups) {
-         $CreateString = ArrayValue($IndexType, array('FK' => 'key', 'IX' => 'index'));
-         foreach ($IndexGroups as $IndexGroup => $ColumnNames) {
-            if (!$IndexGroup) {
-               foreach ($ColumnNames as $ColumnName) {
-                  $Keys .= ",\n{$CreateString} `{$IndexType}_{$this->_TableName}_{$ColumnName}` (`{$ColumnName}`)";
-               }
-            } else {
-               $Keys .= ",\n{$CreateString} `{$IndexType}_{$this->_TableName}_{$IndexGroup}` (`".implode('`, `', $ColumnNames).'`)';
-            }
-         }
-      }
 
       $Sql = 'create table `'.$this->_DatabasePrefix.$this->_TableName.'` ('
          .$Sql
@@ -260,23 +226,15 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
    }
    
    protected function _IndexSql($Columns, $KeyType = FALSE) {
-//      if ($this->TableName() != 'Comment')
-//         return array();
-      
       $Result = array();
       $Keys = array();
       $Prefixes = array('key' => 'FK_', 'index' => 'IX_', 'unique' => 'UX_', 'fulltext' => 'TX_');
-      $Indexes = array();
       
       // Gather the names of the columns.
       foreach ($Columns as $ColumnName => $Column) {
          $ColumnKeyTypes = (array)$Column->KeyType;
 
          foreach ($ColumnKeyTypes as $ColumnKeyType) {
-            $Parts = explode('.', $ColumnKeyType, 2);
-            $ColumnKeyType = $Parts[0];
-            $IndexGroup = GetValue(1, $Parts, '');
-            
             if(!$ColumnKeyType || ($KeyType && $KeyType != $ColumnKeyType))
                continue;
 
@@ -284,32 +242,23 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
             if ($ColumnKeyType == 'fulltext' && !$this->_SupportsFulltext())
                continue;
 
-            $Indexes[$ColumnKeyType][$IndexGroup][] = $ColumnName;
+            if($ColumnKeyType == 'key' || $ColumnKeyType == 'index') {
+               $Name = $Prefixes[$ColumnKeyType].$this->_TableName.'_'.$ColumnName;
+               $Result[$Name] = $ColumnKeyType." $Name (`$ColumnName`)";
+            } else {
+               // This is a multi-column key type so just collect the column name.
+               $Keys[$ColumnKeyType][] = $ColumnName;
+            }
          }
       }
       
       // Make the multi-column keys into sql statements.
-      foreach($Indexes as $ColumnKeyType => $IndexGroups) {
-         $CreateType = arrayValue($ColumnKeyType, array('index' => 'index', 'key' => 'key', 'unique' => 'unique index', 'fulltext' => 'fulltext index', 'primary' => 'primary key'));
-         
-         if($ColumnKeyType == 'primary') {
-            $Result['PRIMARY'] = 'primary key (`'.implode('`, `', $IndexGroups['']).'`)';
+      foreach($Keys as $KeyType2 => $Columns) {
+         if($KeyType2 == 'primary') {
+            $Result['PRIMARY'] = 'primary key (`'.implode('`, `', $Columns).'`)';
          } else {
-            foreach ($IndexGroups as $IndexGroup => $ColumnNames) {
-               $Multi = (strlen($IndexGroup) > 0 || in_array($ColumnKeyType, array('unique', 'fulltext')));
-
-               if ($Multi) {
-                  $IndexName = "{$Prefixes[$ColumnKeyType]}{$this->_TableName}".($IndexGroup ? '_'.$IndexGroup : '');
-
-                  $Result[$IndexName] = "$CreateType $IndexName (`".implode('`, `', $ColumnNames).'`)';
-               } else {
-                  foreach ($ColumnNames as $ColumnName) {
-                     $IndexName = "{$Prefixes[$ColumnKeyType]}{$this->_TableName}_$ColumnName";
-
-                     $Result[$IndexName] = "$CreateType $IndexName (`$ColumnName`)";
-                  }
-               }
-            }
+            $Name = $Prefixes[$KeyType2].$this->_TableName;
+            $Result[$Name] = "$KeyType2 index $Name (`".implode('`, `', $Columns).'`)';
          }
       }
       
@@ -382,7 +331,6 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
       // table. The returned array of objects contains the following properties:
       // Name, PrimaryKey, Type, AllowNull, Default, Length, Enum.
       $ExistingColumns = $this->ExistingColumns();
-      $AlterSql = array();
 
       // 1. Remove any unnecessary columns if this is an explicit modification
       if ($Explicit) {
@@ -391,18 +339,14 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
          // table that are NOT in $this->_Columns.
          $RemoveColumns = array_diff(array_keys($ExistingColumns), array_keys($this->_Columns));
          foreach ($RemoveColumns as $Column) {
-            $AlterSql[] = "drop column `$Column`";
+            $this->DropColumn($Column);
          }
       }
 
       // Prepare the alter query
-      $AlterSqlPrefix = 'alter table `'.$this->_DatabasePrefix.$this->_TableName."`\n";
+      $AlterSqlPrefix = 'alter table `'.$this->_DatabasePrefix.$this->_TableName.'` ';
       
       // 2. Alter the table storage engine.
-      $ForceDatabaseEngine = C('Database.ForceStorageEngine');
-      if ($ForceDatabaseEngine && !$this->_TableStorageEngine) {
-         $this->_TableStorageEngine = $ForceDatabaseEngine;
-      }
       $Indexes = $this->_IndexSql($this->_Columns);
       $IndexesDb = $this->_IndexSqlDb();
 
@@ -437,14 +381,12 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
          if (!array_key_exists($ColumnName, $ExistingColumns)) {
 
             // This column name is not in the existing column collection, so add the column
-            $AddColumnSql = 'add '.$this->_DefineColumn(GetValue($ColumnName, $this->_Columns));
+            $AddColumnSql = $AlterSqlPrefix.' add '.$this->_DefineColumn(GetValue($ColumnName, $this->_Columns));
             if($PrevColumnName !== FALSE)
                $AddColumnSql .= " after `$PrevColumnName`";
-            
-            $AlterSql[] = $AddColumnSql;
 
-//            if (!$this->Query($AlterSqlPrefix.$AddColumnSql))
-//               throw new Exception(sprintf(T('Failed to add the `%1$s` column to the `%1$s` table.'), $Column, $this->_DatabasePrefix.$this->_TableName));
+            if (!$this->Query($AddColumnSql))
+               throw new Exception(sprintf(T('Failed to add the `%1$s` column to the `%1$s` table.'), $Column, $this->_DatabasePrefix.$this->_TableName));
          } else {
 				$ExistingColumn = $ExistingColumns[$ColumnName];
 
@@ -453,13 +395,11 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
             $Comment = "/* Existing: $ExistingColumnDef, New: $ColumnDef */\n";
             
 				if ($ExistingColumnDef != $ColumnDef) {  //$Column->Type != $ExistingColumn->Type || $Column->AllowNull != $ExistingColumn->AllowNull || ($Column->Length != $ExistingColumn->Length && !in_array($Column->Type, array('tinyint', 'smallint', 'int', 'bigint', 'float', 'double')))) {
-               // The existing & new column types do not match, so modify the column.
-               $ChangeSql = $Comment.'change `'.$ColumnName.'` '.$this->_DefineColumn(GetValue($ColumnName, $this->_Columns));
-               $AlterSql[] = $ChangeSql;
-//					if (!$this->Query($AlterSqlPrefix.$ChangeSql))
-//						throw new Exception(sprintf(T('Failed to modify the data type of the `%1$s` column on the `%2$s` table.'),
-//                     $ColumnName,
-//                     $this->_DatabasePrefix.$this->_TableName));
+               // The existing & new column types do not match, so modify the column
+					if (!$this->Query($Comment.$AlterSqlPrefix.' change `'.$ColumnName.'` '.$this->_DefineColumn(GetValue($ColumnName, $this->_Columns))))
+						throw new Exception(sprintf(T('Failed to modify the data type of the `%1$s` column on the `%2$s` table.'),
+                     $ColumnName,
+                     $this->_DatabasePrefix.$this->_TableName));
 
                // Check for a modification from an enum to an int.
                if(strcasecmp($ExistingColumn->Type, 'enum') == 0 && in_array(strtolower($Column->Type), $this->Types('int'))) {
@@ -483,23 +423,17 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
          $PrevColumnName = $ColumnName;
       }
       
-      if (count($AlterSql) > 0) {
-         if (!$this->Query($AlterSqlPrefix.implode(",\n", $AlterSql))) {
-            throw new Exception(sprintf(T('Failed to alter the `%s` table.'), $this->_DatabasePrefix.$this->_TableName));
-         }
-      }
-      
-      // 4. Update Indexes.
+      // 4. Update Indexes
+
       $IndexSql = array();
       // Go through the indexes to add or modify.
       foreach($Indexes as $Name => $Sql) {
          if(array_key_exists($Name, $IndexesDb)) {
             if($Indexes[$Name] != $IndexesDb[$Name]) {
-               $IndexSql[$Name] = "/* '{$IndexesDb[$Name]}' => '{$Indexes[$Name]}' */\n";
                if($Name == 'PRIMARY')
-                  $IndexSql[$Name] .= $AlterSqlPrefix."drop primary key;\n";
+                  $IndexSql[$Name] = $AlterSqlPrefix."drop primary key;\n";
                else
-                  $IndexSql[$Name] .= $AlterSqlPrefix.'drop index '.$Name.";\n";
+                  $IndexSql[$Name] = $AlterSqlPrefix.'drop index '.$Name.";\n";
                $IndexSql[$Name] .= $AlterSqlPrefix."add $Sql;\n";
             }
             unset($IndexesDb[$Name]);
@@ -540,7 +474,7 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
     * @todo This method and $Column need descriptions.
     */
    protected function _DefineColumn($Column) {
-      if (!is_array($Column->Type) && !in_array($Column->Type, array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'char', 'varchar', 'varbinary', 'date', 'datetime', 'mediumtext', 'text', 'decimal', 'numeric', 'float', 'double', 'enum', 'timestamp', 'tinyblob', 'blob', 'mediumblob', 'longblob')))
+      if (!is_array($Column->Type) && !in_array($Column->Type, array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'char', 'varchar', 'varbinary', 'date', 'datetime', 'mediumtext', 'text', 'decimal', 'float', 'double', 'enum', 'timestamp')))
          throw new Exception(sprintf(T('The specified data type (%1$s) is not accepted for the MySQL database.'), $Column->Type));
       
       $Return = '`'.$Column->Name.'` '.$Column->Type;
@@ -582,6 +516,6 @@ class Gdn_MySQLStructure extends Gdn_DatabaseStructure {
    }
 
    protected function _SupportsFulltext() {
-      return strcasecmp($this->_TableStorageEngine, 'myisam') == 0;
+      return strcasecmp($this->_TableStorageEngine, 'InnoDB') != 0;
    }
 }

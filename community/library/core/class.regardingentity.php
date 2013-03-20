@@ -1,16 +1,24 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Regarding entity
- * 
  * Handles relating external actions to comments and discussions. Flagging, Praising, Reporting, etc
  *
  * @author Tim Gunter <tim@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
+ * @copyright 2003 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
+
 class Gdn_RegardingEntity extends Gdn_Pluggable {
 
    private $Type = NULL;
@@ -213,6 +221,7 @@ class Gdn_RegardingEntity extends Gdn_Pluggable {
    /* Finally... */
 
    public function Commit() {
+      
       if (is_null($this->Type))
          throw new Exception(T("Adding a Regarding event requires a type."));
 
@@ -235,10 +244,8 @@ class Gdn_RegardingEntity extends Gdn_Pluggable {
       if ($CollapseMode) {
          // Check for an existing report of this type
          $ExistingRegardingEntity = $RegardingModel->GetRelated($this->Type, $this->ForeignType, $this->ForeignID);
-         if ($ExistingRegardingEntity) {
+         if ($ExistingRegardingEntity !== FALSE)
             $Collapse = TRUE;
-            $RegardingID = GetValue('RegardingID', $ExistingRegardingEntity);
-         }
       }
       
       if (!$Collapse) {
@@ -276,10 +283,8 @@ class Gdn_RegardingEntity extends Gdn_Pluggable {
          switch ($ActionType) {
             case 'discussion':
                $DiscussionModel = new DiscussionModel();
-               if ($Collapse)
-                  $Discussion = $DiscussionModel->GetWhere(array('RegardingID' => GetValue('RegardingID', $ExistingRegardingEntity, FALSE)))->FirstRow(DATASET_TYPE_ARRAY);
                
-               if (!$Collapse || !$Discussion) {
+               if (!$Collapse) {
                   $CategoryID = GetValue('Parameters', $Action);
                
                   // Make a new discussion
@@ -293,21 +298,22 @@ class Gdn_RegardingEntity extends Gdn_Pluggable {
                      'RegardingID'  => $RegardingID
                   ));
                   
-                  if (!$DiscussionID) {
-                     throw new Gdn_UserException($DiscussionModel->Validation->ResultsText());
-                  }
-                  
                   $DiscussionModel->UpdateDiscussionCount($CategoryID);
                } else {
-                  // Add a comment to the existing discussion.
-                  $CommentModel = new CommentModel();
-                  $CommentID = $CommentModel->Save(array(
-                     'DiscussionID' => GetValue('DiscussionID', $Discussion),
-                     'Body'         => $this->Comment,
-                     'InsertUserID' => $this->UserID
-                  ));
-
-                  $CommentModel->Save2($CommentID, TRUE);
+                  // Add a comment to the existing discussion
+                  
+                  // First, find out which discussion it was, based on RegardingID
+                  $Discussion = $DiscussionModel->GetWhere(array('RegardingID' => GetValue('RegardingID', $ExistingRegardingEntity, FALSE)))->FirstRow(DATASET_TYPE_ARRAY);
+                  if ($Discussion !== FALSE) {
+                     $CommentModel = new CommentModel();
+                     $CommentID = $CommentModel->Save(array(
+                        'DiscussionID' => GetValue('DiscussionID', $Discussion),
+                        'Body'         => $this->Comment,
+                        'InsertUserID' => $this->UserID
+                     ));
+                     
+                     $CommentModel->Save2($CommentID, TRUE);
+                  }
                }
                
                break;

@@ -1,20 +1,18 @@
 <?php if (!defined('APPLICATION')) exit();
-
 $Session = Gdn::Session();
 $this->FireEvent('BeforeCommentsRender');
 if (!function_exists('WriteComment'))
    include($this->FetchViewLocation('helper_functions', 'discussion'));
-
+   
 $CurrentOffset = $this->Offset;
-
-$this->EventArguments['CurrentOffset'] = &$CurrentOffset;
-$this->FireEvent('BeforeFirstComment');
+if ($CurrentOffset == 0 && !$this->Data('NewComments', FALSE)) {
+   echo WriteComment($this->Discussion, $this, $Session, $CurrentOffset);
+}
 
 // Only prints individual comment list items
-$Comments = $this->Data('Comments')->Result();
-foreach ($Comments as $Comment) {
-   if (is_numeric($Comment->CommentID))
-      $CurrentOffset++;
+$CommentData = $this->CommentData->Result();
+foreach ($CommentData as $Comment) {
+   ++$CurrentOffset;
    $this->CurrentComment = $Comment;
    WriteComment($Comment, $this, $Session, $CurrentOffset);
 }

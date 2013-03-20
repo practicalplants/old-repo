@@ -9,18 +9,11 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 */
 
 class RoleModel extends Gdn_Model {
-   public static $Roles = NULL;
-   
    /**
     * Class constructor. Defines the related database table name.
     */
    public function __construct() {
       parent::__construct('Role');
-   }
-   
-   public function ClearCache() {
-      $Key = 'Roles';
-      Gdn::Cache()->Remove($Key);
    }
    
    public function Define($Values) {
@@ -46,7 +39,7 @@ class RoleModel extends Gdn_Model {
             $this->SQL->Update('Role', $Values, array('RoleID' => $RoleID))->Put();
          }
       }
-      $this->ClearCache();
+      
    }
    
    /**
@@ -151,25 +144,6 @@ class RoleModel extends Gdn_Model {
       }
    }
    
-   public function GetApplicantCount() {
-      $CacheKey = 'Moderation.ApplicantCount';
-      $Count = Gdn::Cache()->Get($CacheKey);
-      if ($Count === Gdn_Cache::CACHEOP_FAILURE) {
-         $Count = Gdn::SQL()
-            ->Select('u.UserID', 'count', 'UserCount')
-            ->From('User u')
-            ->Join('UserRole ur', 'u.UserID = ur.UserID')
-            ->Where('ur.RoleID',  C('Garden.Registration.ApplicantRoleID', 0))
-            ->Where('u.Deleted', '0')
-            ->Get()->Value('UserCount', 0);    
-         
-         Gdn::Cache()->Store($CacheKey, $Count, array(
-            Gdn_Cache::FEATURE_EXPIRY  => 300 // 5 minutes
-         ));
-      }
-      return $Count;
-   }
-   
    /**
     * Retrieves all roles with the specified permission(s).
     *
@@ -191,60 +165,6 @@ class RoleModel extends Gdn_Model {
       }
       $this->SQL->EndWhereGroup();
       return $this->SQL->Get();
-   }
-   
-   /**
-    *
-    * @param array|string $Names 
-    */
-   public static function GetByName($Names, &$Missing = NULL) {
-      if (is_string($Names)) {
-         $Names = explode(',', $Names);
-         $Names = array_map('trim', $Names);
-      }
-      
-      // Make a lookup array of the names.
-      $Names = array_unique($Names);
-      $Names = array_combine($Names, $Names);
-      $Names = array_change_key_case($Names);
-      
-      $Roles = RoleModel::Roles();
-      $Result = array();
-      foreach ($Roles as $RoleID => $Role) {
-         $Name = strtolower($Role['Name']);
-         
-         if (isset($Names[$Name])) {
-            $Result[$RoleID] = $Role;
-            unset($Names[$Name]);
-         }
-      }
-      
-      $Missing = array_values($Names);
-      
-      return $Result;
-   }
-   
-   public static function Roles($RoleID = NULL, $Force = FALSE) {
-      if (self::$Roles == NULL) {
-         $Key = 'Roles';
-         $Roles = Gdn::Cache()->Get($Key);
-         if ($Roles === Gdn_Cache::CACHEOP_FAILURE) {
-            $Roles = Gdn::SQL()->Get('Role', 'Sort')->ResultArray();
-            $Roles = Gdn_DataSet::Index($Roles, array('RoleID'));
-            Gdn::Cache()->Store($Key, $Roles, array(Gdn_Cache::FEATURE_EXPIRY => 24 * 3600));
-         }
-      } else {
-         $Roles = self::$Roles;
-      }
-      
-      if ($RoleID === NULL)
-         return $Roles;
-      elseif (array_key_exists($RoleID, $Roles))
-         return $Roles[$RoleID];
-      elseif ($Force)
-         return array('RoleID' => $RoleID, 'Name' => '');
-      else
-         return NULL;
    }
    
    public function Save($FormPostValues) {
@@ -289,8 +209,6 @@ class RoleModel extends Gdn_Model {
             ->Set('Permissions', '')
             ->Where(array('UserRole.RoleID' => $RoleID))
             ->Put();
-         
-         $this->ClearCache();
       } else {
          $RoleID = FALSE;
       }
@@ -299,55 +217,18 @@ class RoleModel extends Gdn_Model {
 
    public static function SetUserRoles(&$Users, $UserIDColumn = 'UserID', $RolesColumn = 'Roles') {
       $UserIDs = array_unique(ConsolidateArrayValuesByKey($Users, $UserIDColumn));
-      
-      // Try and get all of the mappings from the cache.
-      $Keys = array();
-      foreach ($UserIDs as $UserID) {
-         $Keys[$UserID] = FormatString(UserModel::USERROLES_KEY, array('UserID' => $UserID));
-      }
-      $UserRoles = Gdn::Cache()->Get($Keys);
-      if (!is_array($UserRoles))
-         $UserRoles = array();
-      
-      // Grab all of the data that doesn't exist from the DB.
-      $MissingIDs = array();
-      foreach($Keys as $UserID => $Key) {
-         if (!array_key_exists($Key, $UserRoles)) {
-            $MissingIDs[$UserID] = $Key;
-         }
-      }
-      if (count($MissingIDs) > 0) {
-         $DbUserRoles = Gdn::SQL()
-         ->Select('ur.*')
+      $UserRoles = Gdn::SQL()
+         ->Select('ur.UserID, ur.RoleID, r.Name')
          ->From('UserRole ur')
-         ->WhereIn('ur.UserID', array_keys($MissingIDs))
+         ->Join('Role r', 'ur.RoleID = r.RoleID')
+         ->WhereIn('ur.UserID', $UserIDs)
          ->Get()->ResultArray();
-         
-         $DbUserRoles = Gdn_DataSet::Index($DbUserRoles, 'UserID', array('Unique' => FALSE));
-         
-         // Store the user role mappings.
-         foreach ($DbUserRoles as $UserID => $Rows) {
-            $RoleIDs = ConsolidateArrayValuesByKey($Rows, 'RoleID');
-            $Key = $Keys[$UserID];
-            Gdn::Cache()->Store($Key, $RoleIDs);
-            $UserRoles[$Key] = $RoleIDs;
-         }
-      }
-      
-      $AllRoles = self::Roles(); // roles indexed by role id.
-      
-      // Join the users.
+
+      $UserRoles = Gdn_DataSet::Index($UserRoles, 'UserID', array('Unique' => FALSE));
       foreach ($Users as &$User) {
          $UserID = GetValue($UserIDColumn, $User);
-         $Key = $Keys[$UserID];
-         
-         $RoleIDs = GetValue($Key, $UserRoles, array());
-         $Roles = array();
-         foreach ($RoleIDs as $RoleID) {
-            if (!array_key_exists($RoleID, $AllRoles))
-               continue;
-            $Roles[$RoleID] = $AllRoles[$RoleID]['Name'];
-         }
+         $Roles = GetValue($UserID, $UserRoles, array());
+         $Roles = ConsolidateArrayValuesByKey($Roles, 'RoleID', 'Name');
          SetValue($RolesColumn, $User, $Roles);
       }
    }

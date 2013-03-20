@@ -1,18 +1,32 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Session manager
- * 
  * Handles user information throughout a session. This class is a singleton.
  *
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @author Todd Burry <todd@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
+ *
+ * @author Mark O'Sullivan
+ * @copyright 2009 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
 
+
+/**
+ * Handles user information throughout a session. This class is a singleton.
+ *
+ * @package Garden
+ * @todo update doc to be more specific with properties type if possible.
+ */
 class Gdn_Session {
 
 
@@ -90,10 +104,10 @@ class Gdn_Session {
     */
    public function CheckPermission($Permission, $FullMatch = TRUE, $JunctionTable = '', $JunctionID = '') {
       if (is_object($this->User)) {
-         if ($this->User->Banned || GetValue('Deleted', $this->User))
-            return FALSE;
-         elseif ($this->User->Admin)
+         if ($this->User->Admin)
             return TRUE;
+         elseif ($this->User->Banned || GetValue('Deleted', $this->User))
+            return FALSE;
       }
 
       // Allow wildcard permission checks (e.g. 'any' Category)
@@ -146,7 +160,6 @@ class Gdn_Session {
          $Authenticator = Gdn::Authenticator();
 
       $Authenticator->AuthenticateWith()->DeAuthenticate();
-      $this->SetCookie('-Vv', NULL, -3600);
       
       $this->UserID = 0;
       $this->User = FALSE;
@@ -165,55 +178,6 @@ class Gdn_Session {
    public function GetPermissions() {
       return is_array($this->_Permissions) ? $this->_Permissions : array();
    }
-   
-   public function GetCookie($Suffix, $Default = NULL) {
-      return GetValue(C('Garden.Cookie.Name').$Suffix, $_COOKIE, $Default);
-   }
-   
-   public function SetCookie($Suffix, $Value, $Expires) {
-      $Name = C('Garden.Cookie.Name').$Suffix;
-      $Path = C('Garden.Cookie.Path');
-      $Domain = C('Garden.Cookie.Domain');
-      
-      // If the domain being set is completely incompatible with the current domain then make the domain work.
-      $CurrentHost = Gdn::Request()->Host();
-      if (!StringEndsWith($CurrentHost, trim($Domain, '.')))
-         $Domain = '';
-      
-      // Allow people to specify up to a year of expiry.
-      if (abs($Expires) < 31556926)
-         $Expires = time() + $Expires;
-      
-      setcookie($Name, $Value, $Expires, $Path, $Domain);
-      $_COOKIE[$Name] = $Value;
-   }
-   
-   public function NewVisit() {
-      static $NewVisit = NULL;
-      
-      if ($NewVisit !== NULL)
-         return $NewVisit;
-      
-      if (!$this->User)
-         return FALSE;
-      
-      $Current = $this->GetCookie('-Vv');
-      $Now = time();
-      $TimeToExpire = 1200; // 20 minutes
-      $Expires = $Now + $TimeToExpire;
-      
-      // Figure out if this is a new visit.
-      if ($Current)
-         $NewVisit = FALSE; // user has cookie, not a new visit.
-      elseif (Gdn_Format::ToTimeStamp($this->User->DateLastActive) + $TimeToExpire > $Now)
-         $NewVisit = FALSE; // user was last active less than 20 minutes ago, not a new visit.
-      else
-         $NewVisit = TRUE;
-      
-      $this->SetCookie('-Vv', $Now, $Expires);
-      
-      return $NewVisit;
-   }
 
 	/**
     *
@@ -226,14 +190,8 @@ class Gdn_Session {
 
 	public function SetPermission($PermissionName, $Value = NULL) {
 		if (is_string($PermissionName)) {
-			if ($Value === NULL || $Value === TRUE) 
-            $this->_Permissions[] = $PermissionName;
-         elseif ($Value === FALSE) {
-            $Index = array_search($PermissionName, $this->_Permissions);
-            if ($Index !== FALSE)
-               unset($this->_Permissions[$Index]);
-			} elseif (is_array($Value)) 
-            $this->_Permissions[$PermissionName] = $Value;
+			if ($Value === NULL) $this->_Permissions[] = $PermissionName;
+			elseif (is_array($Value)) $this->_Permissions[$PermissionName] = $Value;
 		} elseif (is_array($PermissionName)) {
 			if (array_key_exists(0, $PermissionName))
 				foreach ($PermissionName as $Name) $this->SetPermission($Name);
@@ -313,7 +271,7 @@ class Gdn_Session {
       if (!C('Garden.Installed', FALSE)) return;
       // Retrieve the authenticated UserID from the Authenticator module.
       $UserModel = Gdn::Authenticator()->GetUserModel();
-      $this->UserID = $UserID !== FALSE ? $UserID : Gdn::Authenticator()->GetIdentity();
+      $this->UserID = $UserID ? $UserID : Gdn::Authenticator()->GetIdentity();
       $this->User = FALSE;
 
       // Now retrieve user information
@@ -324,6 +282,12 @@ class Gdn_Session {
          if ($this->User) {
             if ($SetIdentity) {
                Gdn::Authenticator()->SetIdentity($this->UserID, $Persist);
+            }
+
+            $Returning = Gdn::Authenticator()->ReturningUser($this->User);
+            if ($Returning) {
+               $HourOffset = GetValue('HourOffset', $this->User->Attributes);
+               $UserModel->UpdateLastVisit($this->UserID, $this->User->Attributes, $HourOffset);
             }
             
             $UserModel->EventArguments['User'] =& $this->User;
@@ -336,9 +300,11 @@ class Gdn_Session {
 
             if ($this->_TransientKey === FALSE)
                $this->_TransientKey = $UserModel->SetTransientKey($this->UserID);
-            
-            // Save any visit-level information.
-            $UserModel->UpdateVisit($this->UserID);
+
+            // If the user hasn't been active in the session-time, update their date last active
+            $SessionLength = Gdn::Config('Garden.Session.Length', '15 minutes');
+            if (Gdn_Format::ToTimestamp($this->User->DateLastActive) < strtotime($SessionLength.' ago'))
+               $UserModel->Save(array('UserID' => $this->UserID, 'DateLastActive' => Gdn_Format::ToDateTime()));
 
          } else {
             $this->UserID = 0;
@@ -366,8 +332,6 @@ class Gdn_Session {
          $Name = array($Name => $Value);
 
       foreach($Name as $Key => $Val) {
-         if ($Val === NULL)
-            unset($this->_Attributes[$Key]);
          $this->_Attributes[$Key] = $Val;
       }
    }
@@ -431,7 +395,7 @@ class Gdn_Session {
 			return;
 		
       // Grab the user's session
-      $Session = $this->_GetStashSession($Value);
+      $Session = $this->_GetStashSession();
       if (!$Session)
          return;
       
@@ -467,16 +431,11 @@ class Gdn_Session {
 	 * This is a stop-gap solution until full session management for users &
 	 * guests can be imlemented.
 	 */
-   private function _GetStashSession($ValueToStash) {
+   private function _GetStashSession() {
       $CookieName = C('Garden.Cookie.Name', 'Vanilla');
 
       // Grab the entire session record
       $SessionID = GetValue($CookieName.'SessionID', $_COOKIE, '');
-      
-      // If there is no session, and no value for saving, return;
-      if ($SessionID == '' && $ValueToStash == '')
-         return FALSE;
-      
       $Session = Gdn::SQL()
          ->Select()
          ->From('Session')
@@ -510,12 +469,6 @@ class Gdn_Session {
          $Path = C('Garden.Cookie.Path', '/');
          $Domain = C('Garden.Cookie.Domain', '');
          $Expire = 0;
-         
-         // If the domain being set is completely incompatible with the current domain then make the domain work.
-         $CurrentHost = Gdn::Request()->Host();
-         if (!StringEndsWith($CurrentHost, trim($Domain, '.')))
-            $Domain = '';
-         
          setcookie($Name, $SessionID, $Expire, $Path, $Domain);
       }
       return $Session;

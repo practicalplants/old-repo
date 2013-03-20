@@ -10,7 +10,7 @@
       <li>
          <?php
             echo $this->Form->Label('Email/Username', 'Email');
-            echo $this->Form->TextBox('Email', array('autocorrect' => 'off', 'autocapitalize' => 'off', 'Wrap' => TRUE));
+            echo $this->Form->TextBox('Email');
          ?>
       </li>
       <li>
@@ -22,7 +22,7 @@
       </li>
       <li class="Buttons">
          <?php
-            echo $this->Form->Button('Sign In', array('class' => 'Button Primary'));
+            echo $this->Form->Button('Sign In');
             echo $this->Form->CheckBox('RememberMe', T('Keep me signed in'), array('value' => '1', 'id' => 'SignInRememberMe'));
          ?>
       </li>
@@ -51,8 +51,8 @@
       </li>
       <li class="Buttons">
          <?php
-            echo $this->Form->Button('Request a new password', array('class' => 'Button Primary'));
-            echo Anchor(T('I remember now!'), '/entry/signin', 'ForgotPassword');
+            echo $this->Form->Button('Request a new password');
+            echo Wrap(Anchor(T('I remember now!'), '/entry/signin', 'ForgotPassword'), 'div');
          ?>
       </li>
    </ul>

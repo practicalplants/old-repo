@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 
    // Categories->Delete()
    // Hide/reveal the delete options when the DeleteDiscussions checkbox is un/checked.
-   $('[name$=DeleteDiscussions]').click(function() {
+   $('[name="Form/DeleteDiscussions"]').click(function() {
       if ($(this).attr('checked')) {
          $('#ReplacementCategory,#ReplacementWarning').slideDown('fast');
          $('#DeleteDiscussions').slideUp('fast');
@@ -37,7 +37,7 @@ jQuery(document).ready(function($) {
    });
    // Categories->Delete()
    // Hide onload if unchecked   
-   if (!$('[name$=DeleteDiscussions]').attr('checked')) {
+   if (!$('[name="Form/DeleteDiscussions"]').attr('checked')) {
       $('#ReplacementCategory,#ReplacementWarning').hide();
       $('#DeleteDiscussions').show();
    } else {
@@ -71,13 +71,14 @@ jQuery(document).ready(function($) {
          toleranceElement: '> div',
          update: function() {
             $.post(
-               gdn.url('/vanilla/settings/sortcategories.json'),
+               gdn.url('/vanilla/settings/sortcategories/'),
                {
                   'TreeArray': $('ol.Sortable').nestedSortable('toArray', {startDepthCount: 0}),
+                  'DeliveryType': 'VIEW',
                   'TransientKey': gdn.definition('TransientKey')
                },
                function(response) {
-                  if (!response || !response.Result) {
+                  if (response != 'TRUE') {
                      alert("Oops - Didn't save order properly");
                   }
                }

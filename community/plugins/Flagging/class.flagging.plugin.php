@@ -11,13 +11,13 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 // Define the plugin:
 $PluginInfo['Flagging'] = array(
    'Name' => 'Flagging',
-   'Description' => 'Allows users to report content that violates forum rules.',
-   'Version' => '1.1.1',
+   'Description' => 'This plugin allows users to report content that violates forum rules.',
+   'Version' => '1.1.0',
    'RequiredApplications' => FALSE,
    'RequiredTheme' => FALSE, 
    'RequiredPlugins' => FALSE,
    'SettingsUrl' => '/dashboard/plugin/flagging',
-   'SettingsPermission' => 'Garden.Moderation.Manage',
+   'SettingsPermission' => 'Garden.Settings.Manage',
    'HasLocale' => TRUE,
    'RegisterPermissions' => array('Plugins.Flagging.Notify'),
    'Author' => "Tim Gunter",
@@ -37,10 +37,10 @@ class FlaggingPlugin extends Gdn_Plugin {
       
       $LinkText = T('Flagged Content');
       if ($NumFlaggedItems)
-         $LinkText .= ' <span class="Alert">'.$NumFlaggedItems.'</span>';
+         $LinkText .= " ({$NumFlaggedItems})";
       $Menu = $Sender->EventArguments['SideMenu'];
       $Menu->AddItem('Forum', T('Forum'));
-      $Menu->AddLink('Forum', $LinkText, 'plugin/flagging', 'Garden.Moderation.Manage');
+      $Menu->AddLink('Forum', $LinkText, 'plugin/flagging', 'Garden.Settings.Manage');
    }
    
    /**
@@ -88,7 +88,7 @@ class FlaggingPlugin extends Gdn_Plugin {
     * Create virtual Flagging controller.
     */
    public function PluginController_Flagging_Create($Sender) {
-      $Sender->Permission('Garden.Moderation.Manage');
+      $Sender->Permission('Garden.Settings.Manage');
       $Sender->Title('Content Flagging');
       $Sender->AddSideMenu('plugin/flagging');
       $Sender->Form = new Gdn_Form();
@@ -143,6 +143,22 @@ class FlaggingPlugin extends Gdn_Plugin {
    }
    
    /**
+    * Enable/Disable Flagging.
+    */
+   public function Controller_Toggle($Sender) {
+		
+		// Enable/Disable Content Flagging
+		if (Gdn::Session()->ValidateTransientKey(GetValue(1, $Sender->RequestArgs))) {
+			if (C('Plugins.Flagging.Enabled')) {
+				$this->_Disable();
+			} else {
+				$this->_Enable();
+			}
+			Redirect('plugin/flagging');
+		}
+   }
+   
+   /**
     * Dismiss a flag, then view index.
     */
    public function Controller_Dismiss($Sender) {
@@ -163,39 +179,28 @@ class FlaggingPlugin extends Gdn_Plugin {
     * Add Flagging styling to Discussion.
     */
    public function DiscussionController_BeforeCommentsRender_Handler($Sender) {
+      if (!C('Plugins.Flagging.Enabled')) return;
       $Sender->AddCssFile($this->GetResource('design/flagging.css', FALSE, FALSE));
    }
    
    /**
-    * Add 'Flag' link for discussions.
+    * Create 'Flag' link for comments in a discussion.
     */
-   public function DiscussionController_AfterDiscussionMeta_Handler($Sender, $Args) {      
-      // Signed in users only. No guest reporting!
-      if (Gdn::Session()->UserID)
-         $this->AddFlagButton($Sender, $Args, 'discussion');
-   }
-   
-   /**
-    * Add 'Flag' link for comments.
-    */
-   public function DiscussionController_InsideCommentMeta_Handler($Sender, $Args) {      
-      // Signed in users only. No guest reporting!
-      if (Gdn::Session()->UserID)
-         $this->AddFlagButton($Sender, $Args);
-   }
-   
-   /**
-    * Output Flag link.
-    */
-   protected function AddFlagButton($Sender, $Args, $Context = 'comment') {
-      $ElementID = ($Context == 'comment') ? $Args['Comment']->CommentID : $Args['Discussion']->DiscussionID;
+   public function DiscussionController_CommentOptions_Handler($Sender) {
+      if (!C('Plugins.Flagging.Enabled')) return;
       
-      if (!is_object($Args['Author'])) {
+      // Signed in users only. No guest reporting!
+      if (!Gdn::Session()->UserID) return;
+      
+      $Context = strtolower($Sender->EventArguments['Type']);
+      $ElementID = ($Context == 'comment') ? $Sender->EventArguments['Comment']->CommentID : $Sender->EventArguments['Discussion']->DiscussionID;
+      
+      if (!is_object($Sender->EventArguments['Author'])) {
          $ElementAuthorID = 0;
          $ElementAuthor = 'Unknown';
       } else {
-         $ElementAuthorID = $Args['Author']->UserID;
-         $ElementAuthor = $Args['Author']->Name;
+         $ElementAuthorID = $Sender->EventArguments['Author']->UserID;
+         $ElementAuthor = $Sender->EventArguments['Author']->Name;
       }
       switch ($Context) {
          case 'comment':
@@ -203,21 +208,27 @@ class FlaggingPlugin extends Gdn_Plugin {
             break;
             
          case 'discussion':
-            $URL = "/discussion/{$ElementID}/".Gdn_Format::Url($Args['Discussion']->Name);
+            $URL = "/discussion/{$ElementID}/".Gdn_Format::Url($Sender->EventArguments['Discussion']->Name);
             break;
             
          default:
             return;
       }
       $EncodedURL = str_replace('=','-',base64_encode($URL));
-      $FlagLink = Anchor(T('Flag'), "discussion/flag/{$Context}/{$ElementID}/{$ElementAuthorID}/".Gdn_Format::Url($ElementAuthor)."/{$EncodedURL}", 'FlagContent Popup');
-      echo Wrap($FlagLink, 'span', array('class' => 'MItem CommentFlag'));
+      $Sender->Options .= '<span>'.Anchor(T('Flag'), "discussion/flag/{$Context}/{$ElementID}/{$ElementAuthorID}/".Gdn_Format::Url($ElementAuthor)."/{$EncodedURL}", 'FlagContent Popup') . '</span>';
+   }
+   
+   // Note: Mark added this slick code. Tim does not approve.
+   public function PostController_CommentOptions_Handler($Sender) {
+      $this->DiscussionController_CommentOptions_Handler($Sender);
    }
    
    /**
     * Handle flagging process in a discussion.
     */
    public function DiscussionController_Flag_Create($Sender) {
+      if (!C('Plugins.Flagging.Enabled')) return;
+      
       // Signed in users only.
       if (!($UserID = Gdn::Session()->UserID)) return;
       $UserName = Gdn::Session()->User->Name;
@@ -377,15 +388,18 @@ class FlaggingPlugin extends Gdn_Plugin {
          ->Column('Comment', 'text')
          ->Column('DateInserted', 'datetime')
          ->Set(FALSE, FALSE);
-      
-      // Turn off disabled Flagging plugin (deprecated)
-      if (C('Plugins.Flagging.Enabled', NULL) === FALSE) {
-         RemoveFromConfig('EnabledPlugins.Flagging');
-      }
    }
 
    public function Setup() {
       $this->Structure();
+   }
+   
+   protected function _Enable() {
+      SaveToConfig('Plugins.Flagging.Enabled', TRUE);
+   }
+   
+   protected function _Disable() {
+      RemoveFromConfig('Plugins.Flagging.Enabled');
    }
    
 }

@@ -33,7 +33,6 @@ class VanillaController extends Gdn_Controller {
       // Set up head
       $this->Head = new HeadModule($this);
       $this->AddJsFile('jquery.js');
-      $this->AddJsFile('jquery-ui-1.8.17.custom.min.js');
       $this->AddJsFile('jquery.livequery.js');
       $this->AddJsFile('jquery.form.js');
       $this->AddJsFile('jquery.popup.js');
@@ -42,7 +41,6 @@ class VanillaController extends Gdn_Controller {
       $this->AddCssFile('style.css');
       
       // Add modules
-//      $this->AddModule('MeModule');
       $this->AddModule('GuestModule');
       $this->AddModule('SignedInModule');
       

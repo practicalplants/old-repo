@@ -53,8 +53,8 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
                      url: target,
                      data: {'DeliveryType' : settings.deliveryType, 'DeliveryMethod' : 'JSON'},
                      dataType: 'json',
-                     error: function(xhr) {
-                        gdn.informError(xhr);
+                     error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        $.popup({}, XMLHttpRequest.responseText);
                      },
                      success: function(json) {
                         json = $.postParseJson(json);
@@ -199,8 +199,6 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
     
       $('#'+settings.popupId+' .Content').empty();
       $('#'+settings.popupId+' .Body').children().hide().end().append('<div class="Loading">&#160;</div>');
-      // Trigger an even that plugins can attach to when popups are loading.
-      $('body').trigger('popupLoading');
    }
   
    $.popup.reveal = function(settings, data) {
@@ -214,8 +212,7 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
 
       if (json == false) {
          // This is something other than json, so just put it into the popup directly
-         if (data) // Prevent blank popups
-            $('#'+settings.popupId+' .Content').append(data);
+         $('#'+settings.popupId+' .Content').append(data);
       } else {
          gdn.inform(json);
          formSaved = json['FormSaved'];
@@ -233,16 +230,11 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
          // we need to reload the invitation table. Is there a reason not to reload
          // the content?
          // if (formSaved == false)
-         if (data) // Prevent blank popups
-            $('#'+settings.popupId+' .Content').html(data);
+         $('#'+settings.popupId+' .Content').html(data);
       }
     
       $('#'+settings.popupId+' .Loading').remove();
       $('#'+settings.popupId+' .Body').children().fadeIn('normal');
-      
-      $('#'+settings.popupId+' .Close').unbind().click(function() {
-         return $.popup.close(settings);
-      });
 
       settings.afterLoad();
     
@@ -260,7 +252,6 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
             success: function(json) {
                json = $.postParseJson(json);
                gdn.inform(json);
-               gdn.processTargets(json.Targets);
 
                if (json.FormSaved == true) {
                   if (json.RedirectUrl)
@@ -271,10 +262,6 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
                } else {
                   $.popup.reveal(settings, json) // Setup the form again
                }
-            },
-            error: function(xhr) {
-               $('.InProgress', this).removeClass('InProgress');
-               gdn.informError(xhr);
             }
          });
 
@@ -320,7 +307,8 @@ Copyright 2007 Chris Wanstrath [ chris@ozmm.org ]
       mouseoverClass:   'Popable',    // CssClass to be applied to a popup link when hovering
       onSave:           function(settings) {
          if (settings.sender) {
-            $('#'+settings.popupId+' .Button:submit').attr('disabled', true).addClass('InProgress');
+            $('#'+settings.popupId+' .Button:last').attr('disabled', true);
+            $('#'+settings.popupId+' .Button:last').after('<span class="Progress">&#160;</span>');
          }
       },
       onLoad:           function(settings) {

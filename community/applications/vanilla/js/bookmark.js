@@ -4,17 +4,16 @@ jQuery(document).ready(function($) {
    $('a.Bookmark').live('click', function() {
       var btn = this;
       var parent = $(this).parents('.Bookmarks');
+      var oldClass = $(btn).attr('class');
       $(btn).addClass('Bookmarking');
       $.ajax({
          type: "POST",
          url: btn.href,
          data: 'DeliveryType=BOOL&DeliveryMethod=JSON',
          dataType: 'json',
-         complete: function() {
-            $(btn).removeClass('Bookmarking');
-         },
          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            // Popup the error.
+            // Popup the error
+            $(btn).attr('class', oldClass);
             $.popup({}, XMLHttpRequest.responseText);
          },
          success: function(json) {
@@ -29,15 +28,14 @@ jQuery(document).ready(function($) {
             } else {
                // Otherwise just change the class & title on the anchor
                $(btn).attr('title', json.AnchorTitle);
+               $(btn).attr('class', 'Bookmark');
                if (json.State == '1')
                   $(btn).addClass('Bookmarked');
-               else
-                  $(btn).removeClass('Bookmarked');
 
                $('.CountBookmarks', $(btn)).text(json.CountDiscussionBookmarks);
                   
             }
-            $('a.MyBookmarks').html(json.MenuText+' <span class="Count">'+json.CountBookmarks+'</span>');
+            $('a.MyBookmarks').html(json.MenuText+'<span>'+json.CountBookmarks+'</span>');
             // Add/remove the bookmark from the side menu.
             gdn.processTargets(json.Targets);
          }

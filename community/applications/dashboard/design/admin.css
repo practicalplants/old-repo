@@ -22,12 +22,6 @@ Welcome to the Admin CSS File! Some things you should know:
    + Themes
    + Footer
 */
-.Buttons-Confirm {
-   text-align: center;
-}
-.Buttons-Confirm .Button {
-   min-width: 65px;
-}
    
 /* ================================================================ Reset CSS */
 html, body, div, span, applet, object, iframe,
@@ -92,17 +86,9 @@ body {
 	background: #fff;
 	float: left;
 	width: 100%;
-	zoom: 1; /* hasLayout for IE6/7 */
-}
-#Body:after { /* clearfix */
-	visibility: hidden;
-	display: block;
-	content: "";
-	clear: both;
-	height: 0;
 }
 #Content {
-	padding: 0 0 20px;
+	padding: 0;
 	margin: 0 0 0 200px;
 	border-left: 1px solid #82bddd;
 }
@@ -119,7 +105,7 @@ body {
 	text-align: right;
 }
 .Wrap {
-   margin: 20px;
+   margin: 10px;
 }
 h1, h2, h3, h4, h5, h6 {
    color: #000;
@@ -127,12 +113,6 @@ h1, h2, h3, h4, h5, h6 {
    font-weight: normal;
    margin: 0;
 }
-
-hr {
-   border: none;
-   border-top: solid 1px #A5D0E7;
-}
-
 #Content h1, #Content h2, #Content h3, #Content h4, #Content h5 {
    font-family: 'lucida grande','Lucida Sans Unicode', Tahoma, sans-serif;
 }
@@ -162,11 +142,8 @@ hr {
 	padding: 0;
 }
 p {
-   margin: .5em 0;
-   line-height: 1.4em;
-}
-.P {
-   margin: 5px 0;
+   margin: 0.5em 0 0 0;
+   line-height: 1.6em;
 }
 small {
 	font-size: 12px;
@@ -215,7 +192,10 @@ h5 {
 .Arrow {
 	font-size: 18px;
 }
-a {
+a,
+a:link,
+a:visited,
+a:active {
    text-decoration: none;
    color: #2786c2;
 }
@@ -255,11 +235,6 @@ input.WideInput {
 	width: auto;
 	padding-right: 8px;
 }
-.TextBoxWrapper textarea,
-.TextBoxWrapper input {
-   width: 100%;
-}
-
 input.SmallInput,
 input.InputBox {
    font-size: 15px;
@@ -284,17 +259,22 @@ select {
    font-size: 14px;
    margin: 0;
    padding: 3px;
-}
+   }
 select.Day,
 select.Year {
    margin-left: 4px;
 }
-.SmallButton,
-.Button {
+a.SmallButton,
+a.Button,
+input.Button,
+input.SmallButton {
    margin: 0;
-   border-radius: .5ex;
-	-moz-border-radius: .5ex;
-	-webkit-border-radius: .5ex;
+	box-shadow: 0px 0px 2px #999;
+	-moz-box-shadow: 0px 0px 2px #999;
+	-webkit-box-shadow: 0px 0px 2px #999;  
+   border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 	background: #3fbcf3;
 	background:-webkit-gradient(linear, center bottom, center top, from(#3fbcf3), to(#aee7fe));
 	background:-moz-linear-gradient(top, #aee7fe, #3fbcf3);
@@ -304,91 +284,55 @@ select.Year {
 	color:#003673;
 	cursor:pointer;
 	font-size:12px;
+	font-weight:bold;
 	padding:6px 10px;
 	text-decoration:none;
 	text-shadow:0 1px 0 #B7F5FD;
-   font-weight: normal;
-   display: inline-block;
-}
-.Button {
-   box-shadow: 0px 0px 2px #999;
-   -moz-box-shadow: 0px 0px 2px #999;
-   -webkit-box-shadow: 0px 0px 2px #999;
-	font-weight:bold;
-   margin: 0 0 0 20px;
 }
 a.Button {
 	padding: 5px 7px;
 }
-.SmallButton {
+a.SmallButton {
 	margin-right: 10px;
 	padding: 4px;
-	font-size: 11px;
-   display: inline-block;
-   text-align: center;
-   line-height: 1;
+	font-size: 12px;
 }
-.SmallButton:hover,
-.Button:hover {
-	border-color: #0B64C6;
+a.SmallButton:hover,
+a.Button:hover,
+input.Button:hover,
+input.SmallButton:hover {
+	border: 1px solid #0B64C6;
 	color: #001F44;
 	text-shadow:0 1px 0 #EEFFFF;
 }
-.SmallButton:hover {
+a.SmallButton:focus,
+a.Button:focus,
+input.Button:focus,
+input.SmallButton:focus {
+	background: #81CFF6;
+	border:1px solid #0B64C6;
+	color:#001F44;
+	text-shadow:0 1px 0 #EEFFFF;
+}
+input.SmallButton,
+a.SmallButton {
+   border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	font-size:11px;
+	font-weight:normal;
+	padding:2px 4px;
+	box-shadow:0 0 0 #999999;
+	-moz-box-shadow:0 0 0 #999999;
+	-webkit-box-shadow:0 0 0 #999999;
+}
+input.SmallButton:hover,
+a.SmallButton:hover,
+.SmallBlueButton:hover {
 	box-shadow:0 0 2px #999999;
 	-moz-box-shadow:0 0 2px #999999;
 	-webkit-box-shadow:0 0 2px #999999;
 }
-.Button.Active,
-.Button:active,
-.SmallButton.Active,
-.SmallButton:active {
-	background: #003673;
-	border-color: #000;
-	color:#B7F5FD;
-	text-shadow:0 1px 0 #001D3F;
-}
-
-.ButtonList .SmallButton {
-   margin: 0;
-   border-collapse: collapse;
-   border-radius: 0;
-   -webkit-border-radius: 0;
-   -moz-border-radius: 0;
-   border-left-width: 0;
-   min-width: 40px;
-}
-
-.InputButtons {
-   margin-top: 8px;
-}
-
-.ButtonList {
-   margin-right: 20px;
-}
-
-.ButtonList :first-child {
-   border-radius: .5ex 0 0 .5ex;
-   border-left-width: 1px;
-}
-.ButtonList :last-child {
-   border-radius: 0 .5ex .5ex 0;
-}
-.CancelButton {
-   border-color: #919191;
-   background: -webkit-gradient(linear, center bottom, center top, from(#D1D1D1), to(#F1F1F1));
-   background: -moz-linear-gradient(top, #F1F1F1, #D1D1D1);
-   -pie-background: linear-gradient(top, #F1F1F1, #D1D1D1);
-   background: linear-gradient(top, #F1F1F1, #D1D1D1);
-   color: #414141;
-   text-shadow: 0px 1px 0px #E1E1E1;
-}
-
-.CancelButton:hover {
-   border-color: #616161;
-   color: #212121;
-}
-
 .Loading {
    height: 100px;
    padding: 0 20px;
@@ -405,27 +349,6 @@ a.Button {
 .TinyProgress {
 	padding: 10px 40px 10px 0 !important;
 	background: url('images/progress_sm.gif') center center no-repeat;
-   display: inline !Important;
-}
-.InProgress {
-   color: transparent !Important;
-   background: url('images/progress_sm.gif') center center no-repeat !important;
-   border-color: transparent !important;
-   -moz-box-shadow: none !important;
-   -webkit-box-shadow: none !important;
-   box-shadow: none !important;
-   color: transparent !important;
-   text-shadow: none !important;
-}
-.InProgress {
-   color: transparent !Important;
-   background: url('images/progress_sm.gif') center center no-repeat !important;
-   border-color: transparent !important;
-   -moz-box-shadow: none !important;
-   -webkit-box-shadow: none !important;
-   box-shadow: none !important;
-   color: transparent !important;
-   text-shadow: none !important;
 }
 
 /* Note: Warning, Alert & Info are simple boxes that can be used to wrap message
@@ -470,24 +393,6 @@ div.DismissMessage a.Dismiss {
 div.DismissMessage a.Dismiss:hover {
 	color: #ff0084;
 }
-.CasualMessage {
-   background: #CFECFF;
-   border: 1px solid #ABDAFB;
-   color: #1E79A7;
-}
-.InfoMessage {
-   background: #F6F6F6;
-   border: 1px solid #ddd;
-}
-.AlertMessage {
-   background: #fff8ce;
-   border: 1px solid #DEDDAF;
-}
-.WarningMessage {
-   background: #ffebe9;
-   border: 1px solid #FFCCC9;
-}
-
 div.Box {
 	border: 1px solid #a5d0e7;
    background: #d3f0ff;
@@ -1123,6 +1028,7 @@ ul.PanelInfo li a {
 	padding: 10px;
    color: #000;
 }
+
 ul.PanelInfo li a {
 	font-size: 13px;
 	color: #000;
@@ -1151,18 +1057,7 @@ span.New {
 	right: auto;
 }
 ul.PanelInfo li.Active {
-   background-image: url('images/arrow.png');
-	background-position: center left;
-	background-repeat: no-repeat;
-	background-color: rgba(0, 0, 0, 0.03);
-	background-color: #F5F9FF;
-}
-ul.PanelInfo li.Active a {
-	text-shadow: 0 1px 0 #fff;
-}
-ul.PanelInfo li:hover,
-ul.PanelInfo li.Active:hover {
-	background-color: rgba(0, 0, 0, 0.06);
+   background: url('images/arrow.png') center left no-repeat #ffffff;
 }
 
 /* ================================================= Dashboard Customizations */
@@ -1212,34 +1107,43 @@ ul.PanelInfo li.Active:hover {
 #dashboard_user_index div.Info .Button {
    margin-right: 20px;
 }
+#Form_User a.SmallButton {
+	line-height: 3;
+	margin-right: 6px;
+}
 
 
 /* ================================================== Splash Information Page */
-body.Home {
-   margin: 0;
-   padding: 80px;
-	background: url('images/eyes.png') 30px 30px no-repeat #fff;   
-}
 body.Home #Content {
 	margin: 0 auto;
-   border: none;
+}
+#Content .SplashInfo {
+	margin: 80px 0 0 0;
+	border-top: 1px solid #a5d0e7;
+	border-bottom: 1px solid #a5d0e7;
+	background: #e2f4ff;
 }
 #Content .SplashInfo h1 {
-   font-family: "Helvetica Neue",Helvetica,arial,sans-serif;
-   background: transparent;
-   border: none;
-   font-weight:bold;
-	color:#000;
+	font-family: "Helvetica Neue",Helvetica,arial,sans-serif;
+	background: transparent;
+	text-align: center;
+	border: none;
+	border-top: 1px solid #fff;
+	color:#02455B;
 	font-size:300%;
-   margin: 20px 0;
-   padding: 0;
-   line-height: 1;
+	text-shadow:0 1px 0 #FFFFFF;
+	padding: 10px 0 0;
+	margin: 0;
+	line-height: 1;
 }
 #Content .SplashInfo p {
-	margin: 10px 0;
-	color: #777;
-	font-size: 16px;
-   line-height: 1.6;
+	font-family: "Helvetica Neue",Helvetica,arial,sans-serif;
+	text-align: center;
+	border-bottom: 1px solid #fff;
+	margin: 0;
+	padding: 0 0 10px;
+	color: #076C8E;
+	font-size: 20px;
 }
 
 /* =================================================================== Popups */
@@ -1252,7 +1156,7 @@ div.Popup div.Messages {
 	margin: 10px 0 !important;
 }
 div.Popup div.Warning {
-	margin: 10px 0;
+	margin: 10px 0 0;
 }
 div.Popup div.Messages ul {
 	display: block;
@@ -1532,10 +1436,14 @@ table.SelectionGrid div.Buttons {
 }
 table.SelectionGrid div.Buttons a {
    display: block;
+   padding: 2px 4px;
    margin: 4px 0;
 }
 table.Themes em {
 	padding-top: 13px;
+}
+table.Themes div.Buttons a {
+	margin: 0 0 8px;
 }
 table.SelectionGrid dl {
 	padding: 0 0 10px;
@@ -1557,6 +1465,18 @@ table.SelectionGrid td.Active {
    background:#e2f4ff none repeat scroll 0 0;
 }
 
+
+#dashboard_user_browse #Content form div.Info,
+#dashboard_user_index #Content form div.Info {
+	padding: 10px 10px 0;
+}
+#dashboard_user_browse #Content form input.Button,
+#dashboard_user_index #Content form input.Button {
+	margin: 0 20px 10px;
+}
+#Content form input.Button {
+	margin: 0 20px 20px;
+}
 /* A general rule to remove padding from info (form adds it) */
 #Content form ul div.Info {
 	padding: 0;
@@ -1566,6 +1486,10 @@ table.SelectionGrid td.Active {
 body#dashboard_settings_registration #Content form ul div.Info {
 	padding: 10px;
 	margin: 10px;
+}
+table tbody td.Info strong,
+a.SmallButton {
+	margin-right: 10px;
 }
 #dashboard_settings_registration #Content form ul {
 	padding: 0;
@@ -1699,14 +1623,6 @@ div.Summary table tbody td {
 	margin: 6px 0 10px;
 }
 
-.Count {
-   background: #02639E;
-   border-radius: 2px;
-   color: #fff;
-   font-size: 11px;
-   padding: 1px 6px !Important;
-}
-
 .Tag {
    background: #555;
    color: #fff;
@@ -1728,7 +1644,7 @@ div.Summary table tbody td {
 .Tag-Edit {
    background-color: #F27527;
 }
-.Tag-Delete, .Tag-Ban {
+.Tag-Delete {
    background-color: #C70028;
 }
 .Tag-Moderate {
@@ -1752,21 +1668,27 @@ div.Summary table tbody td {
    color: #999;
 }
 
-.Pager {
+.NumberedPager {
    font-size:16px;
    font-weight:bold;
-   padding: 8px 0;
+   margin:1px 0 0;
    text-align:right;
-   line-height: 10px;
 }
 
-.Pager a,
-.Pager span {
+.NumberedPager a,
+.NumberedPager span {
 	padding: 0 4px;
 }
-.Pager span,
-.Pager a.Highlight {
+.NumberedPager span,
+.NumberedPager a.Highlight {
 	color: #777;
+}
+.NumberedPager a.Next,
+.NumberedPager span.Next,
+.NumberedPager a.Previous,
+.NumberedPager span.Previous {
+	font-size: 16px;
+	line-height: 10px;
 }
 .NumberedPager a.Next,
 .NumberedPager span.Next {
@@ -1775,17 +1697,6 @@ div.Summary table tbody td {
 .NumberedPager a.Previous,
 .NumberedPager span.Previous {
 	margin-right: 6px;
-}
-
-
-
-.NormalList {
-   list-style: disc;
-   list-style-position: inside;
-   margin: 10px 0;
-}
-.NormalList li {
-   margin: 4px 0;
 }
 
 /* Help Links */
@@ -1808,77 +1719,44 @@ div.Summary table tbody td {
 	line-height: 1.5;
 }
 .Aside {
-   border: solid 1px #cc8;
-	border-width: 1px 0 1px 1px;
-   border-top: solid 1px #aa8;
-   background: #ffc;
-   border-radius: 0 0 0 3px;
-   -moz-border-radius: 0 0 0 3px;
-   -webkit-border-radius: 0 0 0 3px;
-   /* width: 220px; */
-	max-width: 500px;
+   border: solid 1px #ccc;
+   background: #ff8;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -webkit-border-radius: 3px;
+   width: 220px;
    float: right;
    z-index: 200;
    position: relative;
-   margin: 0;
-	font-size: 12px;
+   margin: 6px;
 }
+
 /* Homepage Admin */
-.Homepage {
+.HomeOptions {
 	padding: 0 20px;
 }
-.Homepage a {
-	color: #777;
+.HomeOptions a {
+	color: #333;
 	font-weight: bold;
-	font-size: 12px;
 	text-decoration: none;
 	display: inline-block;
 	vertical-align: bottom;
-	margin: 0 10px 10px 0;
-	padding: 0;
-	line-height: 2.6;
-}
-.Homepage .Sprite {
-	display: block;
-	height: 124px;
 	width: 180px;
-	background: url('images/homepage-sprites.png') 0 0 no-repeat;
-	border: 1px solid #888;
-}
-.Homepage a .Wrap {
+	margin: 0 10px 10px 0;
+	padding: 0 6px;
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	background: #f5f5f5;
-	border: 2px solid #ccc;
-	padding: 6px;
-	margin: 0;
-	display: block;
+	border: 1px solid #ddd;
+	background: url('images/homepage-sprites.png') 6px 23px no-repeat #eee;
+	height: 152px;
 }
-.Homepage .SpDiscussionsTable { background-position: 0 0; }
-.Homepage .SpDiscussions { background-position: -180px 0; }
-.Homepage .SpCategories { background-position: -360px 0; }
-.Homepage .SpCategoriesTable { background-position: 0 -124px; }
-.Homepage .SpCategoriesMixed { background-position: -180px -124px; }
-.Homepage .SpActivity { background-position: -360px -124px; }
-.Homepage a:hover {
-	color: #000;
-}
-.Homepage a:hover .Wrap {
-	background-color: #fafafa;
-	border-color: #aaa;
-}
-.Homepage a.Current {
-	color: #000;
-	background: url('images/check.png') 2px 3px no-repeat;
-	text-indent: 36px;
-}
-.Homepage a.Current .Wrap {
-   background-color: #D6FFCF;
-   border-color: #06A800;
-}
-.LayoutOptions {
-	margin: 20px 0;
+.HomeOptions a.categoriesdiscussions { background-position: -184px 23px; }
+.HomeOptions a.categoriesall { background-position: -564px 23px; }
+.HomeOptions a.activity { background-position: -374px 23px; }
+.HomeOptions a:hover {
+	background-color: #f5f5f5;
+	border-color: #ccc;
 }
 
 ol.Sortable, ol.Sortable ol {
@@ -2036,33 +1914,6 @@ div.Errors pre * {
 div.Errors pre * {
 	margin: 0 !important;
 	padding: 0 !important;
-}
-
-.PageInfo {
-	background: #00346d;
-	background:-webkit-gradient(linear, center bottom, center top, from(#014a8a), to(#00346d));
-	background:-moz-linear-gradient(top, #00346d, #014a8a);
-	-pie-background:linear-gradient(top, #00346d, #014a8a);
-	background:linear-gradient(top, #00346d, #014a8a);
-	padding: 10px;
-	color: #fff;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-   margin: 20px;
-}
-
-.PageInfo h2 {
-   font-family: 'Rokkitt', serif !Important;
-   font-weight: normal;
-   font-size: 24px;
-   color: #fff;
-   text-shadow: 1px 2px 1px #000;
-   margin-bottom: 5px;
-}
-
-.PageInfo b {
-   color: #FFF6CD;
 }
 
 /* Do not customize these unless you enjoy pain. */
@@ -2313,14 +2164,24 @@ span.InformSprite.Bone { background-position: -346px -586px; }
 span.InformSprite.Golf { background-position: -394px -586px; }
 span.InformSprite.Dice { background-position: -442px -586px; }
 
-/* Plugins */
-.PluginIcon {
-	display: block;
-	height: 50px;
-	width: 50px;
-}
-
 /* Getting Started Screen */
+.Welcome {
+	position: relative;
+	min-height: 165px;
+	background: #00346d;
+	background:-webkit-gradient(linear, center bottom, center top, from(#014a8a), to(#00346d));
+	background:-moz-linear-gradient(top, #00346d, #014a8a);
+	-pie-background:linear-gradient(top, #00346d, #014a8a);
+	background:linear-gradient(top, #00346d, #014a8a);
+	padding: 20px 400px 20px 20px;
+	color: #fff;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.Welcome strong {
+	color: #FFF6CD;
+}
 .Welcome h2 {
 	overflow: hidden;
 	text-indent: -1000px;
@@ -2329,13 +2190,91 @@ span.InformSprite.Dice { background-position: -442px -586px; }
 	width: 341px;
 	background: url('images/welcome-message.png') top left no-repeat transparent;
 }
-.Info ul,
-.Info ol {
-   margin: 1em 0 1em 3em;
+.Welcome a {
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
-.Info ol li {
-  list-style: decimal !important;
+.Step {
+	background: #efefef;
+	border: 1px solid #dfdfdf;
+	margin: 20px 0 0;
+	padding: 16px 20px 20px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	position: relative;
 }
-.Info ul li {
-  list-style: disc !important;
+.NumberPoint {
+	position: absolute;
+	top: 0px;
+	left: -16px;
+	border-radius: 40px;
+	-webkit-border-radius: 40px;
+   -moz-border-radius: 40px;
+   border: 5px solid #3CB3E8;
+	font-size: 28px;
+	height: 36px;
+	width: 36px;
+	background: #aee7fe;
+	-moz-transform: rotate(-20.5deg);
+	-o-transform: rotate(-20.5deg);
+	-webkit-transform: rotate(-20.5deg);
+	text-align: center;
+	font-family: monospace,Arial,Sans-Serif;
+	font-weight: bold;
+	color: #003673;
+	text-shadow: 1px 1px 0 rgba(256, 256, 256, 0.5);
+	box-shadow: 0 1px 1px #003673;
+	-moz-box-shadow: 0 1px 1px #003673;
+	-webkit-box-shadow: 0 1px 1px #003673;
+}
+.Step textarea,
+.Step .RecipientBox {
+   font-family: arial;
+   color: #666;
+   font-size: 14px;
+	width: 100%;
+	padding: 3px;
+	margin-bottom: 10px;
+}
+.Step textarea:focus,
+.Step .RecipientBox:focus {
+	color: #222;
+}
+.Step textarea {
+	height: 85px;
+}
+.Step .RecipientBox {
+	padding: 3px 1px;
+}
+.Step h2 {
+	padding-left: 16px;
+	font-size: 14px;
+}
+.Step .Videos {
+	padding: 10px 0 0;
+}
+.Step .Videos a {
+	display: inline-block;
+	border: 6px solid #ddd;
+}
+.Step .Videos a:hover {
+	border: 6px solid #ccc;
+}
+.Step .Videos a:visited {
+	border: 6px solid #bbb;
+}
+.Step .Videos a img {
+	display: block;
+}
+#Content form .Step input.Button {
+   margin: 0;
+}
+
+/* Plugins */
+.PluginIcon {
+	display: block;
+	height: 50px;
+	width: 50px;
 }

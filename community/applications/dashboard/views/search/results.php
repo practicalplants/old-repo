@@ -1,6 +1,3 @@
-<?php if (!defined('APPLICATION')) exit();
-$SearchTerm = GetValue('SearchTerm', $this);
-?>
 <ul class="DataList SearchResults">
 <?php
 if (is_array($this->SearchResults) && count($this->SearchResults) > 0) {
@@ -12,24 +9,22 @@ if (is_array($this->SearchResults) && count($this->SearchResults) > 0) {
 		<?php $this->FireEvent('BeforeItemContent'); ?>
 		<div class="ItemContent">
 			<?php echo Anchor(Gdn_Format::Text($Row->Title), $Row->Url, 'Title'); ?>
-			<div class="Message Excerpt"><?php
-            if ($SearchTerm)
-               echo MarkString($SearchTerm, $Row->Summary);
-            else
-               echo $Row->Summary;
+			<div class="Excerpt"><?php
+				echo Anchor(nl2br(SliceString(Gdn_Format::Text($Row->Summary, FALSE), 250)), $Row->Url);
 			?></div>
 			<div class="Meta">
-				<span class="MItem"><?php echo UserPhoto($Row, array('ImageClass' => 'ProfilePhotoSmall')).' '.UserAnchor($Row); ?></span>
-				<span class="MItem"><?php echo Anchor(Gdn_Format::Date($Row->DateInserted, 'html'), $Row->Url); ?></span>
+				<span><?php printf(T('by %s'), UserAnchor($Row)); ?></span>
+				<span><?php echo Gdn_Format::Date($Row->DateInserted); ?></span>
             <?php
             if (isset($Row->CategoryID)) {
                $Category = CategoryModel::Categories($Row->CategoryID);
                if ($Category !== NULL) {
                   $Url = Url('categories/'.$Category['UrlCode']);
-                  echo '<span class="MItem"><a class="Category" href="'.$Url.'">'.$Category['Name'].'</a></span>';
+                  echo "<span><a class='Category' href='{$Url}'>{$Category['Name']}</a></span>";
                }
             }
             ?>
+				<span><?php echo Anchor(T('permalink'), $Row->Url); ?></span>
 			</div>
 		</div>
 	</li>

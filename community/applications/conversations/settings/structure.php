@@ -54,11 +54,11 @@ $UpdateCountReadMessages = $Construct->TableExists() && !$Construct->ColumnExist
 
 $Construct
    ->Column('UserID', 'int', FALSE, 'primary')
-   ->Column('ConversationID', 'int', FALSE, array('primary', 'key'))
+   ->Column('ConversationID', 'int', FALSE, 'primary')
    ->Column('CountReadMessages', 'int', 0) // # of read messages
-   ->Column('LastMessageID', 'int', TRUE) // The last message posted by a user other than this one, unless this user is the only person who has added a message
-   ->Column('DateLastViewed', 'datetime', TRUE)
-   ->Column('DateCleared', 'datetime', TRUE)
+   ->Column('LastMessageID', 'int', NULL, 'key') // The last message posted by a user other than this one, unless this user is the only person who has added a message
+   ->Column('DateLastViewed', 'datetime', NULL)
+   ->Column('DateCleared', 'datetime', NULL)
    ->Column('Bookmarked', 'tinyint(1)', '0')
    ->Column('Deleted', 'tinyint(1)', '0') // User deleted this conversation
    ->Set($Explicit, $Drop);
@@ -71,7 +71,7 @@ $Construct->Table('ConversationMessage')
    ->Column('ConversationID', 'int', FALSE, 'key')
    ->Column('Body', 'text')
    ->Column('Format', 'varchar(20)', NULL)
-   ->Column('InsertUserID', 'int', NULL, 'key')
+   ->Column('InsertUserID', 'int', NULL)
    ->Column('DateInserted', 'datetime', FALSE)
    ->Column('InsertIPAddress', 'varchar(15)', TRUE)
    ->Set($Explicit, $Drop);

@@ -1,19 +1,21 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Cache layer base class
- * 
- * All cache objects should extend this to ensure a consistent public api for 
- * caching.
  *
- * @author Tim Gunter <tim@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
- * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
+ * @author Tim Gunter
  * @package Garden
- * @since 2.0.10
- * @abstract
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
-
+ 
 abstract class Gdn_Cache {
    
    /**
@@ -36,9 +38,9 @@ abstract class Gdn_Cache {
    
    // Allows items to be internally compressed/decompressed
    const FEATURE_COMPRESS     = 'f_compress';
-   // Allows items to autoexpire (seconds)
+   // Allows items to autoexpire
    const FEATURE_EXPIRY       = 'f_expiry';
-   // Allows set/get timeouts (seconds)
+   // Allows set/get timeouts
    const FEATURE_TIMEOUT      = 'f_timeout';
    // Allows disabling usage of key prefix
    const FEATURE_NOPREFIX     = 'f_noprefix';
@@ -331,18 +333,6 @@ abstract class Gdn_Cache {
    abstract public function AddContainer($Options);
    
    /**
-    * Invalidate all items in the cache
-    * 
-    * Gdn_Cache::Flush() invalidates all existing cache items immediately.
-    * After invalidation none of the items will be returned in response to a 
-    * retrieval command (unless it's stored again under the same key after 
-    * Gdn_Cache::Flush() has invalidated the items).
-    * 
-    * @return boolean TRUE on success of FALSE on failure
-    */
-   abstract public function Flush();
-   
-   /**
     * 
     * 
     * @param type $Key Cache key
@@ -453,20 +443,10 @@ abstract class Gdn_Cache {
       $UsePrefix = !GetValue(Gdn_Cache::FEATURE_NOPREFIX, $Options, FALSE);
       $ForcePrefix = GetValue(Gdn_Cache::FEATURE_FORCEPREFIX, $Options, NULL);
       
-      $Prefix = '';
       if ($UsePrefix)
-         $Prefix = $this->GetPrefix($ForcePrefix).'!';
+         $Key = $this->GetPrefix($ForcePrefix).'!'.$Key;
       
-      if (is_array($Key)) {
-         $Result = array();
-         foreach ($Key as $i => $v) {
-            $Result[$i] = $Prefix.$v;
-         }
-      } else {
-         $Result = $Prefix.$Key;
-      }
-      
-      return $Result;
+      return $Key;
    }
    
    /*

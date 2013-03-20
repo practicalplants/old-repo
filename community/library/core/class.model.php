@@ -1,19 +1,36 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Model base class
- * 
- * This generic model can be instantiated (with the table name it is intended to
+ * Represents, enforces integrity, and aids in the management of: data. This
+ * generic model can be instantiated (with the table name it is intended to
  * represent) and used directly, or it can be extended and overridden for more
  * complicated procedures related to different tables.
  *
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
+ *
+ * @author Mark O'Sullivan
+ * @copyright 2009 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
 
+/**
+ * Represents, enforces integrity, and aids in the management of: data. This
+ * generic model can be instantiated (with the table name it is intended to
+ * represent) and used directly, or it can be extended and overridden for more
+ * complicated procedures related to different tables.
+ *
+ * @package Garden
+ */
 class Gdn_Model extends Gdn_Pluggable {
 
 
@@ -133,7 +150,6 @@ class Gdn_Model extends Gdn_Pluggable {
       $this->SQL = $this->Database->SQL();
       $this->Validation = new Gdn_Validation();
       $this->Name = $Name;
-      $this->PrimaryKey = $Name.'ID';
       parent::__construct();
    }
 
@@ -201,37 +217,6 @@ class Gdn_Model extends Gdn_Pluggable {
       }
       return $PrimaryKeyVal;
    }
-   
-   /**
-    * Update a row in the database.
-    * 
-    * @since 2.1
-    * @param int $RowID
-    * @param array|string $Property
-    * @param atom $Value 
-    */
-   public function SetField($RowID, $Property, $Value = FALSE) {
-      if (!is_array($Property))
-         $Property = array($Property => $Value);
-      
-      $this->DefineSchema();      
-      $Set = array_intersect_key($Property, $this->Schema->Fields());
-      self::SerializeRow($Set);
-      $this->SQL->Put($this->Name, $Set, array($this->PrimaryKey => $RowID));
-   }
-   
-   /**
-    * Serialize Attributes and Data columns in a row.
-    * 
-    * @param array $Row
-    * @since 2.1 
-    */
-   public static function SerializeRow(&$Row) {
-      foreach ($Row as $Name => &$Value) {
-         if (is_array($Value) && in_array($Name, array('Attributes', 'Data')))
-            $Value = empty($Value) ? NULL : serialize($Value);
-      }
-   }
 
 
    /**
@@ -251,9 +236,6 @@ class Gdn_Model extends Gdn_Pluggable {
          // Quote all of the fields.
          $QuotedFields = array();
          foreach ($Fields as $Name => $Value) {
-            if (is_array($Value) && in_array($Name, array('Attributes', 'Data')))
-               $Value = empty($Value) ? NULL : serialize($Value);
-            
             $QuotedFields[$this->SQL->QuoteIdentifier(trim($Name, '`'))] = $Value;
          }
 
@@ -288,9 +270,6 @@ class Gdn_Model extends Gdn_Pluggable {
          // Quote all of the fields.
          $QuotedFields = array();
          foreach ($Fields as $Name => $Value) {
-            if (is_array($Value) && in_array($Name, array('Attributes', 'Data')))
-               $Value = empty($Value) ? NULL : serialize($Value);
-            
             $QuotedFields[$this->SQL->QuoteIdentifier(trim($Name, '`'))] = $Value;
          }
 
@@ -308,24 +287,13 @@ class Gdn_Model extends Gdn_Pluggable {
     */
    public function Delete($Where = '', $Limit = FALSE, $ResetData = FALSE) {
       if(is_numeric($Where))
-         $Where = array($this->PrimaryKey => $Where);
+         $Where = array($this->Name.'ID' => $Where);
 
       if($ResetData) {
-         $Result = $this->SQL->Delete($this->Name, $Where, $Limit);
+         $this->SQL->Delete($this->Name, $Where, $Limit);
       } else {
-         $Result = $this->SQL->NoReset()->Delete($this->Name, $Where, $Limit);
+         $this->SQL->NoReset()->Delete($this->Name, $Where, $Limit);
       }
-      return $Result;
-   }
-   
-   /**
-    * Filter out any potentially insecure fields before they go to the database.
-    * @param array $Data 
-    */
-   public function FilterForm($Data) {
-      $Data = array_diff_key($Data, array('Attributes' => 0, 'DateInserted' => 0, 'InsertUserID' => 0, 'InsertIPAddress' => 0,
-            'DateUpdated' => 0, 'UpdateUserID' => 0, 'UpdateIPAddress' => 0));
-      return $Data;
    }
 
    /**
@@ -385,30 +353,7 @@ class Gdn_Model extends Gdn_Pluggable {
     * @return Gdn_DataSet
     */
    public function GetID($ID, $DatasetType = FALSE) {
-      $Result = $this->GetWhere(array($this->PrimaryKey => $ID))->FirstRow($DatasetType);
-      
-      $Fields = array('Attributes', 'Data');
-      
-      foreach ($Fields as $Field) {
-         if (is_array($Result)) {
-            if (isset($Result[$Field]) && is_string($Result[$Field])) {
-               $Val = unserialize($Result[$Field]);
-               if ($Val)
-                  $Result[$Field] = $Val; 
-               else
-                  $Result[$Field] = $Val;
-            }               
-         } elseif (is_object($Result)) {
-            if (isset($Result->$Field) && is_string($Result->$Field)) {
-               $Val = unserialize($Result->$Field);
-               if ($Val)
-                  $Result->$Field = $Val;
-               else
-                  $Result->$Field = NULL;
-            }
-         }
-      }
-      
+      $Result = $this->GetWhere(array("{$this->Name}ID" => $ID))->FirstRow($DatasetType);
       return $Result;
    }
 
@@ -427,6 +372,7 @@ class Gdn_Model extends Gdn_Pluggable {
       
       return $this->SQL->GetWhere($this->Name, $Where, $OrderFields, $OrderDirection, $Limit, $Offset);
    }
+
 
    /**
     * Returns the $this->Validation->ValidationResults() array.
@@ -551,48 +497,5 @@ class Gdn_Model extends Gdn_Pluggable {
             ->Put();
 		return $Value;
    }
-   
-   /**
-    * Get something from $Record['Attributes'] by dot-formatted key
-    * 
-    * Pass record byref
-    * 
-    * @param array $Record
-    * @param string $Attribute
-    * @param mixed $Default Optional.
-    * @return mixed
-    */
-   public static function GetRecordAttribute(&$Record, $Attribute, $Default = NULL) {
-      $RV = "Attributes.{$Attribute}";
-      return GetValueR($RV, $Record, $Default);
-   }
-   
-   /**
-    * Set something on $Record['Attributes'] by dot-formatted key
-    * 
-    * Pass record byref
-    * 
-    * @param array $Record
-    * @param string $Attribute
-    * @param mixed $Value
-    * @return mixed 
-    */
-   public static function SetRecordAttribute(&$Record, $Attribute, $Value) {
-      if (!array_key_exists('Attributes', $Record))
-         $Record['Attributes'] = array();
-      
-      if (!is_array($Record['Attributes'])) return NULL;
-      
-      $Work = &$Record['Attributes'];
-      $Parts = explode('.', $Attribute);
-      while ($Part = array_shift($Parts)) {
-         $SetValue = sizeof($Parts) ? array() : $Value;
-         $Work[$Part] = $SetValue;
-         $Work = &$Work[$Part];
-      }
-      
-      return $Value;
-   }
-   
 }
 

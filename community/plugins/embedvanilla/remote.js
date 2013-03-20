@@ -10,9 +10,8 @@ window.vanilla.embed = function(host) {
       embedUrl = window.location.href.split('#')[0],
       jsPath = '/plugins/embedvanilla/remote.js',
       currentPath = window.location.hash.substr(1),
-      disablePath = false;
-      
-   disablePath |= (window != top);
+      disablePath = currentPath && currentPath[0] != "/";
+      disablePath |= (window != top);
 
    var optStr = function(name, defaultValue, definedValue) {
       if (window['vanilla_'+name]) {
@@ -26,9 +25,6 @@ window.vanilla.embed = function(host) {
 
    if (!currentPath || disablePath)
       currentPath = "/";
-   
-   if (currentPath.substr(0, 1) != '/')
-      currentPath = '/' + currentPath;
 
    if (window.gadgets)
       embedUrl = '';
@@ -173,8 +169,6 @@ window.vanilla.embed = function(host) {
       var foreign_url = typeof(vanilla_foreign_url) == 'undefined' ? document.URL : vanilla_foreign_url;
       // If embedding comments, this value will be used as the first comment body related to the discussion.
       var foreign_body = typeof(vanilla_foreign_body) == 'undefined' ? '' : vanilla_foreign_body;
-      // Are we forcing a locale via Multilingual plugin?
-      var embed_locale = typeof(vanilla_embed_locale) == 'undefined' ? '' : vanilla_embed_locale;
       
       // Force type based on incoming variables
       if (discussion_id != '' || foreign_id != '')
@@ -191,7 +185,7 @@ window.vanilla.embed = function(host) {
             +'&CategoryID='+encodeURIComponent(category_id);
       } else 
          var timestamp = new Date().getTime();
-         return 'http://' + host + path + '&t=' + timestamp + '&remote=' + encodeURIComponent(embedUrl) + '&locale=' + encodeURIComponent(embed_locale);
+         return 'http://' + host + path + '&t=' + timestamp + '&remote=' + encodeURIComponent(embedUrl);
    }
 
    document.write('<iframe id="vanilla'+id+'" name="vanilla'+id+'" src="'+vanillaUrl(currentPath)+'"'+optStr('height', ' scrolling="no"', '')+' frameborder="0" border="0" width="'+optStr('width', '100%')+'" height="'+optStr('height', 1000)+'" style="width: '+optStr('width', '100%', '%spx')+'; height: '+optStr('height', 1000)+'px; border: 0; display: block;"></iframe>');

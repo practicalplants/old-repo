@@ -1,16 +1,12 @@
 <?php if (!defined('APPLICATION')) exit();
-
-/**
- * Catch and render errors
- * 
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @author Todd Burry <todd@vanillaforums.com> 
- * @author Tim Gunter <tim@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
- * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
- * @package Garden
- * @since 2.0
- */
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 class Gdn_ErrorException extends ErrorException {
 
@@ -31,25 +27,8 @@ function Gdn_ErrorHandler($ErrorNumber, $Message, $File, $Line, $Arguments) {
    // Ignore errors that are below the current error reporting level.
    if (($ErrorReporting & $ErrorNumber) != $ErrorNumber)
       return FALSE;
-   
+
    $Backtrace = debug_backtrace();
-   
-   if (($ErrorNumber & (E_NOTICE | E_USER_NOTICE)) > 0 & function_exists('Trace')) {
-      $Tr = '';
-      $i = 0;
-      foreach ($Backtrace as $Info) {
-         if (!isset($Info['file']))
-            continue;
-         
-         $Tr .= "\n{$Info['file']} line {$Info['line']}.";
-         if ($i > 2)
-            break;
-         $i++;
-      }
-      Trace("$Message{$Tr}", TRACE_NOTICE);
-      return FALSE;
-   }
-   
    throw new Gdn_ErrorException($Message, $ErrorNumber, $File, $Line, $Arguments, $Backtrace);
 }
 
@@ -288,7 +267,7 @@ function Gdn_ExceptionHandler($Exception) {
       }
       
       // Attempt to log an error message no matter what.
-      LogException($Exception);
+      LogMessage($File, $Line, $SenderObject, $SenderMethod, $SenderMessage, $SenderCode);
    }
    catch (Exception $e)
    {
@@ -310,43 +289,6 @@ if (!function_exists('ErrorMessage')) {
     */
    function ErrorMessage($Message, $SenderObject, $SenderMethod, $Code = '') {
       return $Message.'|'.$SenderObject.'|'.$SenderMethod.'|'.$Code;
-   }
-}
-
-if (!function_exists('LogException')) {
-   /**
-    * Log an exception.
-    * 
-    * @param Exception $Ex 
-    */
-   function LogException($Ex) {
-      if(!class_exists('Gdn', FALSE))
-         return;
-      if (!Gdn::Config('Garden.Errors.LogEnabled', FALSE))
-         return;
-      
-      try {
-         $Px = Gdn::Request()->Host().' Garden ';
-      } catch (Exception $Ex) {
-         $Px = 'Garden ';
-      }
-      
-      $ErrorLogFile = Gdn::Config('Garden.Errors.LogFile');
-      if (!$ErrorLogFile) {
-         $Type = 0;
-      } else {
-         $Type = 3;
-         $Date = date(Gdn::Config('Garden.Errors.LogDateFormat', 'd M Y - H:i:s'));
-         $Px = "$Date $Px";
-      }
-      
-      $Message = 'Exception: '.$Ex->getMessage().' in '.$Ex->getFile().' on '.$Ex->getLine();
-      @error_log($Px.$Message, $Type, $ErrorLogFile);
-      
-      $TraceLines = explode("\n", $Ex->getTraceAsString());
-      foreach ($TraceLines as $i => $Line) {
-         @error_log("$Px  $Line", $Type, $ErrorLogFile);
-      }
    }
 }
 
@@ -456,8 +398,6 @@ function PermissionException($Permission = NULL) {
    elseif ($Permission == 'Banned')
       $Message = T("You've been banned.");
    else
-      $Message = T(
-         "PermissionRequired.$Permission",
-         sprintf(T('You need the %s permission to do that.'), $Permission));
+      $Message = sprintf(T('You need the %s permission to do that.'), $Permission);
    return new Exception($Message, 401);
 }

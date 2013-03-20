@@ -1,18 +1,23 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Theme system
- * 
- * Allows access to theme controls from within views, to give themers a unified
- * toolset for interacting with Vanilla from within views.
+ * Utility class that helps to render theme elements.
  *
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
+ * @author Mark O'Sullivan
+ * @copyright 2009 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
-
 class Gdn_Theme {
 
    protected static $_AssetInfo = array();
@@ -31,63 +36,23 @@ class Gdn_Theme {
       Gdn::Controller()->AddAsset($AssetInfo['AssetContainer'], $Asset);
    }
 
-   public static function Breadcrumbs($Data, $HomeLink = TRUE) {
-      $Format = '<a href="{Url,html}" itemprop="url"><span itemprop="title">{Name,html}</span></a>';
-      
+   public static function Breadcrumbs($Data, $Format = '<a href="{Url,html}">{Name,html}</a>', $HomeLink = TRUE) {
       $Result = '';
-      
-      if (!is_array($Data))
-         $Data = array();
 
-      
       if ($HomeLink) {
-         $Row = array('Name' => $HomeLink, 'Url' => Url('/', TRUE), 'CssClass' => 'CrumbLabel HomeCrumb');
          if (!is_string($HomeLink))
-            $Row['Name'] = T('Home');
-         
-         array_unshift($Data, $Row);
+            $HomeLink = T('Home');
+            $Result .= '<span class="CrumbLabel"><a href="'.Url('/').'">'.$HomeLink.'</a></span> ';
       }
-      
-      $DefaultRoute = ltrim(GetValue('Destination', Gdn::Router()->GetRoute('DefaultController'), ''), '/');
 
-      $Count = 0;
       foreach ($Data as $Row) {
-         if (ltrim($Row['Url'], '/') == $DefaultRoute && $HomeLink)
-            continue; // don't show default route twice.
-         
-         // Add the breadcrumb wrapper.
-         if ($Count > 0) {
-            $Result .= '<span itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
-         }
-         
          $Row['Url'] = Url($Row['Url']);
-         $CssClass = GetValue('CssClass', $Row, 'CrumbLabel');
-         $Label = '<span class="'.$CssClass.'">'.FormatString($Format, $Row).'</span> ';
-         $Result = ConcatSep('<span class="Crumb">'.T('Breadcrumbs Crumb', '›').'</span> ', $Result, $Label);
-         
-         $Count++;
-      }
-      
-      // Close the stack.
-      for ($Count--;$Count > 0; $Count--) {
-         $Result .= '</span>';
+         $Label = '<span class="CrumbLabel">'.FormatString($Format, $Row).'</span> ';
+         $Result = ConcatSep('<span class="Crumb">'.T('Breadcrumbs Crumb', '&raquo;').'</span> ', $Result, $Label);
       }
 
-      $Result ='<span class="Breadcrumbs" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">'.$Result.'</span>';
+      $Result ='<span class="Breadcrumbs">'.$Result.'</span>';
       return $Result;
-   }
-   
-   /**
-    * Returns whether or not the page is in the current section.
-    * @param string|array $Section 
-    */
-   public static function InSection($Section) {
-      $Section = (array)$Section;
-      foreach ($Section as $Name) {
-         if (isset(self::$_Section[$Name]))
-            return TRUE;
-      }
-      return FALSE;
    }
    
    public static function Link($Path, $Text = FALSE, $Format = NULL, $Options = array()) {
@@ -136,8 +101,6 @@ class Gdn_Theme {
                $Class = trim($Class.' HasCount');
                $Text .= ' <span class="Alert">'.$Session->User->CountUnreadConversations.'</span>';
             }
-            if (!$Session->IsValid())
-               $Text = FALSE;
             break;
          case 'forumroot':
             $Route = Gdn::Router()->GetDestination('DefaultForumRoot');
@@ -218,20 +181,11 @@ class Gdn_Theme {
             }
             break;
       }
-      
-      if ($Text == FALSE && strpos($Format, '%text') !== FALSE)
-         return '';
-      
+
       if (GetValue('Permissions', $Options) && !$Session->CheckPermission($Options['Permissions'], FALSE))
          return '';
 
       $Url = Gdn::Request()->Url($Path, $WithDomain);
-      
-      if ($TK = GetValue('TK', $Options)) {
-         if (in_array($TK, array(1, 'true')))
-            $TK = 'TransientKey';
-         $Url .= (strpos($Url, '?') === FALSE ? '?' : '&').$TK.'='.urlencode(Gdn::Session()->TransientKey());
-      }
 
       if (strcasecmp(trim($Path, '/'), Gdn::Request()->Path()) == 0)
          $Class = ConcatSep(' ', $Class, 'Selected');
@@ -241,7 +195,7 @@ class Gdn_Theme {
       $Result = str_replace('%url', $Url, $Result);
       $Result = str_replace('%text', $Text, $Result);
       $Result = str_replace('%class', $Class, $Result);
-      
+
       return $Result;
    }
 
@@ -260,21 +214,14 @@ class Gdn_Theme {
       echo $Logo ? Img(Gdn_Upload::Url($Logo), array('alt' => $Title)) : $Title;
    }
 
-   public static function Module($Name, $Properties = array()) {
+   public static function Module($Name) {
       try {
          if (!class_exists($Name)) {
-            if (Debug())
-               $Result = "Error: $Name doesn't exist";
-            else
-               $Result = "<!-- Error: $Name doesn't exist -->";
+            $Result = "Error: $Name doesn't exist";
          } else {
                $Module = new $Name(Gdn::Controller(), '');
-               $Module->Visible = TRUE;
-               foreach ($Properties as $Name => $Value) {
-                  $Module->$Name = $Value;
-               }
-               
                $Result = $Module->ToString();
+
          }
       } catch (Exception $Ex) {
          if (Debug())
@@ -308,41 +255,6 @@ class Gdn_Theme {
       }
       
       return 'unknown';
-   }
-   
-   /**
-    * @var array
-    */
-   protected static $_Section = array();
-   
-   /**
-    * The current section the site is in. This can be one or more values. Think of it like a server-side css-class.
-    * @since 2.1
-    * @param string $Section The name of the section
-    * @param string $Method One of:
-    *  - add
-    *  - remove
-    *  - set
-    *  - get
-    */
-   public static function Section($Section, $Method = 'add') {
-      $Section = array_fill_keys((array)$Section, TRUE);
-      
-      
-      switch (strtolower($Method)) {
-         case 'add':
-            self::$_Section = array_merge(self::$_Section, $Section);
-            break;
-         case 'remove':
-            self::$_Section = array_diff_key(self::$_Section, $Section);
-            break;
-         case 'set':
-            self::$_Section = $Section;
-            break;
-         case 'get':
-         default:
-            return array_keys(self::$_Section);
-      }
    }
 
    public static function Text($Code, $Default) {

@@ -1,44 +1,34 @@
 <?php if (!defined('APPLICATION')) exit();
 
-function WriteActivity($Activity, &$Sender, &$Session) {
+function WriteActivity($Activity, &$Sender, &$Session, $Comment) {
    $Activity = (object)$Activity;
    // If this was a status update or a wall comment, don't bother with activity strings
    $ActivityType = explode(' ', $Activity->ActivityType); // Make sure you strip out any extra css classes munged in here
    $ActivityType = $ActivityType[0];
    $Author = UserBuilder($Activity, 'Activity');
-   $PhotoAnchor = Anchor(
-      Img($Activity->Photo, array('class' => 'ProfilePhoto ProfilePhotoMedium')),
-      $Activity->PhotoUrl, 'PhotoWrap');
-   
-   $CssClass = 'Item Activity Activity-'.$ActivityType;
+   $PhotoAnchor = UserPhoto($Author, 'Photo');
+   $CssClass = 'Item Activity '.$ActivityType;
    if ($PhotoAnchor != '')
       $CssClass .= ' HasPhoto';
-   
-   $Format = GetValue('Format', $Activity);
+   if (in_array($ActivityType, array('WallComment', 'WallPost', 'AboutUpdate')))
+      $CssClass .= ' Condensed';
       
    $Title = '';
    $Excerpt = $Activity->Story;
-   if ($Format) {
-      $Excerpt = Gdn_Format::To($Excerpt, $Format);
-   }
-   
    if (!in_array($ActivityType, array('WallComment', 'WallPost', 'AboutUpdate'))) {
-      $Title = '<div class="Title">'.GetValue('Headline', $Activity).'</div>';
+      $Title = '<div class="Title">'.Gdn_Format::ActivityHeadline($Activity, $Sender->ProfileUserID).'</div>';
    } else if ($ActivityType == 'WallPost') {
       $RegardingUser = UserBuilder($Activity, 'Regarding');
       $PhotoAnchor = UserPhoto($RegardingUser);
       $Title = '<div class="Title">'
          .UserAnchor($RegardingUser, 'Name')
          .' <span>&rarr;</span> '
-         .UserAnchor($Author, 'Name')
+         .UserAnchor($Author, 'Title Name')
          .'</div>';
-      
-      if (!$Format)
-         $Excerpt = Gdn_Format::Display($Excerpt);
+      $Excerpt = Gdn_Format::Display($Excerpt);
    } else {
-      $Title = UserAnchor($Author, 'Name');
-      if (!$Format)
-         $Excerpt = Gdn_Format::Display($Excerpt);
+      $Title = UserAnchor($Author, 'Title Name');
+      $Excerpt = Gdn_Format::Display($Excerpt);
    }
    $Sender->EventArguments['Activity'] = &$Activity;
    $Sender->EventArguments['CssClass'] = &$CssClass;
@@ -51,7 +41,7 @@ function WriteActivity($Activity, &$Sender, &$Session) {
       && ($Session->UserID == $Activity->InsertUserID
          || $Session->CheckPermission('Garden.Activity.Delete'))
       )
-      echo '<div class="Options">'.Anchor('×', 'dashboard/activity/delete/'.$Activity->ActivityID.'/'.$Session->TransientKey().'?Target='.urlencode($Sender->SelfUrl), 'Delete').'</div>';
+      echo '<div class="OptionButton">'.Anchor(T('Activity.Delete', 'Delete'), 'dashboard/activity/delete/'.$Activity->ActivityID.'/'.$Session->TransientKey().'?Target='.urlencode($Sender->SelfUrl), 'Delete').'</div>';
 
    if ($PhotoAnchor != '') {
    ?>
@@ -60,136 +50,77 @@ function WriteActivity($Activity, &$Sender, &$Session) {
    <div class="ItemContent Activity">
       <?php echo $Title; ?>
       <div class="Excerpt"><?php echo $Excerpt; ?></div>
-      <?php 
-      $Sender->EventArguments['Activity'] = $Activity;
-      $Sender->FireAs('ActivityController')->FireEvent('AfterActivityBody'); 
-      ?>
       <div class="Meta">
-         <span class="MItem DateCreated"><?php echo Gdn_Format::Date($Activity->DateUpdated); ?></span>
+         <span class="DateCreated"><?php echo Gdn_Format::Date($Activity->DateInserted); ?></span>
          <?php
-         $SharedString = FALSE;
-         $ID = GetValue('SharedNotifyUserID', $Activity->Data);
-         if (!$ID)
-            $ID = GetValue('CommentNotifyUserID', $Activity->Data);
-         
-         if ($ID)
-            $SharedString = FormatString(T('Comments are between {UserID,you}.'), array('UserID' => array($Activity->NotifyUserID, $ID))); 
-         
-         $AllowComments = $Activity->NotifyUserID < 0 || $SharedString;
-         
-         
-         
-         if ($AllowComments && $Session->CheckPermission('Garden.Profiles.Edit'))
-            echo '<span class="MItem AddComment">'
-               .Anchor(T('Activity.Comment', 'Comment'), '#CommentForm_'.$Activity->ActivityID, 'CommentOption');
-         
-            if ($SharedString) {
-               echo ' <span class="MItem"><i>'.$SharedString.'</i></span>';
-            }
-         
-            echo '</span>';
+         if ($Activity->AllowComments == '1' && $Session->IsValid())
+            echo '<span class="AddComment">'.Anchor(T('Activity.Comment', 'Comment'), '#CommentForm_'.$Activity->ActivityID, 'CommentOption').'</span>';
          
          $Sender->FireEvent('AfterMeta');
          ?>
       </div>
    </div>
    <?php
-   $Comments = GetValue('Comments', $Activity, array());
-   if (count($Comments) > 0) {
-      echo '<ul class="DataList ActivityComments">';
-      foreach ($Comments as $Comment) {
-         WriteActivityComment($Comment, $Sender, $Session);
+   if ($Activity->AllowComments == '1') {
+      // If there are comments, show them
+      $FoundComments = FALSE;
+      if (property_exists($Sender, 'CommentData') && is_object($Sender->CommentData)) {
+         foreach ($Sender->CommentData->Result() as $Comment) {
+            if (is_object($Comment) && $Comment->CommentActivityID == $Activity->ActivityID) {
+               if ($FoundComments == FALSE)
+                  echo '<ul class="DataList ActivityComments">';
+                  
+               $FoundComments = TRUE;
+               WriteActivityComment($Comment, $Sender, $Session);
+            }
+         }
       }
-   } else {
-      echo '<ul class="DataList ActivityComments Hidden">';
-   }
-   
-   if ($Session->CheckPermission('Garden.Profiles.Edit')):
-      ?>
-      <li class="CommentForm">
-      <?php
-         echo Anchor(T('Write a comment'), '/dashboard/activity/comment/'.$Activity->ActivityID, 'CommentLink');
-         $CommentForm = Gdn::Factory('Form');
-         $CommentForm->SetModel($Sender->ActivityModel);
-         $CommentForm->AddHidden('ActivityID', $Activity->ActivityID);
-         $CommentForm->AddHidden('Return', Gdn_Url::Request());
-         echo $CommentForm->Open(array('action' => Url('/dashboard/activity/comment'), 'class' => 'Hidden'));
-         echo '<div class="TextBoxWrapper">'.$CommentForm->TextBox('Body', array('MultiLine' => TRUE, 'value' => '')).'</div>';
-         echo $CommentForm->Close('Comment');
-      ?></li>
-   <?php 
-   endif;
-   
-   echo '</ul>';
-?>
+      if ($FoundComments == FALSE)
+         echo '<ul class="DataList ActivityComments Hidden">';
+
+      if ($Session->IsValid()) {
+         ?>
+         <li class="CommentForm">
+         <?php
+            echo Anchor(T('Write a comment'), '/dashboard/activity/comment/'.$Activity->ActivityID, 'CommentLink');
+            $CommentForm = Gdn::Factory('Form');
+            $CommentForm->SetModel($Sender->ActivityModel);
+            $CommentForm->AddHidden('ActivityID', $Activity->ActivityID);
+            $CommentForm->AddHidden('Return', Gdn_Url::Request());
+            echo $CommentForm->Open(array('action' => Url('/dashboard/activity/comment'), 'class' => 'Hidden'));
+            echo $CommentForm->TextBox('Body', array('MultiLine' => TRUE, 'value' => ''));
+            echo $CommentForm->Close('Comment');
+         ?></li>
+      <?php } ?>
+      </ul>
+   <?php } ?>
 </li>
 <?php
 }
 
 function WriteActivityComment($Comment, &$Sender, &$Session) {
-   $Author = UserBuilder($Comment, 'Insert');
+   $Author = UserBuilder($Comment, 'Activity');
    $PhotoAnchor = UserPhoto($Author, 'Photo');
-   $CssClass = 'Item ActivityComment ActivityComment';
+   $CssClass = 'Item ActivityComment Condensed '.$Comment->ActivityType;
    if ($PhotoAnchor != '')
       $CssClass .= ' HasPhoto';
    
 ?>
-<li id="ActivityComment_<?php echo $Comment['ActivityCommentID']; ?>" class="<?php echo $CssClass; ?>">
+<li id="Activity_<?php echo $Comment->ActivityID; ?>" class="<?php echo $CssClass; ?>">
    <?php if ($PhotoAnchor != '') { ?>
    <div class="Author Photo"><?php echo $PhotoAnchor; ?></div>
    <?php } ?>
    <div class="ItemContent ActivityComment">
       <?php echo UserAnchor($Author, 'Title Name'); ?>
-      <div class="Excerpt"><?php echo Gdn_Format::To($Comment['Body'], $Comment['Format']); ?></div>
+      <div class="Excerpt"><?php echo Gdn_Format::Display($Comment->Story); ?></div>
       <div class="Meta">
-         <span class="DateCreated"><?php echo Gdn_Format::Date($Comment['DateInserted'], 'html'); ?></span>
+         <span class="DateCreated"><?php echo Gdn_Format::Date($Comment->DateInserted); ?></span>
          <?php
-            if ($Session->UserID == $Comment['InsertUserID'] || $Session->CheckPermission('Garden.Activity.Delete'))
-               echo Anchor(T('Delete'), "dashboard/activity/deletecomment?id={$Comment['ActivityCommentID']}&tk=".$Session->TransientKey().'&target='.urlencode(Gdn_Url::Request()), 'DeleteComment');
+            if ($Session->UserID == $Comment->InsertUserID || $Session->CheckPermission('Garden.Activity.Delete'))
+               echo Anchor(T('Delete'), 'dashboard/activity/delete/'.$Comment->ActivityID.'/'.$Session->TransientKey().'?Return='.urlencode(Gdn_Url::Request()), 'DeleteComment');
          ?>
       </div>
    </div>
 </li>
-<?php
-}
-
-function WriteActivityTabs() {
-   $Sender = Gdn::Controller();
-   $ModPermission = Gdn::Session()->CheckPermission('Garden.Moderation.Manage');
-   $AdminPermission = Gdn::Session()->CheckPermission('Garden.Settings.Manage');
-   
-   if (!$ModPermission && !$AdminPermission)
-      return;
-?>
-   <div class="Tabs ActivityTabs">
-      <ul>
-         <li <?php if ($Sender->Data('Filter') == 'public') echo 'class="Active"'; ?>>
-            <?php
-            echo Anchor(T('Public'), '/activity', 'TabLink');
-            ?>
-         </li>
-         <?php
-         if ($ModPermission): 
-         ?>
-         <li <?php if ($Sender->Data('Filter') == 'mods') echo 'class="Active"'; ?>>
-            <?php
-            echo Anchor(T('Moderator'), '/activity/mods', 'TabLink');
-            ?>
-         </li>
-         <?php
-         endif;
-         
-         if ($AdminPermission):
-         ?>
-         <li <?php if ($Sender->Data('Filter') == 'admins') echo 'class="Active"'; ?>>
-            <?php
-            echo Anchor(T('Admin'), '/activity/admins', 'TabLink');
-            ?>
-         </li>
-         <?php
-         endif;
-         ?>
-      </ul>
-   </div>
 <?php
 }

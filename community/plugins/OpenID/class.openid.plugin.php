@@ -11,13 +11,13 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 // Define the plugin:
 $PluginInfo['OpenID'] = array(
 	'Name' => 'OpenID',
-   'Description' => 'Allows users to sign in with OpenID. Must be enabled before using &lsquo;Google Sign In&rsquo; plugin.',
-   'Version' => '0.2',
-   'RequiredApplications' => array('Vanilla' => '2.0.14'),
+   'Description' => 'This plugin allows users to sign in with OpenID. <b>Make sure you click Settings after enabling this plugin to enable OpenID signin</b>.',
+   'Version' => '0.1a',
+   'RequiredApplications' => array('Vanilla' => '2.0.14a'),
    'RequiredTheme' => FALSE,
    'RequiredPlugins' => FALSE,
 	'MobileFriendly' => TRUE,
-//   'SettingsUrl' => '/dashboard/plugin/openid',
+   'SettingsUrl' => '/dashboard/plugin/openid',
    'SettingsPermission' => 'Garden.Settings.Manage',
    'HasLocale' => TRUE,
    'RegisterPermissions' => FALSE,
@@ -25,8 +25,6 @@ $PluginInfo['OpenID'] = array(
    'AuthorEmail' => 'todd@vanillaforums.com',
    'AuthorUrl' => 'http://www.vanillaforums.org/profile/todd'
 );
-
-// 0.2 - Remove redundant enable toggle (2012-03-08 Lincoln)
 
 class OpenIDPlugin extends Gdn_Plugin {
    public static $ProviderKey = 'OpenID';
@@ -82,14 +80,14 @@ class OpenIDPlugin extends Gdn_Plugin {
    /**
     * Act as a mini dispatcher for API requests to the plugin app
     */
-//   public function PluginController_OpenID_Create($Sender) {
-//      $Sender->Permission('Garden.Settings.Manage');
-//		$this->Dispatch($Sender, $Sender->RequestArgs);
-//   }
+   public function PluginController_OpenID_Create(&$Sender) {
+      $Sender->Permission('Garden.Settings.Manage');
+		$this->Dispatch($Sender, $Sender->RequestArgs);
+   }
    
-//   public function Controller_Toggle($Sender) {
-//      $this->AutoToggle($Sender);
-//   }
+   public function Controller_Toggle($Sender) {
+      $this->AutoToggle($Sender);
+   }
    
    public function AuthenticationController_Render_Before($Sender, $Args) {
       if (isset($Sender->ChooserList)) {
@@ -135,11 +133,7 @@ class OpenIDPlugin extends Gdn_Plugin {
          $Form->SetFormValue('Provider', self::$ProviderKey);
          $Form->SetFormValue('ProviderName', 'OpenID');
          $Form->SetFormValue('FullName', GetValue('namePerson/first', $Attr).' '.GetValue('namePerson/last', $Attr));
-         
-         if ($Email = GetValue('contact/email', $Attr)) {
-            $Form->SetFormValue('Email', $Email);
-         }
-         
+         $Form->SetFormValue('Email', GetValue('contact/email', $Attr));
          $Sender->SetData('Verified', TRUE);
          $Session->Stash('OpenID', $OpenID);
       }
@@ -173,13 +167,8 @@ class OpenIDPlugin extends Gdn_Plugin {
                $Sender->SetData('Title', T('Sign In with OpenID'));
                $Sender->Render('Url', '', 'plugins/OpenID');
             } else {
-               try {
-                  $Url = $OpenID->authUrl();
-                  Redirect($Url);
-               } catch (Exception $Ex) {
-                  $Sender->Form->AddError($Ex);
-                  $Sender->Render('Url', '', 'plugins/OpenID');
-               }
+               $Url = $OpenID->authUrl();
+               Redirect($Url);
             }
             break;
       }
@@ -190,7 +179,7 @@ class OpenIDPlugin extends Gdn_Plugin {
     * @param Gdn_Controller $Sender
     */
    public function EntryController_SignIn_Handler($Sender, $Args) {
-//      if (!$this->IsEnabled()) return;
+      if (!$this->IsEnabled()) return;
       
       if (isset($Sender->Data['Methods'])) {
          $ImgSrc = Asset('/plugins/OpenID/design/openid-signin.png');
@@ -202,19 +191,14 @@ class OpenIDPlugin extends Gdn_Plugin {
          // Add the twitter method to the controller.
          $Method = array(
             'Name' => 'OpenID',
-            'SignInHtml' => "<a id=\"TwitterAuth\" href=\"$SigninHref\" class=\"PopupWindow\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" rel=\"nofollow\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>");
+            'SignInHtml' => "<a id=\"TwitterAuth\" href=\"$SigninHref\" class=\"PopupWindow\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>");
 
          $Sender->Data['Methods'][] = $Method;
       }
    }
-   
-   public function Base_SignInIcons_Handler($Sender, $Args) {
-//      if (!$this->IsEnabled()) return;
-      echo "\n".$this->_GetButton();
-   }
 
    public function Base_BeforeSignInButton_Handler($Sender, $Args) {
-//      if (!$this->IsEnabled()) return;
+      if (!$this->IsEnabled()) return;
       echo "\n".$this->_GetButton();
    }
 	
@@ -223,12 +207,12 @@ class OpenIDPlugin extends Gdn_Plugin {
       $ImgAlt = T('Sign In with OpenID');
       $SigninHref = $this->_AuthorizeHref();
       $PopupSigninHref = $this->_AuthorizeHref(TRUE);
-      return "<a id=\"OpenIDAuth\" href=\"$SigninHref\" class=\"PopupWindow\" title=\"$ImgAlt\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" rel=\"nofollow\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>";
+      return "<a id=\"OpenIDAuth\" href=\"$SigninHref\" class=\"PopupWindow\" title=\"$ImgAlt\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>";
 	}
 	
 	public function Base_BeforeSignInLink_Handler($Sender) {
-//      if (!$this->IsEnabled())
-//			return;
+      if (!$this->IsEnabled())
+			return;
 		
 		// if (!IsMobile())
 		// 	return;

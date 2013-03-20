@@ -5,9 +5,6 @@
  */
 
 function smarty_function_module($Params, &$Smarty) {
-   $Name = GetValue('name', $Params);
-   unset($Params['name']);
-   
-   $Result = Gdn_Theme::Module($Name, $Params);
+   $Result = Gdn_Theme::Module(GetValue('name', $Params));
 	return $Result;
 }

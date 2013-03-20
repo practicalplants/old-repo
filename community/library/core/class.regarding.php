@@ -1,15 +1,22 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Regarding system
- * 
  * Handles relating external actions to comments and discussions. Flagging, Praising, Reporting, etc
  *
  * @author Tim Gunter <tim@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
+ * @copyright 2003 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
 
 class Gdn_Regarding extends Gdn_Pluggable implements Gdn_IPlugin {
@@ -150,21 +157,21 @@ class Gdn_Regarding extends Gdn_Pluggable implements Gdn_IPlugin {
     */
 
    // Cache regarding data for displayed comments
-//   public function DiscussionController_BeforeDiscussionRender_Handler($Sender) {
-//      if (GetValue('RegardingCache', $Sender, NULL) != NULL) return;
-//
-//      $Comments = $Sender->Data('Comments');
-//      $CommentIDList = array();
-//      if ($Comments && $Comments instanceof Gdn_DataSet) {
-//         $Comments->DataSeek(-1);
-//         while ($Comment = $Comments->NextRow()) {
-//            if (!isset($Comment->CommentID) || !is_numeric($Comment->CommentID))
-//               continue;
-//            $CommentIDList[] = $Comment->CommentID;
-//         }
-//      }
-//      $this->CacheRegarding($Sender, 'discussion', $Sender->Discussion->DiscussionID, 'comment', $CommentIDList);
-//   }
+   public function DiscussionController_BeforeDiscussionRender_Handler($Sender) {
+      if (GetValue('RegardingCache', $Sender, NULL) != NULL) return;
+
+      $Comments = $Sender->Data('CommentData');
+      $CommentIDList = array();
+      if ($Comments && $Comments instanceof Gdn_DataSet) {
+         $Comments->DataSeek(-1);
+         while ($Comment = $Comments->NextRow()) {
+            if (!isset($Comment->CommentID) || !is_numeric($Comment->CommentID))
+               continue;
+            $CommentIDList[] = $Comment->CommentID;
+         }
+      }
+      $this->CacheRegarding($Sender, 'discussion', $Sender->Discussion->DiscussionID, 'comment', $CommentIDList);
+   }
 
    protected function CacheRegarding($Sender, $ParentType, $ParentID, $ForeignType, $ForeignIDs) {
 

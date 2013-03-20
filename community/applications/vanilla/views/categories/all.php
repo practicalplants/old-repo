@@ -1,38 +1,36 @@
 <?php if (!defined('APPLICATION')) exit();
-
-if (!function_exists('GetOptions'))
-   include $this->FetchViewLocation('helper_functions', 'categories');
-   
-echo '<h1 class="H HomepageTitle">'.$this->Data('Title').'</h1>';
-if ($Description = $this->Description()) {
-   echo Wrap($Description, 'div', array('class' => 'P PageDescription'));
-}
+include($this->FetchViewLocation('helper_functions', 'categories'));
 
 $CatList = '';
 $DoHeadings = C('Vanilla.Categories.DoHeadings');
 $MaxDisplayDepth = C('Vanilla.Categories.MaxDisplayDepth');
 $ChildCategories = '';
-$this->EventArguments['NumRows'] = count($this->Data('Categories'));
+$this->EventArguments['NumRows'] = $this->CategoryData->NumRows();
 
-//if (C('Vanilla.Categories.ShowTabs')) {
-////   $ViewLocation = Gdn::Controller()->FetchViewLocation('helper_functions', 'Discussions', 'vanilla');
-////   include_once $ViewLocation;
-////   WriteFilterTabs($this);
-//   echo Gdn_Theme::Module('DiscussionFilterModule');
-//}
-
+if (C('Vanilla.Categories.ShowTabs')) {
+   $ViewLocation = Gdn::Controller()->FetchViewLocation('helper_functions', 'Discussions', 'vanilla');
+   include_once $ViewLocation;
+   WriteFilterTabs($this);
+} else {
+   ?>
+   <div class="Tabs Headings CategoryHeadings">
+      <div class="ItemHeading"><?php echo T('All Categories'); ?></div>
+   </div>
+   <?php
+}
 echo '<ul class="DataList CategoryList'.($DoHeadings ? ' CategoryListWithHeadings' : '').'">';
    $Alt = FALSE;
-   foreach ($this->Data('Categories') as $CategoryRow) {
-      $Category = (object)$CategoryRow;
-      
+   foreach ($this->CategoryData->Result() as $Category) {
       $this->EventArguments['CatList'] = &$CatList;
       $this->EventArguments['ChildCategories'] = &$ChildCategories;
       $this->EventArguments['Category'] = &$Category;
       $this->FireEvent('BeforeCategoryItem');
-      $CssClass = CssClass($CategoryRow);
-      
-      $CategoryID = GetValue('CategoryID', $Category);
+      $CssClasses = array(GetValue('Read', $Category) ? 'Read' : 'Unread');
+      if (GetValue('Archive', $Category))
+         $CssClasses[] = 'Archive';
+      if (GetValue('Unfollow', $Category))
+         $CssClasses[] = 'Unfollow';
+      $CssClasses = implode(' ', $CssClasses);
 
       if ($Category->CategoryID > 0) {
          // If we are below the max depth, and there are some child categories
@@ -45,36 +43,33 @@ echo '<ul class="DataList CategoryList'.($DoHeadings ? ' CategoryListWithHeading
          if ($Category->Depth >= $MaxDisplayDepth && $MaxDisplayDepth > 0) {
             if ($ChildCategories != '')
                $ChildCategories .= ', ';
-            $ChildCategories .= Anchor(Gdn_Format::Text($Category->Name), CategoryUrl($Category));
+            $ChildCategories .= Anchor(Gdn_Format::Text($Category->Name), '/categories/'.$Category->UrlCode);
          } else if ($DoHeadings && $Category->Depth == 1) {
-            $CatList .= '<li id="Category_'.$CategoryID.'" class="CategoryHeading '.$CssClass.'">
-               <div class="ItemContent Category">'.GetOptions($Category, $this).Gdn_Format::Text($Category->Name).'</div>
+            $CatList .= '<li class="Item CategoryHeading Depth1 Category-'.$Category->UrlCode.' '.$CssClasses.'">
+               <div class="ItemContent Category">'.Gdn_Format::Text($Category->Name).'</div>'
+               .GetOptions($Category, $this).'
             </li>';
             $Alt = FALSE;
          } else {
-            $LastComment = UserBuilder($Category, 'Last');
+            $LastComment = UserBuilder($Category, 'LastComment');
             $AltCss = $Alt ? ' Alt' : '';
             $Alt = !$Alt;
-            $CatList .= '<li id="Category_'.$CategoryID.'" class="'.$CssClass.'">
-               <div class="ItemContent Category">'
+            $CatList .= '<li class="Item Depth'.$Category->Depth.$AltCss.' Category-'.$Category->UrlCode.' '.$CssClasses.'">
+               <div class="ItemContent Category '.$CssClasses.'">'
+                  .Anchor(Gdn_Format::Text($Category->Name), '/categories/'.$Category->UrlCode, 'Title')
                   .GetOptions($Category, $this)
-                  .'<div class="TitleWrap">'
-                     .Anchor(Gdn_Format::Text($Category->Name), CategoryUrl($Category), 'Title')
-                  .'</div>
-                  <div class="CategoryDescription">'
-                  .$Category->Description
-                  .'</div>
-                  <div class="Meta">
-                     <span class="MItem RSS">'.Anchor(Img('applications/dashboard/design/images/rss.gif'), '/categories/'.$Category->UrlCode.'/feed.rss').'</span>
-                     <span class="MItem DiscussionCount">'.sprintf(Plural(number_format($Category->CountAllDiscussions), '%s discussion', '%s discussions'), $Category->CountDiscussions).'</span>
-                     <span class="MItem CommentCount">'.sprintf(Plural(number_format($Category->CountAllComments), '%s comment', '%s comments'), $Category->CountComments).'</span>';
-                     if ($Category->LastTitle != '') {
-                        $CatList .= '<span class="MItem LastDiscussionTitle">'.sprintf(
+                  .Wrap($Category->Description, 'div', array('class' => 'CategoryDescription'))
+                  .'<div class="Meta">
+                     <span class="RSS">'.Anchor(Img('applications/dashboard/design/images/rss.gif'), '/categories/'.$Category->UrlCode.'/feed.rss').'</span>
+                     <span class="DiscussionCount">'.sprintf(Plural(number_format($Category->CountAllDiscussions), '%s discussion', '%s discussions'), $Category->CountDiscussions).'</span>
+                     <span class="CommentCount">'.sprintf(Plural(number_format($Category->CountAllComments), '%s comment', '%s comments'), $Category->CountComments).'</span>';
+                     if ($Category->LastCommentID != '' && $Category->LastDiscussionTitle != '') {
+                        $CatList .= '<span class="LastDiscussionTitle">'.sprintf(
                               T('Most recent: %1$s by %2$s'),
-                              Anchor(SliceString($Category->LastTitle, 40), $Category->LastUrl),
+                              Anchor(SliceString($Category->LastDiscussionTitle, 40), '/discussion/'.$Category->LastDiscussionID.'/'.Gdn_Format::Url($Category->LastDiscussionTitle)),
                               UserAnchor($LastComment)
                            ).'</span>'
-                           .'<span class="MItem LastCommentDate">'.Gdn_Format::Date($Category->LastDateInserted).'</span>';
+                           .'<span class="LastCommentDate">'.Gdn_Format::Date($Category->DateLastComment).'</span>';
                      }
                      // If this category is one level above the max display depth, and it
                      // has children, add a replacement string for them.

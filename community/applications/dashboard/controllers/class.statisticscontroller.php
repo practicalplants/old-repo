@@ -23,11 +23,6 @@ class StatisticsController extends DashboardController {
    /** @var array Models to automatically instantiate. */
    public $Uses = array('Form');
    
-   public function Info() {
-      $this->SetData('FirstDate', Gdn::Statistics()->FirstDate());
-      $this->Render();
-   }
-   
    /**
     * Highlight menu path. Automatically run on every use.
     *
@@ -36,7 +31,6 @@ class StatisticsController extends DashboardController {
     */
    public function Initialize() {
       parent::Initialize();
-      Gdn_Theme::Section('Dashboard');
       if ($this->Menu)
          $this->Menu->HighlightRoute('/dashboard/settings');
    }
@@ -55,13 +49,17 @@ class StatisticsController extends DashboardController {
       $this->EnableSlicing($this);
       
       if ($this->Form->IsPostBack()) {
+         
          $Flow = TRUE;
          
-         if ($Flow && $this->Form->GetFormValue('Reregister')) {
-            Gdn::Statistics()->Register();
+         if ($Flow && $this->Form->GetFormValue('ClearCredentials')) {
+            Gdn::InstallationID(FALSE);
+            Gdn::InstallationSecret(FALSE);
+            Gdn::Statistics()->Tick();
+            $Flow = FALSE;
          }
          
-         if ($Flow && $this->Form->GetFormValue('Save')) {
+         if ($Flow && $this->Form->GetFormValue('SaveIdentity')) {
             Gdn::InstallationID($this->Form->GetFormValue('InstallationID'));
             Gdn::InstallationSecret($this->Form->GetFormValue('InstallationSecret'));
             $this->InformMessage(T("Your settings have been saved."));
@@ -75,17 +73,15 @@ class StatisticsController extends DashboardController {
             SaveToConfig('Garden.Analytics.Enabled', TRUE);
          }
          
-         if ($Flow && $this->Form->GetFormValue('ClearCredentials')) {
-            Gdn::InstallationID(FALSE);
-            Gdn::InstallationSecret(FALSE);
-            Gdn::Statistics()->Tick();
-            $Flow = FALSE;
+         if ($Flow && $this->Form->GetFormValue('Reregister')) {
+            Gdn::Statistics()->Register();
          }
+         
       }
       
       $AnalyticsEnabled = Gdn_Statistics::CheckIsEnabled();
       if ($AnalyticsEnabled) {
-         $ConfFile = PATH_CONF.'/config.php';
+         $ConfFile = PATH_LOCAL_CONF.DS.'config.php';
          $this->SetData('ConfWritable', $ConfWritable = is_writable($ConfFile));
          if (!$ConfWritable)
             $AnalyticsEnabled = FALSE;

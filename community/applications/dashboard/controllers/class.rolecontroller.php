@@ -31,7 +31,6 @@ class RoleController extends DashboardController {
     */
    public function Initialize() {
       parent::Initialize();
-      Gdn_Theme::Section('Dashboard');
       if ($this->Menu)
          $this->Menu->HighlightRoute('/dashboard/settings');
    }
@@ -233,7 +232,7 @@ class RoleController extends DashboardController {
 
       $this->AddSideMenu('dashboard/role');
       $this->AddJsFile('jquery.tablednd.js');
-      $this->AddJsFile('jquery-ui-1.8.17.custom.min.js');
+      $this->AddJsFile('jquery.ui.packed.js');
       $this->Title(T('Roles & Permissions'));
       $this->RoleData = $this->RoleModel->Get();
       $this->Render();

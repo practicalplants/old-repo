@@ -1,20 +1,30 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
  * A database-independent dataset management/manipulation class.
  *
  * This class is HEAVILY inspired by CodeIgniter (http://www.codeigniter.com).
  * My hat is off to them.
- * 
- * @author Todd Burry <todd@vanillaforums.com> 
- * @copyright 2003 Vanilla Forums, Inc
+ *
+ * @author Mark O'Sullivan
+ * @copyright 2003 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Database
  */
 
 define('JOIN_INNER', 'inner');
 define('JOIN_LEFT', 'left');
+
 
 class Gdn_DataSet implements IteratorAggregate {
 
@@ -61,19 +71,12 @@ class Gdn_DataSet implements IteratorAggregate {
    /**
     * @todo Undocumented method.
     */
-   public function __construct($Result = NULL, $DataSetType = NULL) {
+   public function __construct($Result = NULL) {
       // Set defaults
       $this->Connection = NULL;
       $this->_Cursor = -1;
       $this->_PDOStatement = NULL;
       $this->_Result = $Result;
-      if ($DataSetType !== NULL) {
-         $this->_DatasetType = $DataSetType;
-      } elseif ($Result) {
-         if (isset($Result[0]) && is_array($Result[0])) {
-            $this->_DatasetType = DATASET_TYPE_ARRAY;
-         }
-      }
    }
 
    public function  __destruct() {
@@ -533,38 +536,6 @@ class Gdn_DataSet implements IteratorAggregate {
          return $this->_PDOStatement;
       else
          $this->_PDOStatement = $PDOStatement;
-   }
-   
-   /**
-    * Unserialize the fields in the dataset.
-    * @param array $Fields 
-    * @since 2.1
-    */
-   public function Unserialize($Fields = array('Attributes', 'Data')) {
-      $Result =& $this->Result();
-      $First = TRUE;
-      
-      foreach ($Result as $Row) {
-         if ($First) {
-            // Check which fields are in the dataset.
-            foreach ($Fields as $Index => $Field) {
-               if (GetValue($Field, $Row, FALSE) === FALSE) {
-                  unset($Fields[$Index]);
-               }
-            }
-            $First = FALSE;
-         }
-         
-         foreach ($Fields as $Field) {
-            if (is_object($Row)) {
-               if (is_string($Row->$Field))
-                  $Row->$Field = @unserialize($Row->$Field);
-            } else {
-               if (is_string($Row[$Field]))
-                  $Row[$Field] = @unserialize($Row[$Field]);
-            }
-         }
-      }
    }
 
    /**

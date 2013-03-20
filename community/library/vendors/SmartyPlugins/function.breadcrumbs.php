@@ -14,8 +14,6 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
  */
 function smarty_function_breadcrumbs($Params, &$Smarty) {
    $Breadcrumbs = $Smarty->Controller->Data('Breadcrumbs');
-   if (!is_array($Breadcrumbs))
-      $Breadcrumbs = array();
-   
-   return Gdn_Theme::Breadcrumbs($Breadcrumbs, GetValue('homelink', $Params, TRUE));
+   if (is_array($Breadcrumbs))
+      return Gdn_Theme::Breadcrumbs($Breadcrumbs);
 }

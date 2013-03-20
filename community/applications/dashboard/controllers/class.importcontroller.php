@@ -20,11 +20,6 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
  * @package Dashboard
  */
 class ImportController extends DashboardController {
-   public function Initialize() {
-      parent::Initialize();
-      Gdn_Theme::Section('Dashboard');
-   }
-   
    /**
     * Export core Vanilla and Conversations tables.
     *
@@ -138,9 +133,7 @@ class ImportController extends DashboardController {
 
       // Search for the list of acceptable imports.
       $ImportPaths = array();
-      $ExistingPaths = SafeGlob(PATH_UPLOADS.'/export*', array('gz', 'txt'));
-      $ExistingPaths2 = SafeGlob(PATH_UPLOADS.'/porter/export*', array('gz'));
-      $ExistingPaths = array_merge($ExistingPaths, $ExistingPaths2);
+      $ExistingPaths = SafeGlob(PATH_ROOT.'/uploads/export*', array('gz', 'txt'));
       foreach ($ExistingPaths as $Path)
          $ImportPaths[$Path] = basename($Path);
       // Add the database as a path.

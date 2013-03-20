@@ -22,7 +22,7 @@ $Configuration['Vanilla']['Discussion']['SpamCount']           = '3';
 $Configuration['Vanilla']['Discussion']['SpamTime']            = '60';
 $Configuration['Vanilla']['Discussion']['SpamLock']            = '120';
 
-$Configuration['Vanilla']['Comments']['PerPage']               = '30';
+$Configuration['Vanilla']['Comments']['PerPage']               = '50';
 $Configuration['Vanilla']['Discussions']['PerCategory']        = '5';
 $Configuration['Vanilla']['Discussions']['PerPage']            = '30';
 $Configuration['Vanilla']['Discussions']['Home']               = 'discussions';
@@ -45,5 +45,5 @@ $Configuration['Vanilla']['Comments']['AutoOffset']            = TRUE;
 $Configuration['Vanilla']['Comment']['ReplaceNewlines']        = TRUE;
 
 // Module visibility
-$Configuration['Vanilla']['Modules']['ShowBookmarkedModule']    = FALSE;
+$Configuration['Vanilla']['Modules']['ShowBookmarkedModule']    = TRUE;
 

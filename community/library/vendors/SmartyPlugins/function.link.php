@@ -18,7 +18,7 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
  *    - <b>signinout</b>: This will return a signin/signout url that will toggle depending on whether or not the user is already signed in. When this path is given the text is automaticall set.
  * - <b>withdomain</b>: Whether or not to add the domain to the url.
  * - <b>text</b>: Html text to be put inside an anchor. If this value is set then an html <a></a> is returned rather than just a url.
- * - <b>id, class, etc.</b>: When an anchor is generated then any other attributes are passed through and will be written in the resulting tag.
+ * - <b>id, class, etc.></b>: When an anchor is generated then any other attributes are passed through and will be written in the resulting tag.
  * @param Smarty The smarty object rendering the template.
  * @return The url.
  */
@@ -41,7 +41,6 @@ function smarty_function_link($Params, &$Smarty) {
    $Options = array();
    if (isset($Params['withdomain'])) $Options['WithDomain'] = $Params['withdomain'];
    if (isset($Params['class'])) $Options['class'] = $Params['class'];
-   if (isset($Params['tk'])) $Options['TK'] = $Params['tk'];
 
    $Result = Gdn_Theme::Link($Path, $Text, $Format, $Options);
 

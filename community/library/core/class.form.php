@@ -1,17 +1,26 @@
 <?php if (!defined('APPLICATION')) exit();
-
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 /**
- * Form validation layer
- * 
  * Helps with the rendering of form controls that link directly to a data model.
  *
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
+ * @author Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
  */
 
+/**
+ * Helps with the rendering of form controls that link directly to a data model.
+ *
+ * @package Garden
+ * @todo change formatting of tables in documentation
+ */
 class Gdn_Form extends Gdn_Pluggable {
    /**
     * @var string Action with which the form should be sent.
@@ -47,7 +56,7 @@ class Gdn_Form extends Gdn_Pluggable {
     *    If a model is assigned, the model name is used instead.
     * @access public
     */
-   public $InputPrefix = '';
+   public $InputPrefix = 'Form';
 
    /**
     * @var string Form submit method. Options are 'post' or 'get'.
@@ -90,7 +99,7 @@ class Gdn_Form extends Gdn_Pluggable {
     *    Values can be retrieved with $this->GetFormValue($FieldName).
     * @access private
     */
-   public $_FormValues;
+   private $_FormValues;
    
    /**
     * @var array Collection of IDs that have been created for form elements. This
@@ -135,20 +144,6 @@ class Gdn_Form extends Gdn_Pluggable {
          $Attributes['class'] .= ' '.$this->ErrorClass;
       else
          $Attributes['class'] = $this->ErrorClass;
-   }
-   
-   public function BodyBox($Column = 'Body', $Attributes = array()) {
-      TouchValue('MultiLine', $Attributes, TRUE);
-      TouchValue('format', $Attributes, $this->GetValue('Format', C('Garden.InputFormatter')));
-      TouchValue('Wrap', $Attributes, TRUE);
-      
-      $this->SetValue('Format', $Attributes['format']);
-      
-      $this->EventArguments['Table'] = GetValue('Table', $Attributes);
-      
-      $this->FireEvent('BeforeBodyBox');
-      
-      return $this->TextBox($Column, $Attributes).$this->Hidden('Format');
    }
    
    /**
@@ -234,11 +229,8 @@ class Gdn_Form extends Gdn_Pluggable {
       // Respect category permissions (remove categories that the user shouldn't see).
       $SafeCategoryData = array();
       foreach ($CategoryData as $CategoryID => $Category) {
-         if (!$Category['PermsDiscussionsAdd'])
-            continue;
-         
          if ($Value != $CategoryID) {
-            if ($Category['CategoryID'] <= 0 || !$Category['PermsDiscussionsView'])
+            if ($Category['CategoryID'] <= 0 || !$Category['PermsDiscussionsAdd'])
                continue;
 
             if ($Category['Archived'])
@@ -265,7 +257,7 @@ class Gdn_Form extends Gdn_Pluggable {
       $HasValue = ($Value !== array(FALSE) && $Value !== array('')) ? TRUE : FALSE;
       
       // Start with null option?
-      $IncludeNull = GetValue('IncludeNull', $Options) || !$HasValue;
+      $IncludeNull = GetValue('IncludeNull', $Options);
       if ($IncludeNull === TRUE)
          $Return .= '<option value=""></option>';
          
@@ -275,7 +267,7 @@ class Gdn_Form extends Gdn_Pluggable {
       // If making headings disabled and there was no default value for
       // selection, make sure to select the first non-disabled value, or the
       // browser will auto-select the first disabled option.
-      $ForceCleanSelection = ($DoHeadings && !$HasValue && !$IncludeNull);
+      $ForceCleanSelection = ($DoHeadings && !$HasValue);
       
       // Write out the category options
       if (is_array($SafeCategoryData)) {
@@ -1034,13 +1026,7 @@ class Gdn_Form extends Gdn_Pluggable {
       if ($ShowErrors) 
          $this->AddErrorClass($Attributes);
       
-      $Return = '';
-      $Wrap = GetValue('Wrap', $Attributes, FALSE, TRUE);
-      if ($Wrap) {
-         $Return .= '<div class="TextBoxWrapper">';
-      }
-      
-      $Return .= '<input type="' . $Type . '"';
+      $Return = '<input type="' . $Type . '"';
       $Return .= $this->_IDAttribute($FieldName, $Attributes);
       if ($Type == 'file') $Return .= Attribute('name',
          ArrayValueI('Name', $Attributes, $FieldName));
@@ -1059,9 +1045,6 @@ class Gdn_Form extends Gdn_Pluggable {
       // Append validation error message
       if ($ShowErrors && ArrayValueI('InlineErrors', $Attributes, TRUE))  
          $Return .= $this->InlineError($FieldName);
-      
-      if ($Wrap)
-         $Return .= '</div>';
 
       return $Return;
    }
@@ -1131,15 +1114,9 @@ class Gdn_Form extends Gdn_Pluggable {
     *
     * @todo check that missing DataObject parameter
     */
-   public function Open($Attributes = array()) {
-//      if ($this->InputPrefix)
-//         Trace($this->InputPrefix, 'InputPrefix');
-      
-      if (!is_array($Attributes))
-         $Attributes = array();
-      
+   public function Open($Attributes = FALSE) {
       $Return = '<form';
-      if ($this->InputPrefix != '' || array_key_exists('id', $Attributes)) $Return .= $this->_IDAttribute($this->InputPrefix,
+      if ($this->InputPrefix != '') $Return .= $this->_IDAttribute($this->InputPrefix,
          $Attributes);
 
       // Method
@@ -1268,7 +1245,7 @@ class Gdn_Form extends Gdn_Pluggable {
          $LiClose = '</li>';
       } else {
          $LiOpen = '';
-         $LiClose = ' ';
+         $LiClose = '';
       }
       
       // Show inline errors?
@@ -1336,12 +1313,7 @@ class Gdn_Form extends Gdn_Pluggable {
       // Add error class to input element
       if ($ShowErrors) $this->AddErrorClass($Attributes);
       
-      $Return = '';
-      $Wrap = GetValue('Wrap', $Attributes, FALSE, TRUE);
-      if ($Wrap)
-         $Return .= '<div class="TextBoxWrapper">';
-      
-      $Return .= $MultiLine === TRUE ? '<textarea' : '<input type="'.GetValue('type', $Attributes, 'text').'"';
+      $Return = $MultiLine === TRUE ? '<textarea' : '<input type="text"';
       $Return .= $this->_IDAttribute($FieldName, $Attributes);
       $Return .= $this->_NameAttribute($FieldName, $Attributes);
       $Return .= $MultiLine === TRUE ? '' : $this->_ValueAttribute($FieldName, $Attributes);
@@ -1354,9 +1326,6 @@ class Gdn_Form extends Gdn_Pluggable {
       // Append validation error message
       if ($ShowErrors)  
          $Return .= $this->InlineError($FieldName);
-      
-      if ($Wrap)
-         $Return .= '</div>';
       
       return $Return;
    }
@@ -1451,16 +1420,16 @@ class Gdn_Form extends Gdn_Pluggable {
       // forms sent with "get" method do not require authentication.
       //   return TRUE;
       //} else {
-      $KeyName = $this->EscapeFieldName('TransientKey');
-      $PostBackKey = Gdn::Request()->GetValueFrom(Gdn_Request::INPUT_POST, $KeyName, FALSE);
-      
+      $KeyName = $this->InputPrefix . '/TransientKey';
+      $PostBackKey = isset($_POST[$KeyName]) ? $_POST[$KeyName] : FALSE;
+      $Session = Gdn::Session();
       // DEBUG:
       //$Result .= '<div>KeyName: '.$KeyName.'</div>';
       //echo '<div>PostBackKey: '.$PostBackKey.'</div>';
       //echo '<div>TransientKey: '.$Session->TransientKey().'</div>';
       //echo '<div>AuthenticatedPostBack: ' . ($Session->ValidateTransientKey($PostBackKey) ? 'Yes' : 'No');
       //die();
-      return Gdn::Session()->ValidateTransientKey($PostBackKey);
+      return $Session->ValidateTransientKey($PostBackKey);
       //}
    }
    
@@ -1595,13 +1564,23 @@ class Gdn_Form extends Gdn_Pluggable {
          $Collection = $this->Method == 'get' ? $_GET : $_POST;
          $InputType = $this->Method == 'get' ? INPUT_GET : INPUT_POST;
          
-         
-         
          foreach($Collection as $Field => $Value) {
             $FieldName = substr($Field, $TableNameLength);
             $FieldName = $this->_UnescapeString($FieldName);
             if (substr($Field, 0, $TableNameLength) == $TableName) {
-               $this->_FormValues[$FieldName] = $Value;
+               if (is_array($Value)) {
+                  $this->_FormValues[$FieldName] = filter_input(
+                     $InputType,
+                     $Field,
+                     FILTER_DEFAULT,
+                     FILTER_REQUIRE_ARRAY
+                  );
+               } else {
+                  $this->_FormValues[$FieldName] = filter_input(
+                     $InputType,
+                     $Field
+                  );
+               }
             }
          }
          
@@ -1664,7 +1643,7 @@ class Gdn_Form extends Gdn_Pluggable {
             }
          }
       }
-      
+
       // print_r($this->_FormValues);
       return $this->_FormValues;
    }
@@ -1697,7 +1676,7 @@ class Gdn_Form extends Gdn_Pluggable {
    public function GetValue($FieldName, $Default = FALSE) {
       $Return = '';
       // Only retrieve values from the form collection if this is a postback.
-      if ($this->IsMyPostBack()) {
+      if ($this->IsPostBack()) {
          $Return = $this->GetFormValue($FieldName, $Default);
       } else {
          $Return = ArrayValue($FieldName, $this->_DataArray, $Default);
@@ -1724,35 +1703,11 @@ class Gdn_Form extends Gdn_Pluggable {
       return count($_POST) > 0 ? TRUE : FALSE;
       
       2009-03-31 - switching back to "get" dictating a postback
-      
-      2012-06-27 - Using the request method to determine a postback.
       */
-      
-      switch (strtolower($this->Method)) {
-         case 'get':
-            return count($_GET) > 0 || (is_array($this->FormValues()) && count($this->FormValues()) > 0) ? TRUE : FALSE;
-         default:
-            return Gdn::Request()->IsPostBack();
-      }
+      $FormCollection = $this->Method == 'get' ? $_GET : $_POST;
+      return count($FormCollection) > 0 || (is_array($this->_FormValues) && count($this->_FormValues) > 0) ? TRUE : FALSE;
    }
 
-   /**
-    * Check if THIS particular form was submitted
-    * 
-    * Just like IsPostBack(), except auto populates FormValues and doesnt just check
-    * "was some data submitted lol?!".
-    * 
-    * @return boolean
-    */
-   public function IsMyPostBack() {
-      switch (strtolower($this->Method)) {
-         case 'get':
-            return count($_GET) > 0 || (is_array($this->FormValues()) && count($this->FormValues()) > 0) ? TRUE : FALSE;
-         default:
-            return Gdn::Request()->IsPostBack();
-      }
-   }
-   
    /**
     * This is a convenience method so that you don't have to code this every time
     * you want to save a simple model's data.
@@ -1769,10 +1724,6 @@ class Gdn_Form extends Gdn_Pluggable {
             ErrorMessage(
                "You cannot call the form's save method if a model has not been defined.",
                "Form", "Save"), E_USER_ERROR);
-         
-         $Data = $this->FormValues();
-         if (method_exists($this->_Model, 'FilterForm'))
-            $Data = $this->_Model->FilterForm($this->FormValues());
 
          $Args = array_merge(func_get_args(),
             array(
@@ -1786,7 +1737,7 @@ class Gdn_Form extends Gdn_Pluggable {
                NULL,
                NULL,
                NULL));
-         $SaveResult = $this->_Model->Save($Data, $Args[0], $Args[1],
+         $SaveResult = $this->_Model->Save($this->FormValues(), $Args[0], $Args[1],
             $Args[2], $Args[3], $Args[4], $Args[5], $Args[6], $Args[7],
             $Args[8], $Args[9]);
          if ($SaveResult === FALSE) {
@@ -1847,9 +1798,7 @@ class Gdn_Form extends Gdn_Pluggable {
     */
    public function SetModel($Model, $DataSet = FALSE) {
       $this->_Model = $Model;
-      
-      if ($this->InputPrefix)
-         $this->InputPrefix = $this->_Model->Name;
+      $this->InputPrefix = $this->_Model->Name;
       if ($DataSet !== FALSE) $this->SetData($DataSet);
    }
    
@@ -1859,7 +1808,7 @@ class Gdn_Form extends Gdn_Pluggable {
    public function SetValidationResults($ValidationResults) {
       if (!is_array($this->_ValidationResults)) $this->_ValidationResults = array();
 
-      $this->_ValidationResults = array_merge_recursive($this->_ValidationResults, $ValidationResults);
+      $this->_ValidationResults = array_merge($this->_ValidationResults, $ValidationResults);
    }
 
    /**
@@ -1999,13 +1948,6 @@ class Gdn_Form extends Gdn_Pluggable {
       
    }
 
-   /**
-    * Gets the validation results in the form.
-    * @return array
-    */
-   public function ValidationResults() {
-      return $this->_ValidationResults;
-   }
    
    
    /**

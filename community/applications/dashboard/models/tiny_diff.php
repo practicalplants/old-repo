@@ -80,9 +80,6 @@ class Tiny_diff
 		// Turn the strings into an array so it's a bit easier to parse them
 		$diff	= $this->diff(explode(PHP_EOL, $old), explode(PHP_EOL, $new));
 		$result	= '';
-      
-      if ($mode == 'raw')
-         return $diff;
 
 		foreach($diff as $line)
 		{

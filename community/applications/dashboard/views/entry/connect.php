@@ -17,12 +17,11 @@ $ConnectSource = $this->Form->GetFormValue('ProviderName');
 		echo $this->Form->Errors();
 		if ($ConnectName || $ConnectPhoto):
 		?>
-		<div class="MeBox">
+		<div class="ConnectInfo">
 			<?php
 			if ($ConnectPhoto)
-				echo Img($ConnectPhoto, array('alt' => T('Profile Picture'), 'class' => 'ProfilePhotoMedium'));
+				echo Img($ConnectPhoto, array('alt' => T('Profile Picture')));
 	
-         echo '<div class="WhoIs">';
 			if ($ConnectName && $ConnectSource) {
 				$NameFormat = T('You are connected as %s through %s.');
 			} elseif ($ConnectName) {
@@ -40,8 +39,6 @@ $ConnectSource = $this->Form->GetFormValue('ProviderName');
 				'<span class="Source">'.htmlspecialchars($ConnectSource).'</span>');
 			
 			echo Wrap(T('ConnectCreateAccount', 'Add Info &amp; Create Account'), 'h3');
-         
-         echo '</div>';
 			?>
 		</div>
 		<?php endif; ?>
@@ -90,7 +87,6 @@ $ConnectSource = $this->Form->GetFormValue('ProviderName');
 						echo $this->Form->Textbox('ConnectName');
 					?>
 				</li>
-				<?php $this->FireEvent('RegisterBeforePassword'); ?>
 				<li id="ConnectPassword">
 					<?php
 					echo $this->Form->Label('Password', 'ConnectPassword');

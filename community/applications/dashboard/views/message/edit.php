@@ -13,7 +13,7 @@ echo $this->Form->Errors();
    <li>
       <?php
          echo $this->Form->Label('Page', 'Location');
-         echo $this->Form->DropDown('Location', $this->Data('Locations'));
+         echo $this->Form->DropDown('Location', $this->LocationData);
       ?>
    </li>
    <li>
@@ -28,18 +28,16 @@ echo $this->Form->Errors();
          echo $this->Form->TextBox('Content', array('MultiLine' => TRUE));
       ?>
    </li>
-   <li class="MessageExamples">
+   <li>
       <?php
          $Style = ' style="display: inline; padding: 2px 6px 2px 6px; margin: 0 6px 0 0;"';
          echo $this->Form->Label('Appearance', 'CssClass');
-         echo $this->Form->Radio('CssClass', '', array('value' => 'CasualMessage'));
-         echo '<div class="CasualMessage"'.$Style.'>'.T('Casual').'</div>';
-         echo $this->Form->Radio('CssClass', '', array('value' => 'InfoMessage'));
-         echo '<div class="InfoMessage"'.$Style.'>'.T('Information').'</div>';
-         echo $this->Form->Radio('CssClass', '', array('value' => 'AlertMessage'));
-         echo '<div class="AlertMessage"'.$Style.'>'.T('Alert').'</div>';
-         echo $this->Form->Radio('CssClass', '', array('value' => 'WarningMessage'));
-         echo '<div class="WarningMessage"'.$Style.'>'.T('Warning').'</div>';
+         echo $this->Form->Radio('CssClass', '', array('value' => 'Info'));
+         echo '<div class="Info"'.$Style.'>'.T('Information').'</div>';
+         echo $this->Form->Radio('CssClass', '', array('value' => 'Warning'));
+         echo '<div class="Warning"'.$Style.'>'.T('Warning').'</div>';
+         echo $this->Form->Radio('CssClass', '', array('value' => 'Box'));
+         echo '<div class="Box"'.$Style.'>'.T('Panel Box').'</div>';
       ?>
    </li>
    <li>

@@ -1,5 +1,4 @@
 <?php if (!defined('APPLICATION')) exit();
-echo '<h1 class="H HomepageTitle">'.$this->Data('Title').'</h1>';
 $ViewLocation = $this->FetchViewLocation('discussions', 'discussions');
 ?>
 <div class="Categories">
@@ -13,17 +12,21 @@ $ViewLocation = $this->FetchViewLocation('discussions', 'discussions');
       if ($this->DiscussionData->NumRows() > 0) : ?>
       
    <div class="CategoryBox Category-<?php echo $Category->UrlCode; ?>">
-      <?php echo Wrap(Anchor($Category->Name, '/categories/'.$Category->UrlCode), 'h2', array('class' => 'H')); ?>
+      <div class="Tabs CategoryTabs">
+         <ul>
+            <li class="Active"><?php echo Anchor($Category->Name, '/categories/'.$Category->UrlCode); ?></li>
+         </ul>
+      </div>
       
       <ul class="DataList Discussions">
          <?php include($this->FetchViewLocation('discussions', 'discussions')); ?>
       </ul>
       
-      <?php if ($this->DiscussionData->NumRows() == $this->DiscussionsPerCategory) : ?>
-      <div class="MorePager">
-         <?php echo Anchor(T('More Discussions'), '/categories/'.$Category->UrlCode); ?>
+      <div class="Foot">
+         <?php if ($this->DiscussionData->NumRows() == $this->DiscussionsPerCategory) : ?>
+            <?php echo Anchor(T('More Discussions'), '/categories/'.$Category->UrlCode, 'TabLink'); ?>
+         <?php endif; ?>
       </div>
-      <?php endif; ?>
       
    </div>
    

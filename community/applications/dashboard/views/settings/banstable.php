@@ -1,5 +1,5 @@
 <?php if (!defined('APPLICATION')) exit();
-PagerModule::Write(array('Sender' => $this, 'Limit' => 20, 'CurrentRecords' => count($this->Data('Bans'))));
+PagerModule::Write(array('Sender' => $this, 'Limit' => 20));
 ?>
 <table id="Log" class="AltColumns">
    <thead>

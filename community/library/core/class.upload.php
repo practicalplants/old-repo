@@ -1,16 +1,16 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Handles file uploads
- *
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @author Todd Burry <todd@vanillaforums.com> 
- * @copyright 2003 Vanilla Forums, Inc
- * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
- * @package Garden
- * @since 2.0
+ * Handles uploading files.
  */
-
 class Gdn_Upload extends Gdn_Pluggable {
    /// PROPERTIES ///
 
@@ -47,7 +47,7 @@ class Gdn_Upload extends Gdn_Pluggable {
 
 	public static function CanUpload($UploadPath=NULL) {
 		if (is_null($UploadPath))
-			$UploadPath = PATH_UPLOADS;
+			$UploadPath = PATH_LOCAL_UPLOADS;
 
 		if (ini_get('file_uploads') != 1)
 			return FALSE;
@@ -80,9 +80,9 @@ class Gdn_Upload extends Gdn_Pluggable {
       $this->EventArguments['Parsed'] = $Parsed;
       $this->EventArguments['Path'] =& $LocalPath;
 
-      $this->FireAs('Gdn_Upload')->FireEvent('CopyLocal');
+      $this->FireEvent('CopyLocal');
       if (!$LocalPath) {
-         $LocalPath = PATH_UPLOADS.'/'.$Parsed['Name'];
+         $LocalPath = PATH_LOCAL_UPLOADS.'/'.$Parsed['Name'];
       }
       return $LocalPath;
    }
@@ -99,10 +99,10 @@ class Gdn_Upload extends Gdn_Pluggable {
       $this->EventArguments['Parsed'] =& $Parsed;
       $Handled = FALSE;
       $this->EventArguments['Handled'] =& $Handled;
-      $this->FireAs('Gdn_Upload')->FireEvent('Delete');
+      $this->FireEvent('Delete');
 
       if (!$Handled) {
-         $Path = PATH_UPLOADS.'/'.ltrim($Name, '/');
+         $Path = PATH_LOCAL_UPLOADS.'/'.ltrim($Name, '/');
          @unlink($Path);
       }
    }
@@ -132,8 +132,8 @@ class Gdn_Upload extends Gdn_Pluggable {
       if (preg_match('`^https?://`', $Name)) {
          $Result = array('Name' => $Name, 'Type' => 'external', 'SaveName' => $Name, 'SaveFormat' => '%s', 'Url' => $Name, );
          return $Result;
-      } elseif (StringBeginsWith($Name, PATH_UPLOADS)) {
-         $Name = ltrim(substr($Name, strlen(PATH_UPLOADS)), '/');
+      } elseif (StringBeginsWith($Name, PATH_LOCAL_UPLOADS)) {
+         $Name = ltrim(substr($Name, strlen(PATH_LOCAL_UPLOADS)), '/');
          // This is an upload.
          $Result = array('Name' => $Name, 'Type' => '', 'SaveName' => $Name, 'SaveFormat' => '%s');
       } elseif (preg_match ('`^~([^/]*)/(.*)$`', $Name, $Matches)) {
@@ -187,23 +187,16 @@ class Gdn_Upload extends Gdn_Pluggable {
 		return GetValue('extension', $Info, '');
 	}
 
-   public function GenerateTargetName($TargetFolder, $Extension = 'jpg', $Chunk = FALSE) {
-      if (!$Extension) {
-         $Extension = trim(pathinfo($this->_UploadedFile['name'], PATHINFO_EXTENSION), '.');
-      }
+	public function GenerateTargetName($TargetFolder, $Extension = '') {
+		if ($Extension == '')
+			$Extension = $this->GetUploadedFileExtension();
 
-      do {
-         if ($Chunk) {
-            $Name = RandomString(12);
-            $Subdir = sprintf('%03d', mt_rand(0, 999)).'/';
-         } else {
-            $Name = RandomString(12);
-            $Subdir = '';
-         }
-         $Path = "$TargetFolder/{$Subdir}$Name.$Extension";
-      } while(file_exists($Path));
-      return $Path;
-   }
+		$Name = RandomString(12);
+		while (file_exists($TargetFolder . DS . $Name . '.' . $Extension)) {
+			$Name = RandomString(12);
+		}
+		return $TargetFolder . DS . $Name . '.' . $Extension;
+	}
 
 	public function SaveAs($Source, $Target) {
       $this->EventArguments['Path'] = $Source;
@@ -211,11 +204,11 @@ class Gdn_Upload extends Gdn_Pluggable {
       $this->EventArguments['Parsed'] =& $Parsed;
       $Handled = FALSE;
       $this->EventArguments['Handled'] =& $Handled;
-      $this->FireAs('Gdn_Upload')->FireEvent('SaveAs');
+      $this->FireEvent('SaveAs');
 
       // Check to see if the event handled the save.
       if (!$Handled) {
-         $Target = PATH_UPLOADS.'/'.$Parsed['Name'];
+         $Target = PATH_LOCAL_UPLOADS.'/'.$Parsed['Name'];
          if (!file_exists(dirname($Target)))
             mkdir(dirname($Target));
          

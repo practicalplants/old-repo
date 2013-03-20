@@ -3,11 +3,10 @@ $Session = Gdn::Session();
 ?>
 <div class="Help Aside">
    <?php
-   echo Wrap(T('Need More Help?'), 'h2');
+   echo '<h2>', T('Need More Help?'), '</h2>';
    echo '<ul>';
-   echo Wrap(Anchor(T("Video tutorial on managing categories"), 'settings/tutorials/category-management-and-advanced-settings'), 'li');
-   echo Wrap(Anchor(T('Managing Categories'), 'http://vanillaforums.org/docs/managecategories'), 'li');
-   echo Wrap(Anchor(T('Adding & Editing Categories'), 'http://vanillaforums.org/docs/managecategories#add'), 'li');
+   echo '<li>', Anchor(T('Managing Categories'), 'http://vanillaforums.org/docs/managecategories'), '</li>';
+   echo '<li>', Anchor(T('Adding & Editing Categories'), 'http://vanillaforums.org/docs/managecategories#add'), '</li>';
    echo '</ul>';
    ?>
 </div>
@@ -31,7 +30,7 @@ if (C('Vanilla.Categories.Use')) {
       echo '<h2>', T('Did You Know?'), '</h2>';
       echo '<ul>';
       echo '<li>', sprintf(T('You can make the categories page your homepage.', 'You can make your categories page your homepage <a href="%s">here</a>.'), Url('/dashboard/settings/homepage')), '</li>';
-      echo '<li>', sprintf(T('Make sure you click View Page', 'Make sure you click <a href="%s">View Page</a> to see what your categories page looks like after saving.'), Url('/categories')), '</li>';
+      echo '<li>', sprintf(T('Make sure you click View Page', 'Make sure you click <a href="%s">View Page</a> to see what your categories page looks like after saving.'), Url('/categories/all')), '</li>';
       echo '<li>', T('Drag and drop the categories below to sort and nest them.'), '</li>';
       echo '</ul>';
       ?>
@@ -39,7 +38,7 @@ if (C('Vanilla.Categories.Use')) {
    <h1><?php
       echo T('Category Page Layout');
       echo ' ';
-      echo Anchor(T('View Page'), 'categories');
+      echo Anchor(T('View Page'), 'categories/all');
    ?></h1>
    <?php
    echo $this->Form->Open();
@@ -53,10 +52,7 @@ if (C('Vanilla.Categories.Use')) {
       .Wrap($this->Form->CheckBox('Vanilla.Categories.DoHeadings', 'Display root categories as headings.'), 'div')
       .Wrap($this->Form->CheckBox('Vanilla.Categories.HideModule', 'Do not display the categories in the side panel.'), 'div')
    .'</div>'
-   .'<div class="Buttons Wrap">'
-   .$this->Form->Button('Save')
-   .'</div>'
-   .$this->Form->Close();
+   .$this->Form->Close('Save');
 
    echo Wrap(T('Organize Categories'), 'h1')
    .'<ol class="Sortable">';

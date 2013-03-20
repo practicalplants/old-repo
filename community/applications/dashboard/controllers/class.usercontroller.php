@@ -31,7 +31,6 @@ class UserController extends DashboardController {
     */
    public function Initialize() {
       parent::Initialize();
-      Gdn_Theme::Section('Dashboard');
       if ($this->Menu)
          $this->Menu->HighlightRoute('/dashboard/settings');
    }
@@ -100,11 +99,10 @@ class UserController extends DashboardController {
 
       // Get user list
       $this->UserData = $UserModel->Search($Filter, $Order, $OrderDir, $Limit, $Offset);
-      $this->SetData('Users', $this->UserData);
       RoleModel::SetUserRoles($this->UserData->Result());
       
       // Deliver json data if necessary
-      if ($this->_DeliveryType != DELIVERY_TYPE_ALL && $this->_DeliveryMethod == DELIVERY_METHOD_XHTML) {
+      if ($this->_DeliveryType != DELIVERY_TYPE_ALL) {
          $this->SetJson('LessRow', $this->Pager->ToString('less'));
          $this->SetJson('MoreRow', $this->Pager->ToString('more'));
          $this->View = 'users';
@@ -188,8 +186,15 @@ class UserController extends DashboardController {
     */
    public function ApplicantCount() {
       $this->Permission('Garden.Applicants.Manage');
-      $RoleModel = new RoleModel();
-      $Count = $RoleModel->GetApplicantCount();
+
+      $Count = Gdn::SQL()
+         ->Select('u.UserID', 'count', 'UserCount')
+         ->From('User u')
+         ->Join('UserRole ur', 'u.UserID = ur.UserID')
+         ->Where('ur.RoleID',  C('Garden.Registration.ApplicantRoleID', 0))
+         ->Where('u.Deleted', '0')
+         ->Get()->Value('UserCount', 0);
+
       if ($Count > 0)
          echo '<span class="Alert">', $Count, '</span>';
    }
@@ -264,61 +269,6 @@ class UserController extends DashboardController {
       foreach ($Data->Result() as $User) {
          echo $User->Name.'|'.Gdn_Format::Text($User->UserID)."\n";
       }
-      $this->Render();
-   }
-   
-   /**
-    * Ban a user and optionally delete their content.
-    * @since 2.1
-    * @param type $UserID 
-    */
-   public function Ban($UserID, $Unban = FALSE) {
-      $this->Permission('Garden.Moderation.Manage');
-      
-      $User = Gdn::UserModel()->GetID($UserID, DATASET_TYPE_ARRAY);
-      if (!$User)
-         throw NotFoundException($User);
-      
-//      $this->Form = new Gdn_Form();
-      
-      $UserModel = Gdn::UserModel();
-      
-      if ($this->Form->IsPostBack()) {
-         if ($Unban) {
-            $UserModel->Unban($UserID, array('RestoreContent' => $this->Form->GetFormValue('RestoreContent')));
-         } else {
-            if (!ValidateRequired($this->Form->GetFormValue('Reason'))) {
-               $this->Form->AddError('ValidateRequired', 'Reason');
-            }
-            if ($this->Form->GetFormValue('Reason') == 'Other' && !ValidateRequired($this->Form->GetFormValue('ReasonText'))) {
-               $this->Form->AddError('ValidateRequired', 'Reason Text');
-            }
-
-            if ($this->Form->ErrorCount() == 0) {
-               if ($this->Form->GetFormValue('Reason') == 'Other')
-                  $Reason = $this->Form->GetFormValue('ReasonText');
-               else
-                  $Reason = $this->Form->GetFormValue('Reason');
-
-               $UserModel->Ban($UserID, array('Reason' => $Reason, 'DeleteContent' => $this->Form->GetFormValue('DeleteContent')));
-            }
-         }
-         
-         if ($this->Form->ErrorCount() == 0) {
-            // Redirect after a successful save.
-            if ($this->Request->Get('Target')) {
-               $this->RedirectUrl = $this->Request->Get('Target');
-            } else {
-               $this->RedirectUrl = UserUrl($User);
-            }
-         }
-      }
-      
-      $this->SetData('User', $User);
-      $this->AddSideMenu();
-      $this->Title($Unban ? T('Unban User') : T('Ban User'));
-      if ($Unban)
-         $this->View = 'Unban';
       $this->Render();
    }
 	
@@ -417,29 +367,6 @@ class UserController extends DashboardController {
       } catch (Exception $Ex) {
          $this->Form->AddError($Ex);
       }
-      $this->Render();
-   }
-   
-   public function DeleteContent($UserID) {
-      $this->Permission('Garden.Moderation.Manage');
-      
-      $User = Gdn::UserModel()->GetID($UserID);
-      if (!$User)
-         throw NotFoundException('User');
-      
-      if ($this->Request->IsPostBack()) {
-         Gdn::UserModel()->DeleteContent($UserID, array('Log' => TRUE));
-
-         if ($this->Request->Get('Target')) {
-            $this->RedirectUrl = $this->Request->Get('Target');
-         } else {
-            $this->RedirectUrl = UserUrl($User);
-         }
-      } else {
-         $this->SetData('Title', T('Are you sure you want to do this?'));
-      }
-      
-      $this->SetData('User', $User);
       $this->Render();
    }
    
@@ -691,7 +618,7 @@ class UserController extends DashboardController {
    public function UsernameAvailable($Name = '') {
       $this->_DeliveryType = DELIVERY_TYPE_BOOL;
       $Available = TRUE;
-      if (C('Garden.Registration.NameUnique', TRUE) && $Name != '') {
+      if ($Name != '') {
          $UserModel = Gdn::UserModel();
          if ($UserModel->GetByUsername($Name))
             $Available = FALSE;
@@ -702,24 +629,4 @@ class UserController extends DashboardController {
       $this->Render();
    }
    
-   public function Verify($UserID, $Verified) {
-      $this->Permission('Garden.Moderation.Manage');
-      
-      if (!$this->Request->IsPostBack()) {
-         throw PermissionException('Javascript');
-      }
-      
-      // First, set the field value.
-      Gdn::UserModel()->SetField($UserID, 'Verified', $Verified);
-      
-      $User = Gdn::UserModel()->GetID($UserID);
-      if (!$User)
-         throw NotFoundException('User');
-      
-      // Send back the verified button.
-      require_once $this->FetchViewLocation('helper_functions', 'Profile', 'Dashboard');
-      $this->JsonTarget('.User-Verified', UserVerified($User), 'ReplaceWith');
-      
-      $this->Render('Blank', 'Utility', 'Dashboard');
-   }
 }

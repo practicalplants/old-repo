@@ -1,14 +1,24 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
  * Wrapper for the Portable PHP password hashing framework.
  *
  * @author Damien Lebrun
- * @copyright 2003 Vanilla Forums, Inc
+ * @copyright 2009 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
+
 
 include PATH_LIBRARY . '/vendors/phpass/PasswordHash.php';
 
@@ -48,18 +58,6 @@ class Gdn_PasswordHash extends PasswordHash {
          }
       }
    }
-   
-   function CheckIPB($Password, $StoredHash) {
-      $Parts = explode('$', $StoredHash, 2);
-      if (count($Parts) == 2) {
-         $Hash = $Parts[0];
-         $Salt = $Parts[1];
-
-         $CalcHash = md5(md5($Salt).md5($Password));
-         return $CalcHash == $Hash;
-      }
-      return FALSE;
-   }
 
    /**
     * Check a password against a stored password.
@@ -75,27 +73,9 @@ class Gdn_PasswordHash extends PasswordHash {
     */
    function CheckPassword($Password, $StoredHash, $Method = FALSE, $Username = NULL) {
       $Result = FALSE;
-      $ResetUrl = Url('entry/passwordrequest'.(Gdn::Request()->Get('display') ? '?display='.urlencode(Gdn::Request()->Get('display')) : ''));
-      switch(strtolower($Method)) {
+		switch(strtolower($Method)) {
          case 'django':
             $Result = $this->CheckDjango($Password, $StoredHash);
-            break;
-         case 'ipb':
-            $Result = $this->CheckIPB($Password, $StoredHash);
-            break;
-         case 'joomla':
-            $Parts = explode(':', $StoredHash, 2);
-            $Hash = GetValue(0, $Parts);
-            $Salt = GetValue(1, $Parts);
-            $ComputedHash = md5($Password.$Salt);
-            $Result = $ComputedHash == $Hash;
-            break;
-         case 'mybb':
-            $Parts = explode(':', $StoredHash, 2);
-            $Hash = GetValue(0, $Parts);
-            $Salt = GetValue(1, $Parts);
-            $ComputedHash = md5(md5($Salt).$Password);
-            $Result = $ComputedHash == $Hash;
             break;
          case 'phpbb':
             require_once(PATH_LIBRARY.'/vendors/phpbb/phpbbhash.php');
@@ -115,32 +95,30 @@ class Gdn_PasswordHash extends PasswordHash {
             
             break;
          case 'reset':
-            throw new Gdn_UserException(sprintf(T('You need to reset your password.', 'You need to reset your password. This is most likely because an administrator recently changed your account information. Click <a href="%s">here</a> to reset your password.'), $ResetUrl));
-            break;
-         case 'random':
-            throw new Gdn_UserException(sprintf(T('You don\'t have a password.', 'Your account does not have a password assigned to it yet. Click <a href="%s">here</a> to reset your password.'), $ResetUrl));
+            throw new Gdn_UserException(sprintf(T('You need to reset your password.', 'You need to reset your password. This is most likely because an administrator recently changed your account information. Click <a href="%s">here</a> to reset your password.'), Url('entry/passwordrequest')));
             break;
          case 'smf':
             $Result = (sha1(strtolower($Username).$Password) == $StoredHash);
             break;
-         case 'vbulletin':
+			case 'vbulletin':
             // assume vbulletin's password hash has a fixed length of 32, the salt length will vary between version 3 and 4
             $SaltLength = strlen($StoredHash) - 32;
             $Salt = trim(substr($StoredHash, -$SaltLength, $SaltLength));
             $VbStoredHash = substr($StoredHash, 0, strlen($StoredHash) - $SaltLength);
             
-            $VbHash = md5(md5($Password).$Salt);
-            $Result = $VbHash == $VbStoredHash;
-            break;
-         case 'vanilla':
-         default:
-            $Result = $this->CheckVanilla($Password, $StoredHash);
-      }
-      return $Result;
+				$VbHash = md5(md5($Password).$Salt);
+				$Result = $VbHash == $VbStoredHash;
+				break;
+			case 'vanilla':
+			default:
+				$Result = $this->CheckVanilla($Password, $StoredHash);
+		}
+		
+		return $Result;
    }
-   
-   function CheckVanilla($Password, $StoredHash) {
-      $this->Weak = FALSE;
+	
+	function CheckVanilla($Password, $StoredHash) {
+		$this->Weak = FALSE;
       if (!isset($StoredHash[0]))
          return FALSE;
       
@@ -153,5 +131,5 @@ class Gdn_PasswordHash extends PasswordHash {
          return TRUE;
       }
       return FALSE;
-   }
+	}
 }

@@ -9,46 +9,26 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 
 ChangeLog
 1.0.2 - Moved WordPress plugin to WP.org repository & updated link to http://wordpress.org/extend/plugins/vanilla-forums/
-1.0.6 - Set P3P header in Render_Before (MLR)
-1.0.7 - Move P3P header to BeforeDispatch (MLR)
-1.0.8 - ?
-1.0.9 - Move P3P header to AppStartup and use BeforeDispatch as fallback (MLR)
-1.0.10 - Deprecated.
 */
 
 // Define the plugin:
 $PluginInfo['embedvanilla'] = array(
    'Name' => '&lt;Embed&gt; Vanilla',
-   'Description' => "This plugin is deprecated and no longer supported. Use 'Forum Settings' &gt; 'Embed Forum' instead.",
-   'Version' => '1.0.10',
+   'Description' => "Embed Vanilla allows you to embed your Vanilla forum within another application like WordPress, Drupal, or some custom website you've created.",
+   'Version' => '1.0.6',
    'Author' => "Mark O'Sullivan",
    'AuthorEmail' => 'mark@vanillaforums.com',
    'AuthorUrl' => 'http://markosullivan.ca',
-	'SettingsUrl' => '/embed/forum',
+	'SettingsUrl' => '/plugin/embed',
 	'MobileFriendly' => TRUE
 );
 
 class EmbedVanillaPlugin extends Gdn_Plugin {
-   /**
-    * Set P3P header because IE won't allow cookies thru the iFrame without it.
-    *
-    * This must be done in the Dispatcher because of PrivateCommunity.
-    * That precludes using Controller->SetHeader.
-    */
-   public function Gdn_Dispatcher_AppStartup_Handler($Sender) {
-      header('P3P: CP="CAO PSA OUR"', TRUE);
-   }
    
-   /**
-    * Fallback hook for 2.0.18 and earlier (AppStartup event did not exist).
-    * @see Gdn_Dispatcher_AppStartup_Handler
-    */
-   public function Gdn_Dispatcher_BeforeDispatch_Handler($Sender) {
-      if (!headers_sent())
-         header('P3P: CP="CAO PSA OUR"', TRUE);
-   }
-   
-	public function Base_Render_Before($Sender) {      
+	public function Base_Render_Before($Sender) {
+      // Set P3P header because IE won't allow cookies thru the iFrame without it
+      $Sender->SetHeader('P3P', 'CP="CAO PSA OUR"');
+      
 		$InDashboard = !($Sender->MasterView == 'default' || $Sender->MasterView == '');
 		$Sender->AddJsFile('plugins/embedvanilla/local.js');
 
@@ -62,7 +42,7 @@ class EmbedVanillaPlugin extends Gdn_Plugin {
 
 		// Report the remote url to redirect to if not currently embedded.
 		$Sender->AddDefinition('RemoteUrl', $RemoteUrl);
-		if (!IsSearchEngine() && !$InDashboard && !IsMobile() && C('Plugins.EmbedVanilla.ForceRemoteUrl'))
+		if (!IsSearchEngine() && !$InDashboard && C('Plugins.EmbedVanilla.ForceRemoteUrl'))
 			$Sender->AddDefinition('ForceRemoteUrl', TRUE);
 
       $Sender->AddDefinition('Path', Gdn::Request()->Path());

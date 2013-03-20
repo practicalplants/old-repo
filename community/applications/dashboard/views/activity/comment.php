@@ -7,5 +7,5 @@ if (!property_exists($this, 'ProfileUserID'))
 if (!function_exists('WriteActivityComment'))
    include($this->FetchViewLocation('helper_functions', 'activity'));
 
-if ($this->Data('Comment'))
-   WriteActivityComment($this->Data('Comment'), $this, $Session);
+if (property_exists($this->Comment, 'ActivityID'))
+   WriteActivityComment($this->Comment, $this, $Session);

@@ -1,12 +1,4 @@
 <?php if (!defined('APPLICATION')) exit(); ?>
-<div class="Help Aside">
-   <?php
-   echo Wrap(T('Need More Help?'), 'h2');
-   echo '<ul>';
-   echo Wrap(Anchor(T("Video tutorial on user registration"), 'settings/tutorials/user-registration'), 'li');
-   echo '</ul>';
-   ?>
-</div>
 <h1><?php echo T('User Registration Settings'); ?></h1>
 <?php
 echo $this->Form->Open();
@@ -64,7 +56,7 @@ echo Gdn::Slice('/dashboard/role/defaultroleswarning');
    */
    ?>
    <li id="CaptchaSettings">
-      <div class="Info"><?php echo T('The basic registration form requires that new users copy text from a "Captcha" image to help prevent spam.', '<strong>The basic registration form requires</strong> that new users copy text from a "Captcha" image to keep spammers out of the site. You need an account at <a href="http://recaptcha.net/">recaptcha.net</a>. Signing up is FREE and easy. Once you have signed up, come back here and enter the following settings:'); ?></div>
+      <div class="Info"><?php echo T('<strong>The basic registration form requires</strong> that new users copy text from a "Captcha" image to keep spammers out of the site. You need an account at <a href="http://recaptcha.net/">recaptcha.net</a>. Signing up is FREE and easy. Once you have signed up, come back here and enter the following settings:'); ?></div>
       <table class="Label AltColumns">
          <thead>
             <tr>

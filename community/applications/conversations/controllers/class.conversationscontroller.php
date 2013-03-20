@@ -47,10 +47,7 @@ class ConversationsController extends Gdn_Controller {
     * @access public
     */
    public function Initialize() {
-      // You've got to be signed in to send private messages.
-      if (!Gdn::Session()->IsValid())
-         Redirect('/entry/signin?Target='.urlencode($this->SelfUrl));
-
+      $this->Permission('Garden.SignIn.Allow');
       if ($this->DeliveryType() == DELIVERY_TYPE_ALL) {
          $this->Head = new HeadModule($this);
          $this->AddJsFile('jquery.js');
@@ -58,6 +55,7 @@ class ConversationsController extends Gdn_Controller {
          $this->AddJsFile('jquery.form.js');
          $this->AddJsFile('jquery.popup.js');
          $this->AddJsFile('jquery.gardenhandleajaxform.js');
+         $this->AddJsFile('jquery.gardenmorepager.js');
          $this->AddJsFile('jquery.autogrow.js');
          $this->AddJsFile('jquery.autocomplete.js');
          $this->AddJsFile('global.js');

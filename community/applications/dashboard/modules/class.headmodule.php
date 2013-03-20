@@ -135,9 +135,6 @@ if (!class_exists('HeadModule', FALSE)) {
          }
 
          $Attributes = array('src' => Asset($Src, FALSE, GetValue('version', $Options)), 'type' => $Type);
-         if (isset($Options['defer'])) {
-            $Attributes['defer'] = $Options['defer'];
-         }
 
          foreach ($Options as $Key => $Value) {
             $Attributes['_'.strtolower($Key)] = $Value;
@@ -188,7 +185,7 @@ if (!class_exists('HeadModule', FALSE)) {
          if (is_array($Property))
             $Query = array_change_key_case($Property);
          elseif ($Property)
-            $Query = array(strtolower($Property) => $Value);
+            $Query = array(strtolower($Property), $Value);
          else
             $Query = FALSE;
    
@@ -196,9 +193,7 @@ if (!class_exists('HeadModule', FALSE)) {
             $TagName = $Collection[self::TAG_KEY];
 
             if ($TagName == $Tag) {
-               // If no property is specified and the tag is found, remove it directly.
-               // Otherwise remove it only if all specified property/value pairs match.
-               if (!$Query || count(array_intersect_assoc($Query, $Collection)) == count($Query)) {
+               if ($Query && count(array_intersect_assoc($Query, $Collection)) == count($Query)) {
                   unset($this->_Tags[$Index]);
                }
             }
@@ -225,7 +220,7 @@ if (!class_exists('HeadModule', FALSE)) {
          // Loop through each tag.
          $Tags = array();
          foreach ($this->_Tags as $Index => $Attributes) {
-            $TagType = $Attributes[self::TAG_KEY];
+            $Tag = $Attributes[self::TAG_KEY];
             if ($TagType == $RequestedType)
                $Tags[] = $Attributes;
          }
@@ -259,7 +254,7 @@ if (!class_exists('HeadModule', FALSE)) {
          return $this->_Tags;
       }
       
-      public function Title($Title = '', $NoSubTitle = FALSE) {
+      public function Title($Title = '') {
          if ($Title != '') {
             // Apply $Title to $this->_Title and return it;
             $this->_Title = $Title;
@@ -268,16 +263,12 @@ if (!class_exists('HeadModule', FALSE)) {
          } else if ($this->_Title != '') {
             // Return $this->_Title if set;
             return $this->_Title;
-         } else if ($NoSubTitle) {
-            return GetValueR('Data.Title', $this->_Sender, '');
          } else {
-            $Subtitle = GetValueR('Data._Subtitle', $this->_Sender, C('Garden.Title'));
-            
             // Default Return title from controller's Data.Title + banner title;
-            return ConcatSep(' - ', GetValueR('Data.Title', $this->_Sender, ''), $Subtitle);
+            return ConcatSep(' - ', GetValueR('Data.Title', $this->_Sender, ''), C('Garden.Title'));
          }
       }
-      
+
       public static function TagCmp($A, $B) {
          if ($A[self::TAG_KEY] == 'title')
             return -1;
@@ -303,51 +294,11 @@ if (!class_exists('HeadModule', FALSE)) {
          // Add the canonical Url if necessary.
          if (method_exists($this->_Sender, 'CanonicalUrl') && !C('Garden.Modules.NoCanonicalUrl', FALSE)) {
             $CanonicalUrl = $this->_Sender->CanonicalUrl();
-            
-            if (!preg_match('`^https?://`', $CanonicalUrl))
-               $CanonicalUrl = Gdn::Router()->ReverseRoute($CanonicalUrl);
-            
+            $CanonicalUrl = Gdn::Router()->ReverseRoute($CanonicalUrl);
             $this->_Sender->CanonicalUrl($CanonicalUrl);
-//            $CurrentUrl = Url('', TRUE);
-//            if ($CurrentUrl != $CanonicalUrl) {
+            $CurrentUrl = Url('', TRUE);
+            if ($CurrentUrl != $CanonicalUrl) {
                $this->AddTag('link', array('rel' => 'canonical', 'href' => $CanonicalUrl));
-//            }
-         }
-         
-         // Include facebook open-graph meta information.
-         if ($FbAppID = C('Plugins.Facebook.ApplicationID')) {
-            $this->AddTag('meta', array('property' => 'fb:app_id', 'content' => $FbAppID));
-         }
-         
-         $SiteName = C('Garden.Title', '');
-         if ($SiteName != '')
-            $this->AddTag('meta', array('property' => 'og:site_name', 'content' => $SiteName));
-         
-         $Title = Gdn_Format::Text($this->Title('', TRUE));
-         if ($Title != '')
-            $this->AddTag('meta', array('property' => 'og:title', 'itemprop' => 'name', 'content' => $Title));
-         
-         if (isset($CanonicalUrl))
-            $this->AddTag('meta', array('property' => 'og:url', 'content' => $CanonicalUrl));
-         
-         if ($Description = $this->_Sender->Description()) {
-            $this->AddTag('meta', array('name' => 'description', 'property' => 'og:description', 'itemprop' => 'description', 'content' => $Description));
-         }
-
-         // Default to the site logo if there were no images provided by the controller.
-         if (count($this->_Sender->Image()) == 0) {
-            $Logo = C('Garden.Logo', '');
-            if ($Logo != '') {
-               // Fix the logo path.
-               if (StringBeginsWith($Logo, 'uploads/'))
-                  $Logo = substr($Logo, strlen('uploads/'));
-
-               $Logo = Gdn_Upload::Url($Logo);
-               $this->AddTag('meta', array('property' => 'og:image', 'itemprop' => 'image', 'content' => $Logo));
-            }
-         } else {
-            foreach ($this->_Sender->Image() as $Img) {
-               $this->AddTag('meta', array('property' => 'og:image', 'itemprop' => 'image', 'content' => $Img));
             }
          }
 

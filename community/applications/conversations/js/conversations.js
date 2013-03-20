@@ -33,8 +33,9 @@ jQuery(document).ready(function($) {
             url: $(frm).attr('action'),
             data: postValues,
             dataType: 'json',
-            error: function(xhr) {
-               gdn.informError(xhr);
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+               $('div.Popup').remove();
+               $.popup({}, XMLHttpRequest.responseText);
             },
             success: function(json) {
                json = $.postParseJson(json);
@@ -99,6 +100,11 @@ jQuery(document).ready(function($) {
       ).autogrow();
    });
    
+   // Set up paging
+   $('.MorePager').morepager({
+      pageContainerSelector: 'ul.Conversations, ul.Conversation'
+   });
+   
    $('#Form_AddPeople :submit').click(function() {
       var btn = this;
       $(btn).hide();
@@ -121,7 +127,7 @@ jQuery(document).ready(function($) {
          success: function(json) {
             gdn.inform(json);
             if (json.RedirectUrl)
-              setTimeout(function() { window.location.replace(json.RedirectUrl); }, 300);
+              setTimeout("document.location='" + json.RedirectUrl + "';", 300);
          }
       });
       return false;

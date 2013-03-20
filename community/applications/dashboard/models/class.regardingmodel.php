@@ -38,10 +38,6 @@ class RegardingModel extends Gdn_Model {
    }
    
    public function GetAll($ForeignType, $ForeignIDs = array()) {
-      if (count($ForeignIDs) == 0) {
-         return new Gdn_DataSet(array());
-      }
-      
       return Gdn::SQL()->Select('*')
          ->From('Regarding')
          ->Where('ForeignType', $ForeignType)

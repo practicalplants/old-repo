@@ -55,7 +55,7 @@ class PermissionModel extends Gdn_Model {
                $DefaultPermissions[$PermissionName] = 2;
             elseif ($Value === 1)
                $DefaultPermissions[$PermissionName] = 3;
-            elseif (!$Structure->ColumnExists($Value) && array_key_exists($Value, $PermissionNames))
+            elseif (!$Structure->ColumnExists($Value) && in_array($Value, $PermissionNames))
                $DefaultPermissions[$PermissionName] = $PermissionNames[$Value] ? 3 : 2;
             else
                $DefaultPermissions[$PermissionName] = "`{$Value}`"; // default to another field
@@ -87,7 +87,6 @@ class PermissionModel extends Gdn_Model {
             ->Set($this->_Backtick($NewColumns), '', FALSE)
             ->Put('Permission', array(), $Where);
       }
-      $this->ClearPermissions();
    }
    
    public function Delete($RoleID = NULL, $JunctionTable = NULL, $JunctionColumn = NULL, $JunctionID = NULL) {
@@ -772,18 +771,6 @@ class PermissionModel extends Gdn_Model {
          $this->_UnpivotPermissionsRow($Row, $Result, $IncludeRole);
       }
       return $Result;
-   }
-   
-   public function Undefine($Names) {
-      $Names = (array)$Names;
-      $St = $this->Database->Structure();
-      $St->Table('Permission');
-      
-      foreach ($Names as $Name) {
-         if ($St->ColumnExists($Name))
-            $St->DropColumn($Name);
-      }
-      $St->Reset();
    }
    
    protected function _UnpivotPermissionsRow($Row, &$Result, $IncludeRole = FALSE) {

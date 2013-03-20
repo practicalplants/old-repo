@@ -6,9 +6,8 @@ $AddonUrl = Gdn::Config('Garden.AddonUrl');
    <?php
    echo '<h2>', T('Need More Help?'), '</h2>';
    echo '<ul>';
-   echo Wrap(Anchor(T("Video tutorial on managing appearance"), 'settings/tutorials/appearance'), 'li');
-   echo Wrap(Anchor(T('Theming Overview'), 'http://vanillaforums.org/page/Configuration-DashboardAppearanceThemes'), 'li');
-   echo Wrap(Anchor(T('Quick-Start Guide to Creating Themes for Vanilla'), 'http://vanillaforums.org/page/ThemeQuickStart'), 'li');
+   echo '<li>', Anchor(T('Theming Overview'), 'http://vanillaforums.org/page/Configuration-DashboardAppearanceThemes'), '</li>';
+   echo '<li>', Anchor(T('Quick-Start Guide to Creating Themes for Vanilla'), 'http://vanillaforums.org/page/ThemeQuickStart'), '</li>';
    echo '</ul>';
    ?>
 </div>
@@ -144,7 +143,7 @@ if ($AddonUrl != '')
                   echo '</h4>';
                   
                   if ($PreviewUrl !== FALSE) {
-                     echo Anchor(Img($PreviewUrl, array('alt' => $ScreenName, 'height' => '112', 'width' => '150')),
+                     echo Anchor(Img($PreviewUrl, array('alt' => $this->Data('EnabledThemeName'), 'height' => '112', 'width' => '150')),
                         'dashboard/settings/previewtheme/'.$ThemeName,
                         '',
                         array('target' => '_top')

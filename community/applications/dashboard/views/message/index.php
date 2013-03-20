@@ -1,14 +1,6 @@
 <?php if (!defined('APPLICATION')) exit();
 $Session = Gdn::Session();
 ?>
-<div class="Help Aside">
-   <?php
-   echo '<h2>', T('Need More Help?'), '</h2>';
-   echo '<ul>';
-   echo Wrap(Anchor(T("Video tutorial on managing appearance"), 'settings/tutorials/appearance'), 'li');
-   echo '</ul>';
-   ?>
-</div>
 <h1><?php echo T('Manage Messages'); ?></h1>
 <div class="Info"><?php echo T('Messages can appear anywhere in your application.', 'Messages can appear anywhere in your application, and can be used to inform your users of news and events. Use this page to re-organize your messages by dragging them up or down.'); ?></div>
 <div class="FilterMenu"><?php echo Anchor(T('Add Message'), 'dashboard/message/add', 'AddMessage SmallButton'); ?></div>
@@ -45,7 +37,7 @@ foreach ($this->MessageData->Result() as $Message) {
          ?>
          </div>
       </td>
-      <td class="Alt"><span class="<?php echo $Message->CssClass; ?>"><?php echo Gdn_Format::Text($Message->Content); ?></span></td>
+      <td class="Alt"><?php echo Gdn_Format::Text($Message->Content); ?></td>
    </tr>
 <?php } ?>
    </tbody>

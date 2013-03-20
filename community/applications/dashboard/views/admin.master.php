@@ -3,8 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-ca">
 <head>
    <?php $this->RenderAsset('Head'); ?>
-   <!-- Robots should not see the dashboard, but tell them not to index it just in case. -->
-   <meta name="robots" content="noindex,nofollow" />
 </head>
 <body id="<?php echo $BodyIdentifier; ?>" class="<?php echo $this->CssClass; ?>">
    <div id="Frame">
@@ -21,7 +19,7 @@
 						if (is_numeric($CountNotifications) && $CountNotifications > 0)
 							$Name .= Wrap($CountNotifications);
 							
-						echo Anchor($Name, UserUrl($Session->User), 'Profile');
+						echo Anchor($Name, '/profile/'.$Session->User->UserID.'/'.$Session->User->Name, 'Profile');
 						echo Anchor(T('Sign Out'), SignOutUrl(), 'Leave');
 					}
 				?>

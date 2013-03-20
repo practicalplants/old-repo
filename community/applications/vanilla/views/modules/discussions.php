@@ -1,19 +1,16 @@
 <?php if (!defined('APPLICATION')) exit();
-require_once $this->FetchViewLocation('helper_functions');
-
-if (!isset($this->Prefix))
-   $this->Prefix = 'Discussion';
+$DiscussionView = $this->FetchViewLocation('discussion');
 ?>
-<div class="Box BoxDiscussions">
+<div id="Bookmarks" class="Box BoxDiscussions">
    <h4><?php echo T('Recent Discussions'); ?></h4>
-   <ul class="PanelInfo PanelDiscussions DataList">
+   <ul id="Bookmark_List" class="PanelInfo PanelDiscussions">
       <?php
-      foreach ($this->Data('Discussions')->Result() as $Discussion) {
-         WriteModuleDiscussion($Discussion, $this->Prefix);
+      foreach ($this->Data->Result() as $Discussion) {
+         include($DiscussionView);
       }
-      if ($this->Data('Discussions')->NumRows() >= $this->Limit) {
+      if ($this->Data->NumRows() >= 10) {
       ?>
-      <li class="ShowAll"><?php echo Anchor(T('More…'), 'discussions'); ?></li>
+      <li class="ShowAll"><?php echo Anchor(T('↳ Show All'), 'discussions'); ?></li>
       <?php } ?>
    </ul>
 </div>

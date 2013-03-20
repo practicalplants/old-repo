@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
             if (json.FormSaved == true) {
                gdn.inform(json);
                if (json.RedirectUrl) {
-                  window.location.replace(json.RedirectUrl);
+                  setTimeout("document.location='" + json.RedirectUrl + "';", 300);
                } else {
                   // Show the button again if not redirecting...
                   $(btn).show();

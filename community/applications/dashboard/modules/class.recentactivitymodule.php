@@ -12,17 +12,24 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
  * Renders the 5 most recent activities for use in a side panel.
  */
 class RecentActivityModule extends Gdn_Module {
-   public $ActivityData = FALSE;
-   public $ActivityModuleTitle = '';
-   public $Limit = 5;
    
-   public function GetData($Limit = FALSE) {
-      if (!$Limit)
-         $Limit = $this->Limit;
-      
+   public $ActivityModuleTitle = '';
+   protected $_RoleID = '';
+   public function GetData($Limit = 5, $RoleID = '') {
+      if (!is_array($RoleID) && $RoleID != '')
+         $RoleID = array($RoleID);
+         
       $ActivityModel = new ActivityModel();
-      $Data = $ActivityModel->GetWhere(array('NotifyUserID' => ActivityModel::NOTIFY_PUBLIC), 0, $Limit);
+      if (is_array($RoleID)) {
+         $Data = $ActivityModel->GetForRole($RoleID, 0, $Limit);
+      } else {
+         $Data = $ActivityModel->Get('', 0, $Limit);
+      }
       $this->ActivityData = $Data;
+      if (!is_array($RoleID))
+         $RoleID = array();
+
+      $this->_RoleID = $RoleID;
    }
 
    public function AssetTarget() {
@@ -35,9 +42,6 @@ class RecentActivityModule extends Gdn_Module {
       
       if (StringIsNullOrEmpty($this->ActivityModuleTitle))
          $this->ActivityModuleTitle = T('Recent Activity');
-      
-      if (!$this->ActivityData)
-         $this->GetData();
          
       $Data = $this->ActivityData;
       if (is_object($Data) && $Data->NumRows() > 0)

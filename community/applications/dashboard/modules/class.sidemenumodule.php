@@ -80,10 +80,9 @@ if (!class_exists('SideMenuModule', FALSE)) {
       
       public function AddItem($Group, $Text, $Permission = FALSE, $Attributes = array()) {
          if (!array_key_exists($Group, $this->Items))
-            $Item = array('Group' => $Group, 'Links' => array(), 'Attributes' => array(), '_Sort' => count($this->Items));
-         else {
+            $Item = array('Group' => $Group, 'Links' => array(), '_Sort' => count($this->Items));
+         else
             $Item = $this->Items[$Group];
-         }
 
 
          if (isset($Attributes['After'])) {
@@ -93,7 +92,7 @@ if (!class_exists('SideMenuModule', FALSE)) {
 
          $Item['Text'] = $Text;
          $Item['Permission'] = $Permission;
-         $Item['Attributes'] = array_merge($Item['Attributes'], $Attributes);
+         $Item['Attributes'] = $Attributes;
 
          $this->Items[$Group] = $Item;
       }      

@@ -1,18 +1,29 @@
 <?php if (!defined('APPLICATION')) exit();
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 /**
- * Module base class
+ * Base module object
  *
- * Provides basic functionality when extended by real modules.
- * 
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @author Todd Burry <todd@vanillaforums.com> 
- * @copyright 2003 Vanilla Forums, Inc
+ * @author Mark O'Sullivan
+ * @copyright 2009 Mark O'Sullivan
  * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
  * @package Garden
- * @since 2.0
+ * @version @@GARDEN-VERSION@@
+ * @namespace Garden.Core
  */
 
+
+/**
+ * Base module object
+ * @package Garden
+ */
 class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
 
    /** The name of the current asset that is being rendered.
@@ -34,7 +45,7 @@ class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
     * 
     * @var array
     */
-   public $Data = array();
+   protected $_Data = array();
 
 
    /**
@@ -52,8 +63,6 @@ class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
     * @var string
     */
    protected $_ThemeFolder;
-   
-   public $Visible = TRUE;
 
 
    /**
@@ -62,9 +71,6 @@ class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
     * @param object $Sender
     */
    public function __construct($Sender = '', $ApplicationFolder = FALSE) {
-      if (!$Sender)
-         $Sender = Gdn::Controller();
-      
       if (is_object($Sender)) {
          $this->_ApplicationFolder = $Sender->ApplicationFolder;
          $this->_ThemeFolder = $Sender->Theme;
@@ -91,9 +97,9 @@ class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
    
    public function Data($Name = NULL, $Default = '') {
       if ($Name == NULL)
-         $Result = $this->Data;
+         $Result = $this->_Data;
       else
-         $Result = GetValueR($Name, $this->Data, $Default);
+         $Result = GetValueR($Name, $this->_Data, $Default);
       return $Result;
    }
 
@@ -196,7 +202,7 @@ class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
    }
    
    public function SetData($Name, $Value) {
-      $this->Data[$Name] = $Value;
+      $this->_Data[$Name] = $Value;
    }
 
    /**
@@ -207,8 +213,7 @@ class Gdn_Module extends Gdn_Pluggable implements Gdn_IModule {
     * @return string
     */
    public function ToString() {
-      if ($this->Visible)
-         return $this->FetchView();
+      return $this->FetchView();
    }
 
    /**

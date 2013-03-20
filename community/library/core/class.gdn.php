@@ -1,20 +1,12 @@
 <?php if (!defined('APPLICATION')) exit();
-
-/**
- * Framework superobject
- * 
- * Static object that provides an anchor and namespace for many framework 
- * components, such as Controller, Dispatcher, Config, Database, etc.
- *
- * @author Mark O'Sullivan <markm@vanillaforums.com>
- * @author Todd Burry <todd@vanillaforums.com> 
- * @author Tim Gunter <tim@vanillaforums.com>
- * @copyright 2003 Vanilla Forums, Inc
- * @license http://www.opensource.org/licenses/gpl-2.0.php GPL
- * @package Garden
- * @since 2.0
- * @static
- */
+/*
+Copyright 2008, 2009 Vanilla Forums Inc.
+This file is part of Garden.
+Garden is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+Garden is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Garden.  If not, see <http://www.gnu.org/licenses/>.
+Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+*/
 
 class Gdn {
 
@@ -443,7 +435,7 @@ class Gdn {
    public static function Get($Key, $Default = NULL) {
       $Response = Gdn::UserMetaModel()->GetUserMeta(0, $Key, $Default);
       if (sizeof($Response) == 1)
-         return GetValue($Key, $Response, $Default);
+         return GetValue($Key, $Response, NULL);
       return $Default;
    }
    
@@ -480,7 +472,7 @@ class Gdn {
    /**
     * Get the plugin manager for the application.
     *
-    * @return Gdn_ThemeManager
+    * @return Gdn_PluginManager
     */
    public static function ThemeManager() {
       return self::Factory(self::AliasThemeManager);

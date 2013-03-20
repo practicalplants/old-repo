@@ -11,13 +11,13 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 // Define the plugin:
 $PluginInfo['GoogleSignIn'] = array(
 	'Name' => 'Google Sign In',
-   'Description' => 'Allows users to sign in with their Google accounts. Requires &lsquo;OpenID&rsquo; plugin to be enabled first.',
-   'Version' => '1.1',
+   'Description' => 'This plugin allows users to sign in with their Google accounts. <b>Make sure you click Settings after enabling this plugin to enable Google signin</b>.',
+   'Version' => '1.0',
    'RequiredApplications' => array('Vanilla' => '2.0.14'),
    'RequiredPlugins' => array('OpenID' => '0.1a'),
    'RequiredTheme' => FALSE,
 	'MobileFriendly' => TRUE,
-   //'SettingsUrl' => '/dashboard/plugin/googlesignin',
+   'SettingsUrl' => '/dashboard/plugin/googlesignin',
    'SettingsPermission' => 'Garden.Settings.Manage',
    'HasLocale' => TRUE,
    'RegisterPermissions' => FALSE,
@@ -25,8 +25,6 @@ $PluginInfo['GoogleSignIn'] = array(
    'AuthorEmail' => 'todd@vanillaforums.com',
    'AuthorUrl' => 'http://www.vanillaforums.org/profile/todd'
 );
-
-// 1.1 - Removed redundant enabling (2012-03-08 Lincoln)
 
 class GoogleSignInPlugin extends Gdn_Plugin {
 
@@ -50,14 +48,14 @@ class GoogleSignInPlugin extends Gdn_Plugin {
    /**
     * Act as a mini dispatcher for API requests to the plugin app
     */
-//   public function PluginController_GoogleSignIn_Create($Sender) {
-//      $Sender->Permission('Garden.Settings.Manage');
-//		$this->Dispatch($Sender, $Sender->RequestArgs);
-//   }
+   public function PluginController_GoogleSignIn_Create(&$Sender) {
+      $Sender->Permission('Garden.Settings.Manage');
+		$this->Dispatch($Sender, $Sender->RequestArgs);
+   }
    
-//   public function Controller_Toggle($Sender) {
-//      $this->AutoToggle($Sender);
-//   }
+   public function Controller_Toggle($Sender) {
+      $this->AutoToggle($Sender);
+   }
    
    public function AuthenticationController_Render_Before($Sender, $Args) {
       if (isset($Sender->ChooserList)) {
@@ -77,7 +75,7 @@ class GoogleSignInPlugin extends Gdn_Plugin {
     * @param Gdn_Controller $Sender
     */
    public function EntryController_SignIn_Handler($Sender, $Args) {
-//      if (!$this->IsEnabled()) return;
+      if (!$this->IsEnabled()) return;
       
       if (isset($Sender->Data['Methods'])) {
          $ImgSrc = Asset('/plugins/GoogleSignIn/design/google-signin.png');
@@ -88,19 +86,14 @@ class GoogleSignInPlugin extends Gdn_Plugin {
          // Add the twitter method to the controller.
          $Method = array(
             'Name' => 'Google',
-            'SignInHtml' => "<a id=\"GoogleAuth\" href=\"$SigninHref\" class=\"PopupWindow\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" rel=\"nofollow\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>");
+            'SignInHtml' => "<a id=\"GoogleAuth\" href=\"$SigninHref\" class=\"PopupWindow\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>");
 
          $Sender->Data['Methods'][] = $Method;
       }
    }
-   
-   public function Base_SignInIcons_Handler($Sender, $Args) {
-//      if (!$this->IsEnabled()) return;
-		echo "\n".$this->_GetButton();
-	}
 
    public function Base_BeforeSignInButton_Handler($Sender, $Args) {
-//      if (!$this->IsEnabled()) return;
+      if (!$this->IsEnabled()) return;
 		echo "\n".$this->_GetButton();
 	}
 	
@@ -109,12 +102,12 @@ class GoogleSignInPlugin extends Gdn_Plugin {
       $ImgAlt = T('Sign In with Google');
       $SigninHref = $this->_AuthorizeHref();
       $PopupSigninHref = $this->_AuthorizeHref(TRUE);
-      return "<a id=\"GoogleAuth\" href=\"$SigninHref\" class=\"PopupWindow\" title=\"$ImgAlt\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" rel=\"nofollow\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>";
+      return "<a id=\"GoogleAuth\" href=\"$SigninHref\" class=\"PopupWindow\" title=\"$ImgAlt\" popupHref=\"$PopupSigninHref\" popupHeight=\"400\" popupWidth=\"800\" ><img src=\"$ImgSrc\" alt=\"$ImgAlt\" /></a>";
    }
 	
 	public function Base_BeforeSignInLink_Handler($Sender) {
-//      if (!$this->IsEnabled())
-//			return;
+      if (!$this->IsEnabled())
+			return;
 
 		if (!Gdn::Session()->IsValid())
 			echo "\n".Wrap($this->_GetButton(), 'li', array('class' => 'Connect GoogleConnect'));

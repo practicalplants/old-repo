@@ -15,7 +15,6 @@ if (!isset($Explicit))
    
 $SQL = Gdn::Database()->SQL();
 $Construct = Gdn::Database()->Structure();
-$Px = $Construct->DatabasePrefix();
 
 $Construct->Table('Category');
 $CategoryExists = $Construct->TableExists();
@@ -70,7 +69,7 @@ if ($CategoryExists) {
 
 // Construct the discussion table.
 $Construct->Table('Discussion');
-$DiscussionExists = $Construct->TableExists();
+
 $FirstCommentIDExists = $Construct->ColumnExists('FirstCommentID');
 $BodyExists = $Construct->ColumnExists('Body');
 $LastCommentIDExists = $Construct->ColumnExists('LastCommentID');
@@ -79,25 +78,24 @@ $CountBookmarksExists = $Construct->ColumnExists('CountBookmarks');
 
 $Construct
    ->PrimaryKey('DiscussionID')
-   ->Column('Type', 'varchar(10)', TRUE, 'index')
-   ->Column('ForeignID', 'varchar(32)', TRUE, 'index') // For relating foreign records to discussions
+   ->Column('Type', 'varchar(10)', NULL, 'index')
+   ->Column('ForeignID', 'varchar(30)', NULL, 'index') // For relating foreign records to discussions
    ->Column('CategoryID', 'int', FALSE, 'key')
    ->Column('InsertUserID', 'int', FALSE, 'key')
    ->Column('UpdateUserID', 'int')
-   ->Column('FirstCommentID', 'int', TRUE)
    ->Column('LastCommentID', 'int', TRUE)
    ->Column('Name', 'varchar(100)', FALSE, 'fulltext')
 	->Column('Body', 'text', FALSE, 'fulltext')
 	->Column('Format', 'varchar(20)', TRUE)
    ->Column('Tags', 'varchar(255)', NULL)
-   ->Column('CountComments', 'int', '0')
+   ->Column('CountComments', 'int', '1')
    ->Column('CountBookmarks', 'int', NULL)
    ->Column('CountViews', 'int', '1')
    ->Column('Closed', 'tinyint(1)', '0')
    ->Column('Announce', 'tinyint(1)', '0')
    ->Column('Sink', 'tinyint(1)', '0')
-   ->Column('DateInserted', 'datetime', FALSE, 'index')
-   ->Column('DateUpdated', 'datetime', TRUE)
+   ->Column('DateInserted', 'datetime', NULL)
+   ->Column('DateUpdated', 'datetime')
    ->Column('InsertIPAddress', 'varchar(15)', TRUE)
    ->Column('UpdateIPAddress', 'varchar(15)', TRUE)
    ->Column('DateLastComment', 'datetime', NULL, 'index')
@@ -105,14 +103,8 @@ $Construct
 	->Column('Score', 'float', NULL)
    ->Column('Attributes', 'text', TRUE)
    ->Column('RegardingID', 'int(11)', TRUE, 'index')
-   //->Column('Source', 'varchar(20)', TRUE)
+   ->Engine('MyISAM')
    ->Set($Explicit, $Drop);
-
-if ($DiscussionExists && !$FirstCommentIDExists) {
-   $Px = $SQL->Database->DatabasePrefix;
-   $UpdateSQL = "update {$Px}Discussion d set FirstCommentID = (select min(c.CommentID) from {$Px}Comment c where c.DiscussionID = d.DiscussionID)";
-   $SQL->Query($UpdateSQL, 'update');
-}
 
 $Construct->Table('UserCategory')
    ->Column('UserID', 'int', FALSE, 'primary')
@@ -133,23 +125,15 @@ $Construct->Table('UserDiscussion')
    ->Column('Bookmarked', 'tinyint(1)', '0')
    ->Set($Explicit, $Drop);
 
-$Construct->Table('Comment');
-
-if ($Construct->TableExists())
-   $CommentIndexes = $Construct->IndexSqlDb();
-else
-   $CommentIndexes = array();
-
-$Construct->PrimaryKey('CommentID')
-	->Column('DiscussionID', 'int', FALSE, 'index.1')
-   //->Column('Type', 'varchar(10)', TRUE)
-   //->Column('ForeignID', 'varchar(32)', TRUE, 'index') // For relating foreign records to discussions
+$Construct->Table('Comment')
+	->PrimaryKey('CommentID')
+	->Column('DiscussionID', 'int', FALSE, 'key')
 	->Column('InsertUserID', 'int', TRUE, 'key')
 	->Column('UpdateUserID', 'int', TRUE)
 	->Column('DeleteUserID', 'int', TRUE)
 	->Column('Body', 'text', FALSE, 'fulltext')
 	->Column('Format', 'varchar(20)', TRUE)
-	->Column('DateInserted', 'datetime', NULL, array('index.1', 'index'))
+	->Column('DateInserted', 'datetime', NULL, 'key')
 	->Column('DateDeleted', 'datetime', TRUE)
 	->Column('DateUpdated', 'datetime', TRUE)
    ->Column('InsertIPAddress', 'varchar(15)', TRUE)
@@ -157,15 +141,8 @@ $Construct->PrimaryKey('CommentID')
 	->Column('Flag', 'tinyint', 0)
 	->Column('Score', 'float', NULL)
 	->Column('Attributes', 'text', TRUE)
-   //->Column('Source', 'varchar(20)', TRUE)
+	->Engine('MyISAM')
 	->Set($Explicit, $Drop);
-
-if (isset($CommentIndexes['FK_Comment_DiscussionID'])) {
-   $Construct->Query("drop index FK_Comment_DiscussionID on {$Px}Comment");
-}
-if (isset($CommentIndexes['FK_Comment_DateInserted'])) {
-   $Construct->Query("drop index FK_Comment_DateInserted on {$Px}Comment");
-}
 
 // Allows the tracking of already-read comments & votes on a per-user basis.
 $Construct->Table('UserComment')
@@ -235,10 +212,6 @@ if ($SQL->GetWhere('ActivityType', array('Name' => 'CommentMention'))->NumRows()
 if ($SQL->GetWhere('ActivityType', array('Name' => 'BookmarkComment'))->NumRows() == 0)
    $SQL->Insert('ActivityType', array('AllowComments' => '0', 'Name' => 'BookmarkComment', 'FullHeadline' => '%1$s commented on your %8$s.', 'ProfileHeadline' => '%1$s commented on your %8$s.', 'RouteCode' => 'bookmarked discussion', 'Notify' => '1', 'Public' => '0'));
 
-$ActivityModel = new ActivityModel();
-$ActivityModel->DefineType('Discussion');
-$ActivityModel->DefineType('Comment');
-
 $PermissionModel = Gdn::PermissionModel();
 $PermissionModel->Database = $Database;
 $PermissionModel->SQL = $SQL;
@@ -246,7 +219,8 @@ $PermissionModel->SQL = $SQL;
 // Define some global vanilla permissions.
 $PermissionModel->Define(array(
 	'Vanilla.Settings.Manage',
-	'Vanilla.Categories.Manage'
+	'Vanilla.Categories.Manage',
+	'Vanilla.Spam.Manage'
 	));
 
 // Define some permissions for the Vanilla categories.
@@ -265,8 +239,6 @@ $PermissionModel->Define(array(
 	'Category',
 	'PermissionCategoryID'
 	);
-
-$PermissionModel->Undefine('Vanilla.Spam.Manage');
 
 if ($RootCategoryInserted) {
    // Get the root category so we can assign permissions to it.
@@ -311,7 +283,8 @@ if ($RootCategoryInserted) {
    // Set the initial moderator permissions.
    $PermissionModel->Save(array(
       'Role' => 'Moderator',
-      'Vanilla.Categories.Manage' => 1
+      'Vanilla.Categories.Manage' => 1,
+      'Vanilla.Spam.Manage' => 1,
       ), TRUE);
    
    $PermissionModel->Save(array(
@@ -335,7 +308,8 @@ if ($RootCategoryInserted) {
    $PermissionModel->Save(array(
       'Role' => 'Administrator',
       'Vanilla.Settings.Manage' => 1,
-      'Vanilla.Categories.Manage' => 1
+      'Vanilla.Categories.Manage' => 1,
+      'Vanilla.Spam.Manage' => 1,
       ), TRUE);
    
    $PermissionModel->Save(array(
@@ -399,22 +373,21 @@ if (!$CountBookmarksExists) {
    )");
 }
 
-$Construct->Table('TagDiscussion');
-$DateInsertedExists = $Construct->ColumnExists('DateInserted');
+// Update lastcommentid & firstcommentid
+if ($FirstCommentIDExists)
+   $Construct->Query("update {$Prefix}Discussion set LastCommentID = null where LastCommentID = FirstCommentID");
 
-$Construct
+// This is the final structure of the discussion table after removed & updated columns.
+if ($FirstCommentIDExists) {
+   $Construct->Table('Discussion')->DropColumn('FirstCommentID');
+   $Construct->Reset();
+}
+
+$Construct->Table('TagDiscussion')
    ->Column('TagID', 'int', FALSE, 'primary')
    ->Column('DiscussionID', 'int', FALSE, 'primary')
-   ->Column('DateInserted', 'datetime', !$DateInsertedExists)
    ->Engine('InnoDB')
    ->Set($Explicit, $Drop);
-
-if (!$DateInsertedExists) {
-   $SQL->Update('TagDiscussion td')
-      ->Join('Discussion d', 'td.DiscussionID = d.DiscussionID')
-      ->Set('td.DateInserted', 'd.DateInserted', FALSE, FALSE)
-      ->Put();
-}
 
 $Construct->Table('Tag')
    ->Column('CountDiscussions', 'int', 0)
