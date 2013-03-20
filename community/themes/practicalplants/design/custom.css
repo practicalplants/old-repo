@@ -3,6 +3,9 @@
 
 @import url("/resources/fonts/crete-round/stylesheet.css");
 @import url("/resources/css/masthead.css");
+body{
+  font-size: 1em;
+}
 body,
 .SiteTitle,
 h1, h2, h3, h4, h5 {
@@ -102,6 +105,7 @@ span.Alert{
 	outline: none;
 	
 	font-size: 14px;
+	margin-top: 1px;
 	
 	font-family: CreteRoundRegular;
 	
@@ -113,8 +117,10 @@ span.Alert{
 	-ie-border-radius: 5px;
 	border-radius: 5px;
 }
+#Head form {
+  width: auto;
+}
 #Head .SiteSearch .Button {
-   top: 6px;
 }
 #Head > .Row{
 	width: auto;
@@ -122,10 +128,56 @@ span.Alert{
 }
 
 #Body{
+  width: auto;
 }
 #Body > .Row{
 	width: auto;
 	padding: 20px 40px 0 40px;
+}
+#Body .ContentColumn {
+margin: 0 0 0 230px;
+}
+
+/* @group Dicussions */
+
+body.Conversations.add #Content, body.Vanilla.Post #Content{
+  margin: 0 0 50px 0;
+}
+#DiscussionForm form {
+  background: #f7f7f7;
+  border-color: #ccc;
+}
+
+/* @end */
+
+/* @group Profile Page */
+
+body.Profile #Content {
+   width: auto;
+   margin: 0 0 40px 280px;
+   width: 690px;
+	float: none;
+}
+
+/* @end */
+
+/* @group Fix clearing for left menu */
+
+.Preview .Message,
+.MessageList .Message {
+   clear: none;
+}
+.Condensed,
+.Condensed li {
+	clear: none;
+}
+
+/* @end */
+
+#Content {
+   width: auto;
+   margin: 0 0 40px;
+   float: none;
 }
 
 .BreadcrumbsWrapper {
@@ -171,6 +223,10 @@ span.Alert{
 }
 .DataTable td {
    border-style: dotted;
+}
+.DataList a.Title{
+  font-size: 18px;
+  font-weight: normal;
 }
 .DataList > .Item {
    border-style: dotted !important;
@@ -218,7 +274,9 @@ a.Button,
 a.Button.Primary,
 a.Button.Primary:hover,
 a.Button.Primary:active,
-a.Button.Primary:visited {
+a.Button.Primary:visited,
+a.NewConversation,
+a.NewDiscussion {
 	
 	
 	font-family: CreteRoundRegular;
@@ -229,7 +287,7 @@ a.Button.Primary:visited {
 	text-decoration: none;
 	vertical-align: middle;
 	
-	
+	color: #fff;
 	background: #28872d;
 	background: -webkit-gradient(linear, left top, left bottom, from(#5dbd4e), to(#28872d));
 	background: -webkit-linear-gradient(top, #5dbd4e, #28872d);
@@ -253,14 +311,24 @@ a.Button.Primary:visited {
    -webkit-box-shadow: 0px 0px 2px #999;
    white-space: nowrap;
 }
+a.NewConversation:hover,
+a.NewDiscussion:hover,
 a.Button.Primary:hover{
-	background: #5dbd4e;
+  color: #fff;
+	text-decoration: none;
 }
+a.NewConversation:active,
+a.NewDiscussion:active,
 a.Button.Primary:active{
 	border: 1px solid #28872d;
 	border-bottom: 1px solid #97f79a;
 	background-color: #4ea940;
 	box-shadow: none;
+}
+
+#Panel{
+  width: 200px;
+  float: left;
 }
 
 #Panel .BigButton {
@@ -275,11 +343,20 @@ input.Button {
 .Box {
    color: #888;
    margin: 0 0 30px;
+   background: transparent;
+   border: none;
+   box-shadow: none;
+   -webkit-box-shadow: none;
+}
+.Box .PanelInfo,
+.Box .PanelActivity{
+  margin-left: 0px;
 }
 .Box h4 {
    color: #333;
    font-size: 18px;
    margin: 6px 0;
+   font-weight: normal;
 }
 .PanelInfo li {
    background: #f7f7f7;
@@ -329,4 +406,12 @@ span.Author a{
 
 .Message{
 	font-family: Georgia;
+}
+
+.MessageForm,
+.Tabs,
+.Headings {
+	display: block;
+   border-bottom: none;
+   background: transparent;
 }
