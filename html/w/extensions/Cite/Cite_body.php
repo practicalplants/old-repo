@@ -113,6 +113,15 @@ class Cite {
 	 * @var boolean
 	 */
 	var $mInReferences = false;
+	
+	/**
+	 * True when <references> tag has been processed.
+	 * Used to ensure that a parserReset is not processed before references
+	 * have been output.
+	 * 
+	 * @var boolean
+	 */
+	var $mDoneReferences = false;
 
 	/**
 	 * Error stack used when defining refs in <references>
@@ -534,6 +543,7 @@ class Cite {
 			$this->mInReferences = true;
 			$ret = $this->guardedReferences( $str, $argv, $parser );
 			$this->mInReferences = false;
+			$this->mDoneReferences = true;
 			return $ret;
 		}
 	}
@@ -1044,7 +1054,11 @@ class Cite {
 		if ( $this->mInCite || $this->mInReferences ) {
 			return true;
 		}
-
+		# Don't clear state until we've successfully output all references
+    if( !$this->mDoneReferences ){
+      return true;
+    } 
+		
 		$this->mGroupCnt = array();
 		$this->mOutCnt = 0;
 		$this->mCallCnt = 0;
