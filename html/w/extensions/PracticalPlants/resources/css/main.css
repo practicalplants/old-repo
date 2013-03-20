@@ -1,5 +1,7 @@
 /* @override 
   http://practicalplants.local/w/extensions/PracticalPlants/resources/css/main.css
+  http://practicalplants.org/w/extensions/PracticalPlants/resources/css/main.css
+  
 */
 
 /* =============== Gerneral layout styles ================ */
@@ -1245,8 +1247,8 @@ h2 + .tabify{
   margin: 20px 0 1px 0;
 }
 
+/* @group Infobox */
 
-/* ======== Infobox ========= */
 .infobox{
   background: white;
   padding: 0 20px 20px 0;
@@ -1380,14 +1382,9 @@ h2 + .tabify{
   display: block;
 }
 
+/* @end */
 
-
-
-
-
-
-
-/* ======== Plant Template ============================================= */
+/* @group Plant Template */
 
 
 
@@ -1965,6 +1962,26 @@ h2 + .tabify{
 
 .scale-slider.-ph-slider-value-very_acid-.-ph-slider-value-alkaline-{ width: 65%; }
 .scale-slider.-ph-slider-value-very_acid-.-ph-slider-value-very_alkaline-{ width: 84%; }
+
+
+.plant-cultivar_group{
+  margin-bottom: 15px;
+}
+.plant-cultivar_group .plant-cultivar{
+  margin-left: 20px;
+  border-left: 1px solid #ccc;
+  padding: 10px;
+}
+.plant-cultivar_group .plant-cultivar:first-child{
+  margin-top: 10px;
+}
+
+.plant-subspecies{
+  margin-bottom: 15px;
+}
+
+
+/* @end */
 
 
 
