@@ -174,7 +174,7 @@ class My_Auth_Adapter_Facebook implements Zend_Auth_Adapter_Interface
             return new Zend_Auth_Result( Zend_Auth_Result::SUCCESS, $user->id, array('user'=>$user, 'token'=>$params['access_token']) );
     	}
 
-        return new Zend_Auth_Result( Zend_Auth_Result::FAILURE, null, 'Error while attempting to redirect.' );
+        return new Zend_Auth_Result( Zend_Auth_Result::FAILURE, null, array('Error while attempting to redirect.') );
     }
 }
 ?>
