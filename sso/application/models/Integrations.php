@@ -10,7 +10,7 @@ class Application_Model_Integrations {
 		$this->_cookieDomain = $settings['app']['cookiedomain'];
 		$this->persist = (isset($opts['persist']) && $opts['persist']===true) ? true : false;
 		$this->integrations = array(
-			new Application_Model_Integration_Mediawiki($this->_cookieDomain),
+			new Application_Model_Integration_MediaWiki($this->_cookieDomain),
 			new Application_Model_Integration_Vanilla($this->_cookieDomain)
 		);
 		
