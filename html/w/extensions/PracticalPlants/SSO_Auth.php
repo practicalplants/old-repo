@@ -68,7 +68,6 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	
 	public static function startSession(){
 		global $wgSessionName;
-		$this->log( 'Starting session' );
 		
 		/*Forcing session start for SSOAuth to work properly */
 		if(!isset($_SESSION)){
@@ -118,12 +117,13 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 			$res = curl_exec($ch);
 			// echo $res; exit;
 			curl_close($ch);
-			
+			$this->log('Response: '.$res);
 			if($res){
 				$sso_user = json_decode($res);
-				$this->log('Loaded user from SSO integration: ' . $sso_user->username );
-				wfDebug('Loaded user from SSO integration: ' . $sso_user->username );
-				$_SESSION['sso_user'] = $sso_user;
+				if($sso_user->username){
+          $this->log('Loaded user from SSO integration: ' . $sso_user->username );
+          $_SESSION['sso_user'] = $sso_user;
+        }
 			}else{
         $this->log('Failed to load user from SSO. Result:', $res);
 			}
