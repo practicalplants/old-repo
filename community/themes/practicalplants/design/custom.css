@@ -57,6 +57,7 @@ span.Alert{
 #Head #Menu{
 	text-align: center;
 	margin-left: 230px;
+	display: bl;
 }
 
 #Head #Menu li{
@@ -129,6 +130,7 @@ span.Alert{
 
 #Body{
   width: auto;
+  clear: left;
 }
 #Body > .Row{
 	width: auto;
