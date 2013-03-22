@@ -58,17 +58,27 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	    
 	}
 	
+	protected function log($msg, $data=null){
+    if($data)
+      $msg.=print_r($data, true);
+    $msg.="\n";
+    wfDebugLog( 'practicalplants-sso', $msg );
+    wfDebug('SSO: '.$msg);
+	}
+	
 	public static function startSession(){
 		global $wgSessionName;
+		$this->log( 'Starting session' );
+		
 		/*Forcing session start for SSOAuth to work properly */
 		if(!isset($_SESSION)){
-			//session_name('Practical-Plants-Wiki');
 			session_name( $wgSessionName );
 			session_start();
 		}
 	}
 	
 	public function redirectToLogin($article=null){
+      $this->log('User is not logged in, redirecting to SSO');
 	    $redirect = '';
 	    if($article){
 	        $action = $article->getContext()->getRequest()->getVal('action');
@@ -84,20 +94,22 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	cookies including the domain-wide SSO cookie, and so can allow us to piggyback on the SSO session */
 	public function userLoadFromSession( $user, &$result ) {
 		wfProfileIn( __METHOD__ );
+		$this->log('Attempting to load SSO user');
 		//echo '<pre>'; print_r($user); exit;
 		if(!isset($_SESSION)){
 			self::startSession();
 		}
-		if(isset($_SESSION['sso_user'])){
-			wfDebugLog( 'practicalplants-sso', 'Loading user from session: ' . $_SESSION['sso_user']->username );
+		if(isset($_SESSION['sso_user']) && !empty($_SESSION['sso_user'])){
+			$this->log( 'Loading user from session: ' . $_SESSION['sso_user']->username );
 			wfDebug('Loading user from session: ' . $_SESSION['sso_user']->username );
 			$sso_user = $_SESSION['sso_user'];
 		}else{
-			
+			$this->log('Contacting SSO for currently logged in user: '.$this->sso_url.'integration/mediawiki/share-session');
 			$cookies = array();
 			foreach($_COOKIE as $k=>$v){
 				$cookies[] = $k.'='.$v;
 			}
+			$this->log("Sending cookies", $cookies);
 			$ch = curl_init($this->sso_url.'integration/mediawiki/share-session');
 			curl_setopt($ch, CURLOPT_HEADER, false);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -109,9 +121,11 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 			
 			if($res){
 				$sso_user = json_decode($res);
-				wfDebugLog( 'practicalplants-sso', 'Loaded user from SSO integration: ' . $sso_user->username );
+				$this->log('Loaded user from SSO integration: ' . $sso_user->username );
 				wfDebug('Loaded user from SSO integration: ' . $sso_user->username );
 				$_SESSION['sso_user'] = $sso_user;
+			}else{
+        $this->log('Failed to load user from SSO. Result:', $res);
 			}
 		}
 		
@@ -193,11 +207,14 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	 */
 	public function userExists( $username ) {
 		wfProfileIn( __METHOD__ );
+		$this->log('Checking if user exists: '.$username);
+		$this->log('Querying SSO: '.$this->sso_url.'integration/mediawiki/username-exists/'.$username);
 		$ch = curl_init($this->sso_url.'integration/mediawiki/username-exists/'.$username);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$res = (bool) curl_exec($ch);
 		curl_close($ch);
+		$this->log('Got username-exists response: ',$res);
 		wfProfileOut( __METHOD__ );
 		if($res===false){
 			return false;
