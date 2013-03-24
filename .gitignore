@@ -25,4 +25,6 @@ wordpress/wp-config.php
 html/w/logs/*
 html/w/images
 html/w/images/*
-sso/private/tmp
+sso/private/tmp/*
+sso/private/log/*
+sso/application/configs/*

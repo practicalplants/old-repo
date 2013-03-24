@@ -122,7 +122,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Registry::set('config', $config);
 		return $config;
 	}*/
-     
+     public function _initLog(){
+      $options = $this->getOptions();
+      if($options['logging']['enabled']==true){
+        $writer = new Zend_Log_Writer_Stream($options['logging']['path'].'/info.log');
+        $logger = new Zend_Log($writer);
+        Zend_Registry::set('logger', $logger);
+      }
+     }
      
      public function _initSession(){
      	$options = $this->getOptions();

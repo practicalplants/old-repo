@@ -27,6 +27,15 @@ class UserController extends Zend_Controller_Action {
 		}else{
 			
 		}
+		if(Zend_Registry::isRegistered('logger')){
+		  $this->logger = Zend_Registry::get('logger');
+		}
+	}
+	
+	protected function log($msg){
+    if($this->logger && $this->logger instanceof Zend_Log){
+      $this->logger->info($msg);
+    }
 	}
     
 
@@ -46,6 +55,8 @@ class UserController extends Zend_Controller_Action {
     	$message = $this->getRequest()->getParam('message',null);
     	$this->view->form = $this->getLoginForm();
     	
+    	$this->log('Logging in...');
+    	
     	$authSess = new Zend_Session_Namespace('Auth');
     	if($redirect){
     		$this->view->form->redirect->setValue($redirect);
@@ -64,6 +75,7 @@ class UserController extends Zend_Controller_Action {
     }
 
 	public function authenticateAction(){
+        $this->log('Local auth');
 		$request = $this->getRequest();
 		 
         // Check if we have a POST request
@@ -83,6 +95,7 @@ class UserController extends Zend_Controller_Action {
         $auth = Zend_Auth::getInstance();
         $result = $auth->authenticate($adapter);
         if (!$result->isValid()) {
+            $this->log('Invalid login');
             // Invalid username/password
             $messages = $result->getMessages();
             $form->setDescription($messages[0]);
@@ -90,6 +103,7 @@ class UserController extends Zend_Controller_Action {
             return $this->render('login');
         }
         
+        $this->log('Valid login: '.$auth->getIdentity());
         $users = new Application_Model_Users();
         $user = $users->getUserBy('email',$auth->getIdentity());
         
@@ -127,7 +141,6 @@ class UserController extends Zend_Controller_Action {
 	}
 	
     public function authenticateExternalAction() {
-
         // get an instace of Zend_Auth
         $auth = Zend_Auth::getInstance();
         $authSess = new Zend_Session_Namespace('Auth');
@@ -144,7 +157,9 @@ class UserController extends Zend_Controller_Action {
         if($openid_identifier)
         	$authSess->identifier = $openid_identifier;
         //echo 'ID: '.$openid_identifier.'<br>'; exit;
-
+        
+        
+        
         // $openid_mode will be set after first query to the openid provider
         $openid_mode = $this->getRequest()->getParam('openid_mode', null);
 
@@ -157,7 +172,8 @@ class UserController extends Zend_Controller_Action {
 
         // do the first query to an authentication provider
         if ($openid_identifier) {
-
+            $this->log('Authenticating using external source: '.$openid_identifier);
+            
             if ('https://www.twitter.com' == $openid_identifier) {
                 $adapter = $this->_getTwitterAdapter();
             } else if ('https://www.facebook.com' == $openid_identifier) {
@@ -188,15 +204,21 @@ class UserController extends Zend_Controller_Action {
             
             
         } else if ($openid_mode || $code || $oauth_token) {
+        
+            
+            
             // this will be exectued after provider redirected the user back to us
-
+            
             if ($code) {
+              $this->log('Facebook response: '.$code);
                 // for facebook
                 $adapter = $this->_getFacebookAdapter();
             } else if ($oauth_token) {
+              $this->log('Twitter  response: '.$oath_token);
                 // for twitter
                 $adapter = $this->_getTwitterAdapter()->setQueryData($_GET);
             } else {
+              
                 // for openid                
                 $adapter = $this->_getOpenIdAdapter(null);
 
@@ -205,7 +227,7 @@ class UserController extends Zend_Controller_Action {
                 $ext = null;
                 
                 $toFetch = $this->_keys->openid->tofetch->toArray();
-                
+                $this->log('OpenID response: '.$toFetch);
                 // for google and yahoo use AtributeExchange Extension
                 if (isset($_GET['openid_ns_ext1']) || isset($_GET['openid_ns_ax'])) {
                     $ext = $this->_getOpenIdExt('ax', $toFetch);
@@ -223,7 +245,7 @@ class UserController extends Zend_Controller_Action {
 
             if ($result->isValid()) {
                 $externalData = array('identity' => $auth->getIdentity());
-
+                
                 if (isset($ext)) {
                     // for openId
                     $externalData['properties'] = $ext->getProperties();
@@ -248,6 +270,7 @@ class UserController extends Zend_Controller_Action {
                 	//we don't have external data!
                 	$externalData['provider'] = 'OpenID';
                 }
+                $this->log('External auth valid: '.$externalData);
 
                 
                 /* Process after external auth is valid:
@@ -337,6 +360,7 @@ class UserController extends Zend_Controller_Action {
                 //$this->_helper->FlashMessenger('Failed authentication');
                 //$this->_helper->FlashMessenger($result->getMessages());
                 $this->view->message = $result->getMessages() || 'Authentication failed.';
+                $this->log('External auth failed');
                 return $this->render('error');
             }
         }else{
