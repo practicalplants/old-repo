@@ -145,7 +145,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
     require_once(realpath(__DIR__.'/../../../library').'/Masthead.php');
     $masthead = new PracticalPlants_Masthead(array(
     'active_tab'=>'wiki'/*,
-    'search'=>'<form action="/wiki/index.php" id="searchform">
+    'search'=>'<form action="/w/index.php" id="searchform">
       <input type="hidden" name="title" value="Special:Search">
       <input name="search" title="Search Practical Plants [ctrl-option-f]" accesskey="f" id="searchInput" placeholder="Species/Taxonomy name or search term" class="search-field">      <input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">     <input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">   </form>'*/
   ));
@@ -362,7 +362,7 @@ print_r($_GET);
     <ul class="nav pull-right">
     	<li id="search-nav">
     	  <i class="icon-search icon-white"></i>
-    	  <form action="/wiki/index.php" id="searchform">
+    	  <form action="/w/index.php" id="searchform">
     	  	<input type="hidden" name="title" value="Special:Search">
     	  	<input name="search" title="Search All Plants" accesskey="f" id="plant-search" placeholder="Enter a plant name or search term..." class="search-field">
     	  	<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">			<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
