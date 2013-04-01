@@ -141,6 +141,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      	),$options['resources']['session']);
      	Zend_Session::start($opts);	
      }
+
+     public function _initMail(){
+       $options = $this->getOptions();
+
+       if(isset($options['email'])){
+         $config = array('auth' => 'login',
+                      'username' => $options['email']['username'],
+                      'password' => $options['email']['password']);
+
+         $tr = new Zend_Mail_Transport_Smtp($options['email']['server'], $config);
+
+         Zend_Mail::setDefaultTransport($tr);
+      }
+     }
      
      public function _initDatabase(){
      	$db = $this->getPluginResource('db')->getDbAdapter();

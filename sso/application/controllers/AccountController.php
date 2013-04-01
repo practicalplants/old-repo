@@ -367,23 +367,14 @@ class AccountController extends Zend_Controller_Action
      * @return void
      */
     protected function sendMail($name, $email, $html, $text, $title)
-    {
-    	//$tr = new Zend_Mail_Transport_Smtp('mail.practicalplants.org');
-    	//Zend_Mail::setDefaultTransport($tr);
-    	
-    	/*$config = array('auth' => 'login',
-    	                'username' => 'hello@practicalplants.org',
-    	                'password' => 'FeY8LfJf7dYwgN');
-    	 
-    	$transport = new Zend_Mail_Transport_Smtp('mail.practicalplants.org', $config);*/
-    	
+    {    	
         $mail = new Zend_Mail();
         $mail->setBodyText($text);
         $mail->setBodyHtml($html);
         $mail->setFrom($this->_email, $this->_emailName);
-        $mail->addTo($email);//, $name);
+        $mail->addTo($email);
         $mail->setSubject($title);
-        $mail->send();//$transport);
+        $mail->send();
     }
     
     protected function getRegisterForm() {
