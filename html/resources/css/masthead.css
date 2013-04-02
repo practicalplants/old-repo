@@ -379,11 +379,11 @@ nav#masthead em,
   background-color: #ea9800;
   text-shadow: none;
   background: -webkit-gradient(linear, left top, left bottom, from(rgb(236,158,0)), to(rgb(224,102,0)));
-  background: -webkit-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
-  background: -moz-linear-gradient(-90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
-  background: -ms-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
-  background: -o-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
-  background: linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -webkit-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -moz-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -ms-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: -o-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+  background: linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
   
   /*background: rgb(236,158,0);*/
       
