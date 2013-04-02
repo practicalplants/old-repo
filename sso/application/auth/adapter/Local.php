@@ -12,7 +12,10 @@ class My_Auth_Adapter_Local implements Zend_Auth_Adapter_Interface {
      * @var string
      */
     protected $_identity = null;
- 
+    
+    const FAILURE_CREDENTIAL_UNCONFIRMED = -5;
+    const FAILURE_CREDENTIAL_DISABLED = -6;
+
     /**
      * The password
      *
@@ -58,20 +61,26 @@ class My_Auth_Adapter_Local implements Zend_Auth_Adapter_Interface {
         
         // Check user is confirmed
         if (!$user->email_confirmed) {
-            return new Zend_Auth_Result(
-                Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID,
+            $res = new Zend_Auth_Result(
+                Zend_Auth_Result::FAILURE_UNCATEGORIZED,
                 $this->_identity,
                 array('Your account is awaiting email confirmation.')
             );
+            //since any codes below -4 are set to 0 by the Zend_Auth_Result constructor for reasons beyond me, we have to set it like this
+            $res->code = self::FAILURE_CREDENTIAL_UNCONFIRMED;
+            return $res;
         }else{
         
 	        // If user is confirmed, check user is active & enabled
 	        if (!$user->active || !$user->enabled) {
-	            return new Zend_Auth_Result(
-	                Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID,
+	            $res = new Zend_Auth_Result(
+	                Zend_Auth_Result::FAILURE_UNCATEGORIZED,
 	                $this->_identity,
-	                array('Your account is disabled. Please contact us for clarification if you believe this to be in error.')
+	                array('Your account is disabled. Please email help@practicalplants.org for clarification if you believe this to be in error.')
 	            );
+                //since any codes below -4 are set to 0 by the Zend_Auth_Result constructor for reasons beyond me, we have to set it like this
+                $res->code = self::FAILURE_CREDENTIAL_DISABLED;
+                return $res;
 	        }
         
         }

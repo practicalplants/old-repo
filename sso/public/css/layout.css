@@ -16,6 +16,11 @@ p{
    font-size: 12px;
 }
 
+.errors{
+  padding:5px;
+  color:Red;
+}
+
 .user-profile {
     width:300px;
     background-color: #f0f0f0;

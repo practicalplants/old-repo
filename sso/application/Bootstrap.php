@@ -45,12 +45,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$router->addRoute('activate',  			
 			new Zend_Controller_Router_Route('/activate/:id/:code', array( 'controller' => 'account', 'action' => 'activate'))
 		);
-		$router->addRoute('forgot-password',  			
-			new Zend_Controller_Router_Route('/forgot-password', array( 'controller' => 'account', 'action' => 'forgot-password'))
-		);
-		$router->addRoute('forgot-password-process',  			
-			new Zend_Controller_Router_Route('/forgot-password/process', array( 'controller' => 'account', 'action' => 'forgot-password-process'))
-		);
+    $router->addRoute('forgot-password',        
+      new Zend_Controller_Router_Route('/forgot-password', array( 'controller' => 'account', 'action' => 'forgot-password'))
+    );
+    $router->addRoute('forgot-password-process',        
+      new Zend_Controller_Router_Route('/forgot-password/process', array( 'controller' => 'account', 'action' => 'forgot-password-process'))
+    );
 		
 		$router->addRoute('integration-application',  			
 			new Zend_Controller_Router_Route('/integration/:application/:action', array( 'controller' => 'integration', 'action' => 'index'))

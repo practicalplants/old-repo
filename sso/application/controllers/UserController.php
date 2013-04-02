@@ -97,6 +97,11 @@ class UserController extends Zend_Controller_Action {
         if (!$result->isValid()) {
             $this->log('Invalid login');
             // Invalid username/password
+            if($result->code < Zend_Auth_Result::FAILURE_UNCATEGORIZED){
+                if($result->code === My_Auth_Adapter_Local::FAILURE_CREDENTIAL_UNCONFIRMED){
+                    return $this->_redirect('account/unconfirmed');
+                }
+            }
             $messages = $result->getMessages();
             $form->setDescription($messages[0]);
             $this->view->form = $form;
@@ -473,8 +478,8 @@ class UserController extends Zend_Controller_Action {
         $auth->clearIdentity();
         
         $this->destroySession();
-       // $this->_helper->FlashMessenger('You were logged out');
-       // return $this->_redirect('/index/index');
+        $this->_helper->FlashMessenger('You were logged out');
+        return $this->_redirect('/index/index');
     }
     
     protected function destroySession(){

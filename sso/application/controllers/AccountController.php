@@ -125,10 +125,9 @@ class AccountController extends Zend_Controller_Action
             $users = new Application_Model_Users();           
             
             try{
-            	$user = $users->createUser($form->getValues());           	
+            	$user = $users->createUser();           	
             	
             }catch(Exception $e){
-            	print_r($form->getValues());
             	if(!$error = $e->getMessage())
             		$error = 'Sorry, an error occurred while creating your account. Please try again.';
             	$this->view->messages = array($error);
@@ -141,23 +140,7 @@ class AccountController extends Zend_Controller_Action
           	//print_r((array) $user->toArray());exit;
             
             if($user){
-            	//$username = $form->getProperty('username');
-            	$email = $form->getValue('email');
-            	$email_to = $form->getValue('username');
-            	$password = $form->getValue('password');
-            	
-            	$hash = substr(md5($user->register_time.$user->register_ip),10,5);
-            	
-            	//echo $hash;exit;
-            	$url = $this->_baseURL.'/activate/'.$user->user_id.'/'.$hash;
-            	$html = '<h1>Your account at Practical Plants</h1>' 
-            	      . '<p><a href="'.$url.'">Click here</a> or enter this url into your browser to activate your account: '
-            	      . $url.'</p>'
-            	      . '<p>Your password is: ' . $password . '</p>';
-            	$text = "Activate your account on Practical Plants here: "
-            	      . $url." \n"
-            	      . "Your password is: $password\n";
-            	$this->sendMail($email_to, $email, $html, $text, 'Account Activation');
+            	$this->sendActivationEmail($user);
             	
             	//return $this->_redirect()->gotoRoute(array(),'registered');
             	return $this->_forward('registered');
@@ -214,6 +197,54 @@ class AccountController extends Zend_Controller_Action
         	$integrations->onAuthenticate();
         	
             $this->render('activation-success');
+        }
+    }
+
+
+    public function unconfirmedAction(){
+        $this->render('awaiting-activation');
+    }
+
+    public function resendActivationAction(){
+        $form = new Application_Form_ResendActivation(array(
+            'action' => '/sso/account/resend-activation',
+            'method' => 'post'
+        ));
+        $this->view->form = $form;
+        if($this->getRequest()->isPost() ) {
+
+            if (!$form->isValid($this->getRequest()->getPost())) {
+                // Did not pass validation...
+                $this->view->form = $form;
+                return $this->render('resend-activation');
+            }
+            
+            $users = new Application_Model_Users();           
+            
+            try{
+                $user = $users->getUserBy('email',$form->getValue('email'));               
+            }catch(Exception $e){
+                if(!$error = $e->getMessage())
+                    $error = 'Sorry, an error occurred while finding your account. Please try again.';
+                $this->view->messages = array($error);
+                return $this->render('resend-activation');
+            }
+            
+            //print_r((array) $user->toArray());exit;
+            
+            if($user){
+                if($user->email_confirmed){
+                    $form->addError('Your account has already been activated.');
+                }else{
+                   $this->sendActivationEmail($user);
+                    return $this->render('resent-activation'); 
+                }
+            }else{
+                $form->addError('There is no account with this email address.');
+            }
+            return $this->render('resend-activation');
+        }else{
+            $this->render('resend-activation');  
         }
     }
     
@@ -356,6 +387,34 @@ class AccountController extends Zend_Controller_Action
         } else {
             $this->_helper->redirector->gotoRoute(array(),'forgot-password');
         }
+    }
+
+
+    protected function sendActivationEmail(Zend_Db_Table_Row $user, $password = null){
+        //$username = $form->getProperty('username');
+        if(!isset($user->email))
+            throw 'Invalid user object for sendActivationEmail';
+        $email = $user->email;
+        $email_to = $user->display_name ?: $user->username;
+        
+        $hash = substr(md5($user->register_time.$user->register_ip),10,5);
+        
+        //echo $hash;exit;
+        $url = $this->_baseURL.'/activate/'.$user->user_id.'/'.$hash;
+        $html = '<h1>Your account at Practical Plants</h1>' 
+              . '<p><a href="'.$url.'">Click here</a> or enter this url into your browser to activate your account: '
+              . $url.'</p>'
+              . '<p>Your password is: ' . $password . '</p>';
+        $text = "Activate your account on Practical Plants here: "
+              . $url." \n";
+
+        //add password to activation email on initial registration - we can only do this when the form has just been
+        //submitted. After that it's cryped.
+        if($password!==null){
+            $text .= "Your password is: $password\n";
+        }
+
+        $this->sendMail($email_to, $email, $html, $text, 'Account Activation');
     }
     
     /**

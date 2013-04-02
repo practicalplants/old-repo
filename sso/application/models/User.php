@@ -17,15 +17,10 @@ class Application_Model_User {
     	$this->construct_data = $data;
     	
     }
+
     
-    /**
-     * Authenticate from http request
-     *
-     * @param Zend_Request $request
-     * @return bool True if authentication passed, false if failed.
-     */
-    public function authenticate($request){
-    	$params = $request->getParams();
+    public function authenticate(){
+
     }
     
     public function associateProvider(){
