@@ -124,17 +124,22 @@ class PracticalPlants_Masthead{
       <div class="thanks-to" id="thanks-tinymighty">
         <a href="http://tinymighty.com" class="thanks-logo"></a>
         <h4><a href="http://tinymighty.com">TinyMighty</a></h4>
-        <p>Website designed, developed and generously hosted by TinyMighty.</p>
+        <p>Website designed and developed by TinyMighty.</p>
+      </div>
+      <div class="thanks-to" id="thanks-biowikifarm">
+        <a href="http://biowikifarm.net" class="thanks-logo"></a>
+        <h4><a href="http://biowikifarm.net">BioWikiFarm</a></h4>
+        <p>Hosted and supported by BioWikiFarm.</p>
       </div>
       <div class="thanks-to" id="thanks-pfaf">
         <a href="http://pfaf.org" class="thanks-logo"></a>
         <h4><a href="http://pfaf.org">Plants For A Future</a></h4>
-        <p>The fantastic database this project was forked from was created by PFAF (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
+        <p>Forked from the PFAF database (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
       </div>
       <div class="thanks-to" id="thanks-mediawiki">
         <a href="http://mediawiki.org" class="thanks-logo"></a>
         <h4><a href="http://mediawiki.org">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org">SMW</a></h4>
-        <p>This website uses technology developed by the smart people behind MediaWiki and Semantic MediaWiki.</p>
+        <p>Built using MediaWiki and Semantic MediaWiki.</p>
       </div>
       <div class="thanks-to" id="thanks-cernunnos">
         <a href="http://cernunnos.es" class="thanks-logo"></a>

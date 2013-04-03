@@ -191,6 +191,9 @@ body{
 #footer #footer-thanks .thanks-to#thanks-pfaf a.thanks-logo{
   background-position: 0 -80px;
 }
+#footer #footer-thanks .thanks-to#thanks-biowikifarm a.thanks-logo{
+  background-position: 0 -120px;
+}
 #footer #footer-thanks .thanks-to#thanks-cernunnos a.thanks-logo{
   background:none;
 }
