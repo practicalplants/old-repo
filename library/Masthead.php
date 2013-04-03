@@ -122,28 +122,28 @@ class PracticalPlants_Masthead{
     <div class="footer-column" id="footer-thanks">
       <h3>Our thanks to...</h3>
       <div class="thanks-to" id="thanks-tinymighty">
-        <a href="http://tinymighty.com" class="thanks-logo"></a>
-        <h4><a href="http://tinymighty.com">TinyMighty</a></h4>
+        <a href="http://tinymighty.com" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://tinymighty.com" target="_blank">TinyMighty</a></h4>
         <p>Website designed and developed by TinyMighty.</p>
       </div>
       <div class="thanks-to" id="thanks-biowikifarm">
-        <a href="http://biowikifarm.net" class="thanks-logo"></a>
-        <h4><a href="http://biowikifarm.net">BioWikiFarm</a></h4>
+        <a href="http://biowikifarm.net" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://biowikifarm.net" target="_blank">BioWikiFarm</a></h4>
         <p>Hosted and supported by BioWikiFarm.</p>
       </div>
       <div class="thanks-to" id="thanks-pfaf">
-        <a href="http://pfaf.org" class="thanks-logo"></a>
-        <h4><a href="http://pfaf.org">Plants For A Future</a></h4>
+        <a href="http://pfaf.org" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://pfaf.org" target="_blank">Plants For A Future</a></h4>
         <p>Forked from the PFAF database (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
       </div>
       <div class="thanks-to" id="thanks-mediawiki">
-        <a href="http://mediawiki.org" class="thanks-logo"></a>
-        <h4><a href="http://mediawiki.org">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org">SMW</a></h4>
+        <a href="http://mediawiki.org" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://mediawiki.org" target="_blank">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org" target="_blank">SMW</a></h4>
         <p>Built using MediaWiki and Semantic MediaWiki.</p>
       </div>
       <div class="thanks-to" id="thanks-cernunnos">
-        <a href="http://cernunnos.es" class="thanks-logo"></a>
-        <h4><a href="http://cernunnos.es">Cernunnos</a></h4>
+        <a href="http://cernunnos.es" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://cernunnos.es" target="_blank">Cernunnos</a></h4>
         <p>This project is supported by the guys living at Cernunnos.</p>
       </div>
     </div>
