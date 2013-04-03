@@ -68,7 +68,8 @@ class PracticalPlantsTemplate extends BaseTemplate {
 	 */
 	var $skin;
 	
-	
+	const NS_CONTEXT_SUBJECT = 'subject';
+  const NS_CONTEXT_TALK = 'talk';
 
 	/**
 	 * Template filter callback for MonoBook skin.
@@ -131,16 +132,23 @@ class PracticalPlantsTemplate extends BaseTemplate {
 		$this->data['view_urls'] = $nav['views'];
 		$this->data['action_urls'] = $nav['actions'];
 		$this->data['variant_urls'] = $nav['variants'];
-    //print_r($this->data['namespace_urls']); exit;
+
+    foreach($this->data['content_navigation']['namespaces'] as $ns){
+      if($ns['class']=='selected'){
+        $current_context = $ns['context'];
+      }
+    }
+
+    //print_r($this->data['content_navigation']); exit;
 		// Reverse horizontally rendered navigation elements
-		if ( $wgLang->isRTL() ) {
+		/*if ( $wgLang->isRTL() ) {
 			$this->data['view_urls'] =
 				array_reverse( $this->data['view_urls'] );
 			$this->data['namespace_urls'] =
 				array_reverse( $this->data['namespace_urls'] );
 			$this->data['personal_urls'] =
 				array_reverse( $this->data['personal_urls'] );
-		}
+		}*/
 
     require_once(realpath(__DIR__.'/../../../library').'/Masthead.php');
     $masthead = new PracticalPlants_Masthead(array(
@@ -231,14 +239,20 @@ print_r($_GET);
       	<?php 
 
       	$action = isset($_GET['action']) ? $_GET['action'] : '';
-      	echo substr( $this->data->thispage, 0, 16);
+      	//echo substr( $this->data->thispage, 0, 16);
       	if($action==='' && isset($_GET['title'])){
       	  if( substr( $_GET['title'], 0, 16)  == 'Special:FormEdit')
       	    $action='formedit';
       	}
+
       	//View button (displayed on edit/history screens)
-      	if( $action==='edit' || $action==='formedit' || $action==='submit'): ?>
-      	  <a href="#" class="btn btn-large btn-success btn-block" id="sidebar-save-button"><i class="icon-ok icon-white"></i> Save Changes</a> 
+      	if( $action==='edit' || $action==='formedit' || $action==='submit'): 
+          $label = 'Save Changes';
+          //if we're currently on a talk page, and we're currently adding as DiscussionThreading item
+          if($current_context === self::NS_CONTEXT_TALK && isset($this->data['content_navigation']['views']['addsection']) && $this->data['content_navigation']['views']['addsection']['class']=='selected')
+            $label = 'Save Note';
+        ?>
+      	  <a href="#" class="btn btn-large btn-success btn-block" id="sidebar-save-button"><i class="icon-ok icon-white"></i> <?php echo $label ?></a> 
       	<?php endif; ?>
       	<?php 
       	//View button (displayed on edit/history screens)
@@ -246,7 +260,9 @@ print_r($_GET);
       	  $link = $this->data['view_urls']['view'];	?>
       	  <?php if($action==='submit'): ?>
       	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-danger btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left icon-white"></i> Discard Changes &amp; Return</a>
-      	  <?php else: ?>
+      	  <?php elseif($current_context === self::NS_CONTEXT_TALK):  ?>
+          <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left"></i> View Notes</a>
+          <?php else: ?>
       	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left"></i> View Page</a>
       	  <?php endif; ?>  
       	<?php endif; ?>
@@ -264,13 +280,25 @@ print_r($_GET);
       	<?php 
       	//edit source button
       	if(isset($this->data['view_urls']['edit']) && !strpos($this->data['view_urls']['edit']['attributes'],'selected') ): 
-      	  $link = $this->data['view_urls']['edit'];	
-      	  $is_primary = isset($this->data['view_urls']['form_edit']) ? false : true; //if this view has a form edit button, this button should be white, else green
-      	  ?>
-      	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large <?php if($is_primary): ?>btn-success <?php endif; ?>btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-edit<?php if($is_primary): ?> icon-white<?php endif;?>"></i> Edit Source</a>
-      	<?php endif; ?> 
+          //if we're on a talk page and DiscussionThreading is on, and the addsection nav is not currently selected, show an "Add Note" button as the primary button
+          if($current_context === self::NS_CONTEXT_TALK && isset($this->data['content_navigation']['views']['addsection'])): 
+            $is_primary = false;
+            if($this->data['content_navigation']['views']['addsection']['class']!=='selected'): ?>
+            <a href="<?php echo htmlspecialchars( $this->data['content_navigation']['views']['addsection']['href'] ) ?>" class="btn btn-large btn-success btn-block"<?php echo $link['attributes'] ?>> <?php echo $link['key'] ?><i class="icon-plus-sign icon-white"></i> Add A Note</a>
+          <?php 
+            endif;
+          //otherwise if this view has a form edit button, this button should be white, else green
+          else: 
+        	  $is_primary = isset($this->data['view_urls']['form_edit']) ? false : true; 
+        	  ?>
+      	  <?php 
+          endif; 
+          $link = $this->data['view_urls']['edit']; ?>
+          <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large <?php if($is_primary): ?>btn-success <?php endif; ?>btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-edit<?php if($is_primary): ?> icon-white<?php endif;?>"></i> Edit Source</a>
+
+        <?php endif; ?> 
         <?php 
-        //edit source button
+        //view notes / view content button to switch between Content and Talk namespaces
         if(isset($this->data['namespace_urls']) && !empty($this->data['namespace_urls']) && count($this->data['namespace_urls']) > 1):
           $content_ns = array_shift($this->data['namespace_urls']);
           $talk_ns = array_shift($this->data['namespace_urls']);
