@@ -131,7 +131,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 		$this->data['view_urls'] = $nav['views'];
 		$this->data['action_urls'] = $nav['actions'];
 		$this->data['variant_urls'] = $nav['variants'];
-
+    //print_r($this->data['namespace_urls']); exit;
 		// Reverse horizontally rendered navigation elements
 		if ( $wgLang->isRTL() ) {
 			$this->data['view_urls'] =
@@ -229,6 +229,7 @@ print_r($_GET);
       	
       	
       	<?php 
+
       	$action = isset($_GET['action']) ? $_GET['action'] : '';
       	echo substr( $this->data->thispage, 0, 16);
       	if($action==='' && isset($_GET['title'])){
@@ -268,6 +269,21 @@ print_r($_GET);
       	  ?>
       	  <a href="<?php echo htmlspecialchars( $link['href'] ) ?>" class="btn btn-large <?php if($is_primary): ?>btn-success <?php endif; ?>btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-edit<?php if($is_primary): ?> icon-white<?php endif;?>"></i> Edit Source</a>
       	<?php endif; ?> 
+        <?php 
+        //edit source button
+        if(isset($this->data['namespace_urls']) && !empty($this->data['namespace_urls']) && count($this->data['namespace_urls']) > 1):
+          $content_ns = array_shift($this->data['namespace_urls']);
+          $talk_ns = array_shift($this->data['namespace_urls']);
+          if( strpos($content_ns['attributes'],'selected') ): ?>
+          <a href="<?php echo htmlspecialchars( $talk_ns['href'] ) ?>" class="btn btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-book"></i> View Page Notes</a>
+          <?php else: ?>
+          <a href="<?php echo htmlspecialchars( $content_ns['href'] ) ?>" class="btn btn-block"<?php echo $link['attributes'] ?> <?php echo $link['key'] ?>><i class="icon-arrow-left"></i> View Page Content</a>
+          <?php 
+          endif;
+          ?>
+        <?php endif; ?> 
+
+
       	<?php 
       	//history button
       	if(isset($this->data['view_urls']['history']) && !strpos($this->data['view_urls']['history']['attributes'],'selected') ): 
