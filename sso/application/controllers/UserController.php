@@ -478,8 +478,8 @@ class UserController extends Zend_Controller_Action {
         $auth->clearIdentity();
         
         $this->destroySession();
-        $this->_helper->FlashMessenger('You were logged out');
-        return $this->_redirect('/index/index');
+        //$this->_helper->FlashMessenger('You were logged out');
+        return $this->_redirect('/goodbye');
     }
     
     protected function destroySession(){
