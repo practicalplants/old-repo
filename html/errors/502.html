@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>502 - Server Error</title>
+    <link rel="stylesheet" type="text/css" href="/resources/fonts/crete-round/stylesheet.css">
+<link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/global.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/masthead.css">
+<script type="text/javascript" src="/resources/js/libs/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/resources/js/login-menu.js"></script>
+    <link rel="stylesheet" type="text/css" href="/errors/errors.css">
+  </head>
+  <body class="">
+      <nav id="masthead">
+    <div class="width-constraint">
+      <div id="logo"><a href="/wiki/" id="logo-image"></a><h1><a href="/wiki/"><em>Practical</em> Plants</a></h1></div>
+
+      <ul class="tabs">
+              <li class=""><a href="/wiki">Wiki</a></li>        <li class=""><a href="/community">Community</a></li>        <li class=""><a href="/blog">Blog</a></li>      </ul>
+      
+          </div><!--/width-constraint-->
+  </nav>    <nav class="masthead-submenu" id="submenu">
+    </nav>
+    <div id="main">
+      <img src="/errors/logo.png" />
+              <h1>Server Error!</h1>
+        <h3 class="code">502</h3>
+        <p>It looks like the server is having a bit of a problem. Try refreshing your browser.</p>
+        <p>If things aren't back the way they should be soon, you can email <a href="mailto:help@practicalplants.org">help@practicalplants.org</a> for advice</p>
+        </div>
+    <div id="footer">
+  <div class="width-constraint">
+    <div class="footer-column" id="footer-about">
+      <h3>About Practical Plants</h3>
+      <p>Practical Plants is a plant database designed for <a href="/wiki/Permaculture">Permaculture</a> enthusiasts, <a href="/wiki/Agroforestry">Forest Gardeners</a>, Homesteaders, Farmers and anyone interested in <a href="/wiki/Organic">organic horticulture</a>.</p>
+    </div>
+    <div class="footer-column" id="footer-thanks">
+      <h3>Our thanks to...</h3>
+      <div class="thanks-to" id="thanks-tinymighty">
+        <a href="http://tinymighty.com" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://tinymighty.com" target="_blank">TinyMighty</a></h4>
+        <p>Website designed and developed by TinyMighty.</p>
+      </div>
+      <div class="thanks-to" id="thanks-biowikifarm">
+        <a href="http://biowikifarm.net" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://biowikifarm.net" target="_blank">BioWikiFarm</a></h4>
+        <p>Hosted and supported by BioWikiFarm.</p>
+      </div>
+      <div class="thanks-to" id="thanks-pfaf">
+        <a href="http://pfaf.org" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://pfaf.org" target="_blank">Plants For A Future</a></h4>
+        <p>Forked from the PFAF database (<a href="/wiki/PracticalPlants:PFAF">read more</a>).</p>
+      </div>
+      <div class="thanks-to" id="thanks-mediawiki">
+        <a href="http://mediawiki.org" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://mediawiki.org" target="_blank">MediaWiki</a> &amp; <a href="http://semantic-mediawiki.org" target="_blank">SMW</a></h4>
+        <p>Built using MediaWiki and Semantic MediaWiki.</p>
+      </div>
+      <div class="thanks-to" id="thanks-cernunnos">
+        <a href="http://cernunnos.es" class="thanks-logo" target="_blank"></a>
+        <h4><a href="http://cernunnos.es" target="_blank">Cernunnos</a></h4>
+        <p>This project is supported by the guys living at Cernunnos.</p>
+      </div>
+    </div>
+    <div class="footer-column" id="footer-others">
+      <div id="footer-docs">
+        <h3>Documents</h3>
+        <ul>
+          <li><a href="/wiki/Privacy_policy">Privacy Policy</a></li>
+        </ul>
+      </div>
+          </div>
+  </div><!--/width-constraint-->
+</div>
+    
+<div class="modal hide fade" id="login-modal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Enter your login details</h3>
+  </div>
+  <div class="modal-body">
+ 
+    <form class="form-horizontal" method="post" action="/sso/authenticate">
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <input type="text" id="inputEmail" name="email" placeholder="Email">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">Password</label>
+        <div class="controls">
+          <input type="password" id="inputPassword" name="password" placeholder="Password">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox"> Remember me
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-success" id="login-modal-login"><i class="icon-ok icon-white"></i> Log In</a>
+  </div>
+</div>
+<div class="modal hide fade" id="openid-modal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Enter your OpenID URL</h3>
+  </div>
+  <div class="modal-body">
+ 
+    <form class="form-horizontal" method="post" action="/sso/authenticate/external">
+      <div class="control-group">
+        <label class="control-label" for="openid_identifier">OpenID URL</label>
+        <div class="controls">
+          <input type="text" id="loginmodal_openid_identifier" name="openid_identifier" placeholder="http://you.youropenidurl.com">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-success" id="login-modal-login"><i class="icon-ok icon-white"></i> Connect with OpenID</a>
+  </div>
+</div>
+        <br />
+<b>Warning</b>:  include(/google-analytics.html) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in <b>/Users/andru/Development/practicalplants/html/errors/error.php</b> on line <b>65</b><br />
+<br />
+<b>Warning</b>:  include() [<a href='function.include'>function.include</a>]: Failed opening '/google-analytics.html' for inclusion (include_path='.:') in <b>/Users/andru/Development/practicalplants/html/errors/error.php</b> on line <b>65</b><br />
+  </body>
+</html>

@@ -37,6 +37,9 @@ class PracticalPlants_Masthead{
 		if(isset($opts['search'])){
 			$this->search = $opts['search'];
 		}
+    if(isset($opts['show_account_menu']) && $opts['show_account_menu']===false){
+      $this->show_account_menu = false;
+    }
 		$this->logged_in = (isset($_COOKIE['SSO-Session']) && isset($_COOKIE['SSO-Authed'])) ? true : false;
 	}
 	
@@ -58,6 +61,7 @@ class PracticalPlants_Masthead{
 	  	  <li class="<?php if($this->active_tab==$id){?>active<?php } ?>"><a href="<?php echo $tab['url'] ?>"><?php echo $tab['title'] ?></a></li><?php } ?>
 	  	</ul>
 	  	
+      <?php if($this->show_account_menu===true): ?>
 	  	<div id="masthead-account">
 	  	<?php if($this->logged_in):?>
         <a href="/sso" id="user-loggedin"><i class="icon-user icon-white"></i> Account</a>
@@ -85,7 +89,7 @@ class PracticalPlants_Masthead{
         </form>
 	  	<?php endif; ?>
 	  	</div>
-      	
+      <?php endif; ?>
     </div><!--/width-constraint-->
   </nav><?php
 		$html = ob_get_contents();
@@ -95,6 +99,7 @@ class PracticalPlants_Masthead{
 	
 	function headTags($skip=array()){
     $resources = array(
+        array('bootstrap','stylesheet','/resources/fonts/crete-round/stylesheet.css'),
         array('bootstrap','stylesheet','/resources/bootstrap/css/bootstrap.min.css'),
         array('global','stylesheet','/resources/css/global.css'),
         array('masthead','stylesheet','/resources/css/masthead.css'),
