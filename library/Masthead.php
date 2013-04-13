@@ -21,6 +21,8 @@ class PracticalPlants_Masthead{
 
   private static $instance;
 
+  public $show_account_menu = true;
+
   //optional singleton
   public function getInstance($opts = array() ){
     if(!self::$instance)
