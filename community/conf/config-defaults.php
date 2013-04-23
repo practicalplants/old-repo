@@ -23,7 +23,7 @@ $Configuration['Database']['ExtendedProperties']['Collate']     = 'utf8_unicode_
 
 $Configuration['Cache']['Enabled']                              = TRUE;
 $Configuration['Cache']['Method']                               = 'dirtycache';
-$Configuration['Cache']['Filecache']['Store']                   = PATH_CACHE.'/Filecache';
+$Configuration['Cache']['Filecache']['Store']                   = PATH_LOCAL_CACHE.'/Filecache';
 
 $Configuration['Garden']['ContentType']                         = 'text/html';
 $Configuration['Garden']['Charset']                             = 'utf-8';
@@ -78,17 +78,17 @@ $Configuration['Garden']['CanProcessImages']                    = FALSE;
 $Configuration['Garden']['Installed']                           = FALSE; // Has Garden been installed yet?
 $Configuration['Garden']['Forms']['HoneypotName']               = 'hpt';
 $Configuration['Garden']['Upload']['MaxFileSize']               = '50M';
-$Configuration['Garden']['Upload']['AllowedFileExtensions']     = array('txt','jpg','jpeg','gif','png', 'bmp', 'tiff', 'ico', 'zip','gz','tar.gz','tgz','psd','ai','fla','swf','pdf','doc','xls','ppt','docx','xlsx','log','rar','7z');
+$Configuration['Garden']['Upload']['AllowedFileExtensions']     = array('txt','jpg','jpeg','gif','png','bmp','tiff','zip','gz','tar.gz','tgz','psd','ai','fla','swf','pdf','doc','xls','ppt','docx','xlsx','log','rar','7z');
 $Configuration['Garden']['Picture']['MaxHeight']                = 1000;
 $Configuration['Garden']['Picture']['MaxWidth']                 = 600;
 $Configuration['Garden']['Profile']['MaxHeight']                = 1000;
 $Configuration['Garden']['Profile']['MaxWidth']                 = 250;
-//$Configuration['Garden']['Preview']['MaxHeight']                = 100;
-//$Configuration['Garden']['Preview']['MaxWidth']                 = 75;
-$Configuration['Garden']['Thumbnail']['Size']                   = 40;
+$Configuration['Garden']['Preview']['MaxHeight']                = 100;
+$Configuration['Garden']['Preview']['MaxWidth']                 = 75;
+$Configuration['Garden']['Thumbnail']['Size']                   = 50;
 $Configuration['Garden']['Menu']['Sort']                        = array('Dashboard', 'Discussions', 'Questions', 'Activity', 'Applicants', 'Conversations', 'User');
 //$Configuration['Garden']['DashboardMenu']['Sort']               = array('Dashboard', 'Appearance', 'Banner', 'Themes', 'Theme Options', 'Custom Theme', 'Messages', 'Custom Domain', 'Users', 'Roles & Permissions', 'Registration', 'Applicants', 'Authentication', 'Forum', 'Forum Settings', 'Categories', 'Tagging', 'Voting', 'Spam', 'Flagging', 'Flagged Content', 'Media', 'Signatures', 'Add-ons', 'Addons', 'Plugins', 'Applications', '&lt;Embed&t; Vanilla', 'Locales', 'Site Settings', 'Import');
-$Configuration['Garden']['InputFormatter']                      = 'Html'; // Html, BBCode, Markdown, Text
+$Configuration['Garden']['InputFormatter']                      = 'Html';
 $Configuration['Garden']['Html']['SafeStyles']                  = TRUE; // disallow style/class attributes in html to prevent click jacking
 $Configuration['Garden']['Search']['Mode']                      = 'matchboolean'; // matchboolean, match, boolean, like
 $Configuration['Garden']['Theme']                               = 'default';
@@ -99,15 +99,11 @@ $Configuration['Garden']['Roles']['Manage']                     = TRUE;
 $Configuration['Garden']['VanillaUrl']                          = 'http://vanillaforums.org';
 $Configuration['Garden']['AllowSSL']                            = TRUE;
 $Configuration['Garden']['PrivateCommunity']                    = FALSE;
-$Configuration['Garden']['EditContentTimeout']                  = 3600; // -1 means no timeout. 0 means immediate timeout. > 0 is in seconds. 60 * 60 = 3600 (aka 1hr)
+$Configuration['Garden']['EditContentTimeout']                  = -1; // -1 means no timeout. 0 means immediate timeout. > 0 is in seconds.
 $Configuration['Garden']['Profile']['EditUsernames']            = FALSE;
 $Configuration['Garden']['Modules']['ShowGuestModule']          = TRUE;
 $Configuration['Garden']['Modules']['ShowSignedInModule']       = FALSE;
 $Configuration['Garden']['Modules']['ShowRecentUserModule']     = FALSE;
-$Configuration['Garden']['Embed']['CommentsPerPage']            = 50;
-$Configuration['Garden']['Embed']['SortComments']               = 'desc';
-$Configuration['Garden']['Embed']['PageToForum']                = TRUE;
-
 
 // Formatting
 $Configuration['Garden']['Format']['Mentions']                  = TRUE;
@@ -118,31 +114,29 @@ $Configuration['Garden']['Format']['EmbedSize']                 = 'normal'; // t
 
 // Default Preferences
 $Configuration['Preferences']['Email']['ConversationMessage']   = '1';
-//$Configuration['Preferences']['Email']['AddedToConversation']   = '1'; // merged with ConversationMessage
+$Configuration['Preferences']['Email']['AddedToConversation']   = '1';
 $Configuration['Preferences']['Email']['BookmarkComment']       = '1';
 $Configuration['Preferences']['Email']['WallComment']           = '0';
 $Configuration['Preferences']['Email']['ActivityComment']       = '0';
 $Configuration['Preferences']['Email']['DiscussionComment']     = '0';
-//$Configuration['Preferences']['Email']['DiscussionMention']     = '0'; // merged with regular mention
-//$Configuration['Preferences']['Email']['CommentMention']        = '0';
+$Configuration['Preferences']['Email']['DiscussionMention']     = '0';
+$Configuration['Preferences']['Email']['CommentMention']        = '0';
 $Configuration['Preferences']['Popup']['ConversationMessage']   = '1';
-//$Configuration['Preferences']['Popup']['AddedToConversation']   = '1';
+$Configuration['Preferences']['Popup']['AddedToConversation']   = '1';
 $Configuration['Preferences']['Popup']['BookmarkComment']       = '1';
 $Configuration['Preferences']['Popup']['WallComment']           = '1';
 $Configuration['Preferences']['Popup']['ActivityComment']       = '1';
 $Configuration['Preferences']['Popup']['DiscussionComment']     = '1';
-//$Configuration['Preferences']['Popup']['DiscussionMention']     = '1';
-//$Configuration['Preferences']['Popup']['CommentMention']        = '1';
-$Configuration['Preferences']['Email']['Mention']               = '0';
-$Configuration['Preferences']['Popup']['Mention']               = '1';
+$Configuration['Preferences']['Popup']['DiscussionMention']     = '1';
+$Configuration['Preferences']['Popup']['CommentMention']        = '1';
 
 // Modules
-$Configuration['Modules']['Dashboard']['Panel'] = array('MeModule', 'UserBoxModule', 'ActivityFilterModule', 'UserPhotoModule', 'ProfileFilterModule', 'SideMenuModule', 'UserInfoModule', 'GuestModule', 'Ads');
-$Configuration['Modules']['Dashboard']['Content'] = array('MessageModule', 'MeModule', 'UserBoxModule', 'ProfileOptionsModule', 'Notices', 'ActivityFilterModule', 'ProfileFilterModule', 'Content', 'Ads');
-$Configuration['Modules']['Vanilla']['Panel'] = array('MeModule', 'UserBoxModule', 'GuestModule', 'NewDiscussionModule', 'DiscussionFilterModule', 'SignedInModule', 'Ads');
-$Configuration['Modules']['Vanilla']['Content'] = array('MessageModule', 'MeModule', 'UserBoxModule', 'NewDiscussionModule', 'ProfileOptionsModule', 'Notices', 'NewConversationModule', 'NewDiscussionModule', 'DiscussionFilterModule', 'CategoryModeratorsModule', 'Content', 'Ads');
-$Configuration['Modules']['Conversations']['Panel'] = array('MeModule', 'UserBoxModule', 'NewConversationModule', 'SignedInModule', 'GuestModule', 'Ads');
-$Configuration['Modules']['Conversations']['Content'] = array('MessageModule', 'MeModule', 'UserBoxModule', 'NewConversationModule', 'Notices', 'Content', 'Ads');
+$Configuration['Modules']['Garden']['Panel'] = array('UserPhotoModule', 'UserInfoModule', 'GuestModule', 'Ads');
+$Configuration['Modules']['Garden']['Content'] = array('MessageModule', 'Notices', 'Content', 'Ads');
+$Configuration['Modules']['Vanilla']['Panel'] = array('NewDiscussionModule', 'SignedInModule', 'GuestModule', 'Ads');
+$Configuration['Modules']['Vanilla']['Content'] = array('MessageModule', 'Notices', 'NewConversationModule', 'NewDiscussionModule', 'CategoryModeratorsModule', 'Content', 'Ads');
+$Configuration['Modules']['Conversations']['Panel'] = array('NewConversationModule', 'SignedInModule', 'GuestModule', 'Ads');
+$Configuration['Modules']['Conversations']['Content'] = array('MessageModule', 'Notices', 'NewConversationModule', 'NewDiscussionModule', 'Content', 'Ads');
 
 // Routes
 $Configuration['Routes']['DefaultController'] = 'discussions';

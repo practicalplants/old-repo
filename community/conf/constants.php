@@ -4,13 +4,12 @@
  */
 
 // If you want to change where the garden libraries are located on your server, edit these paths:
-define('PATH_APPLICATIONS', PATH_ROOT.'/applications');
-define('PATH_CACHE', PATH_ROOT.'/cache');
-define('PATH_PLUGINS', PATH_ROOT.'/plugins');
-define('PATH_THEMES', PATH_ROOT.'/themes');
-define('PATH_UPLOADS', PATH_ROOT.'/uploads');
-define('PATH_LIBRARY', PATH_ROOT.'/library');
-define('PATH_LIBRARY_CORE', PATH_LIBRARY.'/core');
+define('PATH_APPLICATIONS', PATH_ROOT . DS . 'applications');
+define('PATH_CACHE', PATH_ROOT . DS . 'cache');
+define('PATH_LIBRARY', PATH_ROOT . DS . 'library');
+define('PATH_PLUGINS', PATH_ROOT . DS . 'plugins');
+define('PATH_THEMES', PATH_ROOT . DS . 'themes');
+define('PATH_UPLOADS', PATH_ROOT . DS . 'uploads');
 
 // Delivery type enumerators:
 define('DELIVERY_TYPE_ALL', 'ALL'); // Deliver an entire page
@@ -25,12 +24,6 @@ define('DELIVERY_TYPE_DATA', 'DATA'); // Just deliver the data.
 define('DELIVERY_METHOD_XHTML', 'XHTML');
 define('DELIVERY_METHOD_JSON', 'JSON');
 define('DELIVERY_METHOD_XML', 'XML');
-/**
- * @since 2.1
- */
-define('DELIVERY_METHOD_TEXT', 'TXT');
-define('DELIVERY_METHOD_PLAIN', 'PLAIN');
-define('DELIVERY_METHOD_RSS', 'RSS');
 
 // Handler enumerators:
 define('HANDLER_TYPE_NORMAL', 'NORMAL'); // Standard call to a method on the object.
@@ -46,11 +39,6 @@ define('DATASET_TYPE_OBJECT', 'object');
 define('SYNDICATION_NONE', 'NONE');
 define('SYNDICATION_RSS', 'RSS');
 define('SYNDICATION_ATOM', 'ATOM');
-
-define('TRACE_INFO', 'Info');
-define('TRACE_ERROR', 'Error');
-define('TRACE_WARNING', 'Warning');
-define('TRACE_NOTICE', 'Notice');
 
 // Environment
 define('ENVIRONMENT_PHP_VERSION','5.2.0');
