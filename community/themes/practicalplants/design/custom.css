@@ -41,14 +41,14 @@ span.Alert{
 }
 
 #Head {
-   background-color: #ea9800;
-   text-shadow: none;
-   background: -webkit-gradient(linear, left top, left bottom, from(rgb(236,158,0)), to(rgb(224,102,0)));
-   background: -webkit-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-   background: -moz-linear-gradient(-90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-   background: -ms-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-   background: -o-linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
-   background: linear-gradient( -90deg, rgb(236,158,0) 0%, rgb(224,102,0) 100%);
+    background-color: #ea9800;
+    text-shadow: none;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgb(236,158,0)), to(rgb(224,102,0)));
+    background: -webkit-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+    background: -moz-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+    background: -ms-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+    background: -o-linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
+    background: linear-gradient( rgb(236,158,0) 0%, rgb(224,102,0) 30px);
 
    font-family: CreteRoundRegular;
    
@@ -57,7 +57,8 @@ span.Alert{
 #Head #Menu{
 	text-align: center;
 	margin-left: 230px;
-	display: bl;
+	display: block;
+  text-shadow:1px 1px 1px #ea9800;
 }
 
 #Head #Menu li{
