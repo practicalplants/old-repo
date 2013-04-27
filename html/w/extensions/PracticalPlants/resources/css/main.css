@@ -2014,6 +2014,15 @@ h2 + .tabify{
   border-radius: 5px;
   
   padding-right: 18px;
+  
+  -webkit-transition: background 0.5s, border 0.5s, padding 0.5s, margin 0.5s;
+  -moz-transition: background 0.5s, border 0.5s, padding 0.5s, margin 0.5s;
+  -o-transition: background 0.5s, border 0.5s, padding 0.5s, margin 0.5s;
+  -ms-transition: background 0.5s, border 0.5s, padding 0.5s, margin 0.5s;
+  transition: background 0.5s, border 0.5s, padding 0.5s, margin 0.5s;
+  
+  padding: 10px 28px 10px 10px;
+  margin: -10px;
 }
 .cc-nc:hover{
   
@@ -2024,7 +2033,7 @@ h2 + .tabify{
   width: 16px;
   height: 16px;
   top: 50%;
-  right:  -5px;
+  right:  5px;
   
   margin-top: -8px;
   
@@ -2039,12 +2048,11 @@ h2 + .tabify{
 }
 .cc-nc.active{
   border-color: red;
-  padding: 10px 28px 10px 10px;
-  margin: -10px;
-  background: rgba(255,200,200,0.5);
+  
+  background: rgba(255,200,200,0.3);
 }
 .cc-nc.active .cc-nc-logo{
-  right: 5px;
+  
 }
 
 
