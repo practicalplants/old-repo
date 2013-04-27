@@ -161,7 +161,7 @@ class PracticalPlantsTemplate extends BaseTemplate {
 
 <!DOCTYPE html>
 <!--
-<?php print_r($this->content);
+<?php /*print_r($this->content);
 print_r($_GET);
       	/*print_r($this->data);*/ ?>
  -->
