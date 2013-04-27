@@ -13,6 +13,7 @@ function init(){
 	//indentSections();
 	initTips();
 	initIconbarPopovers();
+	initCCNC();
 	setArticleContentHeight();
 	initStickySidebar();
 	initScrollSpyTOC();
@@ -207,7 +208,7 @@ function initTips(){
 	
 	$('.article-content .definition[title]').qtip(opts);
 	
-	
+	//$('.article-content .cc-nc .cc-nc-logo[title]').qtip(opts);
 	/*opts = {
 	    placement: 'top'
 	};*/
@@ -222,6 +223,26 @@ function initTips(){
   });
 	
 
+}
+
+function initCCNC(){
+  var opts = {
+  	    placement: 'top',
+  	    trigger: 'manual',
+  	    title: 'Creative Commons NC License',
+  	    content: 'This text is only available under a restrictive Non-Commercial license. Please help us liberate this text by editing this article!'
+  };
+  
+  $('.article-content .cc-nc').popover(opts);
+  
+  $('.article-content .cc-nc .cc-nc-logo')
+  .mouseenter(function(){
+    $(this).parents('.cc-nc').addClass('active').popover('show');
+  })
+  .mouseleave(function(){
+    $(this).parents('.cc-nc').removeClass('active').popover('hide');
+  });
+  
 }
 
 

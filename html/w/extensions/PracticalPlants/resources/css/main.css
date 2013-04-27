@@ -4,7 +4,8 @@
   
 */
 
-/* =============== Gerneral layout styles ================ */
+/* @group Global Layout Rules */
+
 a, a:active, a:hover, a:visited{
   color: #009900;
   /*color: rgb(236,80,0);*/
@@ -34,8 +35,6 @@ a.btn-success, a.btn-success:active, a.btn-success.visited{
 
 
 
-
-/* =============== Global layout elements ================ */
 body{
   font-family: Georgia, Times New Roman, Times, serif;
 }
@@ -43,6 +42,7 @@ body{
   position: relative;
   min-width: 960px;
 }
+
 
 
 
@@ -689,9 +689,12 @@ nav#article-actions .tabs #ca-talk.new{
   margin: 0;
 }
 
+/* @end */
+
+/* @group Wiki Article */
 
 
-/* =================== Wiki Article =================== */
+
 article.wiki-entry{
 
 }
@@ -879,8 +882,6 @@ article.wiki-entry{
   margin-left: 0px;
 }
 
-
-
 /* Specific styles for WikiText */
 .plant-name{
   
@@ -904,7 +905,7 @@ article.wiki-entry{
   font-family: CreteRoundItalic;
 }
 
-
+/* @group TOC */
 
 /* =============== Table of Content ============== */
 table.toc{
@@ -986,7 +987,9 @@ table.toc .toctoggle{
   padding-left: 16px;
 }
 
+/* @end */
 
+/* @group CSS Tables */
 
 /* =============== Layout table styles ============= */
 .tbl{
@@ -1078,6 +1081,11 @@ table.toc .toctoggle{
 .tbl .cell:last-child{
   border: none;
 }
+
+/* @end */
+
+/* @group Collapsing Sections */
+
 /* ======== Collapsable sections ========= */
 .js .collapser{
   color:#009900;
@@ -1131,7 +1139,10 @@ table.toc .toctoggle{
   margin: 0px 0 50px 0;
 }
 
-/* ======== Column list ========= */
+/* @end */
+
+/* @group Column List */
+
 ul.column-list{
   list-style-type: none;
   padding: 0;
@@ -1166,8 +1177,10 @@ ul.column-list{
   column-count: 5;
 }
 
+/* @end */
 
-/* ======== Tabify sections ========= */
+/* @group Tabify */
+
 .tabify{
   
 }
@@ -1246,6 +1259,8 @@ h2 + .tabify{
   display: block;
   margin: 20px 0 1px 0;
 }
+
+/* @end */
 
 /* @group Infobox */
 
@@ -1384,6 +1399,9 @@ h2 + .tabify{
 
 /* @end */
 
+/* @end */
+
+
 /* @group Plant Template */
 
 
@@ -1440,6 +1458,10 @@ h2 + .tabify{
 }
 #plant-uses .article-section{
   margin-bottom: 20px;
+}
+#plant-uses .article-section .header-info{
+  /* Hide the header info, it's google fodder */
+  display: none;
 }
 #plant-uses .medicinal-warning{
   font-size: 12px;
@@ -1981,6 +2003,51 @@ h2 + .tabify{
 }
 
 
+.cc-nc{
+  position: relative;
+  border: 2px solid transparent;
+  
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  
+  padding-right: 18px;
+}
+.cc-nc:hover{
+  
+}
+.cc-nc .cc-nc-logo{
+  background: url('../images/cc-nc.png') no-repeat top right;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  right:  -5px;
+  
+  margin-top: -8px;
+  
+  opacity: 0.2;
+}
+.cc-nc:hover .cc-nc-logo{
+  opacity: 0.6;
+}
+
+.cc-nc .cc-nc-logo:hover{
+  opacity: 1;
+}
+.cc-nc.active{
+  border-color: red;
+  padding: 10px 28px 10px 10px;
+  margin: -10px;
+  background: rgba(255,200,200,0.5);
+}
+.cc-nc.active .cc-nc-logo{
+  right: 5px;
+}
+
+
 /* @end */
 
 
@@ -2016,9 +2083,10 @@ h2 + .tabify{
 }
 
 
+/* @group Semantic Forms */
 
+/* @group Global */
 
-/* =============== Semantic Forms ================ */
 #sfForm h2{
   margin-bottom: 10px;
   position: relative;
@@ -2029,6 +2097,16 @@ h2 + .tabify{
 }
 #sfForm .collapsee{
   margin-bottom: 30px;
+}
+#sfForm textarea, #sfForm input{
+  font-family: Georgia;
+}
+#sfForm input[type=button]{
+  font-family: CreteRoundRegular;
+}
+#sfForm textarea.wikieditor{
+  font-size: 14px;
+  font-family: Georgia;
 }
 table.formtable{
   margin: 10px;
@@ -2188,10 +2266,10 @@ input#wpDiff{
   display: table-cell;
 }
 
+/* @end */
 
+/* @group References */
 
-
-/* =============== References ================ */
 .form-references{
   
 }
@@ -2280,8 +2358,9 @@ input#wpDiff{
 
 }
 
+/* @end */
 
-
+/* @group Plant Form */
 
 /* Plant form */
 .plantform-use{
@@ -2340,9 +2419,35 @@ input#wpDiff{
   margin-right: 15px;
 }
 
+#plant-form .pfaf-notes-field{
+  border: 1px solid pink;
+  padding: 10px;
+    background-color: rgba(255,0,0,0.03);
+  
+}
+#plant-form .pfaf-notes-field .pfaf-notes-instructions{
+  margin: 10px 0;
+  
+}
+#plant-form .pfaf-notes-field .pfaf-notes-instructions b{
+  font-family: CreteRoundItalic;
+  color: red;
+}
+#plant-form .pfaf-notes-field textarea{
+  font-size: 13px !important;
+  border: 1px solid pink;
+  outline: 0;
+}
+/* @end */
 
 
-/* =================== Main Page ================ */
+/* @end */
+
+
+
+
+
+/* @group Main Page */
 body.page-Practical_Plants #page-header{
   padding-right: 0px;
   min-height: 170px;
@@ -2386,9 +2491,6 @@ body.page-Practical_Plants .article-content{
   width: auto;
   margin-right: 0;  
 }
-
-/* @group Main Page */
-
 #main-page-content{
   display: table;
   clear: left;

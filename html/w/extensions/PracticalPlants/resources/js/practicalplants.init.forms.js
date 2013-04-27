@@ -123,7 +123,24 @@
 		
 		$('.tabify').tabs();
 		
+		/**
+		 * Make sure PFAF notes are only ever cut/deleted, never added to!
+		 */
+    $('.pfaf-notes textarea')
+    .each(function(){
+      $(this).data('original',$(this).val()).data('previous',$(this).val());
+    })
+    .change(function(ev){
+      if($(this).val().length > $(this).data('previous').length){
+        alert('You have added data to the imported notes. This field should ONLY be used as a source to complete the related fields, and should only be deleted from, never added to!');
+      }
+      $(this).data('previous',$(this).val());
+    });
 		
+		
+		/**
+		 * Enable/disable propagation tabs as propagation type checkboxes are checked/unchecked
+		 */
 		(function initPropagation(){
 			var container = $('#plantform-propagation');
 			var tabs = container.tabs();
