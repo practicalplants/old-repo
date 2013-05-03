@@ -28,8 +28,9 @@ class MigrateLicense extends Maintenance {
   public function __construct() {
     parent::__construct();
     $this->mDescription = "Move over all pfaf text in plant templates.";
-    $this->addOption( 'from', 'What item to start from', false, true );
+    $this->addOption( 'from_title', 'What item to start from', false, true );
     $this->addOption( 'title', 'A single title to grab', false, true );
+    $this->addOption( 'unmodified_since', 'Select article which have not been modified since at least this date.', false, true);
     //$this->addOption( 'type', 'Type of job to run', false, true );
     //$this->addOption( 'procs', 'Number of processes to use', false, true );
   }
@@ -47,16 +48,19 @@ class MigrateLicense extends Maintenance {
     }else{
       $this->log(count($res).' results found');
     }
-    if ( $this->hasOption( 'from' ) ) {
-      $from = trim( $this->getOption( 'from' ) );
+    if ( $this->hasOption( 'from_title' ) ) {
+      $from_title = trim( $this->getOption( 'from_title' ) );
       $skip = true;
+    }
+    if( $this->hasOption('unmodified_since') ){
+      $before_date = strtotime($this->getOption('unmodified_since') );
     }
         
     //echo $from; exit;
     //$this->log(print_r($res,true));
     foreach ( $res as $row ) {
-      if(isset($from)){
-        if(trim($row->page_title) == $from)
+      if(isset($from_title)){
+        if(trim($row->page_title) == $from_title)
           $skip = false;
         if($skip){
           $this->log( 'Skipping '.$row->page_title);
@@ -68,7 +72,18 @@ class MigrateLicense extends Maintenance {
       
       if ( !$article ) {
         $this->log( 'Page title not found: '.$row->page_title );
-        return false;
+        continue;
+      }
+      $page = $article->getPage();
+
+      //it would probably be better to do this via a join on the most recent revision's timestamp field, but whatever...
+      
+      if(isset($before_date)){
+        $time = strtotime( $page->getTimestamp() );
+        if($time > $before_date){
+          $this->log('Skipping '.$row->page_title.' - has been modified since specified date: '.date('Y-M-d',$before_date).' '.$this->getOption('unmodified_since'));
+          continue;
+        }
       }
       $content = $article->fetchContent();
       
