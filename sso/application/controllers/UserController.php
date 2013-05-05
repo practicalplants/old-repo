@@ -203,9 +203,10 @@ class UserController extends Zend_Controller_Action {
             // here a user is redirect to the provider for loging
             $result = $auth->authenticate($adapter);
 
+            $this->log('Login redirection failed.');
             // the following two lines should never be executed unless the redirection faild.
-            $this->_helper->FlashMessenger('Redirection faild');
-            return $this->_redirect('/index/index');
+            $this->_helper->FlashMessenger('Redirection failed');
+            return $this->_redirect('/login');
             
             
         } else if ($openid_mode || $code || $oauth_token) {
