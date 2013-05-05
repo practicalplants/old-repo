@@ -457,7 +457,7 @@ class UserController extends Zend_Controller_Action {
 	    			$this->view->external_provider = $authSess->external['provider'];
 	    			return $this->render('external-user-created');
 	    		}catch(Exception $e){
-	    			print_r($values);
+	    			//print_r($values);
 	    			if(!$error = $e->getMessage())
 	    				$error = 'Sorry, an error occurred while creating your account. Please try again.';
 	    			$this->view->message = $error;
