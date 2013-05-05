@@ -231,7 +231,7 @@ class My_Auth_Adapter_Oauth implements Zend_Auth_Adapter_Interface
             $session->unsetAll();
 
             $code = Zend_Auth_Result::FAILURE;
-            $message = array('Access denied by OAuth source');
+            $message = array('Access denied by OAuth source: '.$e->getMessage() );
             return new Zend_Auth_Result($code, '', $message);
         } catch (Exception $e) {
             $session->unsetAll();

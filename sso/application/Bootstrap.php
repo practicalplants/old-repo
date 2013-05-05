@@ -164,6 +164,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
      	$db = $this->getPluginResource('db')->getDbAdapter();
      	Zend_Registry::set('dbAdapter', $db);
      }
+
+     public function _initOptionsStore(){
+        $options = $this->getOptions();
+        Zend_Registry::set('options', $options);
+     }
      
 
 }

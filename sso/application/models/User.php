@@ -24,7 +24,7 @@ class Application_Model_User {
     }
     
     public function associateProvider(){
-    
+        
     }
     
     //force authentication

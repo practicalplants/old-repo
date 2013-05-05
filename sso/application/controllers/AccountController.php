@@ -31,17 +31,7 @@ class AccountController extends Zend_Controller_Action
      * Default maximum number of characters for username and email
      */
     const MAX_EMAIL_USERNAME_CHAR = 255;
-    
-    /**
-     * Email address in which administation emails are sent to user
-     */
-    private $_email = 'noreply@practicalplants.org';
-    
-    /**
-     * Name of email address in which administation emails are sent to user
-     */
-    private $_emailName = 'Practical Plants';
-    
+
     /**
      * Base URL
      */
@@ -427,10 +417,13 @@ class AccountController extends Zend_Controller_Action
      */
     protected function sendMail($name, $email, $html, $text, $title)
     {    	
+        $options = Zend_Registry::get('options');
+        $from = $options['email']['from'];
+        $from_name = $options['email']['from_name'];
         $mail = new Zend_Mail();
         $mail->setBodyText($text);
         $mail->setBodyHtml($html);
-        $mail->setFrom($this->_email, $this->_emailName);
+        $mail->setFrom($from, $from_name);
         $mail->addTo($email);
         $mail->setSubject($title);
         $mail->send();

@@ -36,6 +36,9 @@ echo $this->doctype(); ?>
 		<?php //echo $this->submenu() ?>
 		</nav>
 		<div id="main">
+		<?php /*if($this->_helper->flashMessenger()->hasMessages()){
+			?><div class="messages"><?php echo implode('<br>', $this->_helper->flashMessenger()->getMessages()); ?></div><?php
+		}*/?>
 		<?php echo $this->layout()->content; ?>
 		</div>
 		<?php $masthead->footer(); ?>

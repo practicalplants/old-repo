@@ -41,6 +41,8 @@ class Application_Form_Login extends Zend_Form {
             array('Description', array('placement' => 'prepend')),
             'Form'
         ));
+
+        $this->addDecorator( 'Errors', array( 'placement' => Zend_Form_Decorator_Abstract::PREPEND ) );
     }
  
 }

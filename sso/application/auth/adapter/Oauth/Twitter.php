@@ -200,7 +200,7 @@ class My_Auth_Adapter_Oauth_Twitter extends My_Auth_Adapter_Oauth {
         $accessToken = $this->getAccessToken();
 
         $client = $accessToken->getHttpClient($this->_oathConfig);
-        $client->setUri('http://api.twitter.com/1/account/verify_credentials.json');
+        $client->setUri('http://api.twitter.com/1.1/account/verify_credentials.json');
 
 
         $response = $client->request(Zend_Http_Client::GET);

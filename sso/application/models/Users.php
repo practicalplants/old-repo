@@ -65,8 +65,8 @@ class Application_Model_Users extends Zend_Db_Table_Abstract {
     	}
     	
     	$user['password'] = $this->hashPassword($user['password']);
-    	$user->register_time = 'NOW()';
-    	$user->register_ip = $_SERVER['REMOTE_ADDR'];
+    	$user['register_time'] = 'NOW()';
+    	$user['register_ip'] = $_SERVER['REMOTE_ADDR'];
     	//print_r($user);exit;
     	$id = $this->insert($user);
     	if($id){

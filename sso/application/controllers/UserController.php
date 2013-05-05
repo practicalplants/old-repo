@@ -33,9 +33,9 @@ class UserController extends Zend_Controller_Action {
 	}
 	
 	protected function log($msg){
-    if($this->logger && $this->logger instanceof Zend_Log){
-      $this->logger->info($msg);
-    }
+        if($this->logger && $this->logger instanceof Zend_Log){
+          $this->logger->info($msg);
+        }
 	}
     
 
@@ -152,7 +152,7 @@ class UserController extends Zend_Controller_Action {
 
         // check if a user is already logged
         if ($auth->hasIdentity()) {
-            $this->_helper->FlashMessenger('It seems you are already logged into the system ');
+            $this->_helper->FlashMessenger('You are already logged in.');
             return $this->_helper->redirector()->gotoRoute(array(),'home');
         }
 
@@ -173,7 +173,6 @@ class UserController extends Zend_Controller_Action {
 
         // while this one will be set by twitter
         $oauth_token = $this->getRequest()->getParam('oauth_token', null);
-
 
         // do the first query to an authentication provider
         if ($openid_identifier) {
@@ -204,9 +203,14 @@ class UserController extends Zend_Controller_Action {
             $result = $auth->authenticate($adapter);
 
             $this->log('Login redirection failed.');
+            $this->log(print_r($result, true));
             // the following two lines should never be executed unless the redirection faild.
-            $this->_helper->FlashMessenger('Redirection failed');
-            return $this->_redirect('/login');
+            //$this->_helper->FlashMessenger('Redirection failed');
+            //$this->_redirect('/login');
+            $form = $this->getLoginForm();
+            $this->view->form = $form;
+            $form->addError('Something went wrong while authenticating you! Please email help@practicalplants.org for assistance.');
+            return $this->render('login');
             
             
         } else if ($openid_mode || $code || $oauth_token) {
@@ -220,11 +224,10 @@ class UserController extends Zend_Controller_Action {
                 // for facebook
                 $adapter = $this->_getFacebookAdapter();
             } else if ($oauth_token) {
-              $this->log('Twitter  response: '.$oath_token);
+              $this->log('Twitter  response: '.$oauth_token);
                 // for twitter
-                $adapter = $this->_getTwitterAdapter()->setQueryData($_GET);
+                $adapter = $this->_getTwitterAdapter();
             } else {
-              
                 // for openid                
                 $adapter = $this->_getOpenIdAdapter(null);
 
@@ -248,10 +251,10 @@ class UserController extends Zend_Controller_Action {
             }
 
             $result = $auth->authenticate($adapter);
-
+            $this->log('Auth result: '.(string) $result->isValid()); 
             if ($result->isValid()) {
                 $externalData = array('identity' => $auth->getIdentity());
-                
+                $this->log('Auth identity: '.print_r($auth->getIdentity(), true));
                 if (isset($ext)) {
                     // for openId
                     $externalData['properties'] = $ext->getProperties();
@@ -267,9 +270,7 @@ class UserController extends Zend_Controller_Action {
                     // get user info
                     $twitterUserData = (array) $adapter->verifyCredentials();
                     $externalData = array('identity' => $identity['user_id']);
-                    if (isset($twitterUserData['status'])) {
-                        $twitterUserData['status'] = (array) $twitterUserData['status'];
-                    }
+
                     $externalData['properties'] = $twitterUserData;
                     $externalData['provider'] = 'Twitter';
                 }else{
@@ -324,7 +325,8 @@ class UserController extends Zend_Controller_Action {
                 	if(isset($user) && $user!==false){
             			//local user with matching email, but not logged in with this auth before, attempt to link!
             			//$auth->getStorage()->write($user->email); //change identity to email address
-            			return $this->_forward('associate-provider');
+            			$user->associateNewProvider();
+                        return $this->_forward('associate-provider');
             			//echo 'found email user';
                 	}else{
                 		//no user found, redirect to form to create new local user
@@ -365,8 +367,8 @@ class UserController extends Zend_Controller_Action {
             	//exit;
                 //$this->_helper->FlashMessenger('Failed authentication');
                 //$this->_helper->FlashMessenger($result->getMessages());
-                $this->view->message = $result->getMessages() || 'Authentication failed.';
-                $this->log('External auth failed');
+                $this->view->message = implode(' - ',$result->getMessages()) || 'Authentication failed.';
+                $this->log( 'External auth failed: '.print_r($result->getMessages(), true) );
                 return $this->render('error');
             }
         }else{
@@ -414,6 +416,30 @@ class UserController extends Zend_Controller_Action {
 	    		try{
 	    			//create new user 
 	    			$user = $users->createUser($values); 
+
+                    //email user their password
+                    if(isset($user->email)){
+                        $email = $user->email;
+                        $email_to = $user->display_name ?: $user->username;
+                        $password = $values['password'];
+                        $subject = $email_to.', you logged in to Practical Plants';
+                        
+                        $html = '<h1>Hello '.$email_to.', thanks for logging in to Practical Plants</h1>' 
+                              . '<p>You logged in using '.$external['provider'].'</p>'
+                              . '<p>Next time you log in, either use '.$external['provider'].', or you can login using the account details you just chose: </p>'
+                              . '<blockquote><p>Email: '. $email .'</p>'
+                              . '<p>Password: ' . $password . '</p></blockquote>'
+                              . '<p>If you have any questions, drop by the <a href="http://practicalplants.org/community">Community Forums</a> or email us: hello@practicalplants.org</p>';
+                        $text = "Hello $email_to, thanks for logging in to Practical Plants\n"
+                                . "You logged in using $external[provider].\n"
+                                . "Next time you log in, either use $external[provider], or you can login using the account details you just chose: \n"
+                                . "\tEmail: $email\n"
+                                . "\tPassword: $password\n"
+                               . "If you have any questions, drop by the Community Forums (http://practicalplants.org/community) or email us: hello@practicalplants.org";
+
+
+                        $this->sendMail($email_to, $email, $html, $text, $subject);
+                    }
 	    			$users->setUserActive($user); //set email confirmed and active, we trust the external authentication service
 	    			$auths = new Application_Model_User_Authentications();
 	    			//associate the users external authentication with the local user
@@ -464,6 +490,29 @@ class UserController extends Zend_Controller_Action {
         }
     }
     
+    
+    /**
+     * Sends an email
+     * 
+     * @param string $html
+     * @param string $text
+     * @param string $title
+     * @return void
+     */
+    protected function sendMail($name, $email, $html, $text, $title)
+    {   
+        $options = Zend_Registry::get('options');
+        $from = $options['email']['from'];
+        $from_name = $options['email']['from_name'];
+        $mail = new Zend_Mail();
+        $mail->setBodyText($text);
+        $mail->setBodyHtml($html);
+        $mail->setFrom($from, $from_name);
+        $mail->addTo($email);
+        $mail->setSubject($title);
+        $mail->send();
+    }
+
     public function associateProviderAction(){
     	//not implemented yet, just log user out and display a message telling them to use their original method
     	$auth = Zend_Auth::getInstance();
@@ -509,8 +558,14 @@ class UserController extends Zend_Controller_Action {
      * @return My_Auth_Adapter_Oauth_Twitter
      */
     protected function _getTwitterAdapter() {
+        /*extract($this->_keys->twitter->toArray());
+        $this->log('Instantiating Twitter Oauth adapter...');
+        $this->log('Appid: '.$appid);
+        $this->log('Secret: '.$secret);
+        $this->log('Redirecturl: '.$redirecturi);
+        return new My_Auth_Adapter_Oauth_Twitter(array(), $appid, $secret, $redirecturi);*/
         extract($this->_keys->twitter->toArray());
-        return new My_Auth_Adapter_Oauth_Twitter(array(), $appid, $secret, $redirecturi);
+        return new My_Auth_Adapter_Twitter($appid, $secret, $redirecturi);
     }
 
     /**
