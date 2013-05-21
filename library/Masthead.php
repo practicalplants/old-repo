@@ -155,6 +155,20 @@ class PracticalPlants_Masthead{
       </div>
     </div>
     <div class="footer-column" id="footer-others">
+      <div id="footer-links">
+        <h3>Contact &amp; Social</h3>
+        <ul>
+          <li><a href="http://twitter.com/prctical_plants">@prctical_plants on Twitter</a></li>
+          <li><a href="http://facebook.com/practicalplants">PracticalPlants on Facebook</a></li>
+          <li><a href="irc://irc.freenode.net/#practicalplants">#practicalplants on irc.freenode.net</a></li>
+          <li><a href="mailto:hello@practicalplants.org">hello@practicalplants.org</a></li>
+        </ul>
+        <h3>Help!</h3>
+        <ul>
+          <li><a href="/wiki/Help:Contents">Help &amp; FAQ's</a></li>
+          <li><a href="/community/">Community Forums</a></li>
+        </ul>
+      </div>
       <div id="footer-docs">
         <h3>Documents</h3>
         <ul>
