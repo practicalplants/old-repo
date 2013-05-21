@@ -115,7 +115,7 @@ class AccountController extends Zend_Controller_Action
             $users = new Application_Model_Users();           
             
             try{
-            	$user = $users->createUser();           	
+            	$user = $users->createUser($form->getValues());           	
             	
             }catch(Exception $e){
             	if(!$error = $e->getMessage())
