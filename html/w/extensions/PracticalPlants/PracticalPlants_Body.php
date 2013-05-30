@@ -314,17 +314,17 @@ class PracticalPlants{
 		* Malus domestica var. varietyname
 		* Malus domestica var varietyname		
 		*/
-		}else if(preg_match("~^(?:[\w]+ (?:x )?[\w-]+)(?: var\.? )([\w]+)$~", $name, $matches)){
+		}else if(preg_match("~^(?:[\w]+ (?:x )?[\w-]+) var\.? ([\w]+)$~", $name, $matches)){
 			$name = $binomial;
 			$name.= ' <span class="variety-var">var.</span>';
 			$name.= ' <em class="variety">'.$matches[2].'</em>';
 			
 
 		/* Match binomial name and subspecies. Eg.
-		* Malus domestica var. varietyname
-		* Malus domestica var varietyname		
+		* Malus domestica ssp. varietyname
+		* Malus domestica subsp. varietyname		
 		*/
-		}else if(preg_match("~^(?:[\w]+ (?:x )?[\w-]+)(?: ssp\.? )([\w]+)$~", $name, $matches)){
+		}else if(preg_match("~^(?:[\w]+ (?:x )?[\w-]+) (?:subsp\.?|ssp\.?) ([\w]+)$~", $name, $matches)){
 			$name = $binomial;
 			$name.= ' <span class="subspecies-ssp"> ssp. </span>';
 			$name.= ' <em class="subspecies">'.$matches[2].'</em>';
