@@ -317,7 +317,7 @@ class PracticalPlants{
 		}else if(preg_match("~^(?:[\w]+ (?:x )?[\w-]+) var\.? ([\w]+)$~", $name, $matches)){
 			$name = $binomial;
 			$name.= ' <span class="variety-var">var.</span>';
-			$name.= ' <em class="variety">'.$matches[2].'</em>';
+			$name.= ' <em class="variety">'.$matches[1].'</em>';
 			
 
 		/* Match binomial name and subspecies. Eg.
@@ -327,7 +327,7 @@ class PracticalPlants{
 		}else if(preg_match("~^(?:[\w]+ (?:x )?[\w-]+) (?:subsp\.?|ssp\.?) ([\w]+)$~", $name, $matches)){
 			$name = $binomial;
 			$name.= ' <span class="subspecies-ssp"> ssp. </span>';
-			$name.= ' <em class="subspecies">'.$matches[2].'</em>';
+			$name.= ' <em class="subspecies">'.$matches[1].'</em>';
 			
 		}else{
 			$name = $name;
