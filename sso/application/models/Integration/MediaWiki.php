@@ -35,10 +35,12 @@ class Application_Model_Integration_MediaWiki {
 	}
 	
 	public function deleteCookies(){
-		setcookie('Wiki', false, time()-9999999, '/',$this->_cookieDomain);
+		//set the cookie on the current domain (this seems to be the ONLY way to get setcookie to not add a . to the start of the domain!)
+		setcookie('Wiki', false, -1, '/'); 
+		setcookie('Wiki', false, -1, '/',$this->_cookieDomain);
 		if(strpos($this->_cookieDomain, '.')===0){
 			$dotless = substr($this->_cookieDomain, 1);
-			setcookie('Wiki', false, time()-9999999, '/',$dotless);
+			setcookie('Wiki', false, -1, '/', $dotless);
 		}
 	}
 }
