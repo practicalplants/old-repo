@@ -70,10 +70,10 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 		global $wgSessionName;
 		
 		/*Forcing session start for SSOAuth to work properly */
-		if(!isset($_SESSION)){
-			session_name( $wgSessionName );
-			session_start();
-		}
+		
+		session_name( $wgSessionName );
+		session_start();
+		
 	}
 	
 	public function redirectToLogin($article=null){
@@ -95,13 +95,16 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 		wfProfileIn( __METHOD__ );
 		$this->log('Attempting to load SSO user');
 		//echo '<pre>'; print_r($user); exit;
-		if(!isset($_SESSION)){
+		if(!session_id()){
 			self::startSession();
 		}
-		if(isset($_SESSION['sso_user']) && !empty($_SESSION['sso_user'])){
-			$this->log( 'Loading user from session: ' . $_SESSION['sso_user']->username );
-			wfDebug('Loading user from session: ' . $_SESSION['sso_user']->username );
-			$sso_user = $_SESSION['sso_user'];
+		if( isset($_SESSION['sso_user']) ){
+			if($_SESSION['sso_user']===false){
+				$this->log( 'SSO user session is cached with a negative response. Not contacting SSO server.' );
+			}else{
+				$this->log( 'Loading user from session: ' . $_SESSION['sso_user']->username );
+				$sso_user = $_SESSION['sso_user'];
+			}
 		}else{
 			$this->log('Contacting SSO for currently logged in user: '.$this->sso_url.'integration/mediawiki/share-session');
 			$cookies = array();
@@ -125,6 +128,9 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
           $_SESSION['sso_user'] = $sso_user;
         }
 			}else{
+				$_SESSION['sso_user'] = false; //cache negative response for performance
+				//when the user logs in, this session should be trashed to clear this result!
+				
         $this->log('Failed to load user from SSO. Result:', $res);
 			}
 		}
@@ -158,6 +164,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 	}
 	
 	public 	function userLogout( &$user ) {
+		$this->log('Destroying SSO user session data...');
 		/*$cookies = array();
 		foreach($_COOKIE as $k=>$v){
 			$cookies[] = $k.'='.$v;
@@ -173,7 +180,7 @@ class PracticalPlants_SSO_Auth extends AuthPlugin {
 		*/
 		unset($_SESSION['sso_user']);
 		
-		header('Location: '.$this->sso_url.'logout');
+		//header('Location: '.$this->sso_url.'logout');
 		
 		return true;
 	}

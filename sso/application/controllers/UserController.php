@@ -325,7 +325,7 @@ class UserController extends Zend_Controller_Action {
                 	if(isset($user) && $user!==false){
             			//local user with matching email, but not logged in with this auth before, attempt to link!
             			//$auth->getStorage()->write($user->email); //change identity to email address
-            			$user->associateNewProvider();
+            			//$user->associateNewProvider();
                         return $this->_forward('associate-provider');
             			//echo 'found email user';
                 	}else{
@@ -524,10 +524,13 @@ class UserController extends Zend_Controller_Action {
 
 
     public function logoutAction() {
+        $this->log('Logging out...');
         $auth = Zend_Auth::getInstance();
         $auth->clearIdentity();
+        $this->log('Cleared identity');
         
         $this->destroySession();
+        $this->log('Destroyed session');
         //$this->_helper->FlashMessenger('You were logged out');
         return $this->_redirect('/goodbye');
     }
