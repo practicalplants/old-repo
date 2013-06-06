@@ -25,11 +25,12 @@ class Application_Model_Integration_MediaWiki {
 		}
 		$ch = curl_init($_SERVER['HTTP_HOST'].'/wiki/Special:UserLogout');
 		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_COOKIESESSION, false);
 		curl_setopt($ch, CURLOPT_COOKIE, implode("; ",$cookies) ); 
 		$res = curl_exec($ch);
-		// echo $res; exit;
+		//echo $res; exit;
 		curl_close($ch);
 	}
 	
