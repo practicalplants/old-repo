@@ -5,4 +5,5 @@ vendor/
 components/
 .sass-cache/
 node_modules/
-*.sublime-workspace
+*.komodotools
+*.komodoproject
